@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>525</width>
-    <height>523</height>
+    <width>537</width>
+    <height>585</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -1526,6 +1526,35 @@ p, li { white-space: pre-wrap; }
              <property name="text" >
               <string>Version %s written by GCN.
 Released under the GNU GPL v2.</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer>
+             <property name="orientation" >
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeType" >
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" >
+              <size>
+               <width>20</width>
+               <height>16</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLabel" name="lbl_nextShowsGoogleCode" >
+             <property name="text" >
+              <string>&lt;a href="http://code.google.com/p/nextshows/">http://code.google.com/p/nextshows/&lt;/a></string>
+             </property>
+             <property name="alignment" >
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="openExternalLinks" >
+              <bool>true</bool>
              </property>
             </widget>
            </item>

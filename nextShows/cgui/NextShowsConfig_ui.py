@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'WorkFiles/ConfigGUI/NextShowsConfig.ui'
 #
-# Created: Sat May 26 00:48:23 2007
+# Created: Sun May 27 22:40:56 2007
 #      by: PyQt4 UI code generator 4.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PyQt4 import QtCore, QtGui
 class Ui_NextShowsConfig(object):
     def setupUi(self, NextShowsConfig):
         NextShowsConfig.setObjectName("NextShowsConfig")
-        NextShowsConfig.resize(QtCore.QSize(QtCore.QRect(0,0,525,523).size()).expandedTo(NextShowsConfig.minimumSizeHint()))
+        NextShowsConfig.resize(QtCore.QSize(QtCore.QRect(0,0,537,585).size()).expandedTo(NextShowsConfig.minimumSizeHint()))
         NextShowsConfig.setWindowIcon(QtGui.QIcon(":/images/icons/images/icons/nextShows.png"))
 
         self.gridlayout = QtGui.QGridLayout(NextShowsConfig)
@@ -679,22 +679,31 @@ class Ui_NextShowsConfig(object):
         self.lblNextShowsVersion.setObjectName("lblNextShowsVersion")
         self.vboxlayout7.addWidget(self.lblNextShowsVersion)
 
-        spacerItem29 = QtGui.QSpacerItem(246,16,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Fixed)
+        spacerItem29 = QtGui.QSpacerItem(20,16,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Fixed)
         self.vboxlayout7.addItem(spacerItem29)
+
+        self.lbl_nextShowsGoogleCode = QtGui.QLabel(self.tabAbout)
+        self.lbl_nextShowsGoogleCode.setAlignment(QtCore.Qt.AlignCenter)
+        self.lbl_nextShowsGoogleCode.setOpenExternalLinks(True)
+        self.lbl_nextShowsGoogleCode.setObjectName("lbl_nextShowsGoogleCode")
+        self.vboxlayout7.addWidget(self.lbl_nextShowsGoogleCode)
+
+        spacerItem30 = QtGui.QSpacerItem(246,16,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Fixed)
+        self.vboxlayout7.addItem(spacerItem30)
 
         self.lblLibsVersion = QtGui.QLabel(self.tabAbout)
         self.lblLibsVersion.setObjectName("lblLibsVersion")
         self.vboxlayout7.addWidget(self.lblLibsVersion)
 
-        spacerItem30 = QtGui.QSpacerItem(246,16,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Fixed)
-        self.vboxlayout7.addItem(spacerItem30)
+        spacerItem31 = QtGui.QSpacerItem(246,16,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Fixed)
+        self.vboxlayout7.addItem(spacerItem31)
 
         self.lblThanks = QtGui.QLabel(self.tabAbout)
         self.lblThanks.setObjectName("lblThanks")
         self.vboxlayout7.addWidget(self.lblThanks)
 
-        spacerItem31 = QtGui.QSpacerItem(20,81,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
-        self.vboxlayout7.addItem(spacerItem31)
+        spacerItem32 = QtGui.QSpacerItem(20,81,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
+        self.vboxlayout7.addItem(spacerItem32)
         self.hboxlayout15.addLayout(self.vboxlayout7)
         self.gridlayout7.addLayout(self.hboxlayout15,0,0,1,1)
         self.tabWidget.addTab(self.tabAbout,"")
@@ -713,8 +722,8 @@ class Ui_NextShowsConfig(object):
         self.lblFooterRelease.setObjectName("lblFooterRelease")
         self.hboxlayout16.addWidget(self.lblFooterRelease)
 
-        spacerItem32 = QtGui.QSpacerItem(251,27,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
-        self.hboxlayout16.addItem(spacerItem32)
+        spacerItem33 = QtGui.QSpacerItem(251,27,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
+        self.hboxlayout16.addItem(spacerItem33)
 
         self.btnSave = QtGui.QPushButton(NextShowsConfig)
         self.btnSave.setEnabled(False)
@@ -728,8 +737,8 @@ class Ui_NextShowsConfig(object):
         self.btnSave.setObjectName("btnSave")
         self.hboxlayout16.addWidget(self.btnSave)
 
-        spacerItem33 = QtGui.QSpacerItem(10,20,QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Minimum)
-        self.hboxlayout16.addItem(spacerItem33)
+        spacerItem34 = QtGui.QSpacerItem(10,20,QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Minimum)
+        self.hboxlayout16.addItem(spacerItem34)
 
         self.btnQuit = QtGui.QPushButton(NextShowsConfig)
 
@@ -869,6 +878,7 @@ class Ui_NextShowsConfig(object):
         self.lblNextShowsTitle.setText(QtGui.QApplication.translate("NextShowsConfig", "nextShows", None, QtGui.QApplication.UnicodeUTF8))
         self.lblNextShowsVersion.setText(QtGui.QApplication.translate("NextShowsConfig", "Version %s written by GCN.\n"
         "Released under the GNU GPL v2.", None, QtGui.QApplication.UnicodeUTF8))
+        self.lbl_nextShowsGoogleCode.setText(QtGui.QApplication.translate("NextShowsConfig", "<a href=\"http://code.google.com/p/nextshows/\">http://code.google.com/p/nextshows/</a>", None, QtGui.QApplication.UnicodeUTF8))
         self.lblLibsVersion.setText(QtGui.QApplication.translate("NextShowsConfig", "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
         "p, li { white-space: pre-wrap; }\n"
         "</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;\">\n"
