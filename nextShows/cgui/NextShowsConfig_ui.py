@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'WorkFiles/ConfigGUI/NextShowsConfig.ui'
 #
-# Created: Sun May 27 22:47:04 2007
+# Created: Sun May 27 23:57:15 2007
 #      by: PyQt4 UI code generator 4.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PyQt4 import QtCore, QtGui
 class Ui_NextShowsConfig(object):
     def setupUi(self, NextShowsConfig):
         NextShowsConfig.setObjectName("NextShowsConfig")
-        NextShowsConfig.resize(QtCore.QSize(QtCore.QRect(0,0,537,585).size()).expandedTo(NextShowsConfig.minimumSizeHint()))
+        NextShowsConfig.resize(QtCore.QSize(QtCore.QRect(0,0,537,563).size()).expandedTo(NextShowsConfig.minimumSizeHint()))
         NextShowsConfig.setWindowIcon(QtGui.QIcon(":/images/icons/images/icons/nextShows.png"))
 
         self.gridlayout = QtGui.QGridLayout(NextShowsConfig)
