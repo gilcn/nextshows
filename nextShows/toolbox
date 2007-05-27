@@ -28,6 +28,10 @@
 WORKDIR="WorkFiles"
 # Credentials file (for FTP)
 FTPCREDENTIALS="$HOME/.nextShowsFTPCredentials"
+# QT DIR
+QTDIR="/opt/qt4/"
+# QT DESIGNER
+QTDESIGNER=${QTDIR}bin/designer
 # Destination path (FTP)
 FTPDESTPATH="/public/superkaramba/nextShows/"
 # Theme filename (name+version)
@@ -62,7 +66,7 @@ function usage() {
 # Edit GUI
 function editGUI() {
     msg "Editing GUI with QtDesigner 4"
-    /opt/qt4/bin/designer $WORKDIR/ConfigGUI/FormatHelp.ui $WORKDIR/ConfigGUI/NextShowsConfig.ui 
+    $QTDESIGNER $WORKDIR/ConfigGUI/FormatHelp.ui $WORKDIR/ConfigGUI/NextShowsConfig.ui 
 
     # Recompile files once editing's finished
     recompileGUI
