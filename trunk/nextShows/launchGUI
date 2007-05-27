@@ -1,0 +1,76 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#######################################################################
+# nextShows - GUI launcher
+# Copyright (C) 2006-2007 Gilles CHAUVIN <gcnweb@gmail.com>
+#######################################################################
+# Coding: UTF-8, 4 spaces indent, LF line terminator
+#######################################################################
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2  of  the  License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be  useful, but
+# WITHOUT  ANY  WARRANTY;  without  even  the   implied   warranty  of
+# MERCHANTABILITY or FITNESS FOR A  PARTICULAR  PURPOSE. See  the  GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU  General  Public  License
+# along with  this  program;  if  not,  write  to  the  Free  Software
+# Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#######################################################################
+
+from cgui.NextShowsConfig import NextShowsConfig
+import libs.tools as tools
+import os, sys
+
+try:
+    from PyQt4 import QtCore, QtGui
+except:
+    os.system('kdialog --title "Error" --error "The nextShows configuration GUI requires PyQt4!\nPlease install a recent version and retry." &')
+    sys.exit()
+
+
+
+tools.msgDebug("Init qApp", __name__)
+qApp=QtGui.QApplication(sys.argv)
+
+
+## FIXME: Desktop area screenshot doesn't work properly on
+## FIXME: multiple-display boxes
+splash      = QtGui.QSplashScreen()
+pixmapLogo  = QtGui.QPixmap(":/images/logos/images/logos/nextShows.png")
+desktopAGeo = qApp.desktop().availableGeometry( qApp.desktop().primaryScreen() )
+captureArea = QtCore.QRect( ( desktopAGeo.width()  - pixmapLogo.width()  ) / 2,
+                            ( desktopAGeo.height() - pixmapLogo.height() ) / 2,
+                              pixmapLogo.width(),
+                              pixmapLogo.height() )
+pixmapDesk  = QtGui.QPixmap().grabWindow( QtGui.QApplication.desktop().winId(),
+                                          captureArea.x(),
+                                          captureArea.y(),
+                                          captureArea.width(),
+                                          captureArea.height() )
+painter     = QtGui.QPainter()
+painter.begin( pixmapDesk )
+painter.drawPixmap( 0, 0, pixmapLogo )
+painter.end()
+splash.setPixmap( pixmapDesk )
+splash.show()
+
+qApp.processEvents()
+
+window=NextShowsConfig()
+window.qApp = qApp
+tools.msgDebug("Showing window", __name__)
+window.show()
+
+splash.finish(window)
+
+tools.msgDebug("Entering event loop", __name__)
+#sys.exit(qApp.exec_())
+RETVAL=qApp.exec_()
+print "Exit: %d" % RETVAL   # This is to make sure SK catches when GUI was closed
+                            # using commandOutput()
+sys.exit(RETVAL)

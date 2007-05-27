@@ -1,0 +1,188 @@
+#!/bin/bash
+#######################################################################
+# nextShows - toolbox script
+# Copyright (C) 2006-2007 Gilles CHAUVIN <gcnweb@gmail.com>
+#######################################################################
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2  of  the  License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be  useful, but
+# WITHOUT  ANY  WARRANTY;  without  even  the   implied   warranty  of
+# MERCHANTABILITY or FITNESS FOR A  PARTICULAR  PURPOSE. See  the  GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU  General  Public  License
+# along with  this  program;  if  not,  write  to  the  Free  Software
+# Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#######################################################################
+
+
+#######################################################################
+# Some useful vars here
+#######################################################################
+# Working Files base dir
+WORKDIR="WorkFiles"
+# Credentials file (for FTP)
+FTPCREDENTIALS="$HOME/.nextShowsFTPCredentials"
+# Destination path (FTP)
+FTPDESTPATH="/public/superkaramba/nextShows/"
+# Theme filename (name+version)
+THEMEFILE="`grep '<themefile>.*</themefile>' maindata.xml | sed 's|^.*<themefile>\([^<]*\)</themefile>.*$|\1|'`"
+THEMENAME="`basename $THEMEFILE .theme`"
+THEMEVERSION="`grep '<version>.*</version>' maindata.xml  | sed 's|^.*<version>\([^<]*\)</version>.*$|\1|'`"
+THEMEFILENAME=../$THEMENAME-$THEMEVERSION.skz
+# Tarball Name
+TARBALLFILENAME=$THEMENAME-$THEMEVERSION.tar.gz
+# Temp dir
+#TEMPDIR="$HOME/temp/nextShows.$$"
+#######################################################################
+
+
+# Display messages
+function msg() {
+    echo "--- $1"
+}
+
+# Display usage and exit
+function usage() {
+    echo -e "Usage: `basename $0` [OPTION]\n"
+    echo    "  clean       remove useless files"
+    echo    "  edit        edit GUI with QtDesigner 4"
+    echo    "  ftp         send the current work to the FTP server"
+    echo    "  gui         recompile Resource and GUI"
+    echo    "  help        display this help and exit"
+    echo    "  skz         make SKZ theme (excluding unnecessary files)"
+    echo    "  tgz         save all the files to a tarball"
+}
+
+# Edit GUI
+function editGUI() {
+    msg "Editing GUI with QtDesigner 4"
+    /opt/qt4/bin/designer $WORKDIR/ConfigGUI/FormatHelp.ui $WORKDIR/ConfigGUI/NextShowsConfig.ui 
+
+    # Recompile files once editing's finished
+    recompileGUI
+}
+
+# Remove *.pyc files
+function removePYC() {
+    msg "Searching and removing *.pyc files"
+    find . -iname '*.pyc' -exec rm -vf {} \;
+}
+
+# Recompile GUI
+function recompileGUI() {
+    msg "Recompiling Resource"
+    /usr/bin/pyrcc4 -compress 9 $WORKDIR/ConfigGUI/NextShowsConfig.qrc -o cgui/NextShowsConfig_rc.py 
+    msg "Recompiling GUI"
+    /usr/bin/pyuic4             $WORKDIR/ConfigGUI/NextShowsConfig.ui  -o cgui/NextShowsConfig_ui.py
+    /usr/bin/pyuic4             $WORKDIR/ConfigGUI/FormatHelp.ui       -o cgui/FormatHelp_ui.py
+}
+
+# Create SKZ file
+function createSKZ() {
+    msg "Creating theme file $THEMEFILENAME"
+    /usr/bin/zip -r9 $THEMEFILENAME \
+        cgui/                \
+        images/              \
+        libs/                \
+        themes/              \
+        COPYING              \
+        ChangeLog            \
+        TODO                 \
+        maindata.xml         \
+        launchGUI            \
+        nextShows.{py,theme}
+}
+
+# Create TGZ file
+function createTGZ() {
+    msg "Creating tarball $TARBALLFILENAME"
+    opath="`pwd`"
+    cd ..
+    tar zcvf $TARBALLFILENAME $THEMENAME-$THEMEVERSION
+    cd $opath
+}
+
+# Send file via FTP
+function ftpSend() {
+    if [ "x`which ncftpput`" == "x" ]; then
+        echo "ERROR: You *MUST* install ncftpput!"
+        exit1
+    fi
+
+    # Making TGZ file
+    makeTGZ
+    # Making SKZ file
+    makeSKZ
+
+    msg "Sending $THEMEFILENAME via FTP"
+    /usr/bin/ncftpput -f $FTPCREDENTIALS $FTPDESTPATH {$THEMEFILENAME,../$TARBALLFILENAME}
+
+    msg "Removing $THEMEFILENAME and $TARBALLFILENAME"
+    rm -f $THEMEFILENAME ../$TARBALLFILENAME
+}
+
+# make all (SKZ)
+function makeSKZ() {
+    removePYC
+    recompileGUI
+    createSKZ
+
+    msg "File size"
+    ls -lh $THEMEFILENAME
+}
+
+# clean and make TGZ
+function makeTGZ() {
+    removePYC
+    recompileGUI
+    createTGZ
+
+    msg "File size"
+    ls -lh ../$TARBALLFILENAME
+}
+
+###############################################################################
+## MAIN
+###############################################################################
+case "$1" in
+    help)
+        usage
+        exit 1
+        ;;
+    clean)
+        removePYC
+        exit 0
+        ;;
+    edit)
+        editGUI
+        exit 0
+        ;;
+    ftp)
+        ftpSend
+        exit 0
+        ;;
+    gui)
+        recompileGUI
+        exit 0
+        ;;
+    skz)
+        makeSKZ
+        exit 0
+        ;;
+    tgz)
+        makeTGZ
+        exit 0
+        ;;
+    *)
+        usage
+        exit 1
+        ;;
+esac
+
+
+exit 42
