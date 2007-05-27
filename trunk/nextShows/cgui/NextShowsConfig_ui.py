@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'WorkFiles/ConfigGUI/NextShowsConfig.ui'
 #
-# Created: Sun May 27 22:40:56 2007
+# Created: Sun May 27 22:47:04 2007
 #      by: PyQt4 UI code generator 4.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -676,34 +676,33 @@ class Ui_NextShowsConfig(object):
         self.vboxlayout7.addWidget(self.lblNextShowsTitle)
 
         self.lblNextShowsVersion = QtGui.QLabel(self.tabAbout)
+        self.lblNextShowsVersion.setTextFormat(QtCore.Qt.AutoText)
+        self.lblNextShowsVersion.setOpenExternalLinks(True)
         self.lblNextShowsVersion.setObjectName("lblNextShowsVersion")
         self.vboxlayout7.addWidget(self.lblNextShowsVersion)
 
-        spacerItem29 = QtGui.QSpacerItem(20,16,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Fixed)
-        self.vboxlayout7.addItem(spacerItem29)
-
         self.lbl_nextShowsGoogleCode = QtGui.QLabel(self.tabAbout)
-        self.lbl_nextShowsGoogleCode.setAlignment(QtCore.Qt.AlignCenter)
+        self.lbl_nextShowsGoogleCode.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.lbl_nextShowsGoogleCode.setOpenExternalLinks(True)
         self.lbl_nextShowsGoogleCode.setObjectName("lbl_nextShowsGoogleCode")
         self.vboxlayout7.addWidget(self.lbl_nextShowsGoogleCode)
 
-        spacerItem30 = QtGui.QSpacerItem(246,16,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Fixed)
-        self.vboxlayout7.addItem(spacerItem30)
+        spacerItem29 = QtGui.QSpacerItem(246,16,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Fixed)
+        self.vboxlayout7.addItem(spacerItem29)
 
         self.lblLibsVersion = QtGui.QLabel(self.tabAbout)
         self.lblLibsVersion.setObjectName("lblLibsVersion")
         self.vboxlayout7.addWidget(self.lblLibsVersion)
 
-        spacerItem31 = QtGui.QSpacerItem(246,16,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Fixed)
-        self.vboxlayout7.addItem(spacerItem31)
+        spacerItem30 = QtGui.QSpacerItem(246,16,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Fixed)
+        self.vboxlayout7.addItem(spacerItem30)
 
         self.lblThanks = QtGui.QLabel(self.tabAbout)
         self.lblThanks.setObjectName("lblThanks")
         self.vboxlayout7.addWidget(self.lblThanks)
 
-        spacerItem32 = QtGui.QSpacerItem(20,81,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
-        self.vboxlayout7.addItem(spacerItem32)
+        spacerItem31 = QtGui.QSpacerItem(20,81,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
+        self.vboxlayout7.addItem(spacerItem31)
         self.hboxlayout15.addLayout(self.vboxlayout7)
         self.gridlayout7.addLayout(self.hboxlayout15,0,0,1,1)
         self.tabWidget.addTab(self.tabAbout,"")
@@ -722,8 +721,8 @@ class Ui_NextShowsConfig(object):
         self.lblFooterRelease.setObjectName("lblFooterRelease")
         self.hboxlayout16.addWidget(self.lblFooterRelease)
 
-        spacerItem33 = QtGui.QSpacerItem(251,27,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
-        self.hboxlayout16.addItem(spacerItem33)
+        spacerItem32 = QtGui.QSpacerItem(251,27,QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
+        self.hboxlayout16.addItem(spacerItem32)
 
         self.btnSave = QtGui.QPushButton(NextShowsConfig)
         self.btnSave.setEnabled(False)
@@ -737,8 +736,8 @@ class Ui_NextShowsConfig(object):
         self.btnSave.setObjectName("btnSave")
         self.hboxlayout16.addWidget(self.btnSave)
 
-        spacerItem34 = QtGui.QSpacerItem(10,20,QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Minimum)
-        self.hboxlayout16.addItem(spacerItem34)
+        spacerItem33 = QtGui.QSpacerItem(10,20,QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Minimum)
+        self.hboxlayout16.addItem(spacerItem33)
 
         self.btnQuit = QtGui.QPushButton(NextShowsConfig)
 
