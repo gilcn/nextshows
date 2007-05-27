@@ -1,5 +1,3 @@
 TODO:
 - Whether a cache refresh/update occurs, check whether the show is terminated
   or not and update the GUI accordingly
-
-- ADD A WARNING WHEN IMPORTING PYQT4 FAILS !!!!!!!!!
