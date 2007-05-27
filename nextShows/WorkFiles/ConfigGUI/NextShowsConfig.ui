@@ -1527,23 +1527,13 @@ p, li { white-space: pre-wrap; }
               <string>Version %s written by GCN.
 Released under the GNU GPL v2.</string>
              </property>
+             <property name="textFormat" >
+              <enum>Qt::AutoText</enum>
+             </property>
+             <property name="openExternalLinks" >
+              <bool>true</bool>
+             </property>
             </widget>
-           </item>
-           <item>
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeType" >
-              <enum>QSizePolicy::Fixed</enum>
-             </property>
-             <property name="sizeHint" >
-              <size>
-               <width>20</width>
-               <height>16</height>
-              </size>
-             </property>
-            </spacer>
            </item>
            <item>
             <widget class="QLabel" name="lbl_nextShowsGoogleCode" >
@@ -1551,7 +1541,7 @@ Released under the GNU GPL v2.</string>
               <string>&lt;a href="http://code.google.com/p/nextshows/">http://code.google.com/p/nextshows/&lt;/a></string>
              </property>
              <property name="alignment" >
-              <set>Qt::AlignCenter</set>
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
              </property>
              <property name="openExternalLinks" >
               <bool>true</bool>
