@@ -48,7 +48,6 @@ class Data:
     ##   - List containing show infos
     ###############################################################################
     def getEpisodeList(self, showIds, pastDays, linesMax, expiration):
-
         # Negate "pastDays"
         pastDays = -abs(pastDays)
         # Today's date
@@ -56,12 +55,13 @@ class Data:
 
         # Check and refresh cache if needed
         allShows = []
-        cache = Cache()
+        cache = Cache( expiration )
         for id in showIds:
-            status = cache.checkCacheFile( id, expiration )
+            status = cache.checkCacheFile( id )
             ret = True
             if status == cache.CACHEFILENOTFOUND:
-                ret = cache.cacheEpisodeList( id )  # Should return False if a problem occured
+#                ret = cache.cacheEpisodeList( id )  # Should return False if a problem occured
+                ret = False
             if ret == True:
                 allShows += cache.getCachedEpisodeList( id )
 

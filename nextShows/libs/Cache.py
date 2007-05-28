@@ -35,11 +35,14 @@ import cPickle, os, re
 
 
 class Cache:
-    def __init__(self):
+    def __init__(self, expiration):
         # Constants
         self.CACHEFILEOK       = 0
         self.CACHEFILEOUTDATED = 1
         self.CACHEFILENOTFOUND = 2
+
+        # Expiration time (days converted to seconds)
+        self.expiration = expiration*24*60*60
 
 
     ###############################################################################
@@ -47,11 +50,11 @@ class Cache:
     ## Description: Call the Parser and store results to cache
     ##
     ## Input args:
-    ##   - id         : Show ID
+    ##   - id     : Show ID
     ##
     ## Output:
-    ##   - True  : Caching OK
-    ##   - False : Ooopss
+    ##   - True   : Caching OK
+    ##   - False  : Ooopss
     ###############################################################################
     def cacheEpisodeList(self, id):
         # Cache filename
@@ -80,10 +83,10 @@ class Cache:
 
     ###############################################################################
     ## Method     : getCachedEpisodeList(id)
-    ## Description: return data from cache
+    ## Description: return episode data from cache
     ##
     ## Input args:
-    ##   - id         : Show ID
+    ##   - id     : Show ID
     ##
     ## Output:
     ##   - List containing episode list
@@ -103,19 +106,16 @@ class Cache:
 
 
     ###############################################################################
-    ## Method     : checkCacheFile(id, expiration)
-    ## Description: Check is the cache for the given show is valid or not
+    ## Method     : checkCacheFile(id)
+    ## Description: Check whether the cache for the given show is valid or not
     ##
     ## Input args:
     ##   - id         : Show ID
-    ##   - expiration : cache expiration time (in days)
     ##
     ## Output:
     ##   - Cache file state (OK, OUTDATED or NOTFOUND)
     ###############################################################################
-    def checkCacheFile(self, id, expiration):
-        # Convert expiration time to seconds
-        expirationTS = expiration*24*60*60
+    def checkCacheFile(self, id):
         # Cache filename
         cacheFileName = Globals().nsCacheFilePrefix + str( id )
 
@@ -131,7 +131,7 @@ class Cache:
             fp.close()
             cacheFileTS = cacheData['fetch_time']
 
-            if ( cacheFileTS + expirationTS ) < currentTS:
+            if ( cacheFileTS + self.expiration ) < currentTS:
                 return self.CACHEFILEOUTDATED
         else:
             return self.CACHEFILENOTFOUND
@@ -140,7 +140,22 @@ class Cache:
 
 
     ###############################################################################
-    ## Method     : purgeRemovedShows(idList)
+    ## Method     : getStaledCacheFiles(idList)
+    ## Description: Return the list of shows which associated cache file is not found
+    ##              or outdated
+    ##
+    ## Input args:
+    ##   - idList : Contain the IDs of the shows we need to test
+    ##
+    ## Output:
+    ##   - List containing outdated/staled shows
+    ###############################################################################
+    def getStaledCacheFiles(self, idList):
+        pass
+
+
+    ###############################################################################
+    ## Method     : deleteOldCacheFiles(idList)
     ## Description: Delete cache files belonging to shows not tracked anymore
     ##
     ## Input args:
@@ -150,7 +165,7 @@ class Cache:
     ##   - False  : Something odd happened
     ##   - True   : Success
     ###############################################################################
-    def purgeRemovedShows(self, idList):
+    def deleteOldCacheFiles(self, idList):
         tools.msgDebug("Purging cache dir...", __name__)
         cacheDirContents = os.listdir( Globals().nsCacheDir )
         cacheFilePrefix = os.path.basename( Globals().nsCacheFilePrefix )
@@ -176,20 +191,17 @@ class Cache:
 
 
     ###############################################################################
-    ## Method     : getNextRefreshTS(expiration)
+    ## Method     : getNextRefreshTS()
     ## Description: Scans the cache files searching for the next needed refresh
     ##              !!! /!\ Takes also into account staled cache files /!\ !!!
     ##
     ## Input args:
-    ##   - expiration : cache expiration time (in days)
+    ##   - None
     ##
     ## Output:
     ##   - Next refresh timestamp
     ###############################################################################
-    def getNextRefreshTS(self, expiration):
-        # Convert expiration time to seconds
-        expirationTS = expiration*24*60*60
-
+    def getNextRefreshTS(self):
         cacheFilePrefix = os.path.basename( Globals().nsCacheFilePrefix )
         cacheFileNameRE = re.compile( r'^' + cacheFilePrefix + '\d+$' )
 
@@ -213,4 +225,4 @@ class Cache:
                 if ts < nextTS:
                     nextTS = ts
 
-        return ( nextTS + expirationTS )
+        return ( nextTS + self.expiration )

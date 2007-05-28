@@ -130,16 +130,16 @@ def initWidget(widget):
     splash.setText("Filtering episodes to display...")
     data = Data()
     if config.get("display", "type") == "Fixed":
-        linesMax = config.getint("display", "lines_fixed")
+        linesMax    = config.getint("display", "lines_fixed")
     else:
-        linesMin = config.getint("display", "lines_min")
-        linesMax = config.getint("display", "lines_max")
-    cacheExpire  = config.getint("misc",    "cache_expiration")
-    pastDays     = config.getint("display", "past_days")
-    episodeList  = data.getEpisodeList( showIds, pastDays, linesMax, cacheExpire )
+        linesMin    = config.getint("display", "lines_min")
+        linesMax    = config.getint("display", "lines_max")
+    cacheExpiration = config.getint("misc",    "cache_expiration")
+    pastDays        = config.getint("display", "past_days")
+    episodeList     = data.getEpisodeList( showIds, pastDays, linesMax, cacheExpiration )
 
-    cache = Cache()
-    nextCacheRefresh = cache.getNextRefreshTS( config.getint("misc", "cache_expiration") )
+    cache = Cache( cacheExpiration )
+    nextCacheRefresh = cache.getNextRefreshTS()
 
     applet.episodeList = episodeList
     applet.colorList = config.getColors()
