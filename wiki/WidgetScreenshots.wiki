@@ -1,0 +1,11 @@
+#summary Widget Screenshots
+
+= Widget Screenshots =
+
+== Here is what the widget looks like (v1.0.0) ==
+[http://nextshows.googlecode.com/svn/wiki/screenshots/widget_v1_001.png]
+
+[http://nextshows.googlecode.com/svn/wiki/screenshots/widget_v1_002.png]
+
+[http://nextshows.googlecode.com/svn/wiki/screenshots/widget_v1_003.png]
+
