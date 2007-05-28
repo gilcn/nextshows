@@ -1,6 +1,9 @@
 * --- --- -- 2007 (1.99.5) - Non Public
 - Added a bunch of new flags in config GUI's resource files (thanks to
   "dlflags.py" script)
+- Project hosted on Google Code... No detailed ChangeLog necessary anymore since
+  we use Google's SVN server. This Changelog will be wiped in the future and
+  will just reflect major differences between stable releases.
 
 * Fri May 25 2007 (1.99.4) - Non Public
 - libs/Applet (almost) complete
