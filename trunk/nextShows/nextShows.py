@@ -38,14 +38,19 @@ import karamba
 import warnings
 warnings.simplefilter('ignore', RuntimeWarning) # Needed to wipe out os.tempnam()'s warning messages
 
+
 ################################################################################
 ## Some global variables
 ################################################################################
-configGuiPid     = None
+g_configGuiPid     = None
 #
-dateCheck        = date.today()
-nextCacheRefresh = 0
-applet           = Applet()   # Make this available globally
+g_dateCheck        = date.today()
+g_nextCacheRefresh = 0
+g_showList         = []         # Tracked shows list
+g_showIds          = []         # Tracked shows IDs
+g_cacheExpiration  = 7          # Cache expiration time (days)
+applet             = Applet()   # Make this available globally
+cache              = Cache()    # Make this available globally
 ################################################################################
 
 
@@ -74,6 +79,9 @@ def createConfigDirs():
             pass
 
 
+###############################################################################
+## Copy the theme files to the user's home directory
+###############################################################################
 def copyThemeFilesToConfigDir(widget):
     # Copy files
     for file in Globals().nsCGuiFiles:
@@ -89,7 +97,7 @@ def copyThemeFilesToConfigDir(widget):
 ###############################################################################
 #this is called when your widget is initialized
 def initWidget(widget):
-    global nextCacheRefresh
+    global g_nextCacheRefresh, g_showList
 
     # Pass the widget reference
     Applet.widget = widget
@@ -105,11 +113,13 @@ def initWidget(widget):
     # Read config
     splash.setText("Reading config...")
     config = Config()
+
+    # Check whether we want DEBUG messages enabled or not
     if config.getboolean("main", "debug") == False:
         tools.msgDebug("Disabling debug messages !", __name__)
         Globals.DEBUG = False
 
-    # Copy files if necessary
+    # Copy GUI files (if necessary)
     if Globals().versions['nextShows'] != config.get("main", "version") \
     or not "launchGUI" in os.listdir( Globals().nsCGuiBaseDir ):
         # Init dir structures and copy files
@@ -117,36 +127,47 @@ def initWidget(widget):
         copyThemeFilesToConfigDir(widget)
         config.set("main", "version", Globals().versions['nextShows'])
 
-    # Getting next cache refresh
-    splash.setText("Requesting next cache refresh...")
+    # Get other useful infos from config
+    splash.setText("Reading config...")
+    displayType = config.get("display", "type")
+    if displayType == "Fixed":
+        linesMax = config.getint("display", "lines_fixed")
+    else:
+        linesMin = config.getint("display", "lines_min")
+        linesMax = config.getint("display", "lines_max")
+    g_cacheExpiration          = config.getint("misc",    "cache_expiration")
+    pastDays                   = config.getint("display", "past_days")
+    applet.colorList           = config.getColors()
+    applet.episodeFormatString = config.get(   "display", "format")
+    applet.browser             = config.get(   "misc",    "browser")
+    applet.dateFormat          = config.get(   "display", "date_format")
+    applet.whenFormat          = config.getint("misc",    "when_format")
 
     # Getting the show list
     splash.setText("Getting show list....")
-    showList = config.getShows()
+    g_showList = config.getShows()
+
     # Extract IDs
-    showIds = [ show['id'] for show in showList ]
+    g_showIds = [ show['id'] for show in g_showList ]
+
+    # Init cache
+    cache.setExpiration( g_cacheExpiration )
+    cache.showIds = g_showIds
+
+    # Refresh cache if necessary
+    staledList = cache.getStaledCacheFiles()
+    for id in staledList:
+        for show in g_showList:
+            if show['id'] == id:
+                showName = show['name']
+        splash.setText("Refreshing cache: '%s'..." % showName)
+        cache.cacheEpisodeList( id )
 
     # Fetch data to display
     splash.setText("Filtering episodes to display...")
     data = Data()
-    if config.get("display", "type") == "Fixed":
-        linesMax    = config.getint("display", "lines_fixed")
-    else:
-        linesMin    = config.getint("display", "lines_min")
-        linesMax    = config.getint("display", "lines_max")
-    cacheExpiration = config.getint("misc",    "cache_expiration")
-    pastDays        = config.getint("display", "past_days")
-    episodeList     = data.getEpisodeList( showIds, pastDays, linesMax, cacheExpiration )
-
-    cache = Cache( cacheExpiration )
-    nextCacheRefresh = cache.getNextRefreshTS()
-
+    episodeList  = data.getEpisodeList( g_showIds, pastDays, linesMax, g_cacheExpiration )
     applet.episodeList = episodeList
-    applet.colorList = config.getColors()
-    applet.episodeFormatString = config.get("display", "format")
-    applet.browser = config.get("misc", "browser")
-    applet.dateFormat = config.get("display", "date_format")
-    applet.whenFormat = config.getint("misc", "when_format")
 
     # Close the splash
     splash.setText("Done!")
@@ -155,7 +176,7 @@ def initWidget(widget):
     # Init widget
     themeName  = config.get("display", "theme")
     numReturnedEpisode = len( episodeList )
-    if config.get("display", "type") == "Fixed":
+    if displayType == "Fixed":
         themeLines = linesMax   # Defined above
     else:
         if numReturnedEpisode < linesMin:
@@ -167,8 +188,10 @@ def initWidget(widget):
     applet.drawBackground( themeName, themeLines )
     applet.printEpisodeList()
 
-    ###########################################################################
-    ###########################################################################
+    # Store next cache refresh
+    g_nextCacheRefresh = cache.getNextRefreshTS()
+
+    # Setup menu entry for config GUI
     karamba.addMenuConfigOption(widget, "config_gui", "Configure...")
     karamba.setMenuConfigOption(widget, "config_gui", 0)
 
@@ -177,19 +200,19 @@ def initWidget(widget):
 #this is called everytime your widget is updated
 #the update inverval is specified in the .theme file
 def widgetUpdated(widget):
-    global nextCacheRefresh, configGuiPid, dateCheck
+    global g_nextCacheRefresh, g_configGuiPid, g_dateCheck
 
     # Block updates if GUI's running
-    if configGuiPid:
+    if g_configGuiPid:
         tools.msgDebug("Widget updates suspended, GUI's running...", __name__)
         return
 
-    if date.today() == dateCheck:
-        print "Date Check  : %s" % dateCheck
+    if date.today() == g_dateCheck:
+        print "Date Check  : %s" % g_dateCheck
     else:
-        print "Date changed => %s was %s" % (date.today(), dateCheck)
+        print "Date changed => %s was %s" % (date.today(), g_dateCheck)
     print "Cur. time   : %s (UTC)" % datetime.fromtimestamp( int( datetime.utcnow().strftime("%s") ) )
-    print "Next Refresh: %s (UTC)" % datetime.fromtimestamp( nextCacheRefresh )
+    print "Next Refresh: %s (UTC)" % datetime.fromtimestamp( g_nextCacheRefresh )
     print 
 
 
@@ -199,16 +222,16 @@ def widgetUpdated(widget):
 #  key = the reference to the configuration key that was changed
 #  value = the new value (true or false) that was selected
 def menuOptionChanged(widget, key, value):
-    global configGuiPid
+    global g_configGuiPid
 
     karamba.setMenuConfigOption(widget, "config_gui", 0)
 
     if key == "config_gui":
-        if configGuiPid == None:
+        if g_configGuiPid == None:
             # Launch config GUI
             gui=os.path.join( Globals().nsCGuiBaseDir, "launchGUI" )
             cmd = ["python", gui]
-            configGuiPid=karamba.executeInteractive(widget, cmd)
+            g_configGuiPid=karamba.executeInteractive(widget, cmd)
         else:
             tools.msgDebug("GUI already running", __name__)
 
@@ -240,9 +263,9 @@ def meterClicked(widget, meter, button):
 #  pid = process number of the program outputting (use this if you execute more than out process)
 #  output = the text the program outputted to stdout
 def commandOutput(widget, pid, output):
-    global configGuiPid
+    global g_configGuiPid
 
-    if pid == configGuiPid:
+    if pid == g_configGuiPid:
         config = Config()
         # Check whether config was changed or not
         try:
@@ -257,4 +280,4 @@ def commandOutput(widget, pid, output):
             karamba.reloadTheme(widget)
             return
         else:
-            configGuiPid = None
+            g_configGuiPid = None

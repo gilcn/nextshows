@@ -35,13 +35,22 @@ import cPickle, os, re
 
 
 class Cache:
-    def __init__(self, expiration):
+    def __init__(self):
         # Constants
         self.CACHEFILEOK       = 0
         self.CACHEFILEOUTDATED = 1
         self.CACHEFILENOTFOUND = 2
 
         # Expiration time (days converted to seconds)
+        self.expiration = 604800    # Default to 1 week
+        # Shows IDs
+        self.showIds    = []
+
+
+    ###############################################################################
+    ## Set expiration
+    ###############################################################################
+    def setExpiration(self, expiration):
         self.expiration = expiration*24*60*60
 
 
@@ -140,37 +149,44 @@ class Cache:
 
 
     ###############################################################################
-    ## Method     : getStaledCacheFiles(idList)
+    ## Method     : getStaledCacheFiles()
     ## Description: Return the list of shows which associated cache file is not found
     ##              or outdated
     ##
     ## Input args:
-    ##   - idList : Contain the IDs of the shows we need to test
+    ##   - None
     ##
     ## Output:
     ##   - List containing outdated/staled shows
     ###############################################################################
-    def getStaledCacheFiles(self, idList):
-        pass
+    def getStaledCacheFiles(self):
+        fileList = []
+
+        for id in self.showIds:
+            check = self.checkCacheFile( id )
+            if check != self.CACHEFILEOK:
+                fileList.append( id )
+
+        return fileList
 
 
     ###############################################################################
-    ## Method     : deleteOldCacheFiles(idList)
+    ## Method     : deleteOldCacheFiles()
     ## Description: Delete cache files belonging to shows not tracked anymore
     ##
     ## Input args:
-    ##   - idList : Contain the IDs of the shows we *WANT* to *KEEP*
+    ##   - None
     ##
     ## Output:
     ##   - False  : Something odd happened
     ##   - True   : Success
     ###############################################################################
-    def deleteOldCacheFiles(self, idList):
+    def deleteOldCacheFiles(self):
         tools.msgDebug("Purging cache dir...", __name__)
         cacheDirContents = os.listdir( Globals().nsCacheDir )
         cacheFilePrefix = os.path.basename( Globals().nsCacheFilePrefix )
 
-        for id in idList:
+        for id in self.showIds:
             fileName = cacheFilePrefix + str( id )
             if fileName in cacheDirContents:
                 index = cacheDirContents.index( fileName )
