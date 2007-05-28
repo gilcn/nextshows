@@ -45,7 +45,6 @@ warnings.simplefilter('ignore', RuntimeWarning) # Needed to wipe out os.tempnam(
 g_configGuiPid     = None
 #
 g_dateCheck        = date.today()
-g_dateCheck        = 123
 g_nextCacheRefresh = 0
 g_showList         = []         # Tracked shows list
 g_showIds          = []         # Tracked shows IDs
