@@ -223,9 +223,6 @@ def widgetUpdated(widget):
             themeLines = g_linesMax
         else:
             themeLines = numReturnedEpisode
-        print "NRE: %d" % numReturnedEpisode
-        print "TL: %d" % themeLines
-        print g_linesMin, g_linesMax
         applet.themeLines = themeLines
         applet.drawBackground()
         applet.printEpisodeList()
@@ -237,6 +234,9 @@ def widgetUpdated(widget):
     # Check chether cache needs refresh or no
     ncrTS = g_nextCacheRefresh
     nowTS = int( datetime.utcnow().strftime("%s") )
+    if ncrTS == -1:
+        # Cache is empty...
+        return
     if ncrTS < nowTS:
         # If nextCacheRefresh is past, we need to refresh cache
         # First, cleanup cache
