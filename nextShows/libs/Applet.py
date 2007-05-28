@@ -134,6 +134,15 @@ class Applet:
     ## Displays the episode list
     ###########################################################################
     def printEpisodeList(self):
+        # Reset text
+        for i in range( len( self.refEpisodeList ) ):
+            # Remove click areas
+            karamba.removeClickArea(Applet.widget, self.refEpisodeUrls[i])
+            # Remove text
+            karamba.deleteText(Applet.widget, self.refEpisodeList[i])
+            karamba.deleteText(Applet.widget. self.refEpisodeListWhen[i])
+
+        # Write episode list
         for i in range( len( self.episodeList ) ):
             color = self._processColor( self.episodeList[i]['delta'] )
 
@@ -157,6 +166,9 @@ class Applet:
             self.refEpisodeListWhen.append( refW )
 
 
+    ###########################################################################
+    ## Refreshes the "when" column date display
+    ###########################################################################
     def refreshWhenColumn(self):
         for i in range( len( self.episodeList ) ):
             whenText = self._formatWhen( self.episodeList[i]['airdate'], self.episodeList[i]['delta'] )
@@ -165,6 +177,9 @@ class Applet:
         karamba.redrawWidget(Applet.widget)
 
 
+    ###########################################################################
+    ## Return formated date suitable for display in the "when" column
+    ###########################################################################
     def _formatWhen(self, airDate, delta):
         # 0 : Date Format from config => [misc], "date_format"
         # 1 : +/- Days 
@@ -209,6 +224,9 @@ class Applet:
         return ret
 
 
+    ##########################################################################
+    ## Read theme informations
+    ##########################################################################
     def _readThemeInfos(self, theme):
         self.themeName = theme
         self.themePath = os.path.join("themes", self.themeName)
@@ -266,6 +284,10 @@ class Applet:
         self.themeFooterImg = os.path.join( self.themePath, scp.get( "images", "footer" ) )
 
 
+    ##########################################################################
+    ## Read a color name, example: #112233 and return a tuple:
+    ## (red, green, blue)
+    ##########################################################################
     def _processColor(self, delta):
         def getRGB( colorName ):
             red   = eval( "0x%s" % colorName[1:3] )
