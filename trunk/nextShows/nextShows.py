@@ -97,15 +97,18 @@ def initWidget(widget):
     # Init splash
     splash = Applet().Splash()
     splash.show()
+
     # Create dir structure
     splash.setText("Creating config dirs (if necessary)...")
     createConfigDirs()
+
     # Read config
     splash.setText("Reading config...")
     config = Config()
     if config.getboolean("main", "debug") == False:
         tools.msgDebug("Disabling debug messages !", __name__)
         Globals.DEBUG = False
+
     # Copy files if necessary
     if Globals().versions['nextShows'] != config.get("main", "version") \
     or not "launchGUI" in os.listdir( Globals().nsCGuiBaseDir ):
@@ -113,6 +116,7 @@ def initWidget(widget):
         splash.setText("Copying GUI files...")
         copyThemeFilesToConfigDir(widget)
         config.set("main", "version", Globals().versions['nextShows'])
+
     # Getting next cache refresh
     splash.setText("Requesting next cache refresh...")
 
@@ -169,6 +173,7 @@ def initWidget(widget):
     karamba.setMenuConfigOption(widget, "config_gui", 0)
 
 
+
 #this is called everytime your widget is updated
 #the update inverval is specified in the .theme file
 def widgetUpdated(widget):
@@ -179,51 +184,14 @@ def widgetUpdated(widget):
         tools.msgDebug("Widget updates suspended, GUI's running...", __name__)
         return
 
-    print "Date Check  : %s" % dateCheck
+    if date.today() == dateCheck:
+        print "Date Check  : %s" % dateCheck
+    else:
+        print "Date changed => %s was %s" % (date.today(), dateCheck)
     print "Cur. time   : %s (UTC)" % datetime.fromtimestamp( int( datetime.utcnow().strftime("%s") ) )
     print "Next Refresh: %s (UTC)" % datetime.fromtimestamp( nextCacheRefresh )
     print 
 
-
-#This gets called everytime our widget is clicked.
-#Notes:
-#  widget = reference to our widget
-#  x = x position (relative to our widget)
-#  y = y position (relative to our widget)
-#  botton = button clicked:
-#                    1 = Left Mouse Button
-#                    2 = Middle Mouse Button
-#                    3 = Right Mouse Button, but this will never happen
-#                        because the right mouse button brings up the
-#                        Karamba menu.
-#                    4,5 = Scroll wheel up and down
-def widgetClicked(widget, x, y, button):
-    pass
-
-
-#This gets called everytime our widget is clicked.
-#Notes
-#  widget = reference to our widget
-#  x = x position (relative to our widget)
-#  y = y position (relative to our widget)
-#  botton = button being held:
-#                    0 = No Mouse Button
-#                    1 = Left Mouse Button
-#                    2 = Middle Mouse Button
-#                    3 = Right Mouse Button, but this will never happen
-#                        because the right mouse button brings up the
-#                        Karamba menu.
-def widgetMouseMoved(widget, x, y, button):
-    #Warning:  Don't do anything too intensive here
-    #You don't want to run some complex piece of code everytime the mouse moves
-    pass
-
-
-#This gets called when an item is clicked in a popup menu you have created.
-#  menu = a reference to the menu
-#  id = the number of the item that was clicked.
-def menuItemClicked(widget, menu, id):
-    pass
 
 
 #This gets called when an item is clicked in the theme CONFIGURATION menu,
@@ -243,6 +211,7 @@ def menuOptionChanged(widget, key, value):
             configGuiPid=karamba.executeInteractive(widget, cmd)
         else:
             tools.msgDebug("GUI already running", __name__)
+
 
 
 #This gets called when a meter (image, text, etc) is clicked.
@@ -289,50 +258,3 @@ def commandOutput(widget, pid, output):
             return
         else:
             configGuiPid = None
-
-
-#This gets called when an item is dropped on this widget.
-# NOTE you have to call acceptDrops() before your widget will accept drops.
-#  widget = reference to your theme
-#  dropText = the text of the dropped item (probably a URL to it's location in KDE)
-def itemDropped(widget, dropText):
-    pass
-
-
-#This gets called when a new program is LOADING in KDE.  When it is done
-#loading, startupRemoved() is called, followed by taskAdded().
-#  widget = reference to your widget
-#  task = A refence to the task that is starting.  
-def startupAdded(widget, startup):
-    pass
-
-
-#This gets called when a new program is done LOADING in KDE.
-#  widget = reference to your widget
-#  task = A refence to the task that just finished loading.  
-def startupRemoved(widget, startup):
-    pass
-
-
-#This is called every time a new task (program) is started in KDE.
-#  widget = reference to your widget
-#  task = A refence to the new task.  Call getTaskInfo() with this reference
-#         to get the name, etc of this new task.
-def taskAdded(widget, task):
-    pass
-
-
-#This is called everytime a task (program) is closed in KDE.
-#  widget = reference to your widget
-#  task = A refence to the task.  
-def taskRemoved(widget, task):
-    pass
-
-
-#This is called everytime a different task gains focus (IE, the user clicks
-#on a different window).  
-#  widget = reference to your widget
-#  task = A refence to the task.  Call getTaskInfo() with this reference
-#         to get the name, etc of this new task.
-def activeTaskChanged(widget, task):
-    pass
