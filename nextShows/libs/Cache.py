@@ -241,4 +241,7 @@ class Cache:
                 if ts < nextTS:
                     nextTS = ts
 
-        return ( nextTS + self.expiration )
+        if nextTS == -1:
+            return -1
+        else:
+            return ( nextTS + self.expiration )

@@ -69,7 +69,7 @@ function editGUI() {
     $QTDESIGNER $WORKDIR/ConfigGUI/FormatHelp.ui $WORKDIR/ConfigGUI/NextShowsConfig.ui 
 
     # Recompile files once editing's finished
-    recompileGUI
+    #recompileGUI
 }
 
 # Remove *.pyc files
@@ -100,7 +100,8 @@ function createSKZ() {
         TODO                 \
         maindata.xml         \
         launchGUI            \
-        nextShows.{py,theme}
+        nextShows.{py,theme} \
+        -x \*/.svn/\*
 }
 
 # Create TGZ file
@@ -134,7 +135,7 @@ function ftpSend() {
 # make all (SKZ)
 function makeSKZ() {
     removePYC
-    recompileGUI
+    #recompileGUI
     createSKZ
 
     msg "File size"
@@ -144,7 +145,7 @@ function makeSKZ() {
 # clean and make TGZ
 function makeTGZ() {
     removePYC
-    recompileGUI
+    #recompileGUI
     createTGZ
 
     msg "File size"
