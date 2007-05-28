@@ -55,7 +55,7 @@ class Data:
 
         # Check and refresh cache if needed
         allShows = []
-        cache = Cache( expiration )
+        cache = Cache()
         for id in showIds:
             status = cache.checkCacheFile( id )
             ret = True
