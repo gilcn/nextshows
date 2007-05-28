@@ -72,7 +72,7 @@ class Data:
             epAD = episode['airdate']
             episodeAirDate = date( epAD[0], epAD[1], epAD[2] )
             delta = episodeAirDate - todaysDate
-            # Only append deltas and episode for un aired shows
+            # Only append deltas and episode for unaired shows
             if delta.days >= pastDays:
                 deltas.append( delta.days )
                 episodeOK = episode
@@ -91,7 +91,8 @@ class Data:
         for delta in deltas:
             for show in unAiredShows:
                 if show['delta'] == delta:
-                    index=unAiredShows.index( show )
-                    finalShowList.append( unAiredShows.pop( index ) )
+                    if not len( finalShowList ) >= linesMax:
+                        index=unAiredShows.index( show )
+                        finalShowList.append( unAiredShows.pop( index ) )
 
         return finalShowList
