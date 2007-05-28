@@ -1,0 +1,140 @@
+* --- --- -- 2007 (1.99.5) - Non Public
+- Added a bunch of new flags in config GUI's resource files (thanks to
+  "dlflags.py" script)
+- Project hosted on Google Code... No detailed ChangeLog necessary anymore since
+  we use Google's SVN server. This Changelog will be wiped in the future and
+  will just reflect major differences between stable releases.
+
+* Fri May 25 2007 (1.99.4) - Non Public
+- libs/Applet (almost) complete
+- color support, displays episode list, etc....
+- launchGUI: Added a warning (kdialog based) when PyQt4 isn't installed
+- added [misc], "date_format" to configuration (only editable by hand for now)
+- Adjusted values in themes/Original/theme.info
+- More work on nextShows.py (need a huge code cleanup)
+- Some improvements were made in cgui/NextShowsConfig.py
+- Again lots of fixes, etc...
+
+* Thu May 24 2007 (1.99.3) - Non Public
+- libs/Cache.py: Added a function to purge cache dir
+- All the main core features should be ready (except if some uncatched nasty
+  bugs are left in the code :)
+- tvrage.com markup change in search results. Fixed libs/TvRage.py
+- added /themes dir (in case we want to add more skins later)
+  for now only 1 theme is available... this should be invisible to the user
+  and the necessary code won't be added in the GUI unless another theme is
+  available.
+- Started work on libs/Applet -> init() and theme import
+- Moved Globals().__init__.DEBUG -> Globals.DEBUG (much faster)
+- Enable/Disable DEBUG from config file as soon as we read it !
+- Fixed a major bug in libs/Cache.py -> getNextRefreshTS()
+- Lots of bugfixes/enhancements/improvements/optimizations
+
+* Mon May 21 2007 (1.99.2) - Non Public
+- Fixed libs/TvRage.py to handle "special" episodes
+- Added libs/Cache.py for cache management
+- Added libs/Data.py (episode sorting by deltas rewritten)
+- Various bugfixes / enhancements
+
+* Sat May 19 2007 (1.99.1) - Non Public
+- Now the GUI is done work can start on the pure SK code:
+- First "bad" surprise, SK crashes when importing PyQt4 within nextShows.py!
+  Will have to use karambaExecuteInteractive() :(
+- Added a way to copy GUI's necessary files to NS config dir (slows startup
+  time :( )
+- Fixed timeout handling in libs/Http.py
+- Added "getEpisodeList" in libs/TvRage.py
+- Begin preliminar work on the widget main code (nextShows.py)
+- Various bugfixes
+
+* Wed May 16 2007 (1.99.0) - Non Public
+- Starting the work for a newer release (Full rewrite planned !)
+- Changed "COPYING" file with the latest one available from the FSF.
+- Beginning files reorganization
+- makeskz is superseded by the "toolbox" script
+- Say hello to our new PyQt4 configuration GUI
+- Added / rewritten a few classes/modules:
+  - libs/Config.py
+  - libs/Globals.py
+  - libs/Http.py
+  - libs/TvRage.py
+  - libs/tools.py
+- These classes/modules are now included with nextShows:
+  - libs/BeautifulSoup.py (v3.0.4)
+  - libs/demjson.py
+
+* Fri Mar 30 2007 (1.0.0)
+- Raising minor version number because:
+  - Widget can now write back to the configuration file without destroying its
+    comments \o/ !
+  - Last but not least: This is the first public relase !
+
+* Fri Mar 30 2007 (0.8.7) - Non Public
+- Code cleanup
+
+* Tue Mar 27 2007 (0.8.6) - Non Public
+- Found another damn encoding bug during page parsing in libs/Parser.py !
+  Hope this time this kind of problem is over !
+
+* Sat Mar 17 2007 (0.8.5) - Non Public
+- Dammit... A new problem raised today, thanks to "Lost-S03E14-Exposé" !
+  A very weird bug that raise when calling attachClickArea and url contain
+  non standard ASCII char.
+  Fixed libs/Applet.py-line #110 to workaround that !
+
+* Wed Jan 17 2007 (0.8.4) - Non Public
+- Grrrr TV.com again changed their markup and probably raised a bug with
+  BeautifulSoup :( ! Fixed libs/Parser.py again !
+
+* Sun Jan 14 2007 (0.8.3) - Non Public
+- Fixed parser as TV.com changed their HTML...
+
+* Tue Dec 12 2006 (0.8.2) - Non Public
+- Fixed weeks display in libs/tools.py
+
+* Thu Dec 07 2006 (0.8.1) - Non Public
+- Fixed a stupid bug in libs/Parser.py - _filterShows() that could make SK crash
+  sometimes.
+
+* Mon Dec 04 2006 (0.8) - Non Public
+- Added clickArea to the "When ?" column. It is now possible to switch between
+  the 2 differents date representations
+
+* Mon Dec 04 2006 (0.7.1) - Non Public
+- Ooopsss fixed a typo when a default value for 'show_format' is chosen
+
+* Fri Dec 01 2006 (0.7) - Non Public
+- config file again broken :) !
+- Parameter "display_prod" in config file removed
+- Added "show_format" to config file
+- We now handle when an option is missing in the config file
+
+* Thu Nov 23 2006 (0.6) - Non Public
+- Added a config option "browser" to choose what command to run when clicking a
+  clickable area
+
+* Mon Nov 20 2006 (0.5) - Non Public
+- Added a config option to change display representation of the "When?" column
+- Added a config option to display (or not) "prod" number
+- Code cleanup
+
+* Mon Nov 20 2006 (0.4) - Non Public
+- Widget update interval set to 60s (nextShows.theme)
+- Widget now updates itself (only when cache needs refresh)
+- Fixed clickable areas handling
+- Added self config file (~/.superkaramba/nextShows/nextShows.conf)
+
+* Fri Nov 17 2006 (0.3) - Non Public
+- Added clickable areas over shows/episodes
+
+* Thu Nov 16 2006 (0.2) - Non Public
+- Say Hello to our cache dir :).
+- Code splitted into Classes
+
+* Wed Nov 15 2006 (0.1) - Non Public
+- First Release
+- There's a default skin and the main functions seems to work as expected.
+- The applet is displaying expected shows/episodes infos
+
+
+# EOF - vim:tw=80:sw=4:ts=4:et:
