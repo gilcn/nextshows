@@ -1,0 +1,5 @@
+#summary Configuration GUI Screenshots
+
+== Here is what the configuration GUI looks like (v2.0.0) ==
+[http://nextshows.googlecode.com/svn/wiki/screenshots/cgui_v2_shows.png]
+
