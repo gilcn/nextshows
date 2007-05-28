@@ -10,6 +10,6 @@
     <author>Gilles CHAUVIN</author>
     <author_email>gcnweb@gmail.com</author_email>
     <homepage>http://gcnweb.free.fr/</homepage>
-    <version>1.99.5</version><!-- Don't forget to update libs/Globals.py -->
+    <version>2.0.0rc1</version><!-- Don't forget to update libs/Globals.py -->
     <license>GPL</license>
 </superkaramba_theme>

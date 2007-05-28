@@ -34,12 +34,12 @@ class Globals:
 
     def __init__(self):
         # Version
-        self.VERSION           = "1.99.5" # Don't forget to update "maindata.xml"
+        self.VERSION           = "2.0.0rc1" # Don't forget to update "maindata.xml"
 
         #### Working Directories & Files
         self.superKarambaDir   = os.path.expanduser("~/.superkaramba")
-        #self.nsConfDir         = os.path.join(self.superKarambaDir, "nextShows")
-        self.nsConfDir         = os.path.join(self.superKarambaDir, "DEVnextShows")
+        #self.nsConfDir         = os.path.join(self.superKarambaDir, "DEVnextShows")
+        self.nsConfDir         = os.path.join(self.superKarambaDir, "nextShows")
         self.nsCGuiBaseDir     = os.path.join(self.nsConfDir, "config")
         self.nsCGuiDirs        = ( 'cgui', 'libs' )
         self.nsCGuiFiles       = ( 'launchGUI',
