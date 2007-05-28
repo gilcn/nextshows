@@ -206,6 +206,8 @@ def initWidget(widget):
 def widgetUpdated(widget):
     global g_configGuiPid, g_dateCheck, g_nextCacheRefresh, g_showList, g_showIds, g_pastDays, g_linesMin, g_linesMax
 
+    tools.msgDebug("Widget update triggered...", __name__)
+
     # Block widget updates when GUI is running...
     if g_configGuiPid:
         tools.msgDebug("Widget updates suspended, GUI's running...", __name__)
@@ -213,6 +215,7 @@ def widgetUpdated(widget):
 
     # If date changed since the widget was launched, refresh view
     if date.today() != g_dateCheck:
+        tools.msgDebug("Day changed, refreshing view...", __name__)
         episodeList  = data.getEpisodeList( g_showIds, g_pastDays, g_linesMax )
         applet.episodeList = episodeList
         numReturnedEpisode = len( episodeList )
@@ -237,6 +240,7 @@ def widgetUpdated(widget):
         # Cache is empty...
         return
     if ncrTS < nowTS:
+        tools.msgDebug("Cache needs refresh...", __name__)
         # If nextCacheRefresh is past, we need to refresh cache
         # First, cleanup cache
         cache.deleteOldCacheFiles()
