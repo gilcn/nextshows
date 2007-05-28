@@ -86,9 +86,8 @@ class Applet:
     ###########################################################################
     ## Draw widget background
     ###########################################################################
-    def drawBackground(self, theme, lines):
-        self._readThemeInfos(theme)
-        self.themeLines = lines
+    def drawBackground(self):
+        self._readThemeInfos(self.themeName)
 
         # Reset background (delete images)
         for imgRef in self.refBgndImages:
@@ -134,13 +133,17 @@ class Applet:
     ## Displays the episode list
     ###########################################################################
     def printEpisodeList(self):
-        # Reset text
+
+        # Reset text if necessary
         for i in range( len( self.refEpisodeList ) ):
             # Remove click areas
             karamba.removeClickArea(Applet.widget, self.refEpisodeUrls[i])
             # Remove text
             karamba.deleteText(Applet.widget, self.refEpisodeList[i])
-            karamba.deleteText(Applet.widget. self.refEpisodeListWhen[i])
+            karamba.deleteText(Applet.widget, self.refEpisodeListWhen[i])
+        self.refEpisodeUrls     = []
+        self.refEpisodeList     = []
+        self.refEpisodeListWhen = []
 
         # Write episode list
         for i in range( len( self.episodeList ) ):

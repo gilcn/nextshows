@@ -35,19 +35,18 @@ class Data:
 
 
     ###############################################################################
-    ## Method     : getEpisodeList(self, showIds, pastDays, linesMax, expiration)
+    ## Method     : getEpisodeList(self, showIds, pastDays, linesMax)
     ## Description: Return a list of shows to display within the widget
     ##
     ## Input args:
     ##   - showIds   : List containing show IDs we want to extract infos from
     ##   - pastDays  : Number of past days to take into account
     ##   - linesMax  : Number of total shows to keep
-    ##   - expiration: Cache expiration time (in days)
     ##
     ## Output:
     ##   - List containing show infos
     ###############################################################################
-    def getEpisodeList(self, showIds, pastDays, linesMax, expiration):
+    def getEpisodeList(self, showIds, pastDays, linesMax):
         # Negate "pastDays"
         pastDays = -abs(pastDays)
         # Today's date
@@ -61,7 +60,7 @@ class Data:
             ret = True
             if status == cache.CACHEFILENOTFOUND:
 #                ret = cache.cacheEpisodeList( id )  # Should return False if a problem occured
-                ret = False
+                ret = False     # Don't include files not found
             if ret == True:
                 allShows += cache.getCachedEpisodeList( id )
 

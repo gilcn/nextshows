@@ -45,12 +45,17 @@ warnings.simplefilter('ignore', RuntimeWarning) # Needed to wipe out os.tempnam(
 g_configGuiPid     = None
 #
 g_dateCheck        = date.today()
+g_dateCheck        = 123
 g_nextCacheRefresh = 0
 g_showList         = []         # Tracked shows list
 g_showIds          = []         # Tracked shows IDs
 g_cacheExpiration  = 7          # Cache expiration time (days)
+g_pastDays         = 0
+g_linesMin         = 0
+g_linesMax         = 0
 applet             = Applet()   # Make this available globally
 cache              = Cache()    # Make this available globally
+data               = Data()     # Make this available globally
 ################################################################################
 
 
@@ -92,12 +97,13 @@ def copyThemeFilesToConfigDir(widget):
         dest.close()
 
 
+
 ###############################################################################
 ## Here begins the "pure" SuperKaramba Part                                  ##
 ###############################################################################
 #this is called when your widget is initialized
 def initWidget(widget):
-    global g_nextCacheRefresh, g_showList
+    global g_nextCacheRefresh, g_showList, g_showIds, g_cacheExpiration, g_pastDays, g_linesMin, g_linesMax
 
     # Pass the widget reference
     Applet.widget = widget
@@ -131,12 +137,13 @@ def initWidget(widget):
     splash.setText("Reading config...")
     displayType = config.get("display", "type")
     if displayType == "Fixed":
-        linesMax = config.getint("display", "lines_fixed")
+        g_linesMax = config.getint("display", "lines_fixed")
+        g_linesMin = g_linesMax
     else:
-        linesMin = config.getint("display", "lines_min")
-        linesMax = config.getint("display", "lines_max")
+        g_linesMin = config.getint("display", "lines_min")
+        g_linesMax = config.getint("display", "lines_max")
     g_cacheExpiration          = config.getint("misc",    "cache_expiration")
-    pastDays                   = config.getint("display", "past_days")
+    g_pastDays                 = config.getint("display", "past_days")
     applet.colorList           = config.getColors()
     applet.episodeFormatString = config.get(   "display", "format")
     applet.browser             = config.get(   "misc",    "browser")
@@ -166,7 +173,7 @@ def initWidget(widget):
     # Fetch data to display
     splash.setText("Filtering episodes to display...")
     data = Data()
-    episodeList  = data.getEpisodeList( g_showIds, pastDays, linesMax, g_cacheExpiration )
+    episodeList  = data.getEpisodeList( g_showIds, g_pastDays, g_linesMax )
     applet.episodeList = episodeList
 
     # Close the splash
@@ -174,18 +181,16 @@ def initWidget(widget):
     splash.hide()
 
     # Init widget
-    themeName  = config.get("display", "theme")
+    applet.themeName = config.get("display", "theme")
     numReturnedEpisode = len( episodeList )
-    if displayType == "Fixed":
-        themeLines = linesMax   # Defined above
+    if numReturnedEpisode < g_linesMin:
+        themeLines = g_linesMin
+    elif numReturnedEpisode > g_linesMax:
+        themeLines = g_linesMax
     else:
-        if numReturnedEpisode < linesMin:
-            themeLines = linesMin
-        elif numReturnedEpisode > linesMax:
-            themeLines = linesMax
-        else:
-            themeLines = numReturnedEpisode
-    applet.drawBackground( themeName, themeLines )
+        themeLines = numReturnedEpisode
+    applet.themeLines = themeLines
+    applet.drawBackground()
     applet.printEpisodeList()
 
     # Store next cache refresh
@@ -200,20 +205,53 @@ def initWidget(widget):
 #this is called everytime your widget is updated
 #the update inverval is specified in the .theme file
 def widgetUpdated(widget):
-    global g_nextCacheRefresh, g_configGuiPid, g_dateCheck
+    global g_configGuiPid, g_dateCheck, g_nextCacheRefresh, g_showList, g_showIds, g_pastDays, g_linesMin, g_linesMax
 
-    # Block updates if GUI's running
+    # Block widget updates when GUI is running...
     if g_configGuiPid:
         tools.msgDebug("Widget updates suspended, GUI's running...", __name__)
         return
 
-    if date.today() == g_dateCheck:
-        print "Date Check  : %s" % g_dateCheck
-    else:
-        print "Date changed => %s was %s" % (date.today(), g_dateCheck)
-    print "Cur. time   : %s (UTC)" % datetime.fromtimestamp( int( datetime.utcnow().strftime("%s") ) )
-    print "Next Refresh: %s (UTC)" % datetime.fromtimestamp( g_nextCacheRefresh )
-    print 
+    # If date changed since the widget was launched, refresh view
+    if date.today() != g_dateCheck:
+        episodeList  = data.getEpisodeList( g_showIds, g_pastDays, g_linesMax )
+        applet.episodeList = episodeList
+        numReturnedEpisode = len( episodeList )
+        if numReturnedEpisode < g_linesMin:
+            themeLines = g_linesMin
+        elif numReturnedEpisode > g_linesMax:
+            themeLines = g_linesMax
+        else:
+            themeLines = numReturnedEpisode
+        print "NRE: %d" % numReturnedEpisode
+        print "TL: %d" % themeLines
+        print g_linesMin, g_linesMax
+        applet.themeLines = themeLines
+        applet.drawBackground()
+        applet.printEpisodeList()
+
+        # Reset date check
+        g_dateCheck = date.today()
+
+
+    # Check chether cache needs refresh or no
+    ncrTS = g_nextCacheRefresh
+    nowTS = int( datetime.utcnow().strftime("%s") )
+    if ncrTS < nowTS:
+        # If nextCacheRefresh is past, we need to refresh cache
+        # First, cleanup cache
+        cache.deleteOldCacheFiles()
+        # Refresh cache
+        staledList = cache.getStaledCacheFiles()
+        for id in staledList:
+            for show in g_showList:
+                if show['id'] == id:
+                    showName = show['name']
+            tools.msgDebug("Refreshing cache: '%s'...", __name__)
+            cache.cacheEpisodeList( id )
+
+        # Reset nextCacheRefresh value
+        g_nextCacheRefresh = cache.getNextRefreshTS()
 
 
 
