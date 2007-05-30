@@ -112,7 +112,7 @@ def initWidget(widget):
     splash.show()
 
     # Create dir structure
-    splash.setText("Creating config dirs (if necessary)...")
+    splash.setText("Checking config dirs...")
     createConfigDirs()
 
     # Read config
@@ -128,7 +128,7 @@ def initWidget(widget):
     if Globals().versions['nextShows'] != config.get("main", "version") \
     or not "launchGUI" in os.listdir( Globals().nsCGuiBaseDir ):
         # Init dir structures and copy files
-        splash.setText("Copying GUI files...")
+        splash.setText("Setup GUI...")
         copyThemeFilesToConfigDir(widget)
         config.set("main", "version", Globals().versions['nextShows'])
 
@@ -166,11 +166,11 @@ def initWidget(widget):
         for show in g_showList:
             if show['id'] == id:
                 showName = show['name']
-        splash.setText("Refreshing cache: '%s'..." % showName)
+        splash.setText("Updating cache: '%s'..." % showName)
         cache.cacheEpisodeList( id )
 
     # Fetch data to display
-    splash.setText("Filtering episodes to display...")
+    splash.setText("Filtering episodes...")
     data = Data()
     episodeList  = data.getEpisodeList( g_showIds, g_pastDays, g_linesMax )
     applet.episodeList = episodeList
