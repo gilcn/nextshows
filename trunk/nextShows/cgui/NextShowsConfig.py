@@ -409,7 +409,7 @@ class NextShowsConfig(QtGui.QDialog):
         self.ui.lblTrackedShows.setText( u"Tracked shows: 0" )
 
         # Format Example
-        fmtExample = u"<b>Example:</b> <b>show:</b> %s, <b>title:</b> %s, <b>season</b>: %d, <b>episode</b>: %d" % (
+        fmtExample = u"<u><b>Example:</b></u> <b>show:</b> %s, <b>title:</b> %s, <b>season</b>: %d, <b>episode</b>: %d" % (
                        Globals().sampleEpisode['show'],
                        Globals().sampleEpisode['title'],
                        Globals().sampleEpisode['season'],
@@ -507,7 +507,7 @@ class NextShowsConfig(QtGui.QDialog):
     #######################################
     def refreshFormatPreview(self, text):
         testFormat  = tools.formatEpisode( Globals().sampleEpisode, text )
-        self.ui.lblFormatPreview.setText( u"<b>Preview:</b> %s" % testFormat )
+        self.ui.lblFormatPreview.setText( u"<u><b>Preview:</b></u> %s" % testFormat )
 
 
 ###############################################################################

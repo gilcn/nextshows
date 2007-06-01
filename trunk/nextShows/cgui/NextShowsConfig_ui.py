@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'WorkFiles/ConfigGUI/NextShowsConfig.ui'
 #
-# Created: Sun May 27 23:57:15 2007
+# Created: Sat Jun  2 00:47:17 2007
 #      by: PyQt4 UI code generator 4.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -643,6 +643,12 @@ class Ui_NextShowsConfig(object):
         self.vboxlayout6.addWidget(self.lblDataProvidedBy)
 
         self.lblTvRageLogo = QtGui.QLabel(self.tabAbout)
+
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Policy(5),QtGui.QSizePolicy.Policy(5))
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lblTvRageLogo.sizePolicy().hasHeightForWidth())
+        self.lblTvRageLogo.setSizePolicy(sizePolicy)
         self.lblTvRageLogo.setPixmap(QtGui.QPixmap(":/images/logos/images/logos/tvrage.jpg"))
         self.lblTvRageLogo.setAlignment(QtCore.Qt.AlignCenter)
         self.lblTvRageLogo.setObjectName("lblTvRageLogo")
@@ -770,8 +776,8 @@ class Ui_NextShowsConfig(object):
         self.label_3.setBuddy(self.leditBrowser)
 
         self.retranslateUi(NextShowsConfig)
-        self.tabWidget.setCurrentIndex(2)
-        self.tabWidgetWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
+        self.tabWidgetWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(NextShowsConfig)
         NextShowsConfig.setTabOrder(self.tabWidget,self.leditLookup)
         NextShowsConfig.setTabOrder(self.leditLookup,self.btnLeditLookupClear)
@@ -837,11 +843,14 @@ class Ui_NextShowsConfig(object):
         self.spinMinDispLines.setSuffix(QtGui.QApplication.translate("NextShowsConfig", " line(s)", None, QtGui.QApplication.UnicodeUTF8))
         self.lblNumPastDays.setText(QtGui.QApplication.translate("NextShowsConfig", "&Number of past days to display:", None, QtGui.QApplication.UnicodeUTF8))
         self.spinNumPastDays.setSuffix(QtGui.QApplication.translate("NextShowsConfig", " day(s)", None, QtGui.QApplication.UnicodeUTF8))
-        self.lblFormatPreview.setText(QtGui.QApplication.translate("NextShowsConfig", "<b>Preview:</b>", None, QtGui.QApplication.UnicodeUTF8))
+        self.lblFormatPreview.setText(QtGui.QApplication.translate("NextShowsConfig", "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+        "p, li { white-space: pre-wrap; }\n"
+        "</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;\">\n"
+        "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600; text-decoration: underline;\">Preview:</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.lblFormatExample.setText(QtGui.QApplication.translate("NextShowsConfig", "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
         "p, li { white-space: pre-wrap; }\n"
         "</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;\">\n"
-        "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Example:</span> <span style=\" font-weight:600;\">show:</span> Battlestar Galactica (2003), <span style=\" font-weight:600;\">title:</span> Litmus, <span style=\" font-weight:600;\">season:</span> 1, <span style=\" font-weight:600;\">episode:</span> 6</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+        "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600; text-decoration: underline;\">Example:</span> <span style=\" font-weight:600;\">show:</span> Battlestar Galactica (2003), <span style=\" font-weight:600;\">title:</span> Litmus, <span style=\" font-weight:600;\">season:</span> 1, <span style=\" font-weight:600;\">episode:</span> 6</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.lblFormat.setText(QtGui.QApplication.translate("NextShowsConfig", "F&ormat:", None, QtGui.QApplication.UnicodeUTF8))
         self.btnFormatInfos.setText(QtGui.QApplication.translate("NextShowsConfig", "?", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidgetWidget.setTabText(self.tabWidgetWidget.indexOf(self.tabDisplay), QtGui.QApplication.translate("NextShowsConfig", "&Display", None, QtGui.QApplication.UnicodeUTF8))
@@ -870,10 +879,11 @@ class Ui_NextShowsConfig(object):
         self.label.setText(QtGui.QApplication.translate("NextShowsConfig", "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
         "p, li { white-space: pre-wrap; }\n"
         "</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;\">\n"
-        "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" text-decoration: underline;\">Note:</span> nextShows will substitute the <span style=\" font-weight:600;\">$url$</span> variable with the corresponding episode URL.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+        "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600; text-decoration: underline;\">Note:</span> nextShows will substitute the <span style=\" font-weight:600;\">$url$</span> variable with the corresponding episode URL.</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidgetWidget.setTabText(self.tabWidgetWidget.indexOf(self.tabMisc), QtGui.QApplication.translate("NextShowsConfig", "&Misc", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabWidget1), QtGui.QApplication.translate("NextShowsConfig", "&Widget", None, QtGui.QApplication.UnicodeUTF8))
         self.lblDataProvidedBy.setText(QtGui.QApplication.translate("NextShowsConfig", "Data provided by <a href=\"http://www.tvrage.com/\">www.tvrage.com</a>", None, QtGui.QApplication.UnicodeUTF8))
+        self.lblTvRageLogo.setStyleSheet(QtGui.QApplication.translate("NextShowsConfig", "QLabel { background: black; }", None, QtGui.QApplication.UnicodeUTF8))
         self.lblNextShowsTitle.setText(QtGui.QApplication.translate("NextShowsConfig", "nextShows", None, QtGui.QApplication.UnicodeUTF8))
         self.lblNextShowsVersion.setText(QtGui.QApplication.translate("NextShowsConfig", "Version %s written by GCN.\n"
         "Released under the GNU GPL v2.", None, QtGui.QApplication.UnicodeUTF8))
