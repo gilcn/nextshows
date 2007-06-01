@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'WorkFiles/ConfigGUI/FormatHelp.ui'
 #
-# Created: Sun May 27 23:57:16 2007
+# Created: Sat Jun  2 00:47:17 2007
 #      by: PyQt4 UI code generator 4.2
 #
 # WARNING! All changes made in this file will be lost!
