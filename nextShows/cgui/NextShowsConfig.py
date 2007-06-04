@@ -42,8 +42,6 @@ import time
 class NextShowsConfig(QtGui.QDialog):
     def __init__(self, parent=None):
         #### Attributes
-        self.qApp                 = ""  # Needed for processEvents()
-        #
         self.searchResults        = []  # Returned search results
         self.dispSearchResults    = []  # Displayable search results
         self.myShows              = []  # My Tracked Shows
@@ -557,7 +555,7 @@ class NextShowsConfig(QtGui.QDialog):
         self.ui.btnLookup.setEnabled( False )
         self.ui.btnLookup.setText( u"Fetching..." )
         self.repaint()
-        self.qApp.processEvents()
+        QtGui.qApp.processEvents()
 
         # Make request
         keyword = self.ui.leditLookup.text().toUtf8()

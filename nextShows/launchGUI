@@ -36,14 +36,14 @@ except:
 
 
 tools.msgDebug("Init qApp", __name__)
-qApp=QtGui.QApplication(sys.argv)
+app=QtGui.QApplication(sys.argv)
 
 
 ## FIXME: Desktop area screenshot doesn't work properly on
 ## FIXME: multiple-display boxes
 splash      = QtGui.QSplashScreen()
 pixmapLogo  = QtGui.QPixmap(":/images/logos/images/logos/nextShows.png")
-desktopAGeo = qApp.desktop().availableGeometry( qApp.desktop().primaryScreen() )
+desktopAGeo = app.desktop().availableGeometry( app.desktop().primaryScreen() )
 captureArea = QtCore.QRect( ( desktopAGeo.width()  - pixmapLogo.width()  ) / 2,
                             ( desktopAGeo.height() - pixmapLogo.height() ) / 2,
                               pixmapLogo.width(),
@@ -60,18 +60,17 @@ painter.end()
 splash.setPixmap( pixmapDesk )
 splash.show()
 
-qApp.processEvents()
+app.processEvents()
 
 window=NextShowsConfig()
-window.qApp = qApp
 tools.msgDebug("Showing window", __name__)
 window.show()
 
 splash.finish(window)
 
 tools.msgDebug("Entering event loop", __name__)
-#sys.exit(qApp.exec_())
-RETVAL=qApp.exec_()
+#sys.exit(app.exec_())
+RETVAL=app.exec_()
 print "Exit: %d" % RETVAL   # This is to make sure SK catches when GUI was closed
                             # using commandOutput()
 sys.exit(RETVAL)
