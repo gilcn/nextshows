@@ -1,4 +1,7 @@
-* --- --- -- 2007 (1.99.5) - Non Public
+* Tue May 29 2007 (2.0.0rc1)
+- Changes / fixes / an a lot of other things like that :)
+
+* Sun May 27 2007 (1.99.5) - Non Public
 - Added a bunch of new flags in config GUI's resource files (thanks to
   "dlflags.py" script)
 - Project hosted on Google Code... No detailed ChangeLog necessary anymore since
