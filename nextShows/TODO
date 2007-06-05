@@ -3,3 +3,5 @@ TODO:
   or not and update the GUI accordingly
 - Allow the user to select a color per show rather than having a color showing
   the remaining days
+- Allow the user to chose how the widget should be expanded (top or bottom) in
+  case automatic resize is selected
