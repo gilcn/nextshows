@@ -39,7 +39,6 @@ class Splash:
         self.splash      = QtGui.QSplashScreen()
         self.pixLogo     = QtGui.QPixmap(":/images/logos/images/logos/nextShows.png")
         self.pixDesktop  = QtGui.QPixmap()
-        self.pixSplash   = QtGui.QPixmap()
         self.captureArea = QtCore.QRect()
         self.animStep    = 0.0000001
 
@@ -70,14 +69,16 @@ class Splash:
             time.sleep( self.animStep )
 
     def _showImage(self, opacity):
-        painter = QtGui.QPainter()
-        self.pixSplash = QtGui.QPixmap( self.captureArea.width(), self.captureArea.height() )
-        painter.begin( self.pixSplash )
+        painter   = QtGui.QPainter()
+        pixSplash = QtGui.QPixmap( self.captureArea.width(), self.captureArea.height() )
+
+        painter.begin( pixSplash )
         painter.drawPixmap( 0, 0, self.pixDesktop )
         painter.setOpacity( opacity )
         painter.drawPixmap( 0, 0, self.pixLogo )
         painter.end()
-        self.splash.setPixmap( self.pixSplash )
+
+        self.splash.setPixmap( pixSplash )
         self.splash.show()
 
 
