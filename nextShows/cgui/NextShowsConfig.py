@@ -184,7 +184,7 @@ class NextShowsConfig(QtGui.QDialog):
 
     # MinDispLines Changed
     @QtCore.pyqtSignature("on_spinMinDispLines_valueChanged(int)")
-    def on_spinMinDispLines_valueChanfed(self, newValue):
+    def on_spinMinDispLines_valueChanged(self, newValue):
         currentMaxValue = self.ui.spinMaxDispLines.value()
         maxMaxValue     = self.ui.spinMaxDispLines.maximum()
         if newValue >= currentMaxValue:
@@ -197,7 +197,7 @@ class NextShowsConfig(QtGui.QDialog):
 
     # MaxDispLines Changed
     @QtCore.pyqtSignature("on_spinMaxDispLines_valueChanged(int)")
-    def on_spinMaxDispLines_valueChanfed(self, newValue):
+    def on_spinMaxDispLines_valueChanged(self, newValue):
         currentMinValue = self.ui.spinMinDispLines.value()
         minMinValue     = self.ui.spinMinDispLines.minimum()
         if newValue <= currentMinValue:
@@ -302,26 +302,28 @@ class NextShowsConfig(QtGui.QDialog):
             self.ui.spinColorsTo.setEnabled(False)
 
     # Range From
-    @QtCore.pyqtSignature("on_spinColorsFrom_valueChanged(int)")
-    def on_spinColorsFrom_valueChanfed(self, newValue):
-        currentToValue = self.ui.spinColorsTo.value()
-        maxToValue     = self.ui.spinColorsTo.maximum()
-        if newValue >= currentToValue:
-            if currentToValue < maxToValue:
-                self.ui.spinColorsTo.setValue( newValue+1 )
+    @QtCore.pyqtSignature("on_spinColorsFrom_editingFinished()")
+    def on_spinColorsFrom_editingFinished(self):
+        fromValue  = self.ui.spinColorsFrom.value()
+        toValue    = self.ui.spinColorsTo.value()
+        maxToValue = self.ui.spinColorsTo.maximum()
+        if fromValue >= toValue:
+            if toValue < maxToValue:
+                self.ui.spinColorsTo.setValue( fromValue+1 )
             else:
-                self.ui.spinColorsFrom.setValue( newValue-1 )
+                self.ui.spinColorsFrom.setValue( fromValue-1 )
 
     # Range To
-    @QtCore.pyqtSignature("on_spinColorsTo_valueChanged(int)")
-    def on_spinColorsTo_valueChanfed(self, newValue):
-        currentFromValue = self.ui.spinColorsFrom.value()
-        minFromValue     = self.ui.spinColorsFrom.minimum()
-        if newValue <= currentFromValue:
-            if currentFromValue > minFromValue:
-                self.ui.spinColorsFrom.setValue( newValue-1 )
+    @QtCore.pyqtSignature("on_spinColorsTo_editingFinished()")
+    def on_spinColorsTo_editingFinished(self):
+        fromValue    = self.ui.spinColorsFrom.value()
+        toValue      = self.ui.spinColorsTo.value()
+        minFromValue = self.ui.spinColorsFrom.minimum()
+        if toValue <= fromValue:
+            if fromValue > minFromValue:
+                self.ui.spinColorsFrom.setValue( toValue-1 )
             else:
-                self.ui.spinColorsTo.setValue( newValue+1 )
+                self.ui.spinColorsTo.setValue( toValue+1 )
 
     # Item on my colors selected
     @QtCore.pyqtSignature("on_listMyColors_currentRowChanged(int)")
@@ -342,6 +344,8 @@ class NextShowsConfig(QtGui.QDialog):
     # Color Add clicked
     @QtCore.pyqtSignature("on_btnColorAdd_clicked()")
     def on_btnColorAdd_clicked(self):
+        self.ui.spinColorsFrom.clearFocus()
+        self.ui.spinColorsTo.clearFocus()
         self.addToMyColors()
 
     # "My colors" item double-clicked or remove button clicked
