@@ -68,7 +68,7 @@ class NextShowsConfig(QtGui.QDialog):
 
         #### Inititialize Format Help Dialog
         self.uiHelpDialog = FormatHelp()
-        self.uiHelpDialog.setWindowFlags( QtCore.Qt.Window )
+        self.uiHelpDialog.setWindowFlags( QtCore.Qt.Tool )
         self.uiHelpDialogSize = QtCore.QSize( self.uiHelpDialog.width(), self.uiHelpDialog.height() )
         self.uiHelpDialog.setMinimumSize( self.uiHelpDialogSize )   # Fix the size (ugly hack)
         self.uiHelpDialog.setMaximumSize( self.uiHelpDialogSize )   # Fix the size (ugly hack)
@@ -231,7 +231,7 @@ class NextShowsConfig(QtGui.QDialog):
             self.uiHelpDialog.setGeometry( self.uiHelpDialogGeometry )
             self.uiHelpDialog.show()
         else:
-            self.uiHelpDialogGeometry = self.uiHelpDialog.geometry()
+            self.uiHelpDialogGeometry = self.uiHelpDialog.frameGeometry()
             self.uiHelpDialog.hide()
 
     # Format text changed
