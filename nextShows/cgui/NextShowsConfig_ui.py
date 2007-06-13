@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'WorkFiles/ConfigGUI/NextShowsConfig.ui'
 #
-# Created: Sat Jun  2 00:47:17 2007
-#      by: PyQt4 UI code generator 4.2
+# Created: Wed Jun 13 14:11:32 2007
+#      by: PyQt4 UI code generator 4-snapshot-20070606
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,12 +12,13 @@ from PyQt4 import QtCore, QtGui
 class Ui_NextShowsConfig(object):
     def setupUi(self, NextShowsConfig):
         NextShowsConfig.setObjectName("NextShowsConfig")
-        NextShowsConfig.resize(QtCore.QSize(QtCore.QRect(0,0,537,563).size()).expandedTo(NextShowsConfig.minimumSizeHint()))
+        NextShowsConfig.resize(QtCore.QSize(QtCore.QRect(0,0,537,562).size()).expandedTo(NextShowsConfig.minimumSizeHint()))
         NextShowsConfig.setWindowIcon(QtGui.QIcon(":/images/icons/images/icons/nextShows.png"))
 
         self.gridlayout = QtGui.QGridLayout(NextShowsConfig)
+        self.gridlayout.setHorizontalSpacing(6)
+        self.gridlayout.setVerticalSpacing(6)
         self.gridlayout.setMargin(9)
-        self.gridlayout.setSpacing(6)
         self.gridlayout.setObjectName("gridlayout")
 
         self.tabWidget = QtGui.QTabWidget(NextShowsConfig)
@@ -27,13 +28,14 @@ class Ui_NextShowsConfig(object):
         self.tabShows.setObjectName("tabShows")
 
         self.gridlayout1 = QtGui.QGridLayout(self.tabShows)
+        self.gridlayout1.setHorizontalSpacing(6)
+        self.gridlayout1.setVerticalSpacing(6)
         self.gridlayout1.setMargin(9)
-        self.gridlayout1.setSpacing(6)
         self.gridlayout1.setObjectName("gridlayout1")
 
         self.vboxlayout = QtGui.QVBoxLayout()
-        self.vboxlayout.setMargin(0)
         self.vboxlayout.setSpacing(6)
+        self.vboxlayout.setMargin(0)
         self.vboxlayout.setObjectName("vboxlayout")
 
         spacerItem = QtGui.QSpacerItem(20,101,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
@@ -59,8 +61,8 @@ class Ui_NextShowsConfig(object):
         self.gridlayout1.addLayout(self.vboxlayout,4,1,1,1)
 
         self.vboxlayout1 = QtGui.QVBoxLayout()
-        self.vboxlayout1.setMargin(0)
         self.vboxlayout1.setSpacing(6)
+        self.vboxlayout1.setMargin(0)
         self.vboxlayout1.setObjectName("vboxlayout1")
 
         self.lblSearchResults = QtGui.QLabel(self.tabShows)
@@ -79,8 +81,8 @@ class Ui_NextShowsConfig(object):
         self.vboxlayout1.addWidget(self.listSearchResults)
 
         self.hboxlayout = QtGui.QHBoxLayout()
-        self.hboxlayout.setMargin(0)
         self.hboxlayout.setSpacing(6)
+        self.hboxlayout.setMargin(0)
         self.hboxlayout.setObjectName("hboxlayout")
 
         self.chkbxFilter = QtGui.QCheckBox(self.tabShows)
@@ -98,8 +100,8 @@ class Ui_NextShowsConfig(object):
         self.gridlayout1.addLayout(self.vboxlayout1,4,0,1,1)
 
         self.vboxlayout2 = QtGui.QVBoxLayout()
-        self.vboxlayout2.setMargin(0)
         self.vboxlayout2.setSpacing(6)
+        self.vboxlayout2.setMargin(0)
         self.vboxlayout2.setObjectName("vboxlayout2")
 
         self.lblMyShows = QtGui.QLabel(self.tabShows)
@@ -118,8 +120,8 @@ class Ui_NextShowsConfig(object):
         self.vboxlayout2.addWidget(self.listMyShows)
 
         self.hboxlayout1 = QtGui.QHBoxLayout()
-        self.hboxlayout1.setMargin(0)
         self.hboxlayout1.setSpacing(6)
+        self.hboxlayout1.setMargin(0)
         self.hboxlayout1.setObjectName("hboxlayout1")
 
         spacerItem3 = QtGui.QSpacerItem(20,22,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Fixed)
@@ -139,8 +141,8 @@ class Ui_NextShowsConfig(object):
         self.gridlayout1.addWidget(self.line_3,3,0,1,3)
 
         self.hboxlayout2 = QtGui.QHBoxLayout()
-        self.hboxlayout2.setMargin(0)
         self.hboxlayout2.setSpacing(6)
+        self.hboxlayout2.setMargin(0)
         self.hboxlayout2.setObjectName("hboxlayout2")
 
         self.labSearchFor = QtGui.QLabel(self.tabShows)
@@ -188,8 +190,9 @@ class Ui_NextShowsConfig(object):
         self.tabWidget1.setObjectName("tabWidget1")
 
         self.gridlayout2 = QtGui.QGridLayout(self.tabWidget1)
+        self.gridlayout2.setHorizontalSpacing(6)
+        self.gridlayout2.setVerticalSpacing(6)
         self.gridlayout2.setMargin(9)
-        self.gridlayout2.setSpacing(6)
         self.gridlayout2.setObjectName("gridlayout2")
 
         self.line_4 = QtGui.QFrame(self.tabWidget1)
@@ -216,8 +219,9 @@ class Ui_NextShowsConfig(object):
         self.tabDisplay.setObjectName("tabDisplay")
 
         self.gridlayout3 = QtGui.QGridLayout(self.tabDisplay)
+        self.gridlayout3.setHorizontalSpacing(6)
+        self.gridlayout3.setVerticalSpacing(6)
         self.gridlayout3.setMargin(9)
-        self.gridlayout3.setSpacing(6)
         self.gridlayout3.setObjectName("gridlayout3")
 
         spacerItem4 = QtGui.QSpacerItem(20,20,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Fixed)
@@ -227,8 +231,8 @@ class Ui_NextShowsConfig(object):
         self.gridlayout3.addItem(spacerItem5,1,0,1,1)
 
         self.hboxlayout3 = QtGui.QHBoxLayout()
-        self.hboxlayout3.setMargin(0)
         self.hboxlayout3.setSpacing(6)
+        self.hboxlayout3.setMargin(0)
         self.hboxlayout3.setObjectName("hboxlayout3")
 
         spacerItem6 = QtGui.QSpacerItem(18,25,QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Minimum)
@@ -244,8 +248,8 @@ class Ui_NextShowsConfig(object):
 
         self.spinMaxDispLines = QtGui.QSpinBox(self.tabDisplay)
         self.spinMaxDispLines.setEnabled(False)
-        self.spinMaxDispLines.setMaximum(50)
         self.spinMaxDispLines.setMinimum(2)
+        self.spinMaxDispLines.setMaximum(50)
         self.spinMaxDispLines.setProperty("value",QtCore.QVariant(10))
         self.spinMaxDispLines.setObjectName("spinMaxDispLines")
         self.hboxlayout3.addWidget(self.spinMaxDispLines)
@@ -257,8 +261,8 @@ class Ui_NextShowsConfig(object):
         self.gridlayout3.addWidget(self.radioDispFixedLines,2,0,1,1)
 
         self.hboxlayout4 = QtGui.QHBoxLayout()
-        self.hboxlayout4.setMargin(0)
         self.hboxlayout4.setSpacing(6)
+        self.hboxlayout4.setMargin(0)
         self.hboxlayout4.setObjectName("hboxlayout4")
 
         spacerItem8 = QtGui.QSpacerItem(18,25,QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Minimum)
@@ -272,8 +276,8 @@ class Ui_NextShowsConfig(object):
         self.hboxlayout4.addItem(spacerItem9)
 
         self.spinFixedDispLines = QtGui.QSpinBox(self.tabDisplay)
-        self.spinFixedDispLines.setMaximum(50)
         self.spinFixedDispLines.setMinimum(1)
+        self.spinFixedDispLines.setMaximum(50)
         self.spinFixedDispLines.setProperty("value",QtCore.QVariant(10))
         self.spinFixedDispLines.setObjectName("spinFixedDispLines")
         self.hboxlayout4.addWidget(self.spinFixedDispLines)
@@ -284,8 +288,8 @@ class Ui_NextShowsConfig(object):
         self.gridlayout3.addWidget(self.radioDispAutoResize,4,0,1,1)
 
         self.hboxlayout5 = QtGui.QHBoxLayout()
-        self.hboxlayout5.setMargin(0)
         self.hboxlayout5.setSpacing(6)
+        self.hboxlayout5.setMargin(0)
         self.hboxlayout5.setObjectName("hboxlayout5")
 
         spacerItem10 = QtGui.QSpacerItem(18,25,QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Minimum)
@@ -301,16 +305,16 @@ class Ui_NextShowsConfig(object):
 
         self.spinMinDispLines = QtGui.QSpinBox(self.tabDisplay)
         self.spinMinDispLines.setEnabled(False)
-        self.spinMinDispLines.setMaximum(49)
         self.spinMinDispLines.setMinimum(1)
+        self.spinMinDispLines.setMaximum(49)
         self.spinMinDispLines.setProperty("value",QtCore.QVariant(1))
         self.spinMinDispLines.setObjectName("spinMinDispLines")
         self.hboxlayout5.addWidget(self.spinMinDispLines)
         self.gridlayout3.addLayout(self.hboxlayout5,5,0,1,1)
 
         self.hboxlayout6 = QtGui.QHBoxLayout()
-        self.hboxlayout6.setMargin(0)
         self.hboxlayout6.setSpacing(6)
+        self.hboxlayout6.setMargin(0)
         self.hboxlayout6.setObjectName("hboxlayout6")
 
         self.lblNumPastDays = QtGui.QLabel(self.tabDisplay)
@@ -340,8 +344,8 @@ class Ui_NextShowsConfig(object):
         self.gridlayout3.addWidget(self.lblFormatExample,9,0,1,1)
 
         self.hboxlayout7 = QtGui.QHBoxLayout()
-        self.hboxlayout7.setMargin(0)
         self.hboxlayout7.setSpacing(6)
+        self.hboxlayout7.setMargin(0)
         self.hboxlayout7.setObjectName("hboxlayout7")
 
         self.lblFormat = QtGui.QLabel(self.tabDisplay)
@@ -364,16 +368,18 @@ class Ui_NextShowsConfig(object):
         self.tabColors.setObjectName("tabColors")
 
         self.gridlayout4 = QtGui.QGridLayout(self.tabColors)
+        self.gridlayout4.setHorizontalSpacing(6)
+        self.gridlayout4.setVerticalSpacing(6)
         self.gridlayout4.setMargin(9)
-        self.gridlayout4.setSpacing(6)
         self.gridlayout4.setObjectName("gridlayout4")
 
         self.grpbxCol = QtGui.QGroupBox(self.tabColors)
         self.grpbxCol.setObjectName("grpbxCol")
 
         self.gridlayout5 = QtGui.QGridLayout(self.grpbxCol)
+        self.gridlayout5.setHorizontalSpacing(6)
+        self.gridlayout5.setVerticalSpacing(6)
         self.gridlayout5.setMargin(9)
-        self.gridlayout5.setSpacing(6)
         self.gridlayout5.setObjectName("gridlayout5")
 
         self.radioSingleDay = QtGui.QRadioButton(self.grpbxCol)
@@ -382,8 +388,8 @@ class Ui_NextShowsConfig(object):
         self.gridlayout5.addWidget(self.radioSingleDay,0,0,1,1)
 
         self.hboxlayout8 = QtGui.QHBoxLayout()
-        self.hboxlayout8.setMargin(0)
         self.hboxlayout8.setSpacing(6)
+        self.hboxlayout8.setMargin(0)
         self.hboxlayout8.setObjectName("hboxlayout8")
 
         spacerItem14 = QtGui.QSpacerItem(18,25,QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Minimum)
@@ -404,8 +410,8 @@ class Ui_NextShowsConfig(object):
         self.gridlayout5.addWidget(self.radioDayRange,2,0,1,1)
 
         self.hboxlayout9 = QtGui.QHBoxLayout()
-        self.hboxlayout9.setMargin(0)
         self.hboxlayout9.setSpacing(6)
+        self.hboxlayout9.setMargin(0)
         self.hboxlayout9.setObjectName("hboxlayout9")
 
         spacerItem15 = QtGui.QSpacerItem(18,25,QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Minimum)
@@ -418,16 +424,16 @@ class Ui_NextShowsConfig(object):
 
         self.spinColorsFrom = QtGui.QSpinBox(self.grpbxCol)
         self.spinColorsFrom.setEnabled(False)
-        self.spinColorsFrom.setMaximum(98)
         self.spinColorsFrom.setMinimum(-99)
+        self.spinColorsFrom.setMaximum(98)
         self.spinColorsFrom.setProperty("value",QtCore.QVariant(-99))
         self.spinColorsFrom.setObjectName("spinColorsFrom")
         self.hboxlayout9.addWidget(self.spinColorsFrom)
         self.gridlayout5.addLayout(self.hboxlayout9,3,0,1,1)
 
         self.hboxlayout10 = QtGui.QHBoxLayout()
-        self.hboxlayout10.setMargin(0)
         self.hboxlayout10.setSpacing(6)
+        self.hboxlayout10.setMargin(0)
         self.hboxlayout10.setObjectName("hboxlayout10")
 
         spacerItem16 = QtGui.QSpacerItem(18,25,QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Minimum)
@@ -450,13 +456,13 @@ class Ui_NextShowsConfig(object):
         self.gridlayout5.addItem(spacerItem17,5,0,1,1)
 
         self.hboxlayout11 = QtGui.QHBoxLayout()
-        self.hboxlayout11.setMargin(0)
         self.hboxlayout11.setSpacing(6)
+        self.hboxlayout11.setMargin(0)
         self.hboxlayout11.setObjectName("hboxlayout11")
 
         self.btnSelectColor = QtGui.QPushButton(self.grpbxCol)
 
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Policy(3),QtGui.QSizePolicy.Policy(0))
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding,QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.btnSelectColor.sizePolicy().hasHeightForWidth())
@@ -469,7 +475,7 @@ class Ui_NextShowsConfig(object):
 
         self.lblSelectColor = QtGui.QLabel(self.grpbxCol)
 
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Policy(0),QtGui.QSizePolicy.Policy(0))
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(48)
         sizePolicy.setVerticalStretch(48)
         sizePolicy.setHeightForWidth(self.lblSelectColor.sizePolicy().hasHeightForWidth())
@@ -484,8 +490,8 @@ class Ui_NextShowsConfig(object):
         self.gridlayout4.addWidget(self.grpbxCol,2,0,1,1)
 
         self.hboxlayout12 = QtGui.QHBoxLayout()
-        self.hboxlayout12.setMargin(0)
         self.hboxlayout12.setSpacing(6)
+        self.hboxlayout12.setMargin(0)
         self.hboxlayout12.setObjectName("hboxlayout12")
 
         spacerItem20 = QtGui.QSpacerItem(11,20,QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Minimum)
@@ -493,7 +499,7 @@ class Ui_NextShowsConfig(object):
 
         self.btnSetDefaultColor = QtGui.QPushButton(self.tabColors)
 
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Policy(3),QtGui.QSizePolicy.Policy(0))
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding,QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.btnSetDefaultColor.sizePolicy().hasHeightForWidth())
@@ -517,8 +523,8 @@ class Ui_NextShowsConfig(object):
         self.gridlayout4.addItem(spacerItem23,0,0,1,1)
 
         self.vboxlayout3 = QtGui.QVBoxLayout()
-        self.vboxlayout3.setMargin(0)
         self.vboxlayout3.setSpacing(6)
+        self.vboxlayout3.setMargin(0)
         self.vboxlayout3.setObjectName("vboxlayout3")
 
         spacerItem24 = QtGui.QSpacerItem(20,101,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
@@ -544,8 +550,8 @@ class Ui_NextShowsConfig(object):
         self.gridlayout4.addLayout(self.vboxlayout3,0,1,3,1)
 
         self.vboxlayout4 = QtGui.QVBoxLayout()
-        self.vboxlayout4.setMargin(0)
         self.vboxlayout4.setSpacing(6)
+        self.vboxlayout4.setMargin(0)
         self.vboxlayout4.setObjectName("vboxlayout4")
 
         self.lblMyCustomColors = QtGui.QLabel(self.tabColors)
@@ -568,18 +574,16 @@ class Ui_NextShowsConfig(object):
         self.tabMisc.setObjectName("tabMisc")
 
         self.gridlayout6 = QtGui.QGridLayout(self.tabMisc)
-        self.gridlayout6.setMargin(9)
-        self.gridlayout6.setSpacing(6)
         self.gridlayout6.setObjectName("gridlayout6")
 
         self.vboxlayout5 = QtGui.QVBoxLayout()
-        self.vboxlayout5.setMargin(0)
         self.vboxlayout5.setSpacing(6)
+        self.vboxlayout5.setMargin(0)
         self.vboxlayout5.setObjectName("vboxlayout5")
 
         self.hboxlayout13 = QtGui.QHBoxLayout()
-        self.hboxlayout13.setMargin(0)
         self.hboxlayout13.setSpacing(6)
+        self.hboxlayout13.setMargin(0)
         self.hboxlayout13.setObjectName("hboxlayout13")
 
         self.label_10 = QtGui.QLabel(self.tabMisc)
@@ -587,16 +591,16 @@ class Ui_NextShowsConfig(object):
         self.hboxlayout13.addWidget(self.label_10)
 
         self.spinCacheExpiration = QtGui.QSpinBox(self.tabMisc)
-        self.spinCacheExpiration.setMaximum(30)
         self.spinCacheExpiration.setMinimum(1)
+        self.spinCacheExpiration.setMaximum(30)
         self.spinCacheExpiration.setProperty("value",QtCore.QVariant(1))
         self.spinCacheExpiration.setObjectName("spinCacheExpiration")
         self.hboxlayout13.addWidget(self.spinCacheExpiration)
         self.vboxlayout5.addLayout(self.hboxlayout13)
 
         self.hboxlayout14 = QtGui.QHBoxLayout()
-        self.hboxlayout14.setMargin(0)
         self.hboxlayout14.setSpacing(6)
+        self.hboxlayout14.setMargin(0)
         self.hboxlayout14.setObjectName("hboxlayout14")
 
         self.label_3 = QtGui.QLabel(self.tabMisc)
@@ -615,10 +619,10 @@ class Ui_NextShowsConfig(object):
         self.label.setWordWrap(True)
         self.label.setObjectName("label")
         self.vboxlayout5.addWidget(self.label)
+        self.gridlayout6.addLayout(self.vboxlayout5,0,0,1,1)
 
         spacerItem28 = QtGui.QSpacerItem(20,40,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
-        self.vboxlayout5.addItem(spacerItem28)
-        self.gridlayout6.addLayout(self.vboxlayout5,0,0,1,1)
+        self.gridlayout6.addItem(spacerItem28,1,0,1,1)
         self.tabWidgetWidget.addTab(self.tabMisc,"")
         self.gridlayout2.addWidget(self.tabWidgetWidget,2,0,1,1)
         self.tabWidget.addTab(self.tabWidget1,"")
@@ -627,13 +631,14 @@ class Ui_NextShowsConfig(object):
         self.tabAbout.setObjectName("tabAbout")
 
         self.gridlayout7 = QtGui.QGridLayout(self.tabAbout)
+        self.gridlayout7.setHorizontalSpacing(6)
+        self.gridlayout7.setVerticalSpacing(6)
         self.gridlayout7.setMargin(9)
-        self.gridlayout7.setSpacing(6)
         self.gridlayout7.setObjectName("gridlayout7")
 
         self.vboxlayout6 = QtGui.QVBoxLayout()
-        self.vboxlayout6.setMargin(0)
         self.vboxlayout6.setSpacing(6)
+        self.vboxlayout6.setMargin(0)
         self.vboxlayout6.setObjectName("vboxlayout6")
 
         self.lblDataProvidedBy = QtGui.QLabel(self.tabAbout)
@@ -644,7 +649,7 @@ class Ui_NextShowsConfig(object):
 
         self.lblTvRageLogo = QtGui.QLabel(self.tabAbout)
 
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Policy(5),QtGui.QSizePolicy.Policy(5))
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred,QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.lblTvRageLogo.sizePolicy().hasHeightForWidth())
@@ -656,8 +661,8 @@ class Ui_NextShowsConfig(object):
         self.gridlayout7.addLayout(self.vboxlayout6,1,0,1,1)
 
         self.hboxlayout15 = QtGui.QHBoxLayout()
-        self.hboxlayout15.setMargin(0)
         self.hboxlayout15.setSpacing(6)
+        self.hboxlayout15.setMargin(0)
         self.hboxlayout15.setObjectName("hboxlayout15")
 
         self.lblNetShowsLogo = QtGui.QLabel(self.tabAbout)
@@ -667,8 +672,8 @@ class Ui_NextShowsConfig(object):
         self.hboxlayout15.addWidget(self.lblNetShowsLogo)
 
         self.vboxlayout7 = QtGui.QVBoxLayout()
-        self.vboxlayout7.setMargin(0)
         self.vboxlayout7.setSpacing(6)
+        self.vboxlayout7.setMargin(0)
         self.vboxlayout7.setObjectName("vboxlayout7")
 
         self.lblNextShowsTitle = QtGui.QLabel(self.tabAbout)
@@ -715,8 +720,8 @@ class Ui_NextShowsConfig(object):
         self.gridlayout.addWidget(self.tabWidget,0,0,1,1)
 
         self.hboxlayout16 = QtGui.QHBoxLayout()
-        self.hboxlayout16.setMargin(0)
         self.hboxlayout16.setSpacing(6)
+        self.hboxlayout16.setMargin(0)
         self.hboxlayout16.setObjectName("hboxlayout16")
 
         self.lblFooterRelease = QtGui.QLabel(NextShowsConfig)
@@ -733,7 +738,7 @@ class Ui_NextShowsConfig(object):
         self.btnSave = QtGui.QPushButton(NextShowsConfig)
         self.btnSave.setEnabled(False)
 
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Policy(0),QtGui.QSizePolicy.Policy(0))
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.btnSave.sizePolicy().hasHeightForWidth())
@@ -747,7 +752,7 @@ class Ui_NextShowsConfig(object):
 
         self.btnQuit = QtGui.QPushButton(NextShowsConfig)
 
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Policy(0),QtGui.QSizePolicy.Policy(0))
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.btnQuit.sizePolicy().hasHeightForWidth())
@@ -776,8 +781,8 @@ class Ui_NextShowsConfig(object):
         self.label_3.setBuddy(self.leditBrowser)
 
         self.retranslateUi(NextShowsConfig)
-        self.tabWidget.setCurrentIndex(1)
-        self.tabWidgetWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(2)
+        self.tabWidgetWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(NextShowsConfig)
         NextShowsConfig.setTabOrder(self.tabWidget,self.leditLookup)
         NextShowsConfig.setTabOrder(self.leditLookup,self.btnLeditLookupClear)
