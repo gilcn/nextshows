@@ -1,13 +1,6 @@
 TODO:
 =====
 
-
-BEFORE RELEASING v2.0.0:
-- Fix some GUI bugs when using Qt4.3.0....
-  (Finally this will be planned for later releases)
-
-
-LATER (MAYBE :p):
 - Whether a cache refresh/update occurs, check whether the show is terminated
   or not and update the GUI accordingly
 - Allow the user to select a color per show rather than having a color showing
