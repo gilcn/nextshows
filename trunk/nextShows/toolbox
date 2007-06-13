@@ -57,7 +57,7 @@ function usage() {
     echo    "  clean       remove useless files"
     echo    "  edit        edit GUI with QtDesigner 4"
     echo    "  ftp         send the current work to the FTP server"
-    echo    "  gui         recompile Resource and GUI"
+    echo    "  gui         {,re}compile Resource and GUI"
     echo    "  help        display this help and exit"
     echo    "  skz         make SKZ theme (excluding unnecessary files)"
     echo    "  tgz         save all the files to a tarball"
@@ -69,7 +69,7 @@ function editGUI() {
     $QTDESIGNER $WORKDIR/ConfigGUI/FormatHelp.ui $WORKDIR/ConfigGUI/NextShowsConfig.ui 
 
     # Recompile files once editing's finished
-    #recompileGUI
+    recompileGUI
 }
 
 # Remove *.pyc files
@@ -108,8 +108,9 @@ function createSKZ() {
 function createTGZ() {
     msg "Creating tarball $TARBALLFILENAME"
     opath="`pwd`"
+    compressDir="$( basename ${opath} )"
     cd ..
-    tar zcvf $TARBALLFILENAME $THEMENAME-$THEMEVERSION
+    tar zcvf $TARBALLFILENAME $compressDir
     cd $opath
 }
 
@@ -117,7 +118,7 @@ function createTGZ() {
 function ftpSend() {
     if [ "x`which ncftpput`" == "x" ]; then
         echo "ERROR: You *MUST* install ncftpput!"
-        exit1
+        exit 1
     fi
 
     # Making TGZ file
@@ -135,7 +136,7 @@ function ftpSend() {
 # make all (SKZ)
 function makeSKZ() {
     removePYC
-    #recompileGUI
+    recompileGUI
     createSKZ
 
     msg "File size"
@@ -145,7 +146,7 @@ function makeSKZ() {
 # clean and make TGZ
 function makeTGZ() {
     removePYC
-    #recompileGUI
+    recompileGUI
     createTGZ
 
     msg "File size"
