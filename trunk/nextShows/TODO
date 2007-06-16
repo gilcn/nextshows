@@ -1,6 +1,13 @@
 TODO:
 =====
 
+GUI:
+- Add a date_format entry in the GUI so that the user can choose how he wants
+  to display date
+- Enable support for theme and fix some remaining parts of the theming engine
+
+
+MAIN:
 - Whether a cache refresh/update occurs, check whether the show is terminated
   or not and update the GUI accordingly
 - Allow the user to select a color per show rather than having a color showing
