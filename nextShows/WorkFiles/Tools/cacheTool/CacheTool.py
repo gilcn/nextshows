@@ -29,7 +29,7 @@ from CacheToolForm_ui import Ui_CacheToolForm
 
 from PyQt4 import QtCore, QtGui
 
-import cPickle, os, re
+import cPickle, datetime, os, re
 
 
 class CacheTool(QtGui.QDialog):
@@ -39,11 +39,11 @@ class CacheTool(QtGui.QDialog):
         self.ui = Ui_CacheToolForm()
         self.ui.setupUi(self)   # Setup UI
         #
+        self.ui.currentDateTime.setDisplayFormat("yyyy.MM.dd - hh:mm:ss LOC")
         self.ui.showCacheDateTime.setDisplayFormat("yyyy.MM.dd - hh:mm:ss UTC")
-        self.ui.showCacheDateTime.setEnabled( False )
         #
-        self.ui.tableEpisodes.setColumnCount(3)
-        self.ui.tableEpisodes.setHorizontalHeaderLabels( [ "S", "E", "Title" ] )
+        self.ui.tableEpisodes.setColumnCount(5)
+        self.ui.tableEpisodes.setHorizontalHeaderLabels( [ "S", "E", "Title", "Date", "Delta" ] )
         #vHeader = QtGui.QHeaderView( QtCore.Qt.Vertical, self.ui.tableEpisodes )
         self.ui.tableEpisodes.verticalHeader().hide()
 
@@ -52,12 +52,20 @@ class CacheTool(QtGui.QDialog):
         self.baseDir = os.path.expanduser( "~/.superkaramba/nextShows/cache" )
         self.cacheFilePattern = re.compile( r'^show_\d+$' )
         #
+        self.currentDateTime = datetime.datetime.utcnow()
+        #
         self.showList = self._readCachedShows()
 
         self.ui.listShows.clear()
         for show in self.showList:
             self.ui.listShows.addItem( show[0] )
 
+        # Timer
+        self.timer = QtCore.QTimer()
+        self.timer.setInterval(1000)
+        self.timer.start()
+
+        QtCore.QObject.connect( self.timer, QtCore.SIGNAL("timeout()"), self._timerTimeout )
         QtCore.QObject.connect( self.ui.btnQuit, QtCore.SIGNAL("clicked()"), self, QtCore.SLOT("close()") )
 
 
@@ -75,12 +83,22 @@ class CacheTool(QtGui.QDialog):
             itemE.setFlags( QtCore.Qt.ItemIsEnabled )
             itemT = QtGui.QTableWidgetItem( episode['title'] )
             itemT.setFlags( QtCore.Qt.ItemIsEnabled )
+            year, month, day = episode['airdate']
+            date = datetime.date( year, month, day )
+            itemD = QtGui.QTableWidgetItem( date.strftime("%Y.%m.%d") )
+            itemD.setFlags( QtCore.Qt.ItemIsEnabled )
+            dateToday = datetime.date.today()
+            delta = date-dateToday
+            itemA = QtGui.QTableWidgetItem( "%d d." % delta.days )
+            itemA.setFlags( QtCore.Qt.ItemIsEnabled )
             self.ui.tableEpisodes.setItem( pos, 0, itemS )
             self.ui.tableEpisodes.setItem( pos, 1, itemE )
             self.ui.tableEpisodes.setItem( pos, 2, itemT )
+            self.ui.tableEpisodes.setItem( pos, 3, itemD )
+            self.ui.tableEpisodes.setItem( pos, 4, itemA )
             pos += 1
 
-        for i in range(3):
+        for i in range(5):
             self.ui.tableEpisodes.resizeColumnToContents( i )
 
         qdt = QtCore.QDateTime()
@@ -106,3 +124,8 @@ class CacheTool(QtGui.QDialog):
                 showList.append( show )
 
         return showList
+
+    def _timerTimeout(self):
+        qdt = QtCore.QDateTime()
+        qdt.setTime_t( int( datetime.datetime.now().strftime("%s") ) )
+        self.ui.currentDateTime.setDateTime( qdt )
