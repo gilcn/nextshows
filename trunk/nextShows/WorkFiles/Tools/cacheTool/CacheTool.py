@@ -45,6 +45,8 @@ class CacheTool(QtGui.QDialog):
         self.ui.tableEpisodes.setColumnCount(3)
         self.ui.tableEpisodes.setHorizontalHeaderLabels( [ "S", "E", "Title" ] )
         #vHeader = QtGui.QHeaderView( QtCore.Qt.Vertical, self.ui.tableEpisodes )
+        self.ui.tableEpisodes.verticalHeader().hide()
+
 
         # Vars
         self.baseDir = os.path.expanduser( "~/.superkaramba/nextShows/cache" )
