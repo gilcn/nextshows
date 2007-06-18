@@ -29,7 +29,17 @@
        <widget class="QListWidget" name="listShows" />
       </item>
       <item row="1" column="0" >
-       <widget class="QDateTimeEdit" name="showCacheDateTime" />
+       <widget class="QDateTimeEdit" name="showCacheDateTime" >
+        <property name="alignment" >
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="readOnly" >
+         <bool>true</bool>
+        </property>
+        <property name="buttonSymbols" >
+         <enum>QAbstractSpinBox::NoButtons</enum>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -42,6 +52,19 @@
      <layout class="QGridLayout" >
       <item row="0" column="0" >
        <widget class="QTableWidget" name="tableEpisodes" />
+      </item>
+      <item row="1" column="0" >
+       <widget class="QDateTimeEdit" name="currentDateTime" >
+        <property name="alignment" >
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="readOnly" >
+         <bool>true</bool>
+        </property>
+        <property name="buttonSymbols" >
+         <enum>QAbstractSpinBox::NoButtons</enum>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
