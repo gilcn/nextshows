@@ -1,0 +1,108 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#######################################################################
+# nextShows - GUI launcher
+# Copyright (C) 2006-2007 Gilles CHAUVIN <gcnweb@gmail.com>
+# $Id$
+#######################################################################
+# Coding: UTF-8, 4 spaces indent, LF line terminator
+#######################################################################
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2  of  the  License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be  useful, but
+# WITHOUT  ANY  WARRANTY;  without  even  the   implied   warranty  of
+# MERCHANTABILITY or FITNESS FOR A  PARTICULAR  PURPOSE. See  the  GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU  General  Public  License
+# along with  this  program;  if  not,  write  to  the  Free  Software
+# Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#######################################################################
+
+from cgui.NextShowsConfig import NextShowsConfig
+import libs.tools as tools
+import os, sys, time
+
+try:
+    from PyQt4 import QtCore, QtGui
+except:
+    os.system('kdialog --title "Error" --error "The nextShows configuration GUI requires PyQt4!\nPlease install a recent version and retry." &')
+    sys.exit()
+
+
+class Splash:
+    def __init__(self):
+        self.splash      = QtGui.QSplashScreen()
+        self.pixLogo     = QtGui.QPixmap(":/images/logos/images/logos/nextShows.png")
+        self.pixDesktop  = QtGui.QPixmap()
+        self.captureArea = QtCore.QRect()
+        self.animStep    = 0.0000001
+
+    def init(self):
+        ## FIXME: Desktop area screenshot doesn't work properly on
+        ## FIXME: multiple-display boxes
+        desktopAGeo = QtGui.qApp.desktop().availableGeometry( QtGui.qApp.desktop().primaryScreen() )
+        self.captureArea = QtCore.QRect( ( desktopAGeo.width()  - self.pixLogo.width()  ) / 2,
+                                         ( desktopAGeo.height() - self.pixLogo.height() ) / 2,
+                                           self.pixLogo.width(),
+                                           self.pixLogo.height() )
+        self.pixDesktop  = QtGui.QPixmap().grabWindow( QtGui.QApplication.desktop().winId(),
+                                                       self.captureArea.x(),
+                                                       self.captureArea.y(),
+                                                       self.captureArea.width(),
+                                                       self.captureArea.height() )
+    def finish(self, window):
+        self.splash.finish(window)
+
+    def fadeIn(self):
+        for i in range(0, 101):
+            self._showImage( float(i) / 100 )
+            time.sleep( self.animStep )
+
+    def fadeOut(self):
+        for i in range(0, 101):
+            self._showImage( float(100-i) / 100 )
+            time.sleep( self.animStep )
+
+    def _showImage(self, opacity):
+        painter   = QtGui.QPainter()
+        pixSplash = QtGui.QPixmap( self.captureArea.width(), self.captureArea.height() )
+
+        painter.begin( pixSplash )
+        painter.drawPixmap( 0, 0, self.pixDesktop )
+        painter.setOpacity( opacity )
+        painter.drawPixmap( 0, 0, self.pixLogo )
+        painter.end()
+
+        self.splash.setPixmap( pixSplash )
+        self.splash.show()
+
+
+# Init qApp
+app=QtGui.QApplication(sys.argv)
+
+# Splash "in"
+splash = Splash()
+splash.init()
+splash.fadeIn()
+
+window=NextShowsConfig()
+
+# Splash "out"
+splash.fadeOut()
+
+# Show main window
+window.show()
+splash.finish(window)
+
+# Entering Event Loop
+RETVAL=app.exec_()
+
+print "Exit: %d" % RETVAL   # This is to make sure SK catches when GUI was closed
+                            # using commandOutput()
+
+sys.exit(RETVAL)
