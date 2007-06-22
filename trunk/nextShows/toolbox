@@ -54,7 +54,7 @@ function msg() {
 # Display usage and exit
 function usage() {
     echo -e "Usage: `basename $0` [OPTION]\n"
-    echo    "  clean       remove useless files"
+    echo    "  clear       remove useless files"
     echo    "  edit        edit GUI with QtDesigner 4"
     echo    "  ftp         send the current work to the FTP server"
     echo    "  gui         {,re}compile Resource and GUI"
@@ -161,7 +161,7 @@ case "$1" in
         usage
         exit 1
         ;;
-    clean)
+    clear)
         removePYC
         exit 0
         ;;
