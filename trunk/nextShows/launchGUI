@@ -28,7 +28,7 @@ import libs.tools as tools
 import os, sys, time
 
 try:
-    from PyQt4 import QtCore, QtGui
+    from PyQt4.Qt import *
 except:
     os.system('kdialog --title "Error" --error "The nextShows configuration GUI requires PyQt4!\nPlease install a recent version and retry." &')
     sys.exit()
@@ -36,34 +36,34 @@ except:
 
 # Check PyQt version
 # TODO: re-enable this code when PyQt4.3 is available !
-#if QtCore.PYQT_VERSION < 0x040300:
-#    message = "Your PyQt version is too old (v%s)!\nYou need PyQt v4.3.0 or later." % QtCore.PYQT_VERSION_STR
+#if PYQT_VERSION < 0x040300:
+#    message = "Your PyQt version is too old (v%s)!\nYou need PyQt v4.3.0 or later." % PYQT_VERSION_STR
 #    os.system('kdialog --title "Error" --error "'+message+'" &')
 #    sys.exit()
 # Check Qt version
-if QtCore.QT_VERSION < 0x040300:
-    message = "Your Qt version is too old (v%s)!\nYou need Qt v4.3.0 or later." % QtCore.QT_VERSION_STR
+if QT_VERSION < 0x040300:
+    message = "Your Qt version is too old (v%s)!\nYou need Qt v4.3.0 or later." % QT_VERSION_STR
     os.system('kdialog --title "Error" --error "'+message+'" &')
     sys.exit()
 
 
 class Splash:
     def __init__(self):
-        self.splash      = QtGui.QSplashScreen()
-        self.pixLogo     = QtGui.QPixmap(":/images/logos/images/logos/nextShows.png")
-        self.pixDesktop  = QtGui.QPixmap()
-        self.captureArea = QtCore.QRect()
+        self.splash      = QSplashScreen()
+        self.pixLogo     = QPixmap(":/images/logos/images/logos/nextShows.png")
+        self.pixDesktop  = QPixmap()
+        self.captureArea = QRect()
         self.animStep    = 0.0000001
 
     def init(self):
         ## FIXME: Desktop area screenshot doesn't work properly on
         ## FIXME: multiple-display boxes
-        desktopAGeo = QtGui.qApp.desktop().availableGeometry( QtGui.qApp.desktop().primaryScreen() )
-        self.captureArea = QtCore.QRect( ( desktopAGeo.width()  - self.pixLogo.width()  ) / 2,
+        desktopAGeo = qApp.desktop().availableGeometry( qApp.desktop().primaryScreen() )
+        self.captureArea = QRect( ( desktopAGeo.width()  - self.pixLogo.width()  ) / 2,
                                          ( desktopAGeo.height() - self.pixLogo.height() ) / 2,
                                            self.pixLogo.width(),
                                            self.pixLogo.height() )
-        self.pixDesktop  = QtGui.QPixmap().grabWindow( QtGui.QApplication.desktop().winId(),
+        self.pixDesktop  = QPixmap().grabWindow( QApplication.desktop().winId(),
                                                        self.captureArea.x(),
                                                        self.captureArea.y(),
                                                        self.captureArea.width(),
@@ -82,8 +82,8 @@ class Splash:
             time.sleep( self.animStep )
 
     def _showImage(self, opacity):
-        painter   = QtGui.QPainter()
-        pixSplash = QtGui.QPixmap( self.captureArea.width(), self.captureArea.height() )
+        painter   = QPainter()
+        pixSplash = QPixmap( self.captureArea.width(), self.captureArea.height() )
 
         painter.begin( pixSplash )
         painter.drawPixmap( 0, 0, self.pixDesktop )
@@ -96,7 +96,7 @@ class Splash:
 
 
 # Init qApp
-app=QtGui.QApplication(sys.argv)
+app=QApplication(sys.argv)
 
 # Splash "in"
 splash = Splash()

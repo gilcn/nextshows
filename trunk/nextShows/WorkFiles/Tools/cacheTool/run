@@ -24,11 +24,11 @@
 #######################################################################
 
 from CacheTool import CacheTool
-from PyQt4 import QtCore, QtGui
+from PyQt4.Qt import *
 import sys
 
 
-app=QtGui.QApplication(sys.argv)
+app=QApplication(sys.argv)
 window=CacheTool()
 window.show()
 app.exec_()

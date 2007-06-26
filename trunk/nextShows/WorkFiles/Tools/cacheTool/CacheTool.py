@@ -27,15 +27,15 @@
 
 from CacheToolForm_ui import Ui_CacheToolForm
 
-from PyQt4 import QtCore, QtGui
+from PyQt4.Qt import *
 
 import cPickle, datetime, os, re
 
 
-class CacheTool(QtGui.QDialog):
+class CacheTool(QDialog):
     def __init__(self, parent=None):
         # Init UI
-        QtGui.QDialog.__init__(self, parent)
+        QDialog.__init__(self, parent)
         self.ui = Ui_CacheToolForm()
         self.ui.setupUi(self)   # Setup UI
         #
@@ -44,7 +44,7 @@ class CacheTool(QtGui.QDialog):
         #
         self.ui.tableEpisodes.setColumnCount(5)
         self.ui.tableEpisodes.setHorizontalHeaderLabels( [ "S", "E", "Title", "Date", "Delta" ] )
-        #vHeader = QtGui.QHeaderView( QtCore.Qt.Vertical, self.ui.tableEpisodes )
+        #vHeader = QHeaderView( Qt.Vertical, self.ui.tableEpisodes )
         self.ui.tableEpisodes.verticalHeader().hide()
 
 
@@ -61,15 +61,15 @@ class CacheTool(QtGui.QDialog):
             self.ui.listShows.addItem( show[0] )
 
         # Timer
-        self.timer = QtCore.QTimer()
+        self.timer = QTimer()
         self.timer.setInterval(1000)
         self.timer.start()
 
-        QtCore.QObject.connect( self.timer, QtCore.SIGNAL("timeout()"), self._timerTimeout )
-        QtCore.QObject.connect( self.ui.btnQuit, QtCore.SIGNAL("clicked()"), self, QtCore.SLOT("close()") )
+        QObject.connect( self.timer, SIGNAL("timeout()"), self._timerTimeout )
+        QObject.connect( self.ui.btnQuit, SIGNAL("clicked()"), self, SLOT("close()") )
 
 
-    @QtCore.pyqtSignature("on_listShows_currentRowChanged(int)")
+    @pyqtSignature("on_listShows_currentRowChanged(int)")
     def on_listShows_currentRowChanged(self, rowNum):
         self.ui.tableEpisodes.setRowCount( 0 )
 
@@ -77,20 +77,20 @@ class CacheTool(QtGui.QDialog):
         pos = 0
         for episode in episodes:
             self.ui.tableEpisodes.setRowCount( self.ui.tableEpisodes.rowCount()+1 )
-            itemS = QtGui.QTableWidgetItem( str( episode['season']  ) )
-            itemS.setFlags( QtCore.Qt.ItemIsEnabled )
-            itemE = QtGui.QTableWidgetItem( str( episode['episode'] ) )
-            itemE.setFlags( QtCore.Qt.ItemIsEnabled )
-            itemT = QtGui.QTableWidgetItem( episode['title'] )
-            itemT.setFlags( QtCore.Qt.ItemIsEnabled )
+            itemS = QTableWidgetItem( str( episode['season']  ) )
+            itemS.setFlags( Qt.ItemIsEnabled )
+            itemE = QTableWidgetItem( str( episode['episode'] ) )
+            itemE.setFlags( Qt.ItemIsEnabled )
+            itemT = QTableWidgetItem( episode['title'] )
+            itemT.setFlags( Qt.ItemIsEnabled )
             year, month, day = episode['airdate']
             date = datetime.date( year, month, day )
-            itemD = QtGui.QTableWidgetItem( date.strftime("%Y.%m.%d") )
-            itemD.setFlags( QtCore.Qt.ItemIsEnabled )
+            itemD = QTableWidgetItem( date.strftime("%Y.%m.%d") )
+            itemD.setFlags( Qt.ItemIsEnabled )
             dateToday = datetime.date.today()
             delta = date-dateToday
-            itemA = QtGui.QTableWidgetItem( "%d d." % delta.days )
-            itemA.setFlags( QtCore.Qt.ItemIsEnabled )
+            itemA = QTableWidgetItem( "%d d." % delta.days )
+            itemA.setFlags( Qt.ItemIsEnabled )
             self.ui.tableEpisodes.setItem( pos, 0, itemS )
             self.ui.tableEpisodes.setItem( pos, 1, itemE )
             self.ui.tableEpisodes.setItem( pos, 2, itemT )
@@ -101,7 +101,7 @@ class CacheTool(QtGui.QDialog):
         for i in range(5):
             self.ui.tableEpisodes.resizeColumnToContents( i )
 
-        qdt = QtCore.QDateTime()
+        qdt = QDateTime()
         qdt.setTime_t( self.showList[rowNum][1] )
         self.ui.showCacheDateTime.setDateTime( qdt )
 
@@ -126,6 +126,6 @@ class CacheTool(QtGui.QDialog):
         return showList
 
     def _timerTimeout(self):
-        qdt = QtCore.QDateTime()
+        qdt = QDateTime()
         qdt.setTime_t( int( datetime.datetime.now().strftime("%s") ) )
         self.ui.currentDateTime.setDateTime( qdt )
