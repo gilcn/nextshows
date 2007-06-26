@@ -34,6 +34,19 @@ except:
     sys.exit()
 
 
+# Check PyQt version
+# TODO: re-enable this code when PyQt4.3 is available !
+#if QtCore.PYQT_VERSION < 0x040300:
+#    message = "Your PyQt version is too old (v%s)!\nYou need PyQt v4.3.0 or later." % QtCore.PYQT_VERSION_STR
+#    os.system('kdialog --title "Error" --error "'+message+'" &')
+#    sys.exit()
+# Check Qt version
+if QtCore.QT_VERSION < 0x040300:
+    message = "Your Qt version is too old (v%s)!\nYou need Qt v4.3.0 or later." % QtCore.QT_VERSION_STR
+    os.system('kdialog --title "Error" --error "'+message+'" &')
+    sys.exit()
+
+
 class Splash:
     def __init__(self):
         self.splash      = QtGui.QSplashScreen()
