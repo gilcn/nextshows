@@ -25,29 +25,29 @@
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #######################################################################
 
-from PyQt4 import QtCore, QtGui
 from FormatHelp_ui import Ui_FormatHelp
+from PyQt4.Qt import *
 
 
-class FormatHelp(QtGui.QDialog):
+class FormatHelp(QDialog):
     def __init__(self, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+        QDialog.__init__(self, parent)
         self.ui = Ui_FormatHelp()
         self.ui.setupUi(self)
 
 
     # Send SIGNAL
     def sendSignal(self):
-        self.emit( QtCore.SIGNAL("hideWindow()") )
+        self.emit( SIGNAL("hideWindow()") )
 
     # Click on the "Close" button
-    @QtCore.pyqtSignature("on_btnClose_clicked()")
+    @pyqtSignature("on_btnClose_clicked()")
     def on_btnClose_clicked(self):
         self.sendSignal()
 
     # React on Escape or "Q" key press
     def keyPressEvent(self, event):
-        if event.key() == QtCore.Qt.Key_Escape or event.key() == QtCore.Qt.Key_Q:
+        if event.key() == Qt.Key_Escape or event.key() == Qt.Key_Q:
             self.sendSignal()
         event.ignore()  # Ignore the event
 
