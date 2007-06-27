@@ -11,8 +11,11 @@ class ColorViewerWidget(QWidget):
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
 
+        # Widget defaults
         self.setMouseTracking( True )
         self.setCursor( QCursor( Qt.CrossCursor ) )
+        self.setMinimumWidth( 100 )
+        self.setMinimumHeight( 20 )
 
         self.mousePosX = -100
         self.mousePosY = -100
@@ -22,6 +25,9 @@ class ColorViewerWidget(QWidget):
         self.mousePosX = event.pos().x()
         self.mousePosY = event.pos().y()
         self.update()
+
+    def mousePressEvent( self, event ):
+        print "Widget size: %dx%d" % ( self.width(), self.height() )
 
 
     def paintEvent(self, event):
