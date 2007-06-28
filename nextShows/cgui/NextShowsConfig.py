@@ -410,13 +410,13 @@ class NextShowsConfig(QDialog):
         self.ui.lblResultsDisplayed.setText( u"Displayed results: 0/0" )
         self.ui.lblTrackedShows.setText( u"Tracked shows: 0" )
 
-        # Format Example
-        fmtExample = u"<u><b>Example:</b></u> <b>show:</b> %s, <b>title:</b> %s, <b>season</b>: %d, <b>episode</b>: %d" % (
-                       Globals().sampleEpisode['show'],
-                       Globals().sampleEpisode['title'],
-                       Globals().sampleEpisode['season'],
-                       Globals().sampleEpisode['episode'] )
-        self.ui.lblFormatExample.setText( fmtExample )
+        # Format Sample
+        fmtSample = u"<u><b>Sample:</b></u> <b>show:</b> %s, <b>title:</b> %s, <b>season</b>: %d, <b>episode</b>: %d" % (
+                      Globals().sampleEpisode['show'],
+                      Globals().sampleEpisode['title'],
+                      Globals().sampleEpisode['season'],
+                      Globals().sampleEpisode['episode'] )
+        self.ui.lblFormatSample.setText( fmtSample )
 
         #### Versions
         version = Globals().versions

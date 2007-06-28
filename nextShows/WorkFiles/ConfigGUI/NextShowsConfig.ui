@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>537</width>
-    <height>562</height>
+    <width>578</width>
+    <height>564</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -38,7 +38,7 @@
    <item row="0" column="0" >
     <widget class="QTabWidget" name="tabWidget" >
      <property name="currentIndex" >
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tabShows" >
       <attribute name="title" >
@@ -487,57 +487,7 @@ p, li { white-space: pre-wrap; }
            <string>&amp;Display</string>
           </attribute>
           <layout class="QGridLayout" >
-           <property name="leftMargin" >
-            <number>9</number>
-           </property>
-           <property name="topMargin" >
-            <number>9</number>
-           </property>
-           <property name="rightMargin" >
-            <number>9</number>
-           </property>
-           <property name="bottomMargin" >
-            <number>9</number>
-           </property>
-           <property name="horizontalSpacing" >
-            <number>6</number>
-           </property>
-           <property name="verticalSpacing" >
-            <number>6</number>
-           </property>
-           <item row="7" column="0" >
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeType" >
-              <enum>QSizePolicy::Fixed</enum>
-             </property>
-             <property name="sizeHint" >
-              <size>
-               <width>20</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="1" column="0" >
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeType" >
-              <enum>QSizePolicy::Fixed</enum>
-             </property>
-             <property name="sizeHint" >
-              <size>
-               <width>20</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="6" column="0" >
+           <item row="0" column="0" >
             <layout class="QHBoxLayout" >
              <property name="spacing" >
               <number>6</number>
@@ -555,31 +505,12 @@ p, li { white-space: pre-wrap; }
               <number>0</number>
              </property>
              <item>
-              <spacer>
-               <property name="orientation" >
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType" >
-                <enum>QSizePolicy::Fixed</enum>
-               </property>
-               <property name="sizeHint" >
-                <size>
-                 <width>18</width>
-                 <height>25</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QLabel" name="lblMaxDispLines" >
-               <property name="enabled" >
-                <bool>false</bool>
-               </property>
+              <widget class="QLabel" name="lblNumPastDays" >
                <property name="text" >
-                <string>M&amp;ax:</string>
+                <string>&amp;Number of past days to display:</string>
                </property>
                <property name="buddy" >
-                <cstring>spinMaxDispLines</cstring>
+                <cstring>spinNumPastDays</cstring>
                </property>
               </widget>
              </item>
@@ -593,35 +524,51 @@ p, li { white-space: pre-wrap; }
                </property>
                <property name="sizeHint" >
                 <size>
-                 <width>22</width>
+                 <width>10</width>
                  <height>20</height>
                 </size>
                </property>
               </spacer>
              </item>
              <item>
-              <widget class="QSpinBox" name="spinMaxDispLines" >
-               <property name="enabled" >
-                <bool>false</bool>
+              <widget class="QSpinBox" name="spinNumPastDays" >
+               <property name="sizePolicy" >
+                <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
                </property>
                <property name="suffix" >
-                <string> line(s)</string>
+                <string> day(s)</string>
                </property>
                <property name="prefix" >
                 <string/>
                </property>
-               <property name="minimum" >
-                <number>2</number>
-               </property>
                <property name="maximum" >
-                <number>50</number>
+                <number>30</number>
                </property>
                <property name="value" >
-                <number>10</number>
+                <number>1</number>
                </property>
               </widget>
              </item>
             </layout>
+           </item>
+           <item row="1" column="0" >
+            <spacer>
+             <property name="orientation" >
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeType" >
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" >
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
            <item row="2" column="0" >
             <widget class="QRadioButton" name="radioDispFixedLines" >
@@ -686,7 +633,7 @@ p, li { white-space: pre-wrap; }
                </property>
                <property name="sizeHint" >
                 <size>
-                 <width>22</width>
+                 <width>130</width>
                  <height>20</height>
                 </size>
                </property>
@@ -694,6 +641,12 @@ p, li { white-space: pre-wrap; }
              </item>
              <item>
               <widget class="QSpinBox" name="spinFixedDispLines" >
+               <property name="sizePolicy" >
+                <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="suffix" >
                 <string> line(s)</string>
                </property>
@@ -776,7 +729,7 @@ p, li { white-space: pre-wrap; }
                </property>
                <property name="sizeHint" >
                 <size>
-                 <width>22</width>
+                 <width>158</width>
                  <height>20</height>
                 </size>
                </property>
@@ -786,6 +739,12 @@ p, li { white-space: pre-wrap; }
               <widget class="QSpinBox" name="spinMinDispLines" >
                <property name="enabled" >
                 <bool>false</bool>
+               </property>
+               <property name="sizePolicy" >
+                <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
                </property>
                <property name="suffix" >
                 <string> line(s)</string>
@@ -806,7 +765,7 @@ p, li { white-space: pre-wrap; }
              </item>
             </layout>
            </item>
-           <item row="0" column="0" >
+           <item row="6" column="0" >
             <layout class="QHBoxLayout" >
              <property name="spacing" >
               <number>6</number>
@@ -824,12 +783,31 @@ p, li { white-space: pre-wrap; }
               <number>0</number>
              </property>
              <item>
-              <widget class="QLabel" name="lblNumPastDays" >
+              <spacer>
+               <property name="orientation" >
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType" >
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" >
+                <size>
+                 <width>18</width>
+                 <height>25</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="lblMaxDispLines" >
+               <property name="enabled" >
+                <bool>false</bool>
+               </property>
                <property name="text" >
-                <string>&amp;Number of past days to display:</string>
+                <string>M&amp;ax:</string>
                </property>
                <property name="buddy" >
-                <cstring>spinNumPastDays</cstring>
+                <cstring>spinMaxDispLines</cstring>
                </property>
               </widget>
              </item>
@@ -843,65 +821,57 @@ p, li { white-space: pre-wrap; }
                </property>
                <property name="sizeHint" >
                 <size>
-                 <width>37</width>
+                 <width>155</width>
                  <height>20</height>
                 </size>
                </property>
               </spacer>
              </item>
              <item>
-              <widget class="QSpinBox" name="spinNumPastDays" >
+              <widget class="QSpinBox" name="spinMaxDispLines" >
+               <property name="enabled" >
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy" >
+                <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="suffix" >
-                <string> day(s)</string>
+                <string> line(s)</string>
                </property>
                <property name="prefix" >
                 <string/>
                </property>
+               <property name="minimum" >
+                <number>2</number>
+               </property>
                <property name="maximum" >
-                <number>30</number>
+                <number>50</number>
                </property>
                <property name="value" >
-                <number>1</number>
+                <number>10</number>
                </property>
               </widget>
              </item>
             </layout>
            </item>
-           <item row="11" column="0" >
+           <item row="7" column="0" >
             <spacer>
              <property name="orientation" >
               <enum>Qt::Vertical</enum>
              </property>
+             <property name="sizeType" >
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
              <property name="sizeHint" >
               <size>
                <width>20</width>
-               <height>40</height>
+               <height>20</height>
               </size>
              </property>
             </spacer>
-           </item>
-           <item row="10" column="0" >
-            <widget class="QLabel" name="lblFormatPreview" >
-             <property name="text" >
-              <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600; text-decoration: underline;">Preview:&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
-             </property>
-            </widget>
-           </item>
-           <item row="9" column="0" >
-            <widget class="QLabel" name="lblFormatExample" >
-             <property name="text" >
-              <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600; text-decoration: underline;">Example:&lt;/span> &lt;span style=" font-weight:600;">show:&lt;/span> Battlestar Galactica (2003), &lt;span style=" font-weight:600;">title:&lt;/span> Litmus, &lt;span style=" font-weight:600;">season:&lt;/span> 1, &lt;span style=" font-weight:600;">episode:&lt;/span> 6&lt;/p>&lt;/body>&lt;/html></string>
-             </property>
-             <property name="wordWrap" >
-              <bool>true</bool>
-             </property>
-            </widget>
            </item>
            <item row="8" column="0" >
             <layout class="QHBoxLayout" >
@@ -951,6 +921,109 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
             </layout>
+           </item>
+           <item row="9" column="0" >
+            <widget class="QLabel" name="lblFormatSample" >
+             <property name="text" >
+              <string>&lt;u>&lt;b>Sample:&lt;/b>&lt;/u> Some sample here !</string>
+             </property>
+             <property name="wordWrap" >
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="10" column="0" >
+            <widget class="QLabel" name="lblFormatPreview" >
+             <property name="text" >
+              <string>&lt;u>&lt;b>Preview:&lt;/b>&lt;/u> Some preview here !</string>
+             </property>
+            </widget>
+           </item>
+           <item row="11" column="0" >
+            <spacer>
+             <property name="orientation" >
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeType" >
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" >
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="12" column="0" >
+            <layout class="QHBoxLayout" >
+             <item>
+              <widget class="QLabel" name="lblDateFormat" >
+               <property name="text" >
+                <string>Date format:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer>
+               <property name="orientation" >
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType" >
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" >
+                <size>
+                 <width>126</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QComboBox" name="comboBox" >
+               <property name="sizePolicy" >
+                <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <item>
+                <property name="text" >
+                 <string>DD/MM/YY</string>
+                </property>
+               </item>
+               <item>
+                <property name="text" >
+                 <string>MM/DD/YY</string>
+                </property>
+               </item>
+               <item>
+                <property name="text" >
+                 <string>YY/MM/DD</string>
+                </property>
+               </item>
+               <item>
+                <property name="text" >
+                 <string>YY/DD/MM</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="13" column="0" >
+            <spacer>
+             <property name="orientation" >
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" >
+              <size>
+               <width>516</width>
+               <height>61</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </widget>
@@ -1055,7 +1128,29 @@ p, li { white-space: pre-wrap; }
                  </widget>
                 </item>
                 <item>
+                 <spacer>
+                  <property name="orientation" >
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeType" >
+                   <enum>QSizePolicy::Fixed</enum>
+                  </property>
+                  <property name="sizeHint" >
+                   <size>
+                    <width>18</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
                  <widget class="QSpinBox" name="spinColorsSingleDay" >
+                  <property name="sizePolicy" >
+                   <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
                   <property name="minimum" >
                    <number>-99</number>
                   </property>
@@ -1117,9 +1212,31 @@ p, li { white-space: pre-wrap; }
                  </widget>
                 </item>
                 <item>
+                 <spacer>
+                  <property name="orientation" >
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeType" >
+                   <enum>QSizePolicy::Fixed</enum>
+                  </property>
+                  <property name="sizeHint" >
+                   <size>
+                    <width>10</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
                  <widget class="QSpinBox" name="spinColorsFrom" >
                   <property name="enabled" >
                    <bool>false</bool>
+                  </property>
+                  <property name="sizePolicy" >
+                   <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
                   </property>
                   <property name="minimum" >
                    <number>-99</number>
@@ -1181,9 +1298,31 @@ p, li { white-space: pre-wrap; }
                  </widget>
                 </item>
                 <item>
+                 <spacer>
+                  <property name="orientation" >
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeType" >
+                   <enum>QSizePolicy::Fixed</enum>
+                  </property>
+                  <property name="sizeHint" >
+                   <size>
+                    <width>28</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
                  <widget class="QSpinBox" name="spinColorsTo" >
                   <property name="enabled" >
                    <bool>false</bool>
+                  </property>
+                  <property name="sizePolicy" >
+                   <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
                   </property>
                   <property name="minimum" >
                    <number>-98</number>
@@ -1580,7 +1719,29 @@ p, li { white-space: pre-wrap; }
                 </widget>
                </item>
                <item>
+                <spacer>
+                 <property name="orientation" >
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeType" >
+                  <enum>QSizePolicy::Fixed</enum>
+                 </property>
+                 <property name="sizeHint" >
+                  <size>
+                   <width>10</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
                 <widget class="QSpinBox" name="spinCacheExpiration" >
+                 <property name="sizePolicy" >
+                  <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="suffix" >
                   <string> day(s)</string>
                  </property>
@@ -1623,6 +1784,22 @@ p, li { white-space: pre-wrap; }
                   <cstring>leditBrowser</cstring>
                  </property>
                 </widget>
+               </item>
+               <item>
+                <spacer>
+                 <property name="orientation" >
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeType" >
+                  <enum>QSizePolicy::Fixed</enum>
+                 </property>
+                 <property name="sizeHint" >
+                  <size>
+                   <width>94</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
                </item>
                <item>
                 <widget class="QLineEdit" name="leditBrowser" >
