@@ -94,27 +94,26 @@ class Splash:
         self.splash.show()
 
 
-# Init qApp
-app=QApplication(sys.argv)
+def main():
+    # Init qApp
+    app=QApplication(sys.argv)
+    # Splash "in" / init
+    splash = Splash()
+    splash.init()
+    splash.fadeIn()
+    # Load main window
+    window=NextShowsConfig()
+    # Splash "out"
+    splash.fadeOut()
+    # Show main window
+    window.show()
+    splash.finish(window)
+    # Entering Event Loop
+    return app.exec_()
 
-# Splash "in"
-splash = Splash()
-splash.init()
-splash.fadeIn()
 
-window=NextShowsConfig()
-
-# Splash "out"
-splash.fadeOut()
-
-# Show main window
-window.show()
-splash.finish(window)
-
-# Entering Event Loop
-RETVAL=app.exec_()
-
-print "Exit: %d" % RETVAL   # This is to make sure SK catches when GUI was closed
-                            # using commandOutput()
-
-sys.exit(RETVAL)
+if __name__ == "__main__":
+    RETVAL=main()
+    print "Exit: %d" % RETVAL   # This is to make sure SK catches when GUI was closed
+                                # using commandOutput()
+    sys.exit(RETVAL)
