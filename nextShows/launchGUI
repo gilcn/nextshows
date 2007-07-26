@@ -57,7 +57,7 @@ class Splash:
 
     def init(self):
         ## FIXME: Desktop area screenshot doesn't work properly with multiple-displays
-        desktopAGeo = qApp.desktop().availableGeometry( qApp.desktop().primaryScreen() )
+        desktopAGeo = qApp.desktop().screenGeometry( qApp.desktop().primaryScreen() )
         self.captureArea = QRect( ( desktopAGeo.width()  - self.pixLogo.width()  ) / 2,
                                          ( desktopAGeo.height() - self.pixLogo.height() ) / 2,
                                            self.pixLogo.width(),
