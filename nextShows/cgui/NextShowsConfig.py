@@ -36,7 +36,7 @@ from FormatHelp import FormatHelp
 
 from PyQt4.Qt import *
 
-import time
+import time, sys
 
 
 class NextShowsConfig(QDialog):
@@ -427,12 +427,17 @@ class NextShowsConfig(QDialog):
         labelContent=str(self.ui.lblNextShowsVersion.text())
         self.ui.lblNextShowsVersion.setText(labelContent % version['nextShows'])
         # Libs releases (About tab)
+        # Python version
+        a,b,c,d,e = sys.version_info
+        pythonVersion = "%d.%d.%d" % (a, b, c)
+        #
         labelContent=str(self.ui.lblLibsVersion.text())
         self.ui.lblLibsVersion.setText(labelContent % (
-            version["KDE"],
+            pythonVersion,
+            version["BeautifulSoup"],
             QT_VERSION_STR,
             PYQT_VERSION_STR,
-            version["BeautifulSoup"]) )
+            version["KDE"]) )
 
 
         #### Default values
