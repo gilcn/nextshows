@@ -35,11 +35,10 @@ except:
 
 
 # Check PyQt version
-# TODO: re-enable this code when PyQt4.3 is available !
-#if PYQT_VERSION < 0x040300:
-#    message = "Your PyQt version is too old (v%s)!\nYou need PyQt v4.3.0 or later." % PYQT_VERSION_STR
-#    os.system('kdialog --title "Error" --error "'+message+'" &')
-#    sys.exit()
+if PYQT_VERSION < 0x040300:
+    message = "Your PyQt version is too old (v%s)!\nYou need PyQt v4.3.0 or later." % PYQT_VERSION_STR
+    os.system('kdialog --title "Error" --error "'+message+'" &')
+    sys.exit()
 # Check Qt version
 if QT_VERSION < 0x040300:
     message = "Your Qt version is too old (v%s)!\nYou need Qt v4.3.0 or later." % QT_VERSION_STR
