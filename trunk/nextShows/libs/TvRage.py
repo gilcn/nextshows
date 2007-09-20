@@ -109,12 +109,18 @@ class TvRage(Http):
             ## Show Name
             showInfos["name"]= u''+show("td")[0]("a")[0].contents[0]
             ## Beginning/End Years
-            showYearRaw   = show("td")[1].contents[0]
-            showYearMatch = self.rePatternYears.match(showYearRaw)
-            showInfos["year_begin"] = showYearMatch.group(1)
-            showInfos["year_end"]   = showYearMatch.group(2)
+            # !!! 20070920 - FEATURE LOSS
+            # !!! tvrage.com changed their markup and doesn't provide the required
+            # !!! infos anymore. No other choice but removing this option :(.
+            #showYearRaw   = show("td")[1].contents[0]
+            #showYearMatch = self.rePatternYears.match(showYearRaw)
+            #showInfos["year_begin"] = showYearMatch.group(1)
+            #showInfos["year_end"]   = showYearMatch.group(2)
+            showInfos["year_begin"] = "0000"
+            showInfos["year_end"]   = "????"
             ## Id
-            showInfos["id"]  = int( show("td")[2]("table")[0]("td")[0].contents[0] )
+            #showInfos["id"]  = int( show("td")[2]("table")[0]("td")[0].contents[0] )
+            showInfos["id"]  = int( show("td")[2].contents[0] )
             ## URL
             showInfos["url"] = self.urlShowTemplate % showInfos["id"]
             ## Flag

@@ -406,6 +406,11 @@ class NextShowsConfig(QDialog):
     ## Fills the form with the relevant values ##
     #############################################
     def initForm(self):
+        # 20070920 - FEATURE LOSS
+        # tvrage.com changed their markup and doesn't provide the required
+        # infos anymore. No other choice but removing this option :(.
+        self.ui.chkbxFilter.setVisible(False)
+
         # 1st tab labels
         self.ui.lblResultsDisplayed.setText( u"Displayed results: 0/0" )
         self.ui.lblTrackedShows.setText( u"Tracked shows: 0" )
@@ -617,7 +622,8 @@ class NextShowsConfig(QDialog):
         for show in self.dispSearchResults:
             showLines.append( listIdx )
             showLines[listIdx] = QListWidgetItem( self.ui.listSearchResults )
-            showLines[listIdx].setText( u"[%s-%s] %s" % ( show["year_begin"], show["year_end"], show["name"] ) )
+            #showLines[listIdx].setText( u"[%s-%s] %s" % ( show["year_begin"], show["year_end"], show["name"] ) )
+            showLines[listIdx].setText( u"%s" % show["name"] )
             showLines[listIdx].setIcon( self.drawFlag( show["flag"] ) )
             font = showLines[listIdx].font()
             if show["year_end"] == "????":
