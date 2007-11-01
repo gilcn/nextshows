@@ -34,7 +34,7 @@ class Globals:
 
     def __init__(self):
         # Version
-        self.VERSION           = "2.0.2" # Don't forget to update "maindata.xml"
+        self.VERSION           = "2.0.3" # Don't forget to update "maindata.xml"
 
         #### Working Directories & Files
         self.superKarambaDir   = os.path.expanduser("~/.superkaramba")
