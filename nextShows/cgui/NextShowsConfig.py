@@ -374,8 +374,9 @@ class NextShowsConfig(QDialog):
     # Save button clicked
     @pyqtSignature("on_btnSave_clicked()")
     def on_btnSave_clicked(self):
-        import thread
-        thread.start_new_thread( self.saveConfig, ("",) )
+        # import thread
+        # thread.start_new_thread( self.saveConfig, ("",) )
+        self.saveConfig()
 
     # React to close event
     def closeEvent(self, event):
@@ -688,7 +689,7 @@ class NextShowsConfig(QDialog):
 
 
     ########################################
-    ## Remove a show form "My Shows" list ##
+    ## Remove a show from "My Shows" list ##
     ########################################
     def removeFromMyShows(self, index):
         selectedShow = self.myShows[index]
@@ -871,8 +872,20 @@ class NextShowsConfig(QDialog):
     #################
     ## Save Config ##
     #################
-    def saveConfig(self, dummy):
+    #def saveConfig(self, dummy):   # Changed because of crashes with Debian/Kubuntu
+    def saveConfig(self):
         self.saveRequired( False )  # Reset save button state
+
+        # Disable quit button
+        self.ui.btnQuit.setEnabled( False )
+
+        # Save button icon & text
+        s_btnIcon = self.ui.btnSave.icon()
+        s_btnText = self.ui.btnSave.text()
+        self.ui.btnSave.setText(u"Saving...")
+        self.ui.btnSave.setIcon(QIcon())
+        self.repaint()
+        qApp.processEvents()
 
         tools.msgDebug(u"Saving configuration...", __name__)
 
@@ -903,3 +916,8 @@ class NextShowsConfig(QDialog):
         tools.msgDebug(u"Saving done!", __name__)
 
         config.close()  # Destroy Config()
+
+        # Restore buttons
+        self.ui.btnSave.setIcon( s_btnIcon )
+        self.ui.btnSave.setText( s_btnText )
+        self.ui.btnQuit.setEnabled( True )
