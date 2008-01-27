@@ -883,9 +883,9 @@ class NextShowsConfig(QDialog):
         s_btnIcon = self.ui.btnSave.icon()
         s_btnText = self.ui.btnSave.text()
         self.ui.btnSave.setText(u"Saving...")
-        self.ui.btnSave.setIcon(QtGui.QIcon())
+        self.ui.btnSave.setIcon(QIcon())
         self.repaint()
-        QtGui.qApp.processEvents()
+        qApp.processEvents()
 
         tools.msgDebug(u"Saving configuration...", __name__)
 
