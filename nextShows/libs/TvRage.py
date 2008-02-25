@@ -120,7 +120,7 @@ class TvRage(Http):
             showInfos["year_end"]   = "????"
             ## Id
             #showInfos["id"]  = int( show("td")[2]("table")[0]("td")[0].contents[0] )
-            showInfos["id"]  = int( show("td")[2].contents[0] )
+            showInfos["id"]  = int( show.find("td", {"class":"b3"}).contents[0] )
             ## URL
             showInfos["url"] = self.urlShowTemplate % showInfos["id"]
             ## Flag
