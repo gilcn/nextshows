@@ -171,7 +171,7 @@ class TvRage(Http):
         # ...and feed BeautifulSoup
         page = BeautifulSoup(content)
 
-        showName = u''+page('table')[3]('td')[13]('h3')[0].contents[0]
+        showName = u''+page('h3')[0].contents[0]
 
         tools.msgDebug("Parsing content...", __name__)
         # Read each line and extract infos
