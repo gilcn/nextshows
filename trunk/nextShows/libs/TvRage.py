@@ -173,6 +173,10 @@ class TvRage(Http):
 
         showName = u''+doc.find('name').text
 
+        # No Episode List ?
+        if not doc.find('Episodelist'):
+            return self.episodeList
+
         # Get Episode list...
         for season in doc.find('Episodelist').getchildren():
             matchSN = self.reSeasonNumber.match( season.tag )
