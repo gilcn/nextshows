@@ -179,8 +179,12 @@ class TvRage(Http):
             if matchSN:
                 for ep in season.findall('episode'):
                     episode = {}
-                    episode['show']   = showName
-                    episode['season'] = int( matchSN.group(1) )
+                    episode['show']    = showName
+                    episode['season']  = int( matchSN.group(1) )
+                    episode['episode'] = 0
+                    episode['title']   = ""
+                    episode['url']     = ""
+                    episode['airdate'] = ( 0, 0, 0 )
                     for child in ep.getchildren():
                         if   child.tag == "seasonnum":
                             episode['episode'] = int( child.text )
@@ -194,7 +198,28 @@ class TvRage(Http):
                                 year, month, day = matchEAD.group(1), matchEAD.group(2), matchEAD.group(3)
                                 episode['airdate'] = ( int(year), int(month), int(day) )
 
-                    tools.msgDebug( "Found: %s-S%02dE%02d-%s" % ( episode['show'], episode['season'], episode['episode'], episode['title'] ), __name__ )
+                    # Only append episode if we got all the data we need
+                    if   not episode['show']:
+                        continue
+                    elif episode['season'] <= 0:
+                        continue
+                    elif episode['episode'] <= 0:
+                        continue
+                    elif not episode['title']:
+                        continue
+                    elif not episode['url']:
+                        continue
+                    elif episode['airdate'][0] <= 0:
+                        continue
+                    elif episode['airdate'][1] < 1 or episode['airdate'][1] > 12:
+                        continue
+                    elif episode['airdate'][2] < 1 or episode['airdate'][2] > 31:
+                        continue
+
+                    tools.msgDebug( "Found: %s-S%02dE%02d-%s (%d-%d-%d)" %
+                        ( episode['show'], episode['season'], episode['episode'], episode['title'],
+                        episode['airdate'][0], episode['airdate'][1], episode['airdate'][2] ),
+                        __name__ )
                     self.episodeList.append( episode )
 
         return self.episodeList
