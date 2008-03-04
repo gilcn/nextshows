@@ -115,6 +115,8 @@ class TvRage(Http):
                 elif child.tag == "started":
                     showInfos["year_begin"] = child.text
                 elif child.tag == "ended":
+                    # This hack is necessary to retain compatibility with
+                    # previous versions' config. files
                     if child.text == "0":
                         showInfos["year_end"] = "????"
                     else:
