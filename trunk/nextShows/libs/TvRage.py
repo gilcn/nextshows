@@ -91,8 +91,12 @@ class TvRage(Http):
         if not content:
             return False    # In case something went wrong during fetching
         # ...and parse the results
-        tools.msgDebug("Parsing page content...", __name__)
-        doc = ETree.fromstring(content)
+        try:
+            tools.msgDebug("Parsing page content...", __name__)
+            doc = ETree.fromstring(content)
+        except:
+            tools.msgDebug("Unexpected error while parsing the XML feed...", __name__)
+            return False
 
         # If the search returns nothing...
         if doc.text == "0":
