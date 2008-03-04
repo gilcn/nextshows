@@ -435,7 +435,6 @@ class NextShowsConfig(QDialog):
         labelContent=str(self.ui.lblLibsVersion.text())
         self.ui.lblLibsVersion.setText(labelContent % (
             pythonVersion,
-            version["BeautifulSoup"],
             QT_VERSION_STR,
             PYQT_VERSION_STR,
             version["KDE"]) )
