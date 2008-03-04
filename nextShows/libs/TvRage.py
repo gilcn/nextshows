@@ -32,6 +32,7 @@ import libs.tools         as     tools
 from   libs.BeautifulSoup import BeautifulSoup
 
 import re, urllib
+import xml.etree.cElementTree as ETree
 
 
 class TvRage(Http):
@@ -45,13 +46,11 @@ class TvRage(Http):
 
         #### URL Templates for tvrage.com
         self.urlBase         = u"http://www.tvrage.com/"
-        self.urlSearch       = u"http://www.tvrage.com/search.php?search=%s&show_ids=1&sonly=1"
+        self.urlSearch       = u"http://www.tvrage.com/feeds/search.php?show=%s"
         self.urlShowTemplate = u"http://www.tvrage.com/shows/id-%d"
         self.urlEpisodeList  = u"http://www.tvrage.com/shows/id-%d/episode_list/all"
 
         #### RegExps
-        self.rePatternFlag   = re.compile(r"^http://images.tvrage.net/flags/(\w+).gif$")
-        self.rePatternYears  = re.compile(r"^(.{4}) - (.{4})$")
         self.reSeasonEpisode = re.compile(r"^(\d+)x(\d+)$")
 
         #### Parsed search results
@@ -87,46 +86,37 @@ class TvRage(Http):
         # Sanitize keywords and build the URL
         url = self.urlSearch % urllib.quote_plus(keywords)
         tools.msgDebug("Requesting %s" % url, __name__)
-        # do the request...
+        # do the request
         content = self.request(url)     # request() from Http()
         if not content:
             return False    # In case something went wrong during fetching
-        # ...and feed BeautifulSoup
+        # ...and parse the results
         tools.msgDebug("Parsing page content...", __name__)
-        page = BeautifulSoup(content)
-        tools.msgDebug("Parsing finished!", __name__)
+        doc = ETree.fromstring(content)
 
-        # The search can return nothing
-        try:
-            results = page.find("div", id="search_begin")("tr")
-        except:
+        # If the search returns nothing...
+        if doc.text == "0":
             tools.msgDebug("Search returned 0 results", __name__)
             return self.searchResults
 
         # Extract infos from the returned results
-        for show in page.findAll("tr", id="brow"):
+        for show in doc.getiterator('show'):
             showInfos = {}
-            ## Show Name
-            showInfos["name"]= u''+show("td")[0]("a")[0].contents[0]
-            ## Beginning/End Years
-            # !!! 20070920 - FEATURE LOSS
-            # !!! tvrage.com changed their markup and doesn't provide the required
-            # !!! infos anymore. No other choice but removing this option :(.
-            #showYearRaw   = show("td")[1].contents[0]
-            #showYearMatch = self.rePatternYears.match(showYearRaw)
-            #showInfos["year_begin"] = showYearMatch.group(1)
-            #showInfos["year_end"]   = showYearMatch.group(2)
-            showInfos["year_begin"] = "0000"
-            showInfos["year_end"]   = "????"
-            ## Id
-            #showInfos["id"]  = int( show("td")[2]("table")[0]("td")[0].contents[0] )
-            showInfos["id"]  = int( show.find("td", {"class":"b3"}).contents[0] )
-            ## URL
-            showInfos["url"] = self.urlShowTemplate % showInfos["id"]
-            ## Flag
-            showFlagRaw=show("td")[0].img["src"]
-            showFlagMatch=self.rePatternFlag.match(showFlagRaw)
-            showInfos["flag"]=showFlagMatch.group(1)
+            for child in show.getchildren():
+                if   child.tag == "showid":
+                    showInfos["id"]   = int( child.text )
+                    showInfos["url"]  = self.urlShowTemplate % showInfos["id"]
+                elif child.tag == "name":
+                    showInfos["name"] = u''+child.text
+                elif child.tag == "started":
+                    showInfos["year_begin"] = child.text
+                elif child.tag == "ended":
+                    if child.text == "0":
+                        showInfos["year_end"] = "????"
+                    else:
+                        showInfos["year_end"] = child.text
+                elif child.tag == "country":
+                    showInfos["flag"] = child.text.lower()
 
             tools.msgDebug("ShowName: %s, Flag: %s, Years: %s-%s, id: %d, url: %s" % ( showInfos["name"], showInfos["flag"], showInfos["year_begin"], showInfos["year_end"], showInfos["id"], showInfos["url"] ), __name__ )
 
