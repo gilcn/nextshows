@@ -1903,7 +1903,7 @@ p, li { white-space: pre-wrap; }
          <item>
           <widget class="QLabel" name="lblDataProvidedBy" >
            <property name="text" >
-            <string>Data provided by &lt;a href="http://www.tvrage.com/">www.tvrage.com&lt;/a></string>
+            <string>Data kindly provided by &lt;a href="http://www.tvrage.com/">www.tvrage.com&lt;/a></string>
            </property>
            <property name="alignment" >
             <set>Qt::AlignCenter</set>
@@ -2084,7 +2084,8 @@ p, li { white-space: pre-wrap; }
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;img src=":/images/flags/images/flags/fr.gif" alt="" /> &lt;span style=" font-weight:600;">Emmanuel H.&lt;/span> (ideas, testing, bug-hunting)&lt;/p>
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;img src=":/images/flags/images/flags/se.gif" alt="" /> &lt;span style=" font-weight:600;">ge5239&lt;/span> (ideas, testing, bug-hunting)&lt;/p>
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;img src=":/images/flags/images/flags/fr.gif" alt="" /> &lt;span style=" font-weight:600;">Jean-Baptiste Sannier&lt;/span> (Qt4 help &amp;amp; tips)&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;img src=":/images/flags/images/flags/fr.gif" alt="" /> &lt;span style=" font-weight:600;">Joachim I.&lt;/span> (ideas, testing, bug-hunting)&lt;/p>&lt;/body>&lt;/html></string>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;img src=":/images/flags/images/flags/fr.gif" alt="" /> &lt;span style=" font-weight:600;">Joachim I.&lt;/span> (ideas, testing, bug-hunting)&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;img src=":/images/flags/images/flags/us.gif" alt="" /> &lt;span style=" font-weight:600;">Sebrioth [TVRage]&lt;/span> (XML feeds providing)&lt;/p>&lt;/body>&lt;/html></string>
              </property>
             </widget>
            </item>
