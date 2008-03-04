@@ -28,10 +28,8 @@
 WORKDIR="WorkFiles"
 # Credentials file (for FTP)
 FTPCREDENTIALS="$HOME/.nextShowsFTPCredentials"
-# QT DIR
-QTDIR="/opt/qt4/"
 # QT DESIGNER
-QTDESIGNER=${QTDIR}bin/designer
+QTDESIGNER=/usr/bin/designer
 # Destination path (FTP)
 FTPDESTPATH="/public/superkaramba/nextShows/"
 # Theme filename (name+version)
