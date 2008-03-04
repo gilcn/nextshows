@@ -51,7 +51,6 @@ class Globals:
                                    'cgui/NextShowsConfig_ui.py',
                                    'cgui/NextShowsConfig_rc.py',
                                    'libs/__init__.py',
-                                   'libs/BeautifulSoup.py',
                                    'libs/Config.py',
                                    'libs/Globals.py',
                                    'libs/Http.py',
@@ -87,7 +86,6 @@ class Globals:
     ##           'KDE'           : u'',
     ##           'Qt'            : u'',
     ##           'PyQt'          : u'',
-    ##           'BeautifulSoup' : u''
     ##     }
     ###############################################################################
     def getVersions(self):
@@ -115,10 +113,6 @@ class Globals:
         #from PyQt4 import QtCore
         #versDict['Qt']   = QtCore.QT_VERSION_STR.decode('utf-8')
         #versDict['PyQt'] = QtCore.PYQT_VERSION_STR.decode('utf-8')
-
-        # BeautifulSoup version
-        import libs.BeautifulSoup as BeautifulSoup
-        versDict['BeautifulSoup'] = BeautifulSoup.__version__.decode('utf-8')
 
         # Return result
         return versDict

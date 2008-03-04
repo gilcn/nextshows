@@ -163,7 +163,7 @@ class TvRage(Http):
         content = self.request(url)     # request() from Http()
         if not content:
             return False    # In case something went wrong during fetching
-        # ...and feed BeautifulSoup
+        # ...and parse the results
         try:
             tools.msgDebug("Parsing feed content...", __name__)
             doc = ETree.fromstring(content)
