@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>578</width>
-    <height>574</height>
+    <height>591</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -17,28 +17,10 @@
    <iconset resource="NextShowsConfig.qrc" >:/images/icons/images/icons/nextShows.png</iconset>
   </property>
   <layout class="QGridLayout" >
-   <property name="leftMargin" >
-    <number>9</number>
-   </property>
-   <property name="topMargin" >
-    <number>9</number>
-   </property>
-   <property name="rightMargin" >
-    <number>9</number>
-   </property>
-   <property name="bottomMargin" >
-    <number>9</number>
-   </property>
-   <property name="horizontalSpacing" >
-    <number>6</number>
-   </property>
-   <property name="verticalSpacing" >
-    <number>6</number>
-   </property>
    <item row="0" column="0" >
     <widget class="QTabWidget" name="tabWidget" >
      <property name="currentIndex" >
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tabShows" >
       <attribute name="title" >
@@ -875,88 +857,6 @@ p, li { white-space: pre-wrap; }
            </item>
            <item row="8" column="0" >
             <layout class="QHBoxLayout" >
-             <property name="spacing" >
-              <number>6</number>
-             </property>
-             <property name="leftMargin" >
-              <number>0</number>
-             </property>
-             <property name="topMargin" >
-              <number>0</number>
-             </property>
-             <property name="rightMargin" >
-              <number>0</number>
-             </property>
-             <property name="bottomMargin" >
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="lblFormat" >
-               <property name="text" >
-                <string>F&amp;ormat:</string>
-               </property>
-               <property name="buddy" >
-                <cstring>leditFormat</cstring>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="leditFormat" >
-               <property name="text" >
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QToolButton" name="btnFormatInfos" >
-               <property name="text" >
-                <string>?</string>
-               </property>
-               <property name="icon" >
-                <iconset resource="NextShowsConfig.qrc" >:/images/icons/images/icons/info.png</iconset>
-               </property>
-               <property name="checkable" >
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item row="9" column="0" >
-            <widget class="QLabel" name="lblFormatSample" >
-             <property name="text" >
-              <string>&lt;u>&lt;b>Sample:&lt;/b>&lt;/u> Some sample here !</string>
-             </property>
-             <property name="wordWrap" >
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="10" column="0" >
-            <widget class="QLabel" name="lblFormatPreview" >
-             <property name="text" >
-              <string>&lt;u>&lt;b>Preview:&lt;/b>&lt;/u> Some preview here !</string>
-             </property>
-            </widget>
-           </item>
-           <item row="11" column="0" >
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeType" >
-              <enum>QSizePolicy::Fixed</enum>
-             </property>
-             <property name="sizeHint" >
-              <size>
-               <width>20</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="12" column="0" >
-            <layout class="QHBoxLayout" >
              <item>
               <widget class="QLabel" name="lblDateFormat" >
                <property name="text" >
@@ -1012,6 +912,88 @@ p, li { white-space: pre-wrap; }
              </item>
             </layout>
            </item>
+           <item row="9" column="0" >
+            <spacer>
+             <property name="orientation" >
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeType" >
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" >
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="10" column="0" >
+            <layout class="QHBoxLayout" >
+             <property name="spacing" >
+              <number>6</number>
+             </property>
+             <property name="leftMargin" >
+              <number>0</number>
+             </property>
+             <property name="topMargin" >
+              <number>0</number>
+             </property>
+             <property name="rightMargin" >
+              <number>0</number>
+             </property>
+             <property name="bottomMargin" >
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="lblFormat" >
+               <property name="text" >
+                <string>F&amp;ormat:</string>
+               </property>
+               <property name="buddy" >
+                <cstring>leditFormat</cstring>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="leditFormat" >
+               <property name="text" >
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="btnFormatInfos" >
+               <property name="text" >
+                <string>?</string>
+               </property>
+               <property name="icon" >
+                <iconset resource="NextShowsConfig.qrc" >:/images/icons/images/icons/info.png</iconset>
+               </property>
+               <property name="checkable" >
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="11" column="0" >
+            <widget class="QLabel" name="lblFormatSample" >
+             <property name="text" >
+              <string>&lt;u>&lt;b>Sample:&lt;/b>&lt;/u> Some sample here !</string>
+             </property>
+             <property name="wordWrap" >
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="12" column="0" >
+            <widget class="QLabel" name="lblFormatPreview" >
+             <property name="text" >
+              <string>&lt;u>&lt;b>Preview:&lt;/b>&lt;/u> Some preview here !</string>
+             </property>
+            </widget>
+           </item>
            <item row="13" column="0" >
             <spacer>
              <property name="orientation" >
@@ -1020,7 +1002,7 @@ p, li { white-space: pre-wrap; }
              <property name="sizeHint" >
               <size>
                <width>516</width>
-               <height>61</height>
+               <height>111</height>
               </size>
              </property>
             </spacer>
@@ -2109,6 +2091,13 @@ p, li { white-space: pre-wrap; }
      </widget>
     </widget>
    </item>
+   <item row="1" column="0" >
+    <widget class="Line" name="line" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
    <item row="2" column="0" >
     <layout class="QHBoxLayout" >
      <property name="spacing" >
@@ -2209,13 +2198,6 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
     </layout>
-   </item>
-   <item row="1" column="0" >
-    <widget class="Line" name="line" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>
