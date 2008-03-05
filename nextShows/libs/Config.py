@@ -73,7 +73,7 @@ class Config(SafeConfigParser):
         ## Format
         self.format = "$show:12:...$-S$season:2$E$episode:2$-$title$"
         ## Theme
-        self.theme  = "Default"
+        self.theme  = Globals().defaultThemeName
         ## Date
         self.dateFormat = "%%d/%%m/%%y"
         ## When format

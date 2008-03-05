@@ -62,6 +62,9 @@ class Globals:
         self.nsDirMode         = 0755
         self.nsCacheFilePrefix = os.path.join(self.nsCacheDir, "show_")
 
+        # Default theme name
+        self.defaultThemeName  = "Default"
+
         # Sample episode (used for testing in the GUI)
         self.sampleEpisode     = { 'show'    : 'Battlestar Galactica (2003)',
                                    'title'   : 'Taking a Break from All Your Worries',
