@@ -1,0 +1,26 @@
+=ChangeLog=
+
+*v2.0.4:*
+  * Fix the forgetfulness I committed in the previous (2.0.3) release.
+
+*v2.0.3:*
+  * This release should fix the crash reported in the comments that affected Debian/Ubuntu (and probably other distros).
+
+*v2.0.2:*
+  * Due to changes on tvrage.com, the "Filter" feature and years in the search results were removed :(.
+  * Parser fixed to reflect those changes.
+
+*v2.0.1:*
+  *Parser update/fix.
+
+*v2.0.0:*
+Code (almost) fully rewritten. Main changes are:
+  * Dropped www.tv.com and now using www.tvrage.com to fetch necessary shows/episodes informations.
+  * A configuration GUI (no need to edit the configuration file by hand anymore!!!).
+  * User can now customize his colors while displaying episodes (this part of the configuration dialog needs some love to be more usable but it is working).
+  * Added preliminary work for supporting other themes/skins but disabled in this release since there's only 1 theme available (contributors welcome :).
+  * Other minor things I can't remember.
+
+
+*v1.0.0:*
+  * First public release !
