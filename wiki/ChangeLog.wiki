@@ -1,3 +1,5 @@
+#summary ChangeLog
+
 =ChangeLog=
 
 *v2.0.4:*
