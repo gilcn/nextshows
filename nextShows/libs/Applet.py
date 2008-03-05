@@ -25,7 +25,7 @@
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #######################################################################
 
-
+from libs.Globals import Globals
 import libs.tools as tools
 
 from ConfigParser import SafeConfigParser
@@ -238,7 +238,14 @@ class Applet:
 
         if themeInfoContent == "":
             tools.msgDebug("Error finding/reading %s..." % themeInfo, __name__)
-            return False
+            # Try to fallback to the default theme
+            self.themeName = Globals().defaultThemeName
+            self.themePath = os.path.join("themes", self.themeName)
+            themeInfo = os.path.join( self.themePath, "theme.info" )
+            themeInfoContent = karamba.readThemeFile( Applet.widget, themeInfo )
+            if themeInfoContent == "":
+                tools.msgDebug("Error finding/reading %s..." % themeInfo, __name__)
+                return False
 
         #######################################################################
         # FIXME: Unfortunately, it is not possible to directly feed ConfigParser
