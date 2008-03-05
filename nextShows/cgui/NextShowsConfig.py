@@ -624,10 +624,14 @@ class NextShowsConfig(QDialog):
             if show["year_end"] == "????":
                 font.setBold( True )
                 showLines[listIdx].setForeground( QBrush( QColor( 0x00, 0x00, 0x00 ) ) )
+                showLines[listIdx].setToolTip( "<b>%s</b><br /><b><u>Status:</u></b> Running" % show["name"] )
             else:
                 font.setItalic( True )
                 showLines[listIdx].setForeground( QBrush( QColor( 0x55, 0x55, 0x55 ) ) )
+                showLines[listIdx].setToolTip( "<b>%s</b><br /><b><u>Status:</u></b> Ended in %s"
+                        % ( show["name"], show["year_end"] ) )
             showLines[listIdx].setFont( font )
+            showLines[listIdx].setStatusTip( "XXXXXXX" )
             listIdx += 1
 
 
