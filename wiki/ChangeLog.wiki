@@ -1,3 +1,4 @@
+#labels Featured
 == V2.1 ==
 *v2.1.0:*
   * Requirement are now:
