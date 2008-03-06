@@ -209,8 +209,18 @@ class NextShowsConfig(QDialog):
         self.saveRequired()
 
     # Date Separator Changed
+    @pyqtSignature("on_leditDateSeparator_editingFinished()")
+    def on_leditDateSeparator_editingFinished(self):
+        if not self.ui.leditDateSeparator.text() or self.ui.leditDateSeparator.text() == "%":
+            self.ui.leditDateSeparator.setText("/")
     @pyqtSignature("on_leditDateSeparator_textChanged(const QString &)")
-    def on_ledit_DateSeparator_textChanged(self, QString):
+    def on_leditDateSeparator_textChanged(self, QString):
+        if not self.ui.leditDateSeparator.text() or self.ui.leditDateSeparator.text() == "%":
+            self.ui.comboDateFormat.clear()
+            self.ui.comboDateFormat.addItem("INVALID SEPARATOR")
+            self.ui.comboDateFormat.setEnabled( False )
+        else:
+            self.populateDateFormat( QString )
         # Need to save
         self.saveRequired()
 
@@ -533,19 +543,16 @@ class NextShowsConfig(QDialog):
         # Date Separator
         # Fallback code since the "date_separator" key doesn't exist in version < 2.1.0
         try:
-            self.ui.leditDateSeparator.setText( config.get( "display", "date_separator" ) )
+            sep = config.get( "display", "date_separator" )
         except:
-            self.ui.leditDateSeparator.setText( "/" )
+            sep = "/"
+        self.ui.leditDateSeparator.setText( sep )
 
         # Date Format
-        self.ui.comboDateFormat.addItem( "DD/MM/YY", QVariant( [ "%%d", "%%m", "%%y" ] ) )
-        self.ui.comboDateFormat.addItem( "MM/DD/YY", QVariant( [ "%%m", "%%d", "%%y" ] ) )
-        self.ui.comboDateFormat.addItem( "YY/MM/DD", QVariant( [ "%%y", "%%m", "%%d" ] ) )
-        self.ui.comboDateFormat.addItem( "YY/DD/MM", QVariant( [ "%%y", "%%d", "%%m" ] ) )
-
         dateFormat = config.get( "display", "date_format" )
-        data       = [ "%"+a for a in dateFormat.split( config.get( "display", "date_separator" ) ) ]
+        data       = [ "%"+a for a in dateFormat.split( sep ) ]
         idx        = self.ui.comboDateFormat.findData( QVariant( data ) )
+        if idx==-1: idx = 0
         self.ui.comboDateFormat.setCurrentIndex( idx )
 
         config.close()
@@ -898,6 +905,21 @@ class NextShowsConfig(QDialog):
             icon = QIcon( self.drawPreviewColor( color[2], 16, 16 ) )
             colorLines[listIdx].setIcon( icon )
             listIdx +=1
+
+
+    ##########################
+    ## Populate Date Format ##
+    ##########################
+    def populateDateFormat(self, sep="/"):
+        # Store current index
+        idx = self.ui.comboDateFormat.currentIndex()
+        self.ui.comboDateFormat.clear()
+        self.ui.comboDateFormat.setEnabled( True )
+        self.ui.comboDateFormat.addItem( "DD"+sep+"MM"+sep+"YY", QVariant( [ "%%d", "%%m", "%%y" ] ) )
+        self.ui.comboDateFormat.addItem( "MM"+sep+"DD"+sep+"YY", QVariant( [ "%%m", "%%d", "%%y" ] ) )
+        self.ui.comboDateFormat.addItem( "YY"+sep+"MM"+sep+"DD", QVariant( [ "%%y", "%%m", "%%d" ] ) )
+        self.ui.comboDateFormat.addItem( "YY"+sep+"DD"+sep+"MM", QVariant( [ "%%y", "%%d", "%%m" ] ) )
+        self.ui.comboDateFormat.setCurrentIndex( idx )
 
 
     #####################################
