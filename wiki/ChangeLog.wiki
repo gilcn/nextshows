@@ -5,7 +5,7 @@
     * Python v2.5 or later
     * PyQt / Qt v4.3.1 or later
     * KDE v3.5.0 or later (*NOTE:* I haven't tested yet with KDE4 but it should hopefully work)
-  * Dropped BeautifulSoup and use the [http://docs.python.org/lib/module-xml.etree.ElementTree.html Python 2.5 ElementTree XML API] as we now use the XML feeds provided by [http://www.tvrage.com/ TVRage] _(many thanks to Sebrioth for his kind help)_
+  * Dropped BeautifulSoup in favor of the [http://docs.python.org/lib/module-xml.etree.ElementTree.html Python 2.5 ElementTree XML API] as we now use the XML feeds provided by [http://www.tvrage.com/ TVRage] _(many thanks to Sebrioth for his kind help)_
   * Full TVRage parser rewrite (obviously, this has to do with the previous line :)
   * The "Filter" feature is now back in the GUI \o/ (it was removed in 2.0.2)
   * Added a theme switcher/selector to the GUI
