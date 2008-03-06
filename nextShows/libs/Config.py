@@ -282,12 +282,12 @@ class Config(SafeConfigParser):
         self.set( "display", "lines_max",   str(self.linesMax)    )
         self.set( "display", "type",        str(self.linesType)   )
         self.set( "display", "format",      str(self.format)      )
-        self.set( "display", "theme",       str(self.theme)       )
         self.set( "display", "date_format", str(self.dateFormat)  )
         # Misc
         self.set( "misc",    "cache_expiration", str(self.cacheExpiration ) )
         self.set( "misc",    "browser",     str(self.browser)     )
         self.set( "misc",    "when_format", str(self.whenFormat)  )
+        self.set( "misc",    "theme",       str(self.theme)       )
         #----------------------------------------------------------------------
 
         # Set shows
