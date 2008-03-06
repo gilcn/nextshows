@@ -2,7 +2,7 @@
 *v2.1.0:*
   * Requirement are now:
     * Python 2.5 or later
-    * PyQt / Qt 4.3.0 or later
+    * PyQt / Qt 4.3.1 or later
     * KDE3.5.0 or later (*NOTE:* I haven't tested yet with KDE4 but it should hopefully work)
   * Dropped BeautifulSoup and use the [http://docs.python.org/lib/module-xml.etree.ElementTree.html Python 2.5 ElementTree XML API] as we now use the XML feeds provided by [http://www.tvrage.com/ TVRage] _(many thanks to Sebrioth for his kind help)_
   * Full TVRage parser rewrite (obviously, this has to do with the previous line :)
