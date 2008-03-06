@@ -208,6 +208,18 @@ class NextShowsConfig(QDialog):
         # Need to save
         self.saveRequired()
 
+    # Date Separator Changed
+    @pyqtSignature("on_leditDateSeparator_textChanged(const QString &)")
+    def on_ledit_DateSeparator_textChanged(self, QString):
+        # Need to save
+        self.saveRequired()
+
+    # Date Format Changed
+    @pyqtSignature("on_comboDateFormat_currentIndexChanged(int)")
+    def on_comboDateFormat_currentIndexChanged(self, idx):
+        # Need to save
+        self.saveRequired()
+
     # Click on checkable Format Info Button
     @pyqtSignature("on_btnFormatInfos_clicked()")
     def on_btnFormatInfos_clicked(self):
@@ -517,6 +529,24 @@ class NextShowsConfig(QDialog):
         except:
             idx = 0
         self.ui.comboTheme.setCurrentIndex( idx )
+
+        # Date Separator
+        # Fallback code since the "date_separator" key doesn't exist in version < 2.1.0
+        try:
+            self.ui.leditDateSeparator.setText( config.get( "display", "date_separator" ) )
+        except:
+            self.ui.leditDateSeparator.setText( "/" )
+
+        # Date Format
+        self.ui.comboDateFormat.addItem( "DD/MM/YY", QVariant( [ "%%d", "%%m", "%%y" ] ) )
+        self.ui.comboDateFormat.addItem( "MM/DD/YY", QVariant( [ "%%m", "%%d", "%%y" ] ) )
+        self.ui.comboDateFormat.addItem( "YY/MM/DD", QVariant( [ "%%y", "%%m", "%%d" ] ) )
+        self.ui.comboDateFormat.addItem( "YY/DD/MM", QVariant( [ "%%y", "%%d", "%%m" ] ) )
+
+        dateFormat = config.get( "display", "date_format" )
+        data       = [ "%"+a for a in dateFormat.split( config.get( "display", "date_separator" ) ) ]
+        idx        = self.ui.comboDateFormat.findData( QVariant( data ) )
+        self.ui.comboDateFormat.setCurrentIndex( idx )
 
         config.close()
 
@@ -921,6 +951,11 @@ class NextShowsConfig(QDialog):
         config.set( "display", "lines_min",     str( self.ui.spinMinDispLines.value()    ) )
         config.set( "display", "lines_max",     str( self.ui.spinMaxDispLines.value()    ) )
         config.set( "display", "format",        str( self.ui.leditFormat.text()          ) )
+        sep  = self.ui.leditDateSeparator.text()
+        list = self.ui.comboDateFormat.itemData( self.ui.comboDateFormat.currentIndex() ).toStringList()
+        dateFormat = list.join(sep)
+        config.set( "display", "date_separator",str( sep                                 ) )
+        config.set( "display", "date_format",   str( dateFormat                          ) )
 
         config.set( "misc", "cache_expiration", str( self.ui.spinCacheExpiration.value() ) )
         config.set( "misc", "browser",          str( self.ui.leditBrowser.text()         ) )

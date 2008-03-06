@@ -76,6 +76,8 @@ class Config(SafeConfigParser):
         self.theme  = Globals().defaultThemeName
         ## Date
         self.dateFormat = "%%d/%%m/%%y"
+        ## Date Separator
+        self.dateSeparator = "/"
         ## When format
         self.whenFormat = 0
 
@@ -283,6 +285,7 @@ class Config(SafeConfigParser):
         self.set( "display", "type",        str(self.linesType)   )
         self.set( "display", "format",      str(self.format)      )
         self.set( "display", "date_format", str(self.dateFormat)  )
+        self.set( "display", "date_separator", str(self.dateSeparator)  )
         # Misc
         self.set( "misc",    "cache_expiration", str(self.cacheExpiration ) )
         self.set( "misc",    "browser",     str(self.browser)     )
