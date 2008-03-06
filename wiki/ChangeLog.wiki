@@ -1,4 +1,5 @@
 #summary ChangeLog
+#labels Featured
 
 =ChangeLog=
 
