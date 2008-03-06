@@ -370,6 +370,12 @@ class NextShowsConfig(QDialog):
         # Need to save
         self.saveRequired()
 
+    # Theme changed
+    @pyqtSignature("on_comboTheme_currentIndexChanged(int)")
+    def on_comboTheme_currentIndexChanged(self, idx):
+        # Need to save
+        self.saveRequired()
+
     #### General
     # Save button clicked
     @pyqtSignature("on_btnSave_clicked()")
@@ -467,6 +473,9 @@ class NextShowsConfig(QDialog):
         # default color for "Select color"
         self.ui.lblSelectColor.setPixmap( self.drawPreviewColor( self.lastColorUsed, 36, 36 ) )
 
+        # Theme combo
+        self.ui.comboTheme.addItems( Globals().availableThemes )
+
 
         ####
         #### Read config
@@ -500,6 +509,14 @@ class NextShowsConfig(QDialog):
 
         self.ui.spinCacheExpiration.setValue( int( config.get( "misc", "cache_expiration" ) ) )
         self.ui.leditBrowser.setText( config.get( "misc", "browser" ) )
+
+        # Fallback code since the "theme" key was located in the [display] section
+        # in versions < 2.1.0
+        try:
+            idx = int( Globals().availableThemes.index( config.get( "misc", "theme" ) ) )
+        except:
+            idx = 0
+        self.ui.comboTheme.setCurrentIndex( idx )
 
         config.close()
 
@@ -907,6 +924,7 @@ class NextShowsConfig(QDialog):
 
         config.set( "misc", "cache_expiration", str( self.ui.spinCacheExpiration.value() ) )
         config.set( "misc", "browser",          str( self.ui.leditBrowser.text()         ) )
+        config.set( "misc", "theme",            str( self.ui.comboTheme.currentText()    ) )
 
         # Set this so that the widget knows something changed
         config.set( "main", "config_changed", "True" )

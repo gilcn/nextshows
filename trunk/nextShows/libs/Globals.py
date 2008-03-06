@@ -62,6 +62,9 @@ class Globals:
         self.nsDirMode         = 0755
         self.nsCacheFilePrefix = os.path.join(self.nsCacheDir, "show_")
 
+        # Hardcoding the theme names is not very efficient but it is the simpliest
+        # way since SuperKaramba lacks some functions we'd need otherwise.
+        self.availableThemes = [ "Default", "ClapperBoard" ]
         # Default theme name
         self.defaultThemeName  = "Default"
 
