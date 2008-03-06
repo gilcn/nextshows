@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>578</width>
-    <height>591</height>
+    <height>589</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -462,7 +462,7 @@ p, li { white-space: pre-wrap; }
        <item row="2" column="0" >
         <widget class="QTabWidget" name="tabWidgetWidget" >
          <property name="currentIndex" >
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tabDisplay" >
           <attribute name="title" >
@@ -881,6 +881,39 @@ p, li { white-space: pre-wrap; }
               </spacer>
              </item>
              <item>
+              <widget class="QLabel" name="lblSeparator" >
+               <property name="text" >
+                <string>Separator:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="leditDateSeparator" >
+               <property name="sizePolicy" >
+                <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="maximumSize" >
+                <size>
+                 <width>20</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="maxLength" >
+                <number>1</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="lblDash" >
+               <property name="text" >
+                <string>-</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QComboBox" name="comboDateFormat" >
                <property name="sizePolicy" >
                 <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
@@ -888,26 +921,6 @@ p, li { white-space: pre-wrap; }
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <item>
-                <property name="text" >
-                 <string>DD/MM/YY</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>MM/DD/YY</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>YY/MM/DD</string>
-                </property>
-               </item>
-               <item>
-                <property name="text" >
-                 <string>YY/DD/MM</string>
-                </property>
-               </item>
               </widget>
              </item>
             </layout>
