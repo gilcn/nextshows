@@ -1,14 +1,15 @@
 == V2.1 ==
 *v2.1.0:*
   * Requirement are now:
-    * Python 2.5 or later
-    * PyQt / Qt 4.3.1 or later
-    * KDE3.5.0 or later (*NOTE:* I haven't tested yet with KDE4 but it should hopefully work)
+    * Python v2.5 or later
+    * PyQt / Qt v4.3.1 or later
+    * KDE v3.5.0 or later (*NOTE:* I haven't tested yet with KDE4 but it should hopefully work)
   * Dropped BeautifulSoup and use the [http://docs.python.org/lib/module-xml.etree.ElementTree.html Python 2.5 ElementTree XML API] as we now use the XML feeds provided by [http://www.tvrage.com/ TVRage] _(many thanks to Sebrioth for his kind help)_
   * Full TVRage parser rewrite (obviously, this has to do with the previous line :)
-  * The "Filter" feature is now back \o/ (it was removed in 2.0.2)
+  * The "Filter" feature is now back in the GUI \o/ (it was removed in 2.0.2)
   * Added a theme switcher/selector to the GUI
-  * Added a GUI widget to change date display format
+    * Added a new theme -> "ClapperBoard" _(Thanks Manu ;)_
+  * Added a Date Format option in the GUI
   * Few minor fixes and enhancements
 
 ----
