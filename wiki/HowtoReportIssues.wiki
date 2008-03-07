@@ -1,4 +1,4 @@
-#summary Some words about how to report an issue
+#summary How to report problems/issues with nextShows
 #labels Featured
 
 = Reporting an issue with nextShows =
