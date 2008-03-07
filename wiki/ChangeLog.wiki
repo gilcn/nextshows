@@ -26,7 +26,7 @@
   * Parser fixed to reflect those changes.
 
 *v2.0.1:*
-  *Parser update/fix.
+  * Parser update/fix.
 
 *v2.0.0:*
 Code (almost) fully rewritten. Main changes are:
