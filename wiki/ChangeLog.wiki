@@ -1,4 +1,4 @@
-#summary nextShows ChengeLog
+#summary nextShows ChangeLog
 #labels Featured
 
 == V2.1 ==
