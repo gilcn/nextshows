@@ -1,10 +1,11 @@
 TEMPLATE     = app
 TARGET       = ../tvragesearch
-DEPENDPATH  += . ui
+DEPENDPATH  += . ui libs
 INCLUDEPATH += .
-UI_DIR      += ui/
 
 FORMS       += ui/tvragesearch.ui
 
-HEADERS     +=          tvragesearch.h
-SOURCES     += main.cpp tvragesearch.cpp
+HEADERS     +=          tvragesearch.h   AnimImage.h
+SOURCES     += main.cpp tvragesearch.cpp AnimImage.cpp
+
+RESOURCES    = pics/pics.qrc

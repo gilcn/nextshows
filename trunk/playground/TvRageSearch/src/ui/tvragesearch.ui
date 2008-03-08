@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>366</width>
-    <height>318</height>
+    <width>412</width>
+    <height>434</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -43,6 +43,46 @@
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
+   </item>
+   <item row="2" column="0" >
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QLabel" name="lblResults" >
+       <property name="text" >
+        <string>Results:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="imgProgress" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="pixmap" >
+        <pixmap resource="../pics/pics.qrc" >:/pics/idle.png</pixmap>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item row="3" column="0" >
     <widget class="QListWidget" name="listResults" />
@@ -84,15 +124,10 @@
      </item>
     </layout>
    </item>
-   <item row="2" column="0" >
-    <widget class="QLabel" name="lblResults" >
-     <property name="text" >
-      <string>Results:</string>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../pics/pics.qrc" />
+ </resources>
  <connections/>
 </ui>
