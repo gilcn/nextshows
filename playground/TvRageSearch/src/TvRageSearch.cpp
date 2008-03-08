@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include "tvragesearch.h"
+#include "TvRageSearch.h"
 
 TvRageSearch::TvRageSearch(QWidget *parent)
     : QDialog(parent, Qt::Window)

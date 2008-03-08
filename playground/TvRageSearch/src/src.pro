@@ -3,9 +3,9 @@ TARGET       = ../tvragesearch
 DEPENDPATH  += . ui libs
 INCLUDEPATH += .
 
-FORMS       += ui/tvragesearch.ui
+FORMS       += ui/TvRageSearch.ui
 
-HEADERS     +=          tvragesearch.h   AnimImage.h
-SOURCES     += main.cpp tvragesearch.cpp AnimImage.cpp
+HEADERS     +=          TvRageSearch.h   AnimImage.h
+SOURCES     += main.cpp TvRageSearch.cpp AnimImage.cpp
 
 RESOURCES    = pics/pics.qrc

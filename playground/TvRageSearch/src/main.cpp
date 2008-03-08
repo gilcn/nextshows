@@ -18,7 +18,7 @@
  */
 
 
-#include "tvragesearch.h"
+#include "TvRageSearch.h"
 
 #include <QtGui/QApplication>
 
