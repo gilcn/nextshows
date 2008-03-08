@@ -21,6 +21,8 @@
 #define __ANIMIMAGE_H__
 
 #include <QtCore/QObject>
+#include <QtCore/QTimer>
+#include <QtGui/QPixmap>
 
 
 class AnimImage : public QObject
@@ -30,6 +32,24 @@ class AnimImage : public QObject
 public:
     AnimImage(QObject *parent=0);
     ~AnimImage();
+
+    void setIdlePic(const QString &fileName);
+    void setAnimatedPic(const QString &fileName);
+    void start();
+    void stop();
+
+signals:
+    void timeout();
+
+private:
+    QTimer  *m_timer;
+    QPixmap  m_idlePic;
+    QPixmap  m_animatedPic;
+    uint     m_numberOfFrames;
+    uint     m_currentFrame;
+    uint     m_picHeight;
+
+    void nextFrame();
 };
 
 #endif // __ANIMIMAGE_H__

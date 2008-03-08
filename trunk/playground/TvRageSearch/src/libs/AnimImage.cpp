@@ -22,10 +22,40 @@
 
 AnimImage::AnimImage(QObject *parent)
     : QObject(parent)
+    , m_timer(new QTimer())
 {
+    m_timer->setInterval(50);
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(nextFrame()));
 }
 
 
 AnimImage::~AnimImage()
+{
+    delete m_timer;
+}
+
+void AnimImage::setIdlePic(const QString &fileName)
+{
+    m_idlePic = fileName;
+}
+
+void AnimImage::setAnimatedPic(const QString &fileName)
+{
+    m_animatedPic    = fileName;
+    m_picHeight      = qMin(m_animatedPic.width(), m_animatedPic.height());
+    m_numberOfFrames = m_animatedPic.height() / m_picHeight;
+}
+
+void AnimImage::start()
+{
+    m_timer->start();
+}
+
+void AnimImage::stop()
+{
+    m_timer->stop();
+}
+
+void AnimImage::nextFrame()
 {
 }
