@@ -17,23 +17,19 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#ifndef __TVRAGESEARCH_H__
-#define __TVRAGESEARCH_H__
+#ifndef __ANIMIMAGE_H__
+#define __ANIMIMAGE_H__
 
-#include "ui_tvragesearch.h"
+#include <QtCore/QObject>
 
-#include <QtGui/QDialog>
 
-class TvRageSearch : public QDialog
+class AnimImage : public QObject
 {
     Q_OBJECT
 
 public:
-    TvRageSearch(QWidget *parent=0);
-    ~TvRageSearch();
-
-private:
-    Ui::TvRageSearch ui;
+    AnimImage(QObject *parent=0);
+    ~AnimImage();
 };
 
-#endif // __TVRAGESEARCH_H__
+#endif // __ANIMIMAGE_H__
