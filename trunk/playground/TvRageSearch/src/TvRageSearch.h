@@ -20,7 +20,7 @@
 #ifndef __TVRAGESEARCH_H__
 #define __TVRAGESEARCH_H__
 
-#include "ui_tvragesearch.h"
+#include "ui_TvRageSearch.h"
 
 #include <QtGui/QDialog>
 
