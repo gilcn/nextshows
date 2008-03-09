@@ -7,3 +7,7 @@ REQUIREMENTS:
 HOWTO BUILD:
 $ qmake -makefile
 $ make
+
+
+RUN:
+After compiling, the executable will be located in the src/bin/ directory.
