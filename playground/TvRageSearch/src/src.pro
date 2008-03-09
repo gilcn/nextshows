@@ -1,7 +1,11 @@
 TEMPLATE     = app
-TARGET       = ../tvragesearch
-DEPENDPATH  += . ui libs
-INCLUDEPATH += .
+DESTDIR      = bin
+TARGET       = tvragesearch
+DEPENDPATH  += libs
+OBJECTS_DIR  = build
+MOC_DIR      = build
+UI_DIR       = build
+RCC_DIR      = build
 
 FORMS       += ui/TvRageSearch.ui
 
