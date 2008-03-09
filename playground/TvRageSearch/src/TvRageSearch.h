@@ -20,9 +20,12 @@
 #ifndef __TVRAGESEARCH_H__
 #define __TVRAGESEARCH_H__
 
+#include "libs/AnimImage.h"
+
 #include "ui_TvRageSearch.h"
 
 #include <QtGui/QDialog>
+
 
 class TvRageSearch : public QDialog
 {
@@ -34,6 +37,12 @@ public:
 
 private:
     Ui::TvRageSearch ui;
+
+    AnimImage *m_ai;
+
+private slots:
+    void progressPic(const QPixmap &pic);
+    void testAnim();
 };
 
 #endif // __TVRAGESEARCH_H__

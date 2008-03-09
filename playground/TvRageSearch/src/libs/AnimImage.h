@@ -33,23 +33,21 @@ public:
     AnimImage(QObject *parent=0);
     ~AnimImage();
 
-    void setIdlePic(const QString &fileName);
-    void setAnimatedPic(const QString &fileName);
+    bool setPicture(const QString &fileName);
     void start();
     void stop();
-
-signals:
-    void timeout();
+    bool active();
 
 private:
-    QTimer  *m_timer;
-    QPixmap  m_idlePic;
-    QPixmap  m_animatedPic;
-    uint     m_numberOfFrames;
-    uint     m_currentFrame;
-    uint     m_picHeight;
+    QTimer         *m_timer;
+    int             m_currentFrame;
+    QList<QPixmap>  m_picList;
 
-    void nextFrame();
+signals:
+    void nextFrame(const QPixmap&);
+
+private slots:
+    void sendPixmap();
 };
 
 #endif // __ANIMIMAGE_H__

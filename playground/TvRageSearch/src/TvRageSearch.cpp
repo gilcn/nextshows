@@ -19,12 +19,38 @@
 
 #include "TvRageSearch.h"
 
+#include <QtCore/QDebug>
+
 TvRageSearch::TvRageSearch(QWidget *parent)
     : QDialog(parent, Qt::Window)
 {
     ui.setupUi(this);
+    connect(ui.btnQuit, SIGNAL(clicked()), this, SLOT(close()));
+
+    m_ai = new AnimImage(this);
+    connect(m_ai, SIGNAL(nextFrame(const QPixmap &)),
+            this, SLOT(progressPic(const QPixmap &)));
+    m_ai->setPicture(":/pics/working.png");
+
+    connect(ui.btnLookup, SIGNAL(clicked()), this, SLOT(testAnim()));
 }
 
 TvRageSearch::~TvRageSearch()
 {
+    delete m_ai;
+}
+
+void TvRageSearch::progressPic(const QPixmap &pic)
+{
+    ui.imgProgress->setPixmap(pic);
+}
+
+void TvRageSearch::testAnim()
+{
+    if (m_ai->active()) {
+        m_ai->stop();
+        ui.imgProgress->setPixmap(QPixmap(":/pics/idle.png"));
+    } else {
+        m_ai->start();
+    }
 }

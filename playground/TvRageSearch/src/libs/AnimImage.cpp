@@ -19,43 +19,73 @@
 
 #include "AnimImage.h"
 
+#include <QtCore/QDebug>
+#include <QtCore/QFile>
+#include <QtGui/QPainter>
+
 
 AnimImage::AnimImage(QObject *parent)
     : QObject(parent)
     , m_timer(new QTimer())
 {
     m_timer->setInterval(50);
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(nextFrame()));
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(sendPixmap()));
 }
-
 
 AnimImage::~AnimImage()
 {
     delete m_timer;
 }
 
-void AnimImage::setIdlePic(const QString &fileName)
+bool AnimImage::setPicture(const QString &fileName)
 {
-    m_idlePic = fileName;
-}
+    if (!QFile::exists(fileName))
+        return false;
 
-void AnimImage::setAnimatedPic(const QString &fileName)
-{
-    m_animatedPic    = fileName;
-    m_picHeight      = qMin(m_animatedPic.width(), m_animatedPic.height());
-    m_numberOfFrames = m_animatedPic.height() / m_picHeight;
+    if (!m_picList.isEmpty())
+        m_picList.clear();
+
+    QPixmap animatedPic(fileName);
+    int picSize        = qMin(animatedPic.width(), animatedPic.height());
+    int numberOfFrames = animatedPic.height() / picSize;
+
+    // Alpha Channel (weird results without this)
+    QPixmap alphaChan(picSize, picSize);
+    QPainter p(&alphaChan);
+    p.fillRect(0,0,picSize,picSize,QBrush(QColor(Qt::black)));
+    // Cut up image
+    for (int i=0; i < numberOfFrames; ++i) {
+        QPixmap pic(picSize, picSize);
+        pic.setAlphaChannel(alphaChan);
+        QPainter p(&pic);
+        p.drawPixmap(QPoint(0,0), animatedPic, QRect(0,i*picSize,picSize,picSize));
+        m_picList.append(pic);
+    }
+
+    return true;
 }
 
 void AnimImage::start()
 {
+    sendPixmap();
     m_timer->start();
 }
 
 void AnimImage::stop()
 {
     m_timer->stop();
+    m_currentFrame=0;
 }
 
-void AnimImage::nextFrame()
+bool AnimImage::active()
 {
+    return m_timer->isActive();
+}
+
+void AnimImage::sendPixmap()
+{
+    m_currentFrame++;
+    if (m_currentFrame >= m_picList.count())
+        m_currentFrame=0;
+    emit nextFrame(m_picList.value(m_currentFrame));
 }
