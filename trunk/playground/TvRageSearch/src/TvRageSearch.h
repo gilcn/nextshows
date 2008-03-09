@@ -25,6 +25,7 @@
 #include "ui_TvRageSearch.h"
 
 #include <QtGui/QDialog>
+#include <QtNetwork/QHttp>
 
 
 class TvRageSearch : public QDialog
@@ -39,6 +40,7 @@ private:
     Ui::TvRageSearch ui;
 
     AnimImage *m_ai;
+    QHttp     *m_http;
 
 private slots:
     void progressPic(const QPixmap &pic);

@@ -20,9 +20,14 @@
 #include "TvRageSearch.h"
 
 #include <QtCore/QDebug>
+#include <QtCore/QList>
+#include <QtCore/QPair>
+#include <QtCore/QUrl>
+
 
 TvRageSearch::TvRageSearch(QWidget *parent)
     : QDialog(parent, Qt::Window)
+    , m_http(new QHttp())
 {
     ui.setupUi(this);
     connect(ui.btnQuit, SIGNAL(clicked()), this, SLOT(close()));
@@ -33,6 +38,7 @@ TvRageSearch::TvRageSearch(QWidget *parent)
     m_ai->setPicture(":/pics/working.png");
 
     connect(ui.btnLookup, SIGNAL(clicked()), this, SLOT(testAnim()));
+
 }
 
 TvRageSearch::~TvRageSearch()
@@ -53,4 +59,11 @@ void TvRageSearch::testAnim()
     } else {
         m_ai->start();
     }
+
+    QUrl url("http://www.tvrage.com/feeds/search.php");
+    QPair<QString, QString> param("show", ui.leSearch->text());
+    QList< QPair<QString,QString> > list;
+    list << param;
+    url.setQueryItems(list);
+    qDebug() << url.toEncoded();
 }
