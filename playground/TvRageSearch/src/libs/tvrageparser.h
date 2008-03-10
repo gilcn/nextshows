@@ -17,40 +17,45 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#ifndef __TVRAGESEARCH_H__
-#define __TVRAGESEARCH_H__
+/*
+ * This pretty basic library assumes that the resulting images are square
+ * shaped. Improvements will be made later (if needed :).
+ */
 
-#include "libs/animatedimage.h"
-#include "libs/tvrageparser.h"
-
-#include "ui_tvragesearch.h"
-
-#include <QtGui/QDialog>
-#include <QtNetwork/QHttp>
+#ifndef __TVRAGEPARSER_H__
+#define __TVRAGEPARSER_H__
 
 
-class TvRageSearch : public QDialog
+#include <QtCore/QByteArray>
+#include <QtCore/QList>
+#include <QtCore/QString>
+
+class QDomNode;
+
+
+class TvRageParser
 {
-    Q_OBJECT
-
 public:
-    TvRageSearch(QWidget *parent=0);
-    ~TvRageSearch();
+    struct show_t {
+        uint    showid;
+        QString name;
+        QString link;
+        QString country;
+        uint    started;
+        uint    ended;
+        uint    seasons;
+        QString classification;
+        QString genres;
+    };
+
+    TvRageParser(){};
+    ~TvRageParser(){};
+
+    static QList<show_t> parseSearchResults(const QByteArray &content);
 
 private:
-    Ui::TvRageSearch ui;
-
-    AnimatedImage *m_progressAnimation;
-    QHttp         *m_http;
-    int            m_httpGetId; // HTTP request ID
-
-    QList<TvRageParser::show_t> m_showList;
-
-private slots:
-    void lookup();
-    void setProgressPic(const QPixmap &pic);
-    void httpRequestFinished(const int requestId,
-                             const bool error);
+    static show_t parseShow(const QDomNode &node);
 };
 
-#endif // __TVRAGESEARCH_H__
+
+#endif // __TVRAGEPARSER_H__
