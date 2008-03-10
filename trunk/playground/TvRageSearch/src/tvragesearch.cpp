@@ -59,6 +59,7 @@ void TvRageSearch::lookup()
     }
     ui.btnLookup->setEnabled(false);
     m_progressAnimation->start();
+    ui.teResults->clear();
 
     // Prepare URL
     QUrl url("http://www.tvrage.com/feeds/search.php", QUrl::StrictMode);
@@ -90,26 +91,11 @@ void TvRageSearch::httpRequestFinished(const int requestId, const bool error)
     ui.imgProgress->setPixmap(QPixmap(":/pics/idle.png"));
     ui.btnLookup->setEnabled(true);
 
-//    ui.teResults->clear();
-    ui.teResults->setPlainText(m_http->readAll());
+    QByteArray results(m_http->readAll());
+    ui.teResults->setPlainText(results);
+    m_showList = TvRageParser::parseSearchResults(results);
+    if (m_showList.isEmpty())
+        qDebug() << "Empty!";
+
+    qDebug() << m_showList.value(1).link;
 }
-
-
-/*
-void TvRageSearch::testAnim()
-{
-    if (m_ai->isActive()) {
-        m_ai->stop();
-        ui.imgProgress->setPixmap(QPixmap(":/pics/idle.png"));
-    } else {
-        m_ai->start();
-    }
-
-    QUrl url("http://www.tvrage.com/feeds/search.php");
-    QPair<QString, QString> param("show", ui.leSearch->text());
-    QList< QPair<QString, QString> > list;
-    list << param;
-    url.setQueryItems(list);
-    qDebug() << url.toEncoded();
-}
-*/
