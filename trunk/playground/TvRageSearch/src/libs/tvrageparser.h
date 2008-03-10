@@ -26,10 +26,10 @@
 #define __TVRAGEPARSER_H__
 
 
-#include <QtCore/QByteArray>
 #include <QtCore/QList>
 #include <QtCore/QString>
 
+class QByteArray;
 class QDomNode;
 
 
