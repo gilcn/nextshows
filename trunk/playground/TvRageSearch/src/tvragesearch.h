@@ -17,38 +17,34 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#ifndef __ANIMIMAGE_H__
-#define __ANIMIMAGE_H__
+#ifndef __TVRAGESEARCH_H__
+#define __TVRAGESEARCH_H__
 
-#include <QtCore/QObject>
-#include <QtCore/QTimer>
-#include <QtGui/QPixmap>
+#include "libs/animatedimage.h"
+
+#include "ui_tvragesearch.h"
+
+#include <QtGui/QDialog>
+#include <QtNetwork/QHttp>
 
 
-class AnimImage : public QObject
+class TvRageSearch : public QDialog
 {
     Q_OBJECT
 
 public:
-    AnimImage(QObject *parent=0, const QString &fileName="");
-    ~AnimImage();
-
-    bool setPicture(const QString &fileName);
-    void start();       // Starts animation
-    void stop();        // Stops animation
-    bool isActive();
+    TvRageSearch(QWidget *parent=0);
+    ~TvRageSearch();
 
 private:
-    QTimer         *m_timer;
-    int             m_currentFrame;
-    QList<QPixmap>  m_picList;
+    Ui::TvRageSearch ui;
 
-signals:
-    void newFrame(const QPixmap&);
+    AnimatedImage *m_ai;
+    QHttp         *m_http;
 
 private slots:
-    void sendPixmap();
+    void progressPic(const QPixmap &pic);
+    void testAnim();
 };
 
-
-#endif // __ANIMIMAGE_H__
+#endif // __TVRAGESEARCH_H__

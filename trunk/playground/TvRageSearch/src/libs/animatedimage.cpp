@@ -17,14 +17,14 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include "AnimImage.h"
+#include "animatedimage.h"
 
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtGui/QPainter>
 
 
-AnimImage::AnimImage(QObject *parent, const QString &fileName)
+AnimatedImage::AnimatedImage(QObject *parent, const QString &fileName)
     : QObject(parent)
     , m_timer(new QTimer())
 {
@@ -35,12 +35,12 @@ AnimImage::AnimImage(QObject *parent, const QString &fileName)
     connect(m_timer, SIGNAL(timeout()), this, SLOT(sendPixmap()));
 }
 
-AnimImage::~AnimImage()
+AnimatedImage::~AnimatedImage()
 {
     delete m_timer;
 }
 
-bool AnimImage::setPicture(const QString &fileName)
+bool AnimatedImage::setPicture(const QString &fileName)
 {
     if (!QFile::exists(fileName)) {
         qCritical("File %s not found!", qPrintable(fileName));
@@ -72,7 +72,7 @@ bool AnimImage::setPicture(const QString &fileName)
     return true;
 }
 
-void AnimImage::start()
+void AnimatedImage::start()
 {
     if(m_picList.isEmpty())
         return;
@@ -81,18 +81,18 @@ void AnimImage::start()
     m_timer->start();
 }
 
-void AnimImage::stop()
+void AnimatedImage::stop()
 {
     m_timer->stop();
     m_currentFrame=0;
 }
 
-bool AnimImage::isActive()
+bool AnimatedImage::isActive()
 {
     return m_timer->isActive();
 }
 
-void AnimImage::sendPixmap()
+void AnimatedImage::sendPixmap()
 {
     m_currentFrame++;
     if (m_currentFrame >= m_picList.count())
