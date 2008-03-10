@@ -10,9 +10,9 @@ RCC_DIR      = build
 
 QT          += network
 
-FORMS       += ui/TvRageSearch.ui
+FORMS       += ui/tvragesearch.ui
 
-HEADERS     +=          TvRageSearch.h   AnimImage.h
-SOURCES     += main.cpp TvRageSearch.cpp AnimImage.cpp
+HEADERS     +=          tvragesearch.h   animatedimage.h
+SOURCES     += main.cpp tvragesearch.cpp animatedimage.cpp
 
 RESOURCES    = pics/pics.qrc

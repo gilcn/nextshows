@@ -17,11 +17,9 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include "TvRageSearch.h"
+#include "tvragesearch.h"
 
 #include <QtCore/QDebug>
-#include <QtCore/QList>
-#include <QtCore/QPair>
 #include <QtCore/QUrl>
 
 
@@ -32,7 +30,7 @@ TvRageSearch::TvRageSearch(QWidget *parent)
     ui.setupUi(this);
     connect(ui.btnQuit, SIGNAL(clicked()), this, SLOT(close()));
 
-    m_ai = new AnimImage(this, ":/pics/working.png");
+    m_ai = new AnimatedImage(this, ":/pics/working.png");
     connect(m_ai, SIGNAL(newFrame(const QPixmap &)),
             this, SLOT(progressPic(const QPixmap &)));
 
