@@ -30,13 +30,13 @@ class AnimImage : public QObject
     Q_OBJECT
 
 public:
-    AnimImage(QObject *parent=0);
+    AnimImage(QObject *parent=0, const QString &fileName="");
     ~AnimImage();
 
     bool setPicture(const QString &fileName);
-    void start();
-    void stop();
-    bool active();
+    void start();       // Starts animation
+    void stop();        // Stops animation
+    bool isActive();
 
 private:
     QTimer         *m_timer;
@@ -44,10 +44,11 @@ private:
     QList<QPixmap>  m_picList;
 
 signals:
-    void nextFrame(const QPixmap&);
+    void newFrame(const QPixmap&);
 
 private slots:
     void sendPixmap();
 };
+
 
 #endif // __ANIMIMAGE_H__

@@ -32,13 +32,11 @@ TvRageSearch::TvRageSearch(QWidget *parent)
     ui.setupUi(this);
     connect(ui.btnQuit, SIGNAL(clicked()), this, SLOT(close()));
 
-    m_ai = new AnimImage(this);
-    connect(m_ai, SIGNAL(nextFrame(const QPixmap &)),
+    m_ai = new AnimImage(this, ":/pics/working.png");
+    connect(m_ai, SIGNAL(newFrame(const QPixmap &)),
             this, SLOT(progressPic(const QPixmap &)));
-    m_ai->setPicture(":/pics/working.png");
 
     connect(ui.btnLookup, SIGNAL(clicked()), this, SLOT(testAnim()));
-
 }
 
 TvRageSearch::~TvRageSearch()
@@ -53,7 +51,7 @@ void TvRageSearch::progressPic(const QPixmap &pic)
 
 void TvRageSearch::testAnim()
 {
-    if (m_ai->active()) {
+    if (m_ai->isActive()) {
         m_ai->stop();
         ui.imgProgress->setPixmap(QPixmap(":/pics/idle.png"));
     } else {
@@ -62,7 +60,7 @@ void TvRageSearch::testAnim()
 
     QUrl url("http://www.tvrage.com/feeds/search.php");
     QPair<QString, QString> param("show", ui.leSearch->text());
-    QList< QPair<QString,QString> > list;
+    QList< QPair<QString, QString> > list;
     list << param;
     url.setQueryItems(list);
     qDebug() << url.toEncoded();
