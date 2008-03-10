@@ -84,10 +84,7 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="0" >
-    <widget class="QListWidget" name="listResults" />
-   </item>
-   <item row="4" column="0" >
+   <item row="6" column="0" >
     <layout class="QHBoxLayout" >
      <item>
       <widget class="QLabel" name="lblTVRage" >
@@ -123,6 +120,13 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item row="3" column="0" >
+    <widget class="QTextEdit" name="teResults" >
+     <property name="readOnly" >
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

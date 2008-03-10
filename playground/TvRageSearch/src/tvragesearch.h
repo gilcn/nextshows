@@ -39,12 +39,15 @@ public:
 private:
     Ui::TvRageSearch ui;
 
-    AnimatedImage *m_ai;
+    AnimatedImage *m_progressAnimation;
     QHttp         *m_http;
+    int            m_httpGetId; // HTTP request ID
 
 private slots:
-    void progressPic(const QPixmap &pic);
-    void testAnim();
+    void lookup();
+    void setProgressPic(const QPixmap &pic);
+    void httpRequestFinished(const int requestId,
+                             const bool error);
 };
 
 #endif // __TVRAGESEARCH_H__
