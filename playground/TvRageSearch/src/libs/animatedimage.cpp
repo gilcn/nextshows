@@ -28,11 +28,11 @@ AnimatedImage::AnimatedImage(QObject *parent, const QString &fileName)
     : QObject(parent)
     , m_timer(new QTimer())
 {
-    if (!setPicture(fileName))
-        return;
-
     m_timer->setInterval(50);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(sendPixmap()));
+
+    if (!fileName.isEmpty())
+        setPicture(fileName);
 }
 
 AnimatedImage::~AnimatedImage()
@@ -43,7 +43,11 @@ AnimatedImage::~AnimatedImage()
 bool AnimatedImage::setPicture(const QString &fileName)
 {
     if (!QFile::exists(fileName)) {
-        qCritical("File %s not found!", qPrintable(fileName));
+        if (fileName.isEmpty()) {
+            qCritical() << "No filename given!";
+        } else {
+            qCritical("File %s not found!", qPrintable(fileName));
+        }
         return false;
     }
 
@@ -63,9 +67,9 @@ bool AnimatedImage::setPicture(const QString &fileName)
         QPixmap pic(picSize, picSize);
         pic.setAlphaChannel(alphaChan);
         QPainter p(&pic);
-        p.drawPixmap(QPoint(0,0),
+        p.drawPixmap(QPoint(0, 0),
                      animatedPic,
-                     QRect(0,i*picSize,picSize,picSize));
+                     QRect(0, i * picSize, picSize, picSize));
         m_picList.append(pic);
     }
 
