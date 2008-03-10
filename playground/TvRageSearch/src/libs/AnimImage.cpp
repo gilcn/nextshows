@@ -24,10 +24,13 @@
 #include <QtGui/QPainter>
 
 
-AnimImage::AnimImage(QObject *parent)
+AnimImage::AnimImage(QObject *parent, const QString &fileName)
     : QObject(parent)
     , m_timer(new QTimer())
 {
+    if (!setPicture(fileName))
+        return;
+
     m_timer->setInterval(50);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(sendPixmap()));
 }
@@ -39,8 +42,10 @@ AnimImage::~AnimImage()
 
 bool AnimImage::setPicture(const QString &fileName)
 {
-    if (!QFile::exists(fileName))
+    if (!QFile::exists(fileName)) {
+        qCritical("File %s not found!", qPrintable(fileName));
         return false;
+    }
 
     if (!m_picList.isEmpty())
         m_picList.clear();
@@ -58,7 +63,9 @@ bool AnimImage::setPicture(const QString &fileName)
         QPixmap pic(picSize, picSize);
         pic.setAlphaChannel(alphaChan);
         QPainter p(&pic);
-        p.drawPixmap(QPoint(0,0), animatedPic, QRect(0,i*picSize,picSize,picSize));
+        p.drawPixmap(QPoint(0,0),
+                     animatedPic,
+                     QRect(0,i*picSize,picSize,picSize));
         m_picList.append(pic);
     }
 
@@ -67,6 +74,9 @@ bool AnimImage::setPicture(const QString &fileName)
 
 void AnimImage::start()
 {
+    if(m_picList.isEmpty())
+        return;
+
     sendPixmap();
     m_timer->start();
 }
@@ -77,7 +87,7 @@ void AnimImage::stop()
     m_currentFrame=0;
 }
 
-bool AnimImage::active()
+bool AnimImage::isActive()
 {
     return m_timer->isActive();
 }
@@ -87,5 +97,5 @@ void AnimImage::sendPixmap()
     m_currentFrame++;
     if (m_currentFrame >= m_picList.count())
         m_currentFrame=0;
-    emit nextFrame(m_picList.value(m_currentFrame));
+    emit newFrame(m_picList.value(m_currentFrame));
 }
