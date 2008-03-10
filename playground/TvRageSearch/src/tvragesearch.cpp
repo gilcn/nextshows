@@ -59,7 +59,8 @@ void TvRageSearch::lookup()
     }
     ui.btnLookup->setEnabled(false);
     m_progressAnimation->start();
-    ui.teResults->clear();
+    ui.tableResults->setRowCount(0);
+    ui.tableResults->clearContents();
 
     // Prepare URL
     QUrl url("http://www.tvrage.com/feeds/search.php", QUrl::StrictMode);
@@ -87,15 +88,35 @@ void TvRageSearch::httpRequestFinished(const int requestId, const bool error)
     if (error)
         qDebug() << m_http->errorString();
 
+    // Reset to initial state
     m_progressAnimation->stop();
     ui.imgProgress->setPixmap(QPixmap(":/pics/idle.png"));
     ui.btnLookup->setEnabled(true);
 
-    QByteArray results(m_http->readAll());
-    ui.teResults->setPlainText(results);
-    m_showList = TvRageParser::parseSearchResults(results);
-    if (m_showList.isEmpty())
-        qDebug() << "Empty!";
+    QList<TvRageParser::show_t> showList;
+    showList = TvRageParser::parseSearchResults(m_http->readAll());
+    if (showList.isEmpty())
+        qDebug() << "Empty! No shows found?";
 
-    qDebug() << m_showList.value(1).link;
+    ui.tableResults->setRowCount(showList.count());
+    for (int i=0; i < showList.count(); ++i) {
+        QTableWidgetItem *itemShowid=new QTableWidgetItem(tr("%1").arg(showList.value(i).showid));
+        ui.tableResults->setItem(i, 0, itemShowid);
+        QTableWidgetItem *itemName=new QTableWidgetItem(showList.value(i).name);
+        ui.tableResults->setItem(i, 1, itemName);
+        QTableWidgetItem *itemLink=new QTableWidgetItem(showList.value(i).link);
+        ui.tableResults->setItem(i, 2, itemLink);
+        QTableWidgetItem *itemCountry=new QTableWidgetItem(showList.value(i).country);
+        ui.tableResults->setItem(i, 3, itemCountry);
+        QTableWidgetItem *itemStarted=new QTableWidgetItem(tr("%1").arg(showList.value(i).started));
+        ui.tableResults->setItem(i, 4, itemStarted);
+        QTableWidgetItem *itemEnded=new QTableWidgetItem(tr("%1").arg(showList.value(i).ended));
+        ui.tableResults->setItem(i, 5, itemEnded);
+        QTableWidgetItem *itemSeasons=new QTableWidgetItem(tr("%1").arg(showList.value(i).seasons));
+        ui.tableResults->setItem(i, 6, itemSeasons);
+        QTableWidgetItem *itemClassification=new QTableWidgetItem(showList.value(i).classification);
+        ui.tableResults->setItem(i, 7, itemClassification);
+        QTableWidgetItem *itemGenres=new QTableWidgetItem(showList.value(i).genres);
+        ui.tableResults->setItem(i, 8, itemGenres);
+    }
 }

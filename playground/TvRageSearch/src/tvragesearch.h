@@ -44,8 +44,6 @@ private:
     QHttp         *m_http;
     int            m_httpGetId; // HTTP request ID
 
-    QList<TvRageParser::show_t> m_showList;
-
 private slots:
     void lookup();
     void setProgressPic(const QPixmap &pic);

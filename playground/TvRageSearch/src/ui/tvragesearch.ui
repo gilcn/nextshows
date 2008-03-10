@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>412</width>
-    <height>434</height>
+    <width>467</width>
+    <height>441</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -84,7 +84,56 @@
      </item>
     </layout>
    </item>
-   <item row="6" column="0" >
+   <item row="3" column="0" >
+    <widget class="QTableWidget" name="tableResults" >
+     <column>
+      <property name="text" >
+       <string>showid</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>link</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>counry</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>started</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>ended</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>seasons</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>classification</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>genres</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item row="4" column="0" >
     <layout class="QHBoxLayout" >
      <item>
       <widget class="QLabel" name="lblTVRage" >
@@ -120,13 +169,6 @@
       </widget>
      </item>
     </layout>
-   </item>
-   <item row="3" column="0" >
-    <widget class="QTextEdit" name="teResults" >
-     <property name="readOnly" >
-      <bool>true</bool>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>
