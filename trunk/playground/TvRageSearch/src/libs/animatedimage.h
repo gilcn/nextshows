@@ -17,6 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+/*
+ * This pretty basic library assumes that the resulting images are square
+ * shaped. Improvements will be made later (if needed :).
+ */
+
 #ifndef __ANIMATEDIMAGE_H__
 #define __ANIMATEDIMAGE_H__
 
