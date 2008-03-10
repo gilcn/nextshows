@@ -23,30 +23,79 @@
 #include <QtCore/QUrl>
 
 
+// Public
 TvRageSearch::TvRageSearch(QWidget *parent)
     : QDialog(parent, Qt::Window)
-    , m_http(new QHttp())
 {
+    m_http = new QHttp(this);
+    connect(m_http, SIGNAL(requestFinished(int, bool)),
+            this, SLOT(httpRequestFinished(int, bool)));
+
+    m_progressAnimation = new AnimatedImage(this, ":/pics/working.png");
+    connect(m_progressAnimation, SIGNAL(newFrame(const QPixmap &)),
+            this, SLOT(setProgressPic(const QPixmap &)));
+
     ui.setupUi(this);
+
+    // Lookup
+    connect(ui.btnLookup, SIGNAL(clicked()), this, SLOT(lookup()));
+    // Quit
     connect(ui.btnQuit, SIGNAL(clicked()), this, SLOT(close()));
-
-    m_ai = new AnimatedImage(this, ":/pics/working.png");
-    connect(m_ai, SIGNAL(newFrame(const QPixmap &)),
-            this, SLOT(progressPic(const QPixmap &)));
-
-    connect(ui.btnLookup, SIGNAL(clicked()), this, SLOT(testAnim()));
 }
 
 TvRageSearch::~TvRageSearch()
 {
-    delete m_ai;
+    delete m_progressAnimation;
+    delete m_http;
 }
 
-void TvRageSearch::progressPic(const QPixmap &pic)
+
+// Private slots
+void TvRageSearch::lookup()
+{
+    if (ui.leSearch->text().isEmpty()) {
+        qDebug() << "No show to search for...";
+        return;
+    }
+    ui.btnLookup->setEnabled(false);
+    m_progressAnimation->start();
+
+    // Prepare URL
+    QUrl url("http://www.tvrage.com/feeds/search.php", QUrl::StrictMode);
+    url.setPort(80);
+    QPair<QString, QString> show("show", ui.leSearch->text());
+    QList< QPair<QString, QString> > params;
+    params << show;
+    url.setQueryItems(params);
+    qDebug() << url.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority);
+
+    // HTTP request
+    m_http->setHost(url.host(), QHttp::ConnectionModeHttp, url.port());
+    m_httpGetId = m_http->get(url.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority));
+}
+
+void TvRageSearch::setProgressPic(const QPixmap &pic)
 {
     ui.imgProgress->setPixmap(pic);
 }
 
+void TvRageSearch::httpRequestFinished(const int requestId, const bool error)
+{
+    if (requestId != m_httpGetId)
+        return;
+    if (error)
+        qDebug() << m_http->errorString();
+
+    m_progressAnimation->stop();
+    ui.imgProgress->setPixmap(QPixmap(":/pics/idle.png"));
+    ui.btnLookup->setEnabled(true);
+
+//    ui.teResults->clear();
+    ui.teResults->setPlainText(m_http->readAll());
+}
+
+
+/*
 void TvRageSearch::testAnim()
 {
     if (m_ai->isActive()) {
@@ -63,3 +112,4 @@ void TvRageSearch::testAnim()
     url.setQueryItems(list);
     qDebug() << url.toEncoded();
 }
+*/
