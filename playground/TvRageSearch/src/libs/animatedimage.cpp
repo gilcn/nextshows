@@ -44,9 +44,9 @@ bool AnimatedImage::setPicture(const QString &fileName)
 {
     if (!QFile::exists(fileName)) {
         if (fileName.isEmpty()) {
-            qCritical() << "No filename given!";
+            qCritical() << tr("No filename given!");
         } else {
-            qCritical("File %s not found!", qPrintable(fileName));
+            qCritical(tr("File %1 not found!").arg(fileName).toLocal8Bit().constData());
         }
         return false;
     }

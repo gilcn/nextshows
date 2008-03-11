@@ -16,3 +16,5 @@ HEADERS     +=          tvragesearch.h   animatedimage.h   tvrageparser.h
 SOURCES     += main.cpp tvragesearch.cpp animatedimage.cpp tvrageparser.cpp
 
 RESOURCES    = pics/pics.qrc
+
+TRANSLATIONS = tvragesearch_en.ts tvragesearch_fr.ts

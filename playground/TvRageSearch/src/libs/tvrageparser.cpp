@@ -31,7 +31,7 @@ QList<TvRageParser::show_t> TvRageParser::parseSearchResults(const QByteArray &c
 
     QDomDocument doc("Search Results");
     if (!doc.setContent(content))
-        qCritical() << "Error while parsing document!";
+        qCritical() << QObject::tr("Error while parsing document!");
 
     QDomElement results = doc.documentElement();
 
