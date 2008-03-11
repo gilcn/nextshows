@@ -20,12 +20,16 @@
 
 #include "tvragesearch.h"
 
+#include <QtCore/QTranslator>
 #include <QtGui/QApplication>
 
 
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
+    QTranslator translator;
+    translator.load("tvragesearch_en");
+    app.installTranslator(&translator);
     TvRageSearch window;
     window.show();
     return app.exec();

@@ -54,7 +54,7 @@ TvRageSearch::~TvRageSearch()
 void TvRageSearch::lookup()
 {
     if (ui.leSearch->text().isEmpty()) {
-        qDebug() << "No show to search for...";
+        qDebug() << tr("No show to search for...");
         return;
     }
     ui.btnLookup->setEnabled(false);
@@ -69,7 +69,7 @@ void TvRageSearch::lookup()
     QList< QPair<QString, QString> > params;
     params << show;
     url.setQueryItems(params);
-    qDebug() << url.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority);
+    qDebug() << url.toEncoded();
 
     // HTTP request
     m_http->setHost(url.host(), QHttp::ConnectionModeHttp, url.port());
@@ -96,7 +96,7 @@ void TvRageSearch::httpRequestFinished(const int requestId, const bool error)
     QList<TvRageParser::show_t> showList;
     showList = TvRageParser::parseSearchResults(m_http->readAll());
     if (showList.isEmpty())
-        qDebug() << "Empty! No shows found?";
+        qDebug() << tr("Empty! No shows found?");
 
     ui.tableResults->setRowCount(showList.count());
     for (int i=0; i < showList.count(); ++i) {
