@@ -29,7 +29,7 @@ from libs.Cache import Cache
 
 from datetime import date
 
-class Data:
+class Data():
     def __init__(self):
         pass
 

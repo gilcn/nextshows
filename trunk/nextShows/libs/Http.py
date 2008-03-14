@@ -31,7 +31,7 @@ from libs.Globals import Globals
 import os, socket, urllib2
 
 
-class Http:
+class Http():
     def __init__(self):
         #### User-Agent we use while doing HTTP requests
         version  = Globals().versions
