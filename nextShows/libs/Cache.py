@@ -34,7 +34,7 @@ from datetime import datetime
 import cPickle, os, re
 
 
-class Cache:
+class Cache():
     def __init__(self):
         # Constants
         self.CACHEFILEOK       = 0

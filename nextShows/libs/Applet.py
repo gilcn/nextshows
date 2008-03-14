@@ -35,7 +35,7 @@ import os
 import karamba
 
 
-class Applet:
+class Applet():
 
     widget     = None       # Widget reference
     widgetSize = (340, 220) # This should match default value in nextShows.theme file
@@ -318,7 +318,7 @@ class Applet:
     ###########################################################################
     ## Splash screen
     ###########################################################################
-    class Splash:
+    class Splash():
         ## Init the splash
         def __init__(self):
             self.splashImage   = "images/nextShows_logo.png"
