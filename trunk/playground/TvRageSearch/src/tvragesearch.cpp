@@ -38,9 +38,11 @@ TvRageSearch::TvRageSearch(QWidget *parent)
     ui.setupUi(this);
 
     // Lookup
-    connect(ui.btnLookup, SIGNAL(clicked()), this, SLOT(lookup()));
+    //connect(ui.btnLookup, SIGNAL(clicked()), this, SLOT(lookup()));
     // Quit
-    connect(ui.btnQuit, SIGNAL(clicked()), this, SLOT(close()));
+    //connect(ui.btnQuit, SIGNAL(clicked()), this, SLOT(close()));
+
+//    ui.btnLookup->blockSignals(true);
 }
 
 TvRageSearch::~TvRageSearch()
@@ -51,7 +53,7 @@ TvRageSearch::~TvRageSearch()
 
 
 // Private slots
-void TvRageSearch::lookup()
+void TvRageSearch::on_btnLookup_clicked()
 {
     if (ui.leSearch->text().isEmpty()) {
         qDebug() << tr("No show to search for...");
@@ -76,12 +78,12 @@ void TvRageSearch::lookup()
     m_httpGetId = m_http->get(url.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority));
 }
 
-void TvRageSearch::setProgressPic(const QPixmap &pic)
+void TvRageSearch::setProgressPic(const QPixmap &pic) const
 {
     ui.imgProgress->setPixmap(pic);
 }
 
-void TvRageSearch::httpRequestFinished(const int requestId, const bool error)
+void TvRageSearch::httpRequestFinished(const int requestId, const bool error) const
 {
     if (requestId != m_httpGetId)
         return;
@@ -119,4 +121,10 @@ void TvRageSearch::httpRequestFinished(const int requestId, const bool error)
         QTableWidgetItem *itemGenres=new QTableWidgetItem(showList.value(i).genres);
         ui.tableResults->setItem(i, 8, itemGenres);
     }
+}
+
+// Quit
+void TvRageSearch::on_btnQuit_clicked()
+{
+    close();
 }
