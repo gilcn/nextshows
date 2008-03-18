@@ -45,10 +45,11 @@ private:
     int            m_httpGetId; // HTTP request ID
 
 private slots:
-    void lookup();
-    void setProgressPic(const QPixmap &pic);
+    void on_btnLookup_clicked();
+    void setProgressPic(const QPixmap &pic) const;
     void httpRequestFinished(const int requestId,
-                             const bool error);
+                             const bool error) const;
+    void on_btnQuit_clicked();
 };
 
 #endif // __TVRAGESEARCH_H__
