@@ -245,9 +245,9 @@ class NextShowsConfig(QDialog):
             else:
                 xPos = self.pos().x() - self.uiHelpDialogSize.width()
             self.uiHelpDialogGeometry = QRect( xPos,
-                                                      yPos,
-                                                      self.uiHelpDialogSize.width(),
-                                                      self.uiHelpDialogSize.height() )
+                                               yPos,
+                                               self.uiHelpDialogSize.width(),
+                                               self.uiHelpDialogSize.height() )
 
         if self.ui.btnFormatInfos.isChecked():
             self.uiHelpDialog.setGeometry( self.uiHelpDialogGeometry )
@@ -410,10 +410,10 @@ class NextShowsConfig(QDialog):
     def closeEvent(self, event):
         if self.modifFlag:
             yesno = QMessageBox().question(self,
-                                                 "Attention",
-                                                 "Changes were made!\n" +
-                                                 "Are you sure you want to quit without saving?",
-                                                 QMessageBox.Yes, QMessageBox.No)
+                                           "Attention",
+                                           "Changes were made!\n" +
+                                           "Are you sure you want to quit without saving?",
+                                           QMessageBox.Yes, QMessageBox.No)
             if yesno == QMessageBox().No:
                 event.ignore()
                 return
@@ -671,21 +671,19 @@ class NextShowsConfig(QDialog):
         for show in self.dispSearchResults:
             showLines.append( listIdx )
             showLines[listIdx] = QListWidgetItem( self.ui.listSearchResults )
-            #showLines[listIdx].setText( u"[%s-%s] %s" % ( show["year_begin"], show["year_end"], show["name"] ) )
-            showLines[listIdx].setText( u"%s" % show["name"] )
             showLines[listIdx].setIcon( self.drawFlag( show["flag"] ) )
             font = showLines[listIdx].font()
             if show["year_end"] == "????":
                 font.setBold( True )
+                showLines[listIdx].setText( u"%s" % show["name"] )
                 showLines[listIdx].setForeground( QBrush( QColor( 0x00, 0x00, 0x00 ) ) )
-                showLines[listIdx].setToolTip( "<b>%s</b><br /><b><u>Status:</u></b> Running" % show["name"] )
+                showLines[listIdx].setToolTip( "<b>%s</b><br /><b><u>Status:</u></b> Running since %s" % ( show["name"], show["year_begin"] ) )
             else:
                 font.setItalic( True )
+                showLines[listIdx].setText( u"%s [%s-%s]" % ( show["name"], show["year_begin"], show["year_end"] ) )
                 showLines[listIdx].setForeground( QBrush( QColor( 0x55, 0x55, 0x55 ) ) )
-                showLines[listIdx].setToolTip( "<b>%s</b><br /><b><u>Status:</u></b> Ended in %s"
-                        % ( show["name"], show["year_end"] ) )
+                showLines[listIdx].setToolTip( "<b>%s</b><br /><b><u>Status:</u></b> Ended" % show["name"] )
             showLines[listIdx].setFont( font )
-            showLines[listIdx].setStatusTip( "XXXXXXX" )
             listIdx += 1
 
 
@@ -702,20 +700,20 @@ class NextShowsConfig(QDialog):
         if selectedShow['id'] in checkShow:
             tools.msgDebug(u"""Show already in "My Shows". Can't add!""", __name__)
             QMessageBox().information(self,
-                                            "Information",
-                                            'Cannot add "%s".\n' % selectedShow['name'] +
-                                            'This show is already tracked.',
-                                            QMessageBox.Ok)
+                                      "Information",
+                                      'Cannot add "%s".\n' % selectedShow['name'] +
+                                      'This show is already tracked.',
+                                      QMessageBox.Ok)
             return
 
         # Tell the user if the show is terminated
         if selectedShow['year_end'] != "????":
             yesno = QMessageBox().question(self,
-                                                 "Attention",
-                                                 '"%s" seem to be terminated.\n' % selectedShow['name'] +
-                                                 "Adding it to your list would be pointless.\n\n" +
-                                                 "Are you sure you still want to continue?",
-                                                 QMessageBox.Yes, QMessageBox.No)
+                                           "Attention",
+                                           '"%s" seem to be terminated.\n' % selectedShow['name'] +
+                                           "Adding it to your list would be pointless.\n\n" +
+                                           "Are you sure you still want to continue?",
+                                           QMessageBox.Yes, QMessageBox.No)
             if yesno == QMessageBox().No:
                 return
 
@@ -748,9 +746,9 @@ class NextShowsConfig(QDialog):
 
         # Ask user before deletion
         yesno = QMessageBox().question(self,
-                                             "Attention",
-                                             'Are you sure you want to remove "%s" ?' % selectedShow['name'],
-                                             QMessageBox.Yes, QMessageBox.No)
+                                       "Attention",
+                                       'Are you sure you want to remove "%s" ?' % selectedShow['name'],
+                                       QMessageBox.Yes, QMessageBox.No)
         if yesno == QMessageBox().No:
             return
 
@@ -830,9 +828,9 @@ class NextShowsConfig(QDialog):
             else:
                 message = u"Overlapping ranges detected (%d → %d).\nCannot add color for the specified range." % (rangeStart ,rangeStop)
             QMessageBox().information(self,
-                                            "Information",
-                                            message,
-                                            QMessageBox.Ok)
+                                      "Information",
+                                      message,
+                                      QMessageBox.Ok)
             return
 
         # Looks like everything went fine... Adding new color...
@@ -857,9 +855,9 @@ class NextShowsConfig(QDialog):
 
         # Ask user before deletion
         yesno = QMessageBox().question(self,
-                                             "Attention",
-                                             'Are you sure you want to remove this color ?',
-                                             QMessageBox.Yes, QMessageBox.No)
+                                       "Attention",
+                                       'Are you sure you want to remove this color ?',
+                                       QMessageBox.Yes, QMessageBox.No)
         if yesno == QMessageBox().No:
             return
 

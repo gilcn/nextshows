@@ -27,7 +27,7 @@
 
 import os
 
-class Globals:
+class Globals():
 
     # Set DEBUG ?
     DEBUG = True

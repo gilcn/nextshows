@@ -220,7 +220,7 @@ class TvRage(Http):
                     elif episode['airdate'][2] < 1 or episode['airdate'][2] > 31:
                         continue
 
-                    tools.msgDebug( "Found: %s-S%02dE%02d-%s (%d-%d-%d)" %
+                    tools.msgDebug( "Found: %s-S%02dE%02d-%s (%04d-%02d-%02d)" %
                         ( episode['show'], episode['season'], episode['episode'], episode['title'],
                         episode['airdate'][0], episode['airdate'][1], episode['airdate'][2] ),
                         __name__ )
