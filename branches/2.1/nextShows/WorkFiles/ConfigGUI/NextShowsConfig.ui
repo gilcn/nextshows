@@ -2035,7 +2035,7 @@ Released under the GNU GPL v2.</string>
            <item>
             <widget class="QLabel" name="lbl_nextShowsGoogleCode" >
              <property name="text" >
-              <string>&lt;a href="http://code.google.com/p/nextshows/">http://code.google.com/p/nextshows/&lt;/a></string>
+              <string>&lt;a href="http://nextshows.googlecode.com/">http://nextshows.googlecode.com/&lt;/a></string>
              </property>
              <property name="alignment" >
               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
