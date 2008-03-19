@@ -20,7 +20,7 @@
    <item row="0" column="0" >
     <widget class="QTabWidget" name="tabWidget" >
      <property name="currentIndex" >
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabShows" >
       <attribute name="title" >
@@ -172,7 +172,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QListWidget" name="listSearchResults" >
+          <widget class="ListWidget" name="listSearchResults" >
            <property name="enabled" >
             <bool>false</bool>
            </property>
@@ -262,7 +262,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QListWidget" name="listMyShows" >
+          <widget class="ListWidget" name="listMyShows" >
            <property name="enabled" >
             <bool>false</bool>
            </property>
@@ -2239,6 +2239,13 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ListWidget</class>
+   <extends>QListWidget</extends>
+   <header>ListWidget.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>tabWidget</tabstop>
   <tabstop>leditLookup</tabstop>
