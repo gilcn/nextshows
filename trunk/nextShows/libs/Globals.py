@@ -47,6 +47,7 @@ class Globals():
                                    'cgui/__init__.py',
                                    'cgui/FormatHelp.py',
                                    'cgui/FormatHelp_ui.py',
+                                   'cgui/ListWidget.py',
                                    'cgui/NextShowsConfig.py',
                                    'cgui/NextShowsConfig_ui.py',
                                    'cgui/NextShowsConfig_rc.py',
