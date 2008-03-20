@@ -63,6 +63,10 @@ class NextShowsConfig(QDialog):
         self.ui = Ui_NextShowsConfig()
         self.ui.setupUi(self)   # Setup UI
 
+        #### Drag n' Drop support
+        self.ui.listSearchResults.setAcceptDrags(True)
+        self.ui.listMyShows.setAcceptDrops(True)
+
         #### Initialize form (read config, set labels, etc...)
         self.initForm()
 
@@ -74,9 +78,10 @@ class NextShowsConfig(QDialog):
         self.uiHelpDialog.setMaximumSize( self.uiHelpDialogSize )   # Fix the size (ugly hack)
 
         #### Signals / Slots
-        QObject.connect( self.ui.btnLookup, SIGNAL("clicked()"),      self.lookupShow )
-        QObject.connect( self.uiHelpDialog, SIGNAL("hideWindow()"),   self.resetBtnFormatInfos )
-        QObject.connect( self.ui.btnQuit,   SIGNAL("clicked()"),      self, SLOT("close()") )
+        QObject.connect( self.ui.btnLookup,   SIGNAL("clicked()"),    self.lookupShow          )
+        QObject.connect( self.ui.listMyShows, SIGNAL("dropReceived"), self.addToMyShows        )
+        QObject.connect( self.uiHelpDialog,   SIGNAL("hideWindow()"), self.resetBtnFormatInfos )
+        QObject.connect( self.ui.btnQuit,     SIGNAL("clicked()"),    self, SLOT("close()")    )
 
         #### Make sure the first tabs are shown when we 1st launch the GUI
         self.ui.tabWidgetWidget.setCurrentIndex(0)
@@ -672,6 +677,7 @@ class NextShowsConfig(QDialog):
             showLines.append( listIdx )
             showLines[listIdx] = QListWidgetItem( self.ui.listSearchResults )
             showLines[listIdx].setIcon( self.drawFlag( show["flag"] ) )
+            showLines[listIdx].setData( Qt.UserRole, QVariant( listIdx ) )  # Used for Drag n' Drop
             font = showLines[listIdx].font()
             if show["year_end"] == "????":
                 font.setBold( True )
@@ -692,6 +698,9 @@ class NextShowsConfig(QDialog):
     ## Adds the show to "My Shows" ##
     #################################
     def addToMyShows(self, index):
+        # Restore the cursor in case we're dropping an item and a messagebox appears
+        QApplication.changeOverrideCursor( Qt.ArrowCursor )
+
         selectedShow = self.dispSearchResults[index]
 
         # Make sure the requested show isn't already tracked
