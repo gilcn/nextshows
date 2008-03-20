@@ -25,61 +25,79 @@
 
 from cgui.NextShowsConfig import NextShowsConfig
 import libs.tools as tools
-import os, sys, time
+import os, sys
 
 try:
     from PyQt4.Qt import *
 except:
     os.system('kdialog --title "Error" --error "The nextShows configuration GUI requires PyQt4!\nPlease install a recent version and retry." &')
-    sys.exit()
+    sys.exit(1)
 
 
 # Check PyQt version
-if PYQT_VERSION < 0x040300:
+if PYQT_VERSION < 0x040301:
     message = "Your PyQt version is too old (v%s)!\nYou need PyQt v4.3.0 or later." % PYQT_VERSION_STR
     os.system('kdialog --title "Error" --error "'+message+'" &')
-    sys.exit()
+    sys.exit(1)
 # Check Qt version
-if QT_VERSION < 0x040300:
+if QT_VERSION < 0x040301:
     message = "Your Qt version is too old (v%s)!\nYou need Qt v4.3.0 or later." % QT_VERSION_STR
     os.system('kdialog --title "Error" --error "'+message+'" &')
-    sys.exit()
+    sys.exit(1)
 
 
-class Splash():
-    def __init__(self):
-        self.splash      = QSplashScreen()
+class Splash(QSplashScreen):
+    def __init__(self, parent=None):
+        QSplashScreen.__init__(self, parent)
+
+        # Picture
         self.pixLogo     = QPixmap(":/images/logos/images/logos/nextShows.png")
         self.pixDesktop  = QPixmap()
         self.captureArea = QRect()
-        self.animStep    = 0.0000001
 
-    def init(self):
+        # Timeline
+        self.timeLine    = QTimeLine(200)
+        self.timeLine.setLoopCount(1)
+        self.timeLine.setFrameRange(0, 100)
+        self.timeLine.setCurveShape(QTimeLine.LinearCurve)
+        QObject.connect(self.timeLine, SIGNAL("frameChanged(int)"), self._displayFrame)
+
+        # Workaround to prevent displaying splash screen at the wrong position
+        self.setPixmap(QPixmap(1,1))
+        self.show()
+
         ## FIXME: Desktop area screenshot doesn't work properly with multiple-displays
-        desktopAGeo = qApp.desktop().availableGeometry( qApp.desktop().primaryScreen() )
+        desktopAGeo = qApp.desktop().screen()
         self.captureArea = QRect( ( desktopAGeo.width()  - self.pixLogo.width()  ) / 2,
-                                         ( desktopAGeo.height() - self.pixLogo.height() ) / 2,
-                                           self.pixLogo.width(),
-                                           self.pixLogo.height() )
-        self.pixDesktop  = QPixmap().grabWindow( QApplication.desktop().winId(),
-                                                       self.captureArea.x(),
-                                                       self.captureArea.y(),
-                                                       self.captureArea.width(),
-                                                       self.captureArea.height() )
-    def finish(self, window):
-        self.splash.finish(window)
+                                  ( desktopAGeo.height() - self.pixLogo.height() ) / 2,
+                                    self.pixLogo.width(),
+                                    self.pixLogo.height() )
+        self.pixDesktop  = QPixmap().grabWindow( qApp.desktop().winId(),
+                                                 self.captureArea.x(),
+                                                 self.captureArea.y(),
+                                                 self.captureArea.width(),
+                                                 self.captureArea.height() )
 
+    # Fade in
     def fadeIn(self):
-        for i in range(0, 101):
-            self._showImage( float(i) / 100 )
-            time.sleep( self.animStep )
+        self.timeLine.setDirection(QTimeLine.Forward)
+        self.timeLine.start()
+        # Loop and return only when animation finishes
+        while self.timeLine.state() == QTimeLine.Running:
+            qApp.processEvents()
 
+    # Fade out
     def fadeOut(self):
-        for i in range(0, 101):
-            self._showImage( float(100-i) / 100 )
-            time.sleep( self.animStep )
+        self.timeLine.setDirection(QTimeLine.Backward)
+        self.timeLine.start()
+        # Loop and return only when animation finishes
+        while self.timeLine.state() == QTimeLine.Running:
+            qApp.processEvents()
 
-    def _showImage(self, opacity):
+    # Display splash image
+    def _displayFrame(self, opacity):
+        opacity   = 1.0 - ( float(100-opacity) / 100 )
+
         painter   = QPainter()
         pixSplash = QPixmap( self.captureArea.width(), self.captureArea.height() )
 
@@ -87,28 +105,29 @@ class Splash():
         painter.drawPixmap( 0, 0, self.pixDesktop )
         painter.setOpacity( opacity )
         painter.drawPixmap( 0, 0, self.pixLogo )
+
+        ## DEBUG
+        #painter.setPen( QPen( QColor( "#FF0000" ) ) )
+        #painter.setOpacity( 1.0 )
+        #painter.drawRect( 0, 0, self.captureArea.width()-1, self.captureArea.height()-1 )
+        ## /DEBUG
+
         painter.end()
 
-        self.splash.setPixmap( pixSplash )
-        self.splash.show()
+        self.setPixmap( pixSplash )
+        self.show()
 
 
 def main():
-    # Init qApp
-    app=QApplication(sys.argv)
-    # Splash "in" / init
-    splash = Splash()
-    splash.init()
-    splash.fadeIn()
-    # Load main window
-    window=NextShowsConfig()
-    # Splash "out"
-    splash.fadeOut()
-    # Show main window
-    window.show()
-    splash.finish(window)
-    # Entering Event Loop
-    return app.exec_()
+    app=QApplication(sys.argv)  # Init app
+    splash = Splash()           # Splash
+
+    splash.fadeIn()             # Splash "in"
+    window=NextShowsConfig()    # Load main window
+    splash.fadeOut()            # Splash "out"
+    window.show()               # Show main window
+    splash.finish(window)       # Close splash
+    return app.exec_()          # Enter event loop
 
 
 if __name__ == "__main__":
