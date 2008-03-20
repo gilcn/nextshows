@@ -1605,7 +1605,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Click to remove the selected show from your tracked shows list.&lt;/p>&lt;/body>&lt;/html></string>
                </property>
                <property name="icon" >
-                <iconset resource="NextShowsConfig.qrc" >:/images/icons/images/icons/leftarrow.png</iconset>
+                <iconset resource="NextShowsConfig.qrc" >:/images/icons/images/icons/trash.png</iconset>
                </property>
               </widget>
              </item>
