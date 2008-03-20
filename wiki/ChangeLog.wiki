@@ -5,6 +5,8 @@
 *v2.1.1 (Not yet released)*
   * Added drag and drop support (for now only search results can be dragged and dropped on the "My Shows" list)
   * Greatly improved fade-{in,out} effect for the GUI's splash screen (thanks to [http://doc.trolltech.com/latest/qtimeline.html QTimeLine])
+  * New logo
+  * Changed the "Left Arrow" icon with a trash icon (GUI)
   * Code cleanup
 
 *v2.1.0:*
