@@ -54,6 +54,7 @@ def main():
     splash.setMask( logo.mask() )
     splash.setPixmap( logo )
     splash.show()
+    app.processEvents()
 
     window=NextShowsConfig()
     window.show()
