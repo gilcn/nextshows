@@ -3,10 +3,13 @@
 
 == V2.1 ==
 *v2.1.1 (Not yet released)*
-  * Added drag and drop support (for now only search results can be dragged and dropped on the "My Shows" list)
-  * Removed GUI's splash screen fading effect (faster, works better with multiple displays, etc...)
   * New logo
+  * Removed GUI's splash screen fading effect (faster, works better with multiple displays, etc...)
   * Changed the "Left Arrow" icon with a trash icon (GUI)
+  * Added drag and drop support. With that, one can now:
+    * Drag a search result and drop it to "My Shows"
+    * Drag a show from "My Shows" and drop it to the trash tool button
+    * Drag a custom color and drop it to the trash tool button
   * Code cleanup
 
 *v2.1.0:*
