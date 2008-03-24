@@ -1658,7 +1658,7 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="QListWidget" name="listMyColors" />
+              <widget class="ListWidget" name="listMyColors" />
              </item>
             </layout>
            </item>
