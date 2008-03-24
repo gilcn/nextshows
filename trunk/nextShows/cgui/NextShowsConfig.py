@@ -67,8 +67,10 @@ class NextShowsConfig(QDialog):
         self.ui.listSearchResults.setAcceptDrags(True)
         self.ui.listMyShows.setAcceptDrags(True)
         self.ui.listMyShows.setAcceptDrops(True)
-        QObject.connect( self.ui.listMyShows,   SIGNAL("dropReceived"), self.addToMyShows      )
-        QObject.connect( self.ui.btnShowRemove, SIGNAL("dropReceived"), self.removeFromMyShows )
+        self.ui.listMyColors.setAcceptDrags(True)
+        QObject.connect( self.ui.listMyShows,    SIGNAL("dropReceived"), self.addToMyShows       )
+        QObject.connect( self.ui.btnShowRemove,  SIGNAL("dropReceived"), self.removeFromMyShows  )
+        QObject.connect( self.ui.btnColorRemove, SIGNAL("dropReceived"), self.removeFromMyColors )
 
         #### Initialize form (read config, set labels, etc...)
         self.initForm()
@@ -914,6 +916,7 @@ class NextShowsConfig(QDialog):
             colorLines[listIdx].setText( text )
             icon = QIcon( self.drawPreviewColor( color[2], 16, 16 ) )
             colorLines[listIdx].setIcon( icon )
+            colorLines[listIdx].setData( Qt.UserRole, QVariant( listIdx ) )  # Used for Drag n' Drop
             listIdx +=1
 
 
