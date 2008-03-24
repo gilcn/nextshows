@@ -65,7 +65,10 @@ class NextShowsConfig(QDialog):
 
         #### Drag n' Drop support
         self.ui.listSearchResults.setAcceptDrags(True)
+        self.ui.listMyShows.setAcceptDrags(True)
         self.ui.listMyShows.setAcceptDrops(True)
+        QObject.connect( self.ui.listMyShows,   SIGNAL("dropReceived"), self.addToMyShows      )
+        QObject.connect( self.ui.btnShowRemove, SIGNAL("dropReceived"), self.removeFromMyShows )
 
         #### Initialize form (read config, set labels, etc...)
         self.initForm()
@@ -79,7 +82,6 @@ class NextShowsConfig(QDialog):
 
         #### Signals / Slots
         QObject.connect( self.ui.btnLookup,   SIGNAL("clicked()"),    self.lookupShow          )
-        QObject.connect( self.ui.listMyShows, SIGNAL("dropReceived"), self.addToMyShows        )
         QObject.connect( self.uiHelpDialog,   SIGNAL("hideWindow()"), self.resetBtnFormatInfos )
         QObject.connect( self.ui.btnQuit,     SIGNAL("clicked()"),    self, SLOT("close()")    )
 
@@ -798,6 +800,7 @@ class NextShowsConfig(QDialog):
             #showLines[listIdx].setText( u"[%s-%s] %s" % ( show["year_begin"], show["year_end"], show["name"] ) )
             showLines[listIdx].setText( u"%s" % show["name"] )
             showLines[listIdx].setIcon( self.drawFlag( show["flag"] ) )
+            showLines[listIdx].setData( Qt.UserRole, QVariant( listIdx ) )  # Used for Drag n' Drop
             font = showLines[listIdx].font()
             if show["year_end"] == "????":
                 font.setBold( True )

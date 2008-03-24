@@ -51,6 +51,7 @@ class Globals():
                                    'cgui/NextShowsConfig.py',
                                    'cgui/NextShowsConfig_ui.py',
                                    'cgui/NextShowsConfig_rc.py',
+                                   'cgui/ToolButton.py',
                                    'libs/__init__.py',
                                    'libs/Config.py',
                                    'libs/Globals.py',
