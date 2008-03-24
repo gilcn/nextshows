@@ -108,7 +108,7 @@ p, li { white-space: pre-wrap; }
           </spacer>
          </item>
          <item>
-          <widget class="QToolButton" name="btnShowRemove" >
+          <widget class="ToolButton" name="btnShowRemove" >
            <property name="enabled" >
             <bool>false</bool>
            </property>
@@ -1594,7 +1594,7 @@ p, li { white-space: pre-wrap; }
               </spacer>
              </item>
              <item>
-              <widget class="QToolButton" name="btnColorRemove" >
+              <widget class="ToolButton" name="btnColorRemove" >
                <property name="enabled" >
                 <bool>false</bool>
                </property>
@@ -2244,6 +2244,11 @@ p, li { white-space: pre-wrap; }
    <class>ListWidget</class>
    <extends>QListWidget</extends>
    <header>ListWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ToolButton</class>
+   <extends>QToolButton</extends>
+   <header>ToolButton.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
