@@ -1,0 +1,72 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#######################################################################
+# nextShows - GUI launcher
+# Copyright (C) 2006-2008 Gilles CHAUVIN <gcnweb@gmail.com>
+# $Id$
+#######################################################################
+# Coding: UTF-8, 4 spaces indent, LF line terminator
+#######################################################################
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2  of  the  License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be  useful, but
+# WITHOUT  ANY  WARRANTY;  without  even  the   implied   warranty  of
+# MERCHANTABILITY or FITNESS FOR A  PARTICULAR  PURPOSE. See  the  GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU  General  Public  License
+# along with  this  program;  if  not,  write  to  the  Free  Software
+# Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#######################################################################
+
+from cgui.NextShowsConfig import NextShowsConfig
+import libs.tools as tools
+import os, sys
+
+try:
+    from PyQt4.Qt import *
+except:
+    os.system('kdialog --title "Error" --error "The nextShows configuration GUI requires PyQt4!\nPlease install a recent version and retry." &')
+    sys.exit(1)
+
+# Check PyQt version
+if PYQT_VERSION < 0x040301:
+    message = "Your PyQt version is too old (v%s)!\nYou need PyQt v4.3.0 or later." % PYQT_VERSION_STR
+    os.system('kdialog --title "Error" --error "'+message+'" &')
+    sys.exit(1)
+# Check Qt version
+if QT_VERSION < 0x040301:
+    message = "Your Qt version is too old (v%s)!\nYou need Qt v4.3.0 or later." % QT_VERSION_STR
+    os.system('kdialog --title "Error" --error "'+message+'" &')
+    sys.exit(1)
+
+
+
+def main():
+    app=QApplication(sys.argv)
+
+    splash = QSplashScreen()
+    logo = QPixmap(":/images/logos/images/logos/nextShows.png")
+    splash.setMask( logo.mask() )
+    splash.setPixmap( logo )
+    splash.show()
+    app.processEvents()
+
+    window=NextShowsConfig()
+    window.show()
+
+    splash.finish(window)
+
+    return app.exec_()
+
+
+
+if __name__ == "__main__":
+    RETVAL=main()
+    print "Exit: %d" % RETVAL   # This is to make sure SK catches when GUI was closed
+                                # using commandOutput()
+    sys.exit(RETVAL)
