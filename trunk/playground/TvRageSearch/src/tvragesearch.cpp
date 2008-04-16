@@ -99,21 +99,21 @@ void TvRageSearch::httpRequestFinished(const int requestId, const bool error) co
         items.append(new QTreeWidgetItem((QTreeWidget*)0, QStringList(showList.value(i).name)));
         {
             childItems.append(new QTreeWidgetItem(items.last(),
-                              QStringList(tr("showid: %1").arg(showList.value(i).showid))));
+                              QStringList(QString("showid: %1").arg(showList.value(i).showid))));
             childItems.append(new QTreeWidgetItem(items.last(),
-                              QStringList(tr("link: %1").arg(showList.value(i).link))));
+                              QStringList(QString("link: %1").arg(showList.value(i).link))));
             childItems.append(new QTreeWidgetItem(items.last(),
-                              QStringList(tr("country: %1").arg(showList.value(i).country))));
+                              QStringList(QString("country: %1").arg(showList.value(i).country))));
             childItems.append(new QTreeWidgetItem(items.last(),
-                              QStringList(tr("started: %1").arg(showList.value(i).started))));
+                              QStringList(QString("started: %1").arg(showList.value(i).started))));
             childItems.append(new QTreeWidgetItem(items.last(),
-                              QStringList(tr("ended: %1").arg(showList.value(i).ended))));
+                              QStringList(QString("ended: %1").arg(showList.value(i).ended))));
             childItems.append(new QTreeWidgetItem(items.last(),
-                              QStringList(tr("seasons: %1").arg(showList.value(i).seasons))));
+                              QStringList(QString("seasons: %1").arg(showList.value(i).seasons))));
             childItems.append(new QTreeWidgetItem(items.last(),
-                              QStringList(tr("classification: %1").arg(showList.value(i).classification))));
+                              QStringList(QString("classification: %1").arg(showList.value(i).classification))));
             childItems.append(new QTreeWidgetItem(items.last(),
-                              QStringList(tr("genres: %1").arg(showList.value(i).genres))));
+                              QStringList(QString("genres: %1").arg(showList.value(i).genres))));
         }
         QColor color = ( !showList.value(i).ended ) ? "#000000" : "#555555";
         QFont   font = items.last()->font(0);
