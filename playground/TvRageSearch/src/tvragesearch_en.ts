@@ -29,7 +29,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="tvragesearch.cpp" line="92"/>
+        <location filename="tvragesearch.cpp" line="93"/>
         <source>Empty! No shows found?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -54,13 +54,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/tvragesearch.ui" line="103"/>
+        <location filename="ui/tvragesearch.ui" line="139"/>
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ui/tvragesearch.ui" line="67"/>
         <source>Results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/tvragesearch.ui" line="106"/>
+        <source>&amp;Expand all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/tvragesearch.ui" line="116"/>
+        <source>&amp;Collapse all</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

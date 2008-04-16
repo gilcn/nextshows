@@ -49,6 +49,8 @@ private slots:
     void setProgressPic(const QPixmap &pic) const;
     void httpRequestFinished(const int requestId,
                              const bool error) const;
+    void on_btnExpand_clicked();
+    void on_btnCollapse_clicked();
     void on_btnQuit_clicked();
 };
 
