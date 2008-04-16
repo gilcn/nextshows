@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>467</width>
-    <height>441</height>
+    <width>464</width>
+    <height>428</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -35,37 +35,6 @@
        </property>
       </widget>
      </item>
-    </layout>
-   </item>
-   <item row="1" column="0" >
-    <widget class="Line" name="line" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" >
-    <layout class="QHBoxLayout" >
-     <item>
-      <widget class="QLabel" name="lblResults" >
-       <property name="text" >
-        <string>Results:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
      <item>
       <widget class="QLabel" name="imgProgress" >
        <property name="sizePolicy" >
@@ -84,56 +53,23 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="0" >
-    <widget class="QTableWidget" name="tableResults" >
+   <item row="1" column="0" >
+    <widget class="Line" name="line" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" >
+    <widget class="QTreeWidget" name="treeResults" >
      <column>
       <property name="text" >
-       <string>showid</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>name</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>link</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>country</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>started</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>ended</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>seasons</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>classification</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>genres</string>
+       <string>Results</string>
       </property>
      </column>
     </widget>
    </item>
-   <item row="4" column="0" >
+   <item row="3" column="0" >
     <layout class="QHBoxLayout" >
      <item>
       <widget class="QLabel" name="lblTVRage" >

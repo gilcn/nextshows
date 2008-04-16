@@ -36,13 +36,6 @@ TvRageSearch::TvRageSearch(QWidget *parent)
             this, SLOT(setProgressPic(const QPixmap &)));
 
     ui.setupUi(this);
-
-    // Lookup
-    //connect(ui.btnLookup, SIGNAL(clicked()), this, SLOT(lookup()));
-    // Quit
-    //connect(ui.btnQuit, SIGNAL(clicked()), this, SLOT(close()));
-
-//    ui.btnLookup->blockSignals(true);
 }
 
 TvRageSearch::~TvRageSearch()
@@ -61,8 +54,6 @@ void TvRageSearch::on_btnLookup_clicked()
     }
     ui.btnLookup->setEnabled(false);
     m_progressAnimation->start();
-    ui.tableResults->setRowCount(0);
-    ui.tableResults->clearContents();
 
     // Prepare URL
     QUrl url("http://www.tvrage.com/feeds/search.php", QUrl::StrictMode);
@@ -100,27 +91,37 @@ void TvRageSearch::httpRequestFinished(const int requestId, const bool error) co
     if (showList.isEmpty())
         qDebug() << tr("Empty! No shows found?");
 
-    ui.tableResults->setRowCount(showList.count());
+    ui.treeResults->clear();
+
+    QList<QTreeWidgetItem *> items;
+    QList<QTreeWidgetItem *> childItems;
     for (int i=0; i < showList.count(); ++i) {
-        QTableWidgetItem *itemShowid=new QTableWidgetItem(tr("%1").arg(showList.value(i).showid));
-        ui.tableResults->setItem(i, 0, itemShowid);
-        QTableWidgetItem *itemName=new QTableWidgetItem(showList.value(i).name);
-        ui.tableResults->setItem(i, 1, itemName);
-        QTableWidgetItem *itemLink=new QTableWidgetItem(showList.value(i).link);
-        ui.tableResults->setItem(i, 2, itemLink);
-        QTableWidgetItem *itemCountry=new QTableWidgetItem(showList.value(i).country);
-        ui.tableResults->setItem(i, 3, itemCountry);
-        QTableWidgetItem *itemStarted=new QTableWidgetItem(tr("%1").arg(showList.value(i).started));
-        ui.tableResults->setItem(i, 4, itemStarted);
-        QTableWidgetItem *itemEnded=new QTableWidgetItem(tr("%1").arg(showList.value(i).ended));
-        ui.tableResults->setItem(i, 5, itemEnded);
-        QTableWidgetItem *itemSeasons=new QTableWidgetItem(tr("%1").arg(showList.value(i).seasons));
-        ui.tableResults->setItem(i, 6, itemSeasons);
-        QTableWidgetItem *itemClassification=new QTableWidgetItem(showList.value(i).classification);
-        ui.tableResults->setItem(i, 7, itemClassification);
-        QTableWidgetItem *itemGenres=new QTableWidgetItem(showList.value(i).genres);
-        ui.tableResults->setItem(i, 8, itemGenres);
+        items.append(new QTreeWidgetItem((QTreeWidget*)0, QStringList(showList.value(i).name)));
+        {
+            childItems.append(new QTreeWidgetItem(items.last(),
+                              QStringList(tr("showid: %1").arg(showList.value(i).showid))));
+            childItems.append(new QTreeWidgetItem(items.last(),
+                              QStringList(tr("link: %1").arg(showList.value(i).link))));
+            childItems.append(new QTreeWidgetItem(items.last(),
+                              QStringList(tr("country: %1").arg(showList.value(i).country))));
+            childItems.append(new QTreeWidgetItem(items.last(),
+                              QStringList(tr("started: %1").arg(showList.value(i).started))));
+            childItems.append(new QTreeWidgetItem(items.last(),
+                              QStringList(tr("ended: %1").arg(showList.value(i).ended))));
+            childItems.append(new QTreeWidgetItem(items.last(),
+                              QStringList(tr("seasons: %1").arg(showList.value(i).seasons))));
+            childItems.append(new QTreeWidgetItem(items.last(),
+                              QStringList(tr("classification: %1").arg(showList.value(i).classification))));
+            childItems.append(new QTreeWidgetItem(items.last(),
+                              QStringList(tr("genres: %1").arg(showList.value(i).genres))));
+        }
+        QColor color = ( !showList.value(i).ended ) ? "#000000" : "#555555";
+        QFont   font = items.last()->font(0);
+        ( !showList.value(i).ended ) ? font.setWeight(QFont::Bold) : font.setWeight(QFont::Normal);
+        items.last()->setForeground(0, QBrush(color));
+        items.last()->setFont(0, font);
     }
+    ui.treeResults->insertTopLevelItems(0, items);
 }
 
 // Quit
