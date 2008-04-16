@@ -85,13 +85,19 @@ void TvRageSearch::httpRequestFinished(const int requestId, const bool error) co
     m_progressAnimation->stop();
     ui.imgProgress->setPixmap(QPixmap(":/pics/idle.png"));
     ui.btnLookup->setEnabled(true);
+    ui.treeResults->clear();
 
     QList<TvRageParser::show_t> showList;
     showList = TvRageParser::parseSearchResults(m_http->readAll());
-    if (showList.isEmpty())
+    if (showList.isEmpty()) {
         qDebug() << tr("Empty! No shows found?");
-
-    ui.treeResults->clear();
+        ui.btnExpand->setEnabled(false);
+        ui.btnCollapse->setEnabled(false);
+        return;
+    } else {
+        ui.btnExpand->setEnabled(true);
+        ui.btnCollapse->setEnabled(true);
+    }
 
     QList<QTreeWidgetItem *> items;
     QList<QTreeWidgetItem *> childItems;
@@ -122,6 +128,24 @@ void TvRageSearch::httpRequestFinished(const int requestId, const bool error) co
         items.last()->setFont(0, font);
     }
     ui.treeResults->insertTopLevelItems(0, items);
+}
+
+// Expand
+void TvRageSearch::on_btnExpand_clicked()
+{
+    for (int i=0; i < ui.treeResults->topLevelItemCount(); ++i) {
+        QTreeWidgetItem *item = ui.treeResults->topLevelItem(i);
+        ui.treeResults->expandItem(item);
+    }
+}
+
+// Collapse
+void TvRageSearch::on_btnCollapse_clicked()
+{
+    for (int i=0; i < ui.treeResults->topLevelItemCount(); ++i) {
+        QTreeWidgetItem *item = ui.treeResults->topLevelItem(i);
+        ui.treeResults->collapseItem(item);
+    }
 }
 
 // Quit

@@ -29,7 +29,7 @@
         <translation>Aucun show à rechercher...</translation>
     </message>
     <message>
-        <location filename="tvragesearch.cpp" line="92"/>
+        <location filename="tvragesearch.cpp" line="93"/>
         <source>Empty! No shows found?</source>
         <translation>Vide ! Aucun show trouvé ?</translation>
     </message>
@@ -64,7 +64,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="ui/tvragesearch.ui" line="103"/>
+        <location filename="ui/tvragesearch.ui" line="139"/>
         <source>&amp;Quit</source>
         <translation>&amp;Quitter</translation>
     </message>
@@ -72,6 +72,16 @@
         <location filename="ui/tvragesearch.ui" line="67"/>
         <source>Results</source>
         <translation>Résultat</translation>
+    </message>
+    <message>
+        <location filename="ui/tvragesearch.ui" line="106"/>
+        <source>&amp;Expand all</source>
+        <translation>Tout &amp;développer</translation>
+    </message>
+    <message>
+        <location filename="ui/tvragesearch.ui" line="116"/>
+        <source>&amp;Collapse all</source>
+        <translation>Tout re&amp;plier</translation>
     </message>
 </context>
 </TS>
