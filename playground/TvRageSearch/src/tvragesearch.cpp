@@ -133,18 +133,20 @@ void TvRageSearch::httpRequestFinished(const int requestId, const bool error) co
 // Expand
 void TvRageSearch::on_btnExpand_clicked()
 {
-    for (int i=0; i < ui.treeResults->topLevelItemCount(); ++i) {
-        QTreeWidgetItem *item = ui.treeResults->topLevelItem(i);
-        ui.treeResults->expandItem(item);
+    QTreeWidgetItemIterator it(ui.treeResults, QTreeWidgetItemIterator::HasChildren);
+    while (*it) {
+        (*it)->setExpanded(true);
+        ++it;
     }
 }
 
 // Collapse
 void TvRageSearch::on_btnCollapse_clicked()
 {
-    for (int i=0; i < ui.treeResults->topLevelItemCount(); ++i) {
-        QTreeWidgetItem *item = ui.treeResults->topLevelItem(i);
-        ui.treeResults->collapseItem(item);
+    QTreeWidgetItemIterator it(ui.treeResults, QTreeWidgetItemIterator::HasChildren);
+    while (*it) {
+        (*it)->setExpanded(false);
+        ++it;
     }
 }
 
