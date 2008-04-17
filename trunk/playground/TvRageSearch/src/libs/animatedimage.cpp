@@ -24,12 +24,30 @@
 #include <QtGui/QPainter>
 
 
+// Private
+class AnimatedImage::Private
+{
+public:
+    Private()
+        : timer(new QTimer())
+    {
+        timer->setInterval(50);
+    };
+    ~Private()
+    {
+        delete timer;
+    };
+    QTimer         *timer;
+    int             currentFrame;
+    QList<QPixmap>  picList;
+};  // Private
+
+
 AnimatedImage::AnimatedImage(QObject *parent, const QString &fileName)
     : QObject(parent)
-    , m_timer(new QTimer())
+    , d(new Private())
 {
-    m_timer->setInterval(50);
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(sendPixmap()));
+    connect(d->timer, SIGNAL(timeout()), this, SLOT(sendPixmap()));
 
     if (!fileName.isEmpty())
         setPicture(fileName);
@@ -37,7 +55,7 @@ AnimatedImage::AnimatedImage(QObject *parent, const QString &fileName)
 
 AnimatedImage::~AnimatedImage()
 {
-    delete m_timer;
+    delete d;
 }
 
 bool AnimatedImage::setPicture(const QString &fileName)
@@ -51,8 +69,8 @@ bool AnimatedImage::setPicture(const QString &fileName)
         return false;
     }
 
-    if (!m_picList.isEmpty())
-        m_picList.clear();
+    if (!d->picList.isEmpty())
+        d->picList.clear();
 
     QPixmap animatedPic(fileName);
     int picSize        = qMin(animatedPic.width(), animatedPic.height());
@@ -70,7 +88,7 @@ bool AnimatedImage::setPicture(const QString &fileName)
         p.drawPixmap(QPoint(0, 0),
                      animatedPic,
                      QRect(0, i * picSize, picSize, picSize));
-        m_picList.append(pic);
+        d->picList.append(pic);
     }
 
     return true;
@@ -78,28 +96,28 @@ bool AnimatedImage::setPicture(const QString &fileName)
 
 void AnimatedImage::start()
 {
-    if(m_picList.isEmpty())
+    if(d->picList.isEmpty())
         return;
 
     sendPixmap();
-    m_timer->start();
+    d->timer->start();
 }
 
 void AnimatedImage::stop()
 {
-    m_timer->stop();
-    m_currentFrame=0;
+    d->timer->stop();
+    d->currentFrame=0;
 }
 
 bool AnimatedImage::isActive()
 {
-    return m_timer->isActive();
+    return d->timer->isActive();
 }
 
 void AnimatedImage::sendPixmap()
 {
-    m_currentFrame++;
-    if (m_currentFrame >= m_picList.count())
-        m_currentFrame=0;
-    emit newFrame(m_picList.value(m_currentFrame));
+    d->currentFrame++;
+    if (d->currentFrame >= d->picList.count())
+        d->currentFrame=0;
+    emit newFrame(d->picList.value(d->currentFrame));
 }

@@ -43,16 +43,15 @@ public:
     void stop();        // Stops animation
     bool isActive();
 
-private:
-    QTimer         *m_timer;
-    int             m_currentFrame;
-    QList<QPixmap>  m_picList;
-
-signals:
+Q_SIGNALS:
     void newFrame(const QPixmap&);
 
-private slots:
+private Q_SLOTS:
     void sendPixmap();
+
+private:
+    class Private;
+    Private * const d;
 };
 
 
