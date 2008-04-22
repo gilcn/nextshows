@@ -21,17 +21,44 @@
 
 #include "plasma/datacontainer.h"
 
+#include <QtCore/QDebug>
+
 
 NextShowsEngine::NextShowsEngine(QObject *parent, const QVariantList &args)
     : Plasma::DataEngine(parent, args)
 {
     Q_UNUSED(parent)
     Q_UNUSED(args)
+    qDebug() << args;
 }
 
 NextShowsEngine::~NextShowsEngine()
 {
 }
 
+QStringList NextShowsEngine::sources() const
+{
+   QStringList list;
+
+   list << QLatin1String("Test1");
+   list << QLatin1String("Test2");
+   list << QLatin1String("Test3");
+
+   return list;
+}
+
+bool NextShowsEngine::sourceRequested(const QString &name)
+{
+    kDebug() << name;
+
+    return true;
+}
+
+bool NextShowsEngine::updateSource(const QString &source)
+{
+    kDebug() << source;
+
+    return true;
+}
 
 #include "nextshowsengine.moc"

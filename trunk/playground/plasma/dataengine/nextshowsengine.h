@@ -31,9 +31,16 @@ class NextShowsEngine : public Plasma::DataEngine
 public:
     NextShowsEngine(QObject *parent, const QVariantList &args);
     ~NextShowsEngine();
+
+    QStringList sources() const;
+
+protected:
+    bool sourceRequested(const QString &name);
+    bool updateSource(const QString &source);
 };
 
 
-//K_EXPORT_PLASMA_DATAENGINE(nextshows, NextShowsEngine)
+K_EXPORT_PLASMA_DATAENGINE(nextshows, NextShowsEngine)
+
 
 #endif // __NEXTSHOWS_DATAENGINE_H__
