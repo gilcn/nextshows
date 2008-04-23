@@ -32,11 +32,9 @@ public:
     NextShowsEngine(QObject *parent, const QVariantList &args);
     ~NextShowsEngine();
 
-    QStringList sources() const;
-
 protected:
-    bool sourceRequested(const QString &name);
-    bool updateSource(const QString &source);
+    void init();
+    bool sourceRequested(const QString &request);
 };
 
 
