@@ -19,46 +19,33 @@
 
 #include "nextshowsengine.h"
 
-#include "plasma/datacontainer.h"
-
-#include <QtCore/QDebug>
+//#include "plasma/datacontainer.h"
 
 
 NextShowsEngine::NextShowsEngine(QObject *parent, const QVariantList &args)
     : Plasma::DataEngine(parent, args)
 {
-    Q_UNUSED(parent)
     Q_UNUSED(args)
-    qDebug() << args;
+    kDebug() << "ctor() called";
 }
 
 NextShowsEngine::~NextShowsEngine()
 {
+    kDebug() << "dtor() called";
 }
 
-QStringList NextShowsEngine::sources() const
+void NextShowsEngine::init()
 {
-   QStringList list;
-
-   list << QLatin1String("Test1");
-   list << QLatin1String("Test2");
-   list << QLatin1String("Test3");
-
-   return list;
+    kDebug() << "init() called";
 }
 
-bool NextShowsEngine::sourceRequested(const QString &name)
+bool NextShowsEngine::sourceRequested(const QString &request)
 {
-    kDebug() << name;
-
+    kDebug() << "Request:" << request;
+    //setData(request, "key", QVariant("val"));
+    setData(request, Data());
     return true;
 }
 
-bool NextShowsEngine::updateSource(const QString &source)
-{
-    kDebug() << source;
-
-    return true;
-}
 
 #include "nextshowsengine.moc"
