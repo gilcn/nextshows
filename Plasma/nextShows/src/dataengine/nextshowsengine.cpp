@@ -17,9 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include "nextshowsengine.h"
 
-//#include "plasma/datacontainer.h"
+#include "nextshowsengine.h"
 
 
 NextShowsEngine::NextShowsEngine(QObject *parent, const QVariantList &args)
@@ -39,10 +38,9 @@ void NextShowsEngine::init()
     kDebug() << "init() called";
 }
 
-bool NextShowsEngine::sourceRequested(const QString &request)
+bool NextShowsEngine::sourceRequestEvent(const QString &request)
 {
     kDebug() << "Request:" << request;
-    //setData(request, "key", QVariant("val"));
     setData(request, Data());
     return true;
 }

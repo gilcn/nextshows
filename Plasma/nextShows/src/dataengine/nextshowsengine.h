@@ -34,7 +34,7 @@ public:
 
 protected:
     void init();
-    bool sourceRequested(const QString &request);
+    bool sourceRequestEvent(const QString &request);
 };
 
 
