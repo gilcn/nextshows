@@ -20,30 +20,51 @@
 
 #include "nextshowsengine.h"
 
+#include <QtNetwork/QHttp>
+
+
+class NextShowsEngine::Private
+{
+public:
+    Private()
+    {
+        http = new QHttp();
+    };
+    ~Private() {};
+
+    QHttp *http;
+}; // Private()
+
 
 NextShowsEngine::NextShowsEngine(QObject *parent, const QVariantList &args)
     : Plasma::DataEngine(parent, args)
+    , d(new Private())
 {
-    Q_UNUSED(args)
-    kDebug() << "ctor() called";
-}
+    Q_UNUSED(args);
+}; // ctor()
+
 
 NextShowsEngine::~NextShowsEngine()
 {
-    kDebug() << "dtor() called";
-}
+    delete d;
+}; // dtor()
+
 
 void NextShowsEngine::init()
 {
-    kDebug() << "init() called";
-}
+    // Quick usage help
+    setData("nextShows",
+            "Usage",
+            QVariant("search:showname -> search for a show\neplist:showid -> get episode list for the given show ID"));
+}; // init()
+
 
 bool NextShowsEngine::sourceRequestEvent(const QString &request)
 {
     kDebug() << "Request:" << request;
     setData(request, Data());
     return true;
-}
+}; // sourceRequestEvent()
 
 
 #include "nextshowsengine.moc"

@@ -26,7 +26,7 @@
 
 class NextShowsEngine : public Plasma::DataEngine
 {
-    Q_OBJECT
+    Q_OBJECT;
 
 public:
     NextShowsEngine(QObject *parent, const QVariantList &args);
@@ -35,6 +35,10 @@ public:
 protected:
     void init();
     bool sourceRequestEvent(const QString &request);
+
+private:
+    class Private;
+    Private * const d;
 };
 
 
