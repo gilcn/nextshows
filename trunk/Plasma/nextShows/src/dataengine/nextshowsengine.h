@@ -33,7 +33,6 @@ public:
     ~NextShowsEngine();
 
 protected:
-    void init();
     bool sourceRequestEvent(const QString &request);
 
 private:

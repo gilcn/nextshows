@@ -50,19 +50,25 @@ NextShowsEngine::~NextShowsEngine()
 }; // dtor()
 
 
-void NextShowsEngine::init()
-{
-    // Quick usage help
-    setData("nextShows",
-            "Usage",
-            QVariant("search:showname -> search for a show\neplist:showid -> get episode list for the given show ID"));
-}; // init()
-
-
 bool NextShowsEngine::sourceRequestEvent(const QString &request)
 {
-    kDebug() << "Request:" << request;
-    setData(request, Data());
+    if ( request.toLower().startsWith("search:") ) {
+        kDebug() << "Search";
+//        setData(request, Plasma::DataEngine::Data());
+        setData(request, "key1", QVariant("value"));
+        setData(request, "key2", QVariant("value"));
+        setData(request, "key3", QVariant("value"));
+    } else if ( request.toLower().startsWith("eplist:") ) {
+        kDebug() << "Episode List";
+        setData(request, Plasma::DataEngine::Data());
+    } else {
+        // Quick usage help
+        setData(request,
+                "Usage",
+                QVariant("search:showname -> search for a show\neplist:showid -> get episode list for the given show ID"));
+        return false;
+    }
+
     return true;
 }; // sourceRequestEvent()
 
