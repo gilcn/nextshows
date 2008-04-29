@@ -111,15 +111,10 @@ void NextShowsEngine::httpRequestFinished(const int reqId, const bool error)
     showList = TvRageParser::parseSearchResults(d->http->readAll());
 
     QListIterator<TvRageParser::showInfos> it(showList);
-    int i=0;
     while (it.hasNext()) {
-        kDebug() << d->currentRequest << it.next().value("name").toString();
-        //setData(d->currentRequest, it.next().value("name").toString(), QVariant(QString()));
-        //setData(d->currentRequest, it.next().value("showid").toString(), "value");
-        QString str;
-        str.setNum(i, 10);
-        setData(d->currentRequest, it.next().value("showid").toString(), QVariant(str));
-        ++i;
+        TvRageParser::showInfos item(it.next());
+        kDebug() << d->currentRequest << item.value("name").toString();
+        setData(d->currentRequest, item.value("showid").toString(), item.value("name"));
     }
 }; // httpRequestFinished();
 
