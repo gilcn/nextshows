@@ -32,7 +32,8 @@ public:
     {
         http      = new QHttp();
         httpGetId = 0;
-        searchUrl.setUrl("http://www.tvrage.com/feeds/search.php", QUrl::StrictMode);
+        searchUrl.setUrl("http://www.tvrage.com/feeds/search.php",
+                         QUrl::StrictMode);
         searchUrl.setPort(80);
     };
     ~Private() {};
@@ -63,7 +64,7 @@ NextShowsEngine::~NextShowsEngine()
 
 bool NextShowsEngine::sourceRequestEvent(const QString &request)
 {
-    if ( request.startsWith("search:", Qt::CaseInsensitive) ) {
+    if (request.startsWith("search:", Qt::CaseInsensitive)) {
         d->currentRequest = request;
         QString searchKeyword(request);
         searchKeyword.remove(0, 7); // Remove "^search:"
@@ -83,7 +84,7 @@ bool NextShowsEngine::sourceRequestEvent(const QString &request)
         kDebug() << d->httpGetId;
         setData(request, Plasma::DataEngine::Data());
 
-    } else if ( request.startsWith("eplist:", Qt::CaseInsensitive) ) {
+    } else if (request.startsWith("eplist:", Qt::CaseInsensitive)) {
         kDebug() << "Episode List";
         setData(request, "EpList", "Not implemented yet!");
     } else {
@@ -114,7 +115,7 @@ void NextShowsEngine::httpRequestFinished(const int reqId, const bool error)
     while (it.hasNext()) {
         TvRageParser::showInfos item(it.next());
         kDebug() << d->currentRequest << item.value("name").toString();
-        setData(d->currentRequest, item.value("showid").toString(), item.value("name"));
+        setData(d->currentRequest, item.value("name").toString(), QVariant(item));
     }
 }; // httpRequestFinished();
 
