@@ -13,7 +13,8 @@ include_directories(${CMAKE_SOURCE_DIR}
                     ${PLASMA_INCLUDE_DIR})
 
 set(nextshows_engine_SRCS
-    nextshowsengine.cpp)
+    nextshowsengine.cpp
+    tvrageparser.cpp)
 
 kde4_add_plugin(plasma_engine_nextshows
                 ${nextshows_engine_SRCS})

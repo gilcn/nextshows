@@ -35,6 +35,9 @@ public:
 protected:
     bool sourceRequestEvent(const QString &request);
 
+private Q_SLOTS:
+    void httpRequestFinished(const int reqId, const bool error);
+
 private:
     class Private;
     Private * const d;
