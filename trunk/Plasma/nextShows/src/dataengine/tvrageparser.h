@@ -35,7 +35,7 @@ class QDomNode;
 class TvRageParser
 {
 public:
-    typedef QHash<QString, QVariant> showInfos;
+    typedef QMap<QString, QVariant> showInfos;
 
     TvRageParser(){};
     ~TvRageParser(){};
