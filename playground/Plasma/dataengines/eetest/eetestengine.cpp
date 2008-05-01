@@ -54,7 +54,12 @@ void EETestEngine::init()
     // QVariant::Brush
     setData(dsn, "QBrush", QVariant(QBrush(Qt::SolidPattern)));
     // QVariant::ByteArray
-    setData(dsn, "QByteArray", QVariant(QByteArray(35, 0x00)));
+    QByteArray byteArray;
+    for (int i=0; i<256; ++i) {
+        byteArray.append(i);
+    }
+    setData(dsn, "QByteArray1", QVariant(byteArray));
+    setData(dsn, "QByteArray2", QVariant(QByteArray("KDE4")));
     // QVariant::Char
     setData(dsn, "QChar", QVariant(QChar(0x4B)));
     // QVariant::Color
