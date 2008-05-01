@@ -20,9 +20,19 @@
 
 #include "testengine.h"
 
-
-#include <QtCore>
-#include <QtGui>
+#include <QtCore/QBitArray>
+#include <QtCore/QDate>
+#include <QtCore/QLocale>
+#include <QtCore/QUrl>
+#include <QtGui/QBitmap>
+#include <QtGui/QBrush>
+#include <QtGui/QCursor>
+#include <QtGui/QFont>
+#include <QtGui/QIcon>
+#include <QtGui/QPalette>
+#include <QtGui/QPen>
+#include <QtGui/QSizePolicy>
+#include <QtGui/QTextFormat>
 
 
 Q_DECLARE_METATYPE(TestEngine::MyUserType);
