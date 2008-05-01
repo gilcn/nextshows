@@ -1,4 +1,4 @@
-project(plasma_eetest_dataengine)
+project(plasma_testengine_dataengine)
 
 find_package(KDE4 REQUIRED)
 find_package(Plasma REQUIRED)
@@ -10,15 +10,15 @@ include_directories(${CMAKE_SOURCE_DIR}
                     ${KDE4_INCLUDES}
                     ${PLASMA_INCLUDE_DIR})
 
-set(eetest_engine_SRCS
-    eetestengine.cpp)
+set(testengine_engine_SRCS
+    testengine.cpp)
 
-kde4_add_plugin(plasma_engine_eetest
-                ${eetest_engine_SRCS})
+kde4_add_plugin(plasma_engine_testengine
+                ${testengine_engine_SRCS})
 
-target_link_libraries(plasma_engine_eetest
+target_link_libraries(plasma_engine_testengine
                       ${KDE4_KIO_LIBS}
                       plasma)
 
-install(TARGETS plasma_engine_eetest DESTINATION ${PLUGIN_INSTALL_DIR})
-install(FILES plasma-dataengine-eetest.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
+install(TARGETS plasma_engine_testengine DESTINATION ${PLUGIN_INSTALL_DIR})
+install(FILES plasma-dataengine-testengine.desktop DESTINATION ${SERVICES_INSTALL_DIR} )

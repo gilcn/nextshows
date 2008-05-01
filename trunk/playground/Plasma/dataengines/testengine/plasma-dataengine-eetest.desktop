@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=EETest
-Comment=Engine Explorer Test Data Engine
-X-KDE-ServiceTypes=Plasma/DataEngine
-Type=Service
-Icon=unknown
-X-KDE-Library=plasma_engine_eetest
-X-Plasma-EngineName=eetest

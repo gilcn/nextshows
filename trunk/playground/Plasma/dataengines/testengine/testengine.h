@@ -17,14 +17,14 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#ifndef __EETEST_DATAENGINE_H__
-#define __EETEST_DATAENGINE_H__
+#ifndef __TESTDATAENGINE_H__
+#define __TESTDATAENGINE_H__
 
 
 #include "plasma/dataengine.h"
 
 
-class EETestEngine : public Plasma::DataEngine
+class TestEngine : public Plasma::DataEngine
 {
     Q_OBJECT;
 
@@ -34,8 +34,8 @@ public:
         QString b;
     };
 
-    EETestEngine(QObject *parent, const QVariantList &args);
-    ~EETestEngine();
+    TestEngine(QObject *parent, const QVariantList &args);
+    ~TestEngine();
 
 protected:
     void init();
@@ -43,7 +43,7 @@ protected:
 };
 
 
-K_EXPORT_PLASMA_DATAENGINE(eetest, EETestEngine)
+K_EXPORT_PLASMA_DATAENGINE(testengine, TestEngine)
 
 
-#endif // __EETEST_DATAENGINE_H__
+#endif // __TESTDATAENGINE_H__

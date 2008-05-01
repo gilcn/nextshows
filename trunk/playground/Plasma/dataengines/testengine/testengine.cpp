@@ -18,31 +18,30 @@
  */
 
 
-#include "eetestengine.h"
+#include "testengine.h"
 
 
 #include <QtCore>
 #include <QtGui>
 
 
-Q_DECLARE_METATYPE(EETestEngine::MyUserType);
+Q_DECLARE_METATYPE(TestEngine::MyUserType);
 
 
-EETestEngine::EETestEngine(QObject *parent, const QVariantList &args)
+TestEngine::TestEngine(QObject *parent, const QVariantList &args)
     : Plasma::DataEngine(parent, args)
 {
-    Q_UNUSED(args);
 }; // ctor()
 
 
-EETestEngine::~EETestEngine()
+TestEngine::~TestEngine()
 {
 }; // dtor()
 
 
-void EETestEngine::init()
+void TestEngine::init()
 {
-    QString dsn("EETest");
+    QString dsn("TestEngine");
     
     // QVariant::Invalid
     // QVariant::BitArray
@@ -158,7 +157,7 @@ void EETestEngine::init()
 }; // init()
 
 
-bool EETestEngine::sourceRequestEvent(const QString &source)
+bool TestEngine::sourceRequestEvent(const QString &source)
 {
     // Nothing to do...
     Q_UNUSED(source);
@@ -166,4 +165,4 @@ bool EETestEngine::sourceRequestEvent(const QString &source)
 }; // sourceRequestEvent()
 
 
-#include "eetestengine.moc"
+#include "testengine.moc"

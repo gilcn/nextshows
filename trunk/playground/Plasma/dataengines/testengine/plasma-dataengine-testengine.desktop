@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Test Engine
+Comment=Plasma Test Data Engine
+X-KDE-ServiceTypes=Plasma/DataEngine
+Type=Service
+Icon=unknown
+X-KDE-Library=plasma_engine_testengine
+X-Plasma-EngineName=testengine
