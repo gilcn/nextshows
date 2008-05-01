@@ -1,5 +1,5 @@
 /*
- *   Copyright (C) 2008 Gilles CHAUVIN <gcnweb@gmail.com>
+ *   Copyright (C) 2008 Gilles CHAUVIN <gcnweb+kde@gmail.com>
  *
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License either version 2, or
