@@ -29,6 +29,10 @@ class NextShowsEngine : public Plasma::DataEngine
     Q_OBJECT;
 
 public:
+    enum RequestType {
+        Search      = 0x00,
+        EpisodeList = 0x01
+    };
     NextShowsEngine(QObject *parent, const QVariantList &args);
     ~NextShowsEngine();
 

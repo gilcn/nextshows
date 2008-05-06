@@ -21,8 +21,6 @@
 #ifndef __TVRAGEPARSER_H__
 #define __TVRAGEPARSER_H__
 
-#include "plasma/dataengine.h"
-
 #include <QtCore/QList>
 #include <QtCore/QHash>
 #include <QtCore/QString>
@@ -36,14 +34,16 @@ class TvRageParser
 {
 public:
     typedef QMap<QString, QVariant> showInfos;
+    typedef QMap<QString, QVariant> episodeInfos;
 
     TvRageParser(){};
     ~TvRageParser(){};
 
-    static QList<showInfos> parseSearchResults(const QByteArray &content);
+    static QList<showInfos> parseSearchResults(const QByteArray &feed);
+    static QList<episodeInfos> parseEpisodeList(const QByteArray &feed);
 
 private:
-    static showInfos parseShow(const QDomNode &node);
+    static showInfos parseSearchResults_Show(const QDomNode &node);
 };
 
 
