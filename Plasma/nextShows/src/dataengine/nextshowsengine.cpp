@@ -33,15 +33,20 @@ public:
         http      = new QHttp();
         httpGetId = 0;
         searchUrl.setUrl("http://www.tvrage.com/feeds/search.php",
-                         QUrl::StrictMode);
-        searchUrl.setPort(80);
+                         QUrl::StrictMode); // show=showname
+//        searchUrl.setPort(80);
+        epListUrl.setUrl("http://www.tvrage.com/feeds/episode_list.php",
+                         QUrl::StrictMode); // sid=showid
+//        epListUrl.setPort(80);
     };
     ~Private() {};
 
     QHttp   *http;
     int      httpGetId;
     QUrl     searchUrl;
+    QUrl     epListUrl;
     QString  currentRequest;
+    RequestType requestType;
 }; // Private()
 
 
@@ -76,17 +81,31 @@ bool NextShowsEngine::sourceRequestEvent(const QString &request)
         d->searchUrl.setQueryItems(params);
         kDebug() << d->searchUrl.toEncoded();
 
-        d->http->setHost(d->searchUrl.host(),
-                         QHttp::ConnectionModeHttp,
-                         d->searchUrl.port());
+        d->requestType = NextShowsEngine::Search;
+        d->http->setHost(d->searchUrl.host(), QHttp::ConnectionModeHttp);
         d->httpGetId = d->http->get(d->searchUrl.toEncoded(QUrl::RemoveScheme |
                                                            QUrl::RemoveAuthority));
         kDebug() << d->httpGetId;
         setData(request, Plasma::DataEngine::Data());
 
     } else if (request.startsWith("eplist:", Qt::CaseInsensitive)) {
-        kDebug() << "Episode List";
-        setData(request, "EpList", "Not implemented yet!");
+        d->currentRequest = request;
+        QString showId(request);
+        showId.remove(0, 7); // Remove "^eplist:"
+        kDebug() << "Episode ID:" << showId;
+
+        QPair<QString, QString> sid("sid", showId);
+        QList<QPair<QString, QString> > params;
+        params << sid;
+        d->epListUrl.setQueryItems(params);
+        kDebug() << d->epListUrl.toEncoded();
+
+        d->requestType = NextShowsEngine::EpisodeList;
+        d->http->setHost(d->epListUrl.host(), QHttp::ConnectionModeHttp);
+        d->httpGetId = d->http->get(d->epListUrl.toEncoded(QUrl::RemoveScheme |
+                                                          QUrl::RemoveAuthority));
+        kDebug() << d->httpGetId;
+        setData(request, Plasma::DataEngine::Data());
     } else {
         // Quick usage help
         setData(request,
@@ -108,16 +127,27 @@ void NextShowsEngine::httpRequestFinished(const int reqId, const bool error)
         kDebug() << d->http->errorString();
     }
 
-    QList<TvRageParser::showInfos> showList;
-    showList = TvRageParser::parseSearchResults(d->http->readAll());
+    switch(d->requestType)
+    {
+        case NextShowsEngine::Search: {
+            QList<TvRageParser::showInfos> showList;
+            showList = TvRageParser::parseSearchResults(d->http->readAll());
 
-    QListIterator<TvRageParser::showInfos> it(showList);
-    while (it.hasNext()) {
-        TvRageParser::showInfos item(it.next());
-        kDebug() << d->currentRequest << item.value("name").toString();
-        setData(d->currentRequest, item.value("name").toString(), QVariant(item));
+            QListIterator<TvRageParser::showInfos> it(showList);
+            while (it.hasNext()) {
+                TvRageParser::showInfos item(it.next());
+                kDebug() << d->currentRequest << item.value("name").toString();
+                setData(d->currentRequest, QString("[%1] %2").arg(item.value("showid").toString()).arg(item.value("name").toString()), QVariant(item));
+            }
+        }
+        case NextShowsEngine::EpisodeList: {
+            QList<TvRageParser::episodeInfos> episodeList;
+            episodeList = TvRageParser::parseEpisodeList(d->http->readAll());
+            QString key = episodeList.first().keys().at(0);
+            setData(d->currentRequest, "showname", QVariant(episodeList.first()[key]));
+        }
     }
-}; // httpRequestFinished();
+}; // httpRequestFinished()
 
 
 #include "nextshowsengine.moc"

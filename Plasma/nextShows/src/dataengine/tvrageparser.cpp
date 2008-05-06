@@ -20,18 +20,20 @@
 #include "tvrageparser.h"
 
 #include <QtCore/QDebug>
+#include <QtCore/QStringList>
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 #include <QtXml/QDomNode>
 
 
-QList<TvRageParser::showInfos> TvRageParser::parseSearchResults(const QByteArray &content)
+QList<TvRageParser::showInfos> TvRageParser::parseSearchResults(const QByteArray &feed)
 {
     QList<TvRageParser::showInfos> showList;
 
     QDomDocument doc("Search Results");
-    if (!doc.setContent(content))
+    if (!doc.setContent(feed)) {
         qCritical() << QObject::tr("Error while parsing document!");
+    }
 
     QDomElement results = doc.documentElement();
 
@@ -45,17 +47,17 @@ QList<TvRageParser::showInfos> TvRageParser::parseSearchResults(const QByteArray
     {
         if (resultsDN.nodeName() == "show") {
             TvRageParser::showInfos show;
-            show=parseShow(resultsDN);
+            show=parseSearchResults_Show(resultsDN);
             showList << show;
         }
         resultsDN = resultsDN.nextSibling();
     }
 
     return showList;
-}
+} // parseSearchResults()
 
 
-TvRageParser::showInfos TvRageParser::parseShow(const QDomNode &node)
+TvRageParser::showInfos TvRageParser::parseSearchResults_Show(const QDomNode &node)
 {
     TvRageParser::showInfos showInfos;
 
@@ -82,11 +84,39 @@ TvRageParser::showInfos TvRageParser::parseShow(const QDomNode &node)
             } else if (tagName == "classification") {
                 showInfos["classification"] = element.text();
             } else if (tagName == "genres") {
-                showInfos["genres"] = element.text();
+                QStringList genres;
+                QDomNode genre = child.firstChild();
+                while (!genre.isNull())
+                {
+                    if (genre.isElement()) {
+                        QDomElement genreElement = genre.toElement();
+                        genres.append(genreElement.text());
+                    }
+                    genre = genre.nextSibling();
+                }
+                showInfos["genres"] = genres;
             }
         }
         child = child.nextSibling();
     }
 
     return showInfos;
-}
+} // parseSearchResults_Show()
+
+
+QList<TvRageParser::episodeInfos> TvRageParser::parseEpisodeList(const QByteArray &feed)
+{
+    QList<TvRageParser::episodeInfos> episodeList;
+
+    QDomDocument doc("Episode List");
+    if (!doc.setContent(feed)) {
+        qCritical() << QObject::tr("Error while parsing document!");
+    }
+
+    QString showName(doc.documentElement().firstChild().toElement().text());
+    TvRageParser::episodeInfos ep;
+    ep[showName] = showName;
+    episodeList << ep;
+
+    return episodeList;
+} // parseEpisodeList()
