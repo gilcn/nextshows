@@ -30,9 +30,10 @@ class NextShowsEngine : public Plasma::DataEngine
 
 public:
     enum RequestType {
-        Search      = 0x00,
-        EpisodeList = 0x01
+        Search      = 0x0,
+        EpisodeList = 0x1
     };
+
     NextShowsEngine(QObject *parent, const QVariantList &args);
     ~NextShowsEngine();
 
@@ -48,7 +49,7 @@ private:
 };
 
 
-K_EXPORT_PLASMA_DATAENGINE(nextshows, NextShowsEngine)
+K_EXPORT_PLASMA_DATAENGINE(nextshows, NextShowsEngine);
 
 
 #endif // __NEXTSHOWS_DATAENGINE_H__

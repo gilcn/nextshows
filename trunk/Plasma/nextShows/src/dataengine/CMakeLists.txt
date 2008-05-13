@@ -1,9 +1,13 @@
-project(plasma_nextShows_dataengine)
+project(plasma-dataengine-nextshows)
 
 find_package(KDE4 REQUIRED)
 find_package(Plasma REQUIRED)
 
 include(KDE4Defaults)
+
+set(dataengine_nextshows_SRCS
+    nextshowsengine.cpp
+    tvrageparser.cpp)
 
 include_directories(${CMAKE_SOURCE_DIR}
                     ${CMAKE_BINARY_DIR}
@@ -12,16 +16,12 @@ include_directories(${CMAKE_SOURCE_DIR}
                     ${QT_QTXML_INCLUDES}
                     ${PLASMA_INCLUDE_DIR})
 
-set(nextshows_engine_SRCS
-    nextshowsengine.cpp
-    tvrageparser.cpp)
-
 kde4_add_plugin(plasma_engine_nextshows
-                ${nextshows_engine_SRCS})
+                ${dataengine_nextshows_SRCS})
 
 target_link_libraries(plasma_engine_nextshows
                       ${KDE4_KIO_LIBS}
-                      plasma
+                      ${PLASMA_LIBS}
                       ${QT_QTNETWORK_LIBS}
                       ${QT_QTXML_LIBS})
 
