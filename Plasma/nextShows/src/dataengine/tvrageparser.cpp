@@ -32,7 +32,7 @@ QList<TvRageParser::showInfos> TvRageParser::parseSearchResults(const QByteArray
 
     QDomDocument doc("Search Results");
     if (!doc.setContent(feed)) {
-        qCritical() << QObject::tr("Error while parsing document!");
+        qCritical() << QObject::tr("Search: Error while parsing document!");
     }
 
     QDomElement results = doc.documentElement();
@@ -110,13 +110,33 @@ QList<TvRageParser::episodeInfos> TvRageParser::parseEpisodeList(const QByteArra
 
     QDomDocument doc("Episode List");
     if (!doc.setContent(feed)) {
-        qCritical() << QObject::tr("Error while parsing document!");
+        qCritical() << QObject::tr("EpList: Error while parsing document!");
     }
 
+    QDomElement root = doc.documentElement();
+    QDomNode tag = root.firstChild();
+    TvRageParser::episodeInfos ep;
+    while (!tag.isNull())
+    {
+        QString tagName(tag.toElement().tagName().toLower());
+        if (tagName == "name") {
+            ep["name"] = tag.toElement().text();
+        }
+        else if (tagName == "totalseasons") {
+            ep["totalseasons"] = tag.toElement().text();
+        }
+        tag = tag.nextSibling();
+    }
+    episodeList << ep;
+
+    //KILLME
+    /*
     QString showName(doc.documentElement().firstChild().toElement().text());
     TvRageParser::episodeInfos ep;
     ep[showName] = showName;
     episodeList << ep;
+    */
+    //KILLME
 
     return episodeList;
 } // parseEpisodeList()

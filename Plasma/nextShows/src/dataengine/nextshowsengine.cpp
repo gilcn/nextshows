@@ -34,10 +34,8 @@ public:
         httpGetId = 0;
         searchUrl.setUrl("http://www.tvrage.com/feeds/search.php",
                          QUrl::StrictMode); // show=showname
-//        searchUrl.setPort(80);
         epListUrl.setUrl("http://www.tvrage.com/feeds/episode_list.php",
                          QUrl::StrictMode); // sid=showid
-//        epListUrl.setPort(80);
     };
     ~Private() {};
 
@@ -54,8 +52,6 @@ NextShowsEngine::NextShowsEngine(QObject *parent, const QVariantList &args)
     : Plasma::DataEngine(parent, args)
     , d(new Private())
 {
-    Q_UNUSED(args);
-
     connect(d->http, SIGNAL(requestFinished(int, bool)),
             this, SLOT(httpRequestFinished(int, bool)));
 }; // ctor()
@@ -127,9 +123,9 @@ void NextShowsEngine::httpRequestFinished(const int reqId, const bool error)
         kDebug() << d->http->errorString();
     }
 
-    switch(d->requestType)
-    {
+    switch (d->requestType) {
         case NextShowsEngine::Search: {
+            kDebug() << "--== SEARCH ==--";
             QList<TvRageParser::showInfos> showList;
             showList = TvRageParser::parseSearchResults(d->http->readAll());
 
@@ -137,14 +133,28 @@ void NextShowsEngine::httpRequestFinished(const int reqId, const bool error)
             while (it.hasNext()) {
                 TvRageParser::showInfos item(it.next());
                 kDebug() << d->currentRequest << item.value("name").toString();
-                setData(d->currentRequest, QString("[%1] %2").arg(item.value("showid").toString()).arg(item.value("name").toString()), QVariant(item));
+                setData(d->currentRequest,
+                        QString("[%1] %2").arg(item.value("showid").toString()).arg(item.value("name").toString()),
+                        QVariant(item));
             }
+            break;
         }
+
         case NextShowsEngine::EpisodeList: {
+            kDebug() << "--== EPLIST ==--";
             QList<TvRageParser::episodeInfos> episodeList;
             episodeList = TvRageParser::parseEpisodeList(d->http->readAll());
-            QString key = episodeList.first().keys().at(0);
-            setData(d->currentRequest, "showname", QVariant(episodeList.first()[key]));
+//            QString key = episodeList.first().keys().at(0);
+//            setData(d->currentRequest, "showname", QVariant(episodeList.first()[key]));
+//            foreach (QString key, episodeList.keys()) {
+//                kDebug() << episodeList[key];
+//            }
+            break;
+        }
+
+        default: {
+            kDebug() << "--== DEFAULT ==--";
+            kDebug() << "This is not supposed to happen!";
         }
     }
 }; // httpRequestFinished()
