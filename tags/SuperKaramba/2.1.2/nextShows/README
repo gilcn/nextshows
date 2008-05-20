@@ -1,0 +1,18 @@
+HOW TO USE NEXTSHOWS ?
+
+If you want to test the following code you can do:
+$ ./toolbox gen
+This will compile forms and resources necessary for the configuration GUI to
+work.
+
+$ superkaramba nextShows.theme
+Hopefully this will launch nextShows (subject that nothing is broken in the SVN
+at that time)
+
+You can also create a SuperKaramba theme file and test it:
+$ ./toolbox skz
+This will create a file ../nextShows-x.y.z.skz
+
+$ superkaramba ../nextShows-x.y.z.skz
+Hopefully this will launch nextShows (subject that nothing is broken in the SVN
+at that time)

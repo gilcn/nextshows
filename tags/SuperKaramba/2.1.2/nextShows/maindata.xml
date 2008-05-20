@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id$ -->
+<!DOCTYPE superkaramba_theme>
+<superkaramba_theme>
+    <themefile>nextShows.theme</themefile>
+    <python_module>nextShows.py</python_module>
+    <name>nextShows</name>
+    <icon>images/nextShows_icon.png</icon>
+    <description>Know your favorite TV shows schedule.</description>
+    <author>Gilles CHAUVIN</author>
+    <author_email>gcnweb@gmail.com</author_email>
+    <homepage>http://nextshows.googlecode.com/</homepage>
+    <version>2.1.2</version><!-- Don't forget to update libs/Globals.py -->
+    <license>GPL</license>
+</superkaramba_theme>
