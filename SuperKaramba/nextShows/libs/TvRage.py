@@ -213,12 +213,12 @@ class TvRage(Http):
                         continue
                     elif not episode['url']:
                         continue
-                    elif episode['airdate'][0] <= 0:
-                        continue
-                    elif episode['airdate'][1] < 1 or episode['airdate'][1] > 12:
-                        continue
-                    elif episode['airdate'][2] < 1 or episode['airdate'][2] > 31:
-                        continue
+                    #elif episode['airdate'][0] <= 0:
+                    #    continue
+                    #elif episode['airdate'][1] < 1 or episode['airdate'][1] > 12:
+                    #    continue
+                    #elif episode['airdate'][2] < 1 or episode['airdate'][2] > 31:
+                    #    continue
 
                     tools.msgDebug( "Found: %s-S%02dE%02d-%s (%04d-%02d-%02d)" %
                         ( episode['show'], episode['season'], episode['episode'], episode['title'],
