@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #######################################################################
 # nextShows - Applet class
-# Copyright (C) 2006-2007 Gilles CHAUVIN <gcnweb@gmail.com>
+# Copyright (C) 2006-2008 Gilles CHAUVIN <gcnweb@gmail.com>
 # $Id$
 #######################################################################
 # Coding: UTF-8, 4 spaces indent, LF line terminator
@@ -184,6 +184,11 @@ class Applet():
     ## Return formated date suitable for display in the "when" column
     ###########################################################################
     def _formatWhen(self, airDate, delta):
+
+        # Is this an undated episode ?
+        if airDate[0] == 0 or airDate[1] == 0 or airDate[2] == 0:
+            return "Unknown"
+
         # 0 : Date Format from config => [misc], "date_format"
         # 1 : +/- Days 
         # 2 : DOTW display
