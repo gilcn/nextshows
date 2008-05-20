@@ -2,6 +2,10 @@
 #labels Featured
 
 == V2.1 ==
+*v2.1.2*
+  * Fix detection of Qt and PyQt
+  * When an episode airdate is unknown we append it at the end of the list (if possible) and display "Unknown" in the date field.
+
 *v2.1.1*
   * New logo
   * Removed GUI's splash screen fading effect (faster, works better with multiple displays, etc...)
