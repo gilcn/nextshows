@@ -1,7 +1,7 @@
 HOW TO USE NEXTSHOWS ?
 
 If you want to test the following code you can do:
-$ ./toolbox gui
+$ ./toolbox gen
 This will compile forms and resources necessary for the configuration GUI to
 work.
 
