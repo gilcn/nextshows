@@ -1,22 +1,21 @@
 /*
- *   Copyright (C) 2008 Gilles CHAUVIN <gcnweb@gmail.com>
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License either version 2, or
- *   (at your option) any later version as published by the Free Software
- *   Foundation.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details
- *
- *   You should have received a copy of the GNU General Public
- *   License along with this program; if not, write to the
- *   Free Software Foundation, Inc.,
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */
-
+** Copyright (C) 2008 Gilles CHAUVIN <gcnweb@gmail.com>
+**
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as
+** published by the Free Software Foundation; either version 2,
+** or (at your option) any later version.
+**
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** GNU General Public License for more details
+**
+** You should have received a copy of the GNU Library General Public
+** License along with this program; if not, write to the
+** Free Software Foundation, Inc.,
+** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+*/
 
 #include "nextshowsengine.h"
 #include "tvrageparser.h"
@@ -29,15 +28,15 @@ class NextShowsEngine::Private
 {
 public:
     Private()
+        : http(new QHttp())
+        , httpGetId(0)
     {
-        http      = new QHttp();
-        httpGetId = 0;
         searchUrl.setUrl("http://www.tvrage.com/feeds/search.php",
                          QUrl::StrictMode); // show=showname
         epListUrl.setUrl("http://www.tvrage.com/feeds/episode_list.php",
                          QUrl::StrictMode); // sid=showid
-    };
-    ~Private() {};
+    }
+    ~Private() {}
 
     QHttp   *http;
     int      httpGetId;
@@ -54,13 +53,13 @@ NextShowsEngine::NextShowsEngine(QObject *parent, const QVariantList &args)
 {
     connect(d->http, SIGNAL(requestFinished(int, bool)),
             this, SLOT(httpRequestFinished(int, bool)));
-}; // ctor()
+} // ctor()
 
 
 NextShowsEngine::~NextShowsEngine()
 {
     delete d;
-}; // dtor()
+} // dtor()
 
 
 bool NextShowsEngine::sourceRequestEvent(const QString &request)
@@ -111,7 +110,7 @@ bool NextShowsEngine::sourceRequestEvent(const QString &request)
     }
 
     return true;
-}; // sourceRequestEvent()
+} // sourceRequestEvent()
 
 
 void NextShowsEngine::httpRequestFinished(const int reqId, const bool error)
@@ -157,7 +156,7 @@ void NextShowsEngine::httpRequestFinished(const int reqId, const bool error)
             kDebug() << "This is not supposed to happen!";
         }
     }
-}; // httpRequestFinished()
+} // httpRequestFinished()
 
 
 #include "nextshowsengine.moc"
