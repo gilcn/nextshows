@@ -20,6 +20,7 @@
 #ifndef __NEXTSHOWS_APPLET_H__
 #define __NEXTSHOWS_APPLET_H__
 
+
 #include "plasma/applet.h"
 
 
@@ -30,6 +31,11 @@ class NextShowsApplet : public Plasma::Applet
 public:
     NextShowsApplet(QObject *parent, const QVariantList &args);
     ~NextShowsApplet();
+
+    void init();
+
+protected:
+    void constraintsEvent(Plasma::Constraints constraints);
 
 private:
     class Private;
