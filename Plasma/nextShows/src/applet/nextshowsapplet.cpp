@@ -17,7 +17,15 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+// Own
 #include "nextshowsapplet.h"
+
+// Plasma
+#include <Plasma/Label>
+
+// Qt
+#include <QtCore/QDir>
+#include <QtGui/QGraphicsLinearLayout>
 
 
 class NextShowsApplet::Private
@@ -25,12 +33,15 @@ class NextShowsApplet::Private
 public:
     Private() {}
     ~Private() {}
+
+    QGraphicsLinearLayout *layout;
+    Plasma::Label         *image;
 }; // Private()
 
 
 NextShowsApplet::NextShowsApplet(QObject *parent, const QVariantList &args)
     : Plasma::Applet(parent, args)
-    , d(new Private())
+    , d(new Private)
 {
 } // ctor()
 
@@ -39,6 +50,26 @@ NextShowsApplet::~NextShowsApplet()
 {
     delete d;
 } // dtor()
+
+
+void NextShowsApplet::init()
+{
+    d->layout = new QGraphicsLinearLayout(Qt::Horizontal, this);
+
+    d->image = new Plasma::Label(this);
+    d->image->setImage(QDir::currentPath()+"/nextShows_logo.png");
+    d->layout->insertStretch(0);
+    d->layout->insertItem(1, d->image);
+    d->layout->insertStretch(2);
+
+    setLayout(d->layout);
+} // init()
+
+
+void NextShowsApplet::constraintsEvent(Plasma::Constraints constraints)
+{
+    kDebug() << "constraintsEvent()" << constraints;
+} // constraintsEvent()
 
 
 #include "nextshowsapplet.moc"
