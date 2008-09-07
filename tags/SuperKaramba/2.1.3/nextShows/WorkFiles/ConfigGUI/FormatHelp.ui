@@ -1,0 +1,179 @@
+<ui version="4.0" >
+ <author>GCN</author>
+ <class>FormatHelp</class>
+ <widget class="QWidget" name="FormatHelp" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>391</width>
+    <height>604</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Formatting Help</string>
+  </property>
+  <property name="windowIcon" >
+   <iconset resource="NextShowsConfig.qrc" >:/images/icons/images/icons/nextShows.png</iconset>
+  </property>
+  <layout class="QVBoxLayout" >
+   <item>
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QLabel" name="lblInfoPic" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="pixmap" >
+        <pixmap resource="NextShowsConfig.qrc" >:/images/icons/images/icons/info.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="lblTitle" >
+       <property name="font" >
+        <font>
+         <pointsize>11</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text" >
+        <string>Formatting Help</string>
+       </property>
+       <property name="alignment" >
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label" >
+     <property name="minimumSize" >
+      <size>
+       <width>0</width>
+       <height>140</height>
+      </size>
+     </property>
+     <property name="maximumSize" >
+      <size>
+       <width>16777215</width>
+       <height>140</height>
+      </size>
+     </property>
+     <property name="text" >
+      <string>&lt;p align="justify">You can customize the way you want nextShows to display your shows. For that, 4 variables are available which comes with optional parameters:&lt;br />
+&lt;b>&amp;middot; $show[:length[:trailing_chars]]$&lt;/b>&lt;br />
+&lt;b>&amp;middot; $title[:length[:trailing_chars]]$&lt;/b>&lt;br />
+&lt;b>&amp;middot; $season[:zero_padded_length]$&lt;/b>&lt;br />
+&lt;b>&amp;middot; $episode[:zero_padded_length]$&lt;/b>&lt;/p></string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap" >
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_2" >
+     <property name="text" >
+      <string>&lt;p>&lt;b>Examples:&lt;/b>&lt;/p></string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_3" >
+     <property name="minimumSize" >
+      <size>
+       <width>0</width>
+       <height>150</height>
+      </size>
+     </property>
+     <property name="maximumSize" >
+      <size>
+       <width>16777215</width>
+       <height>150</height>
+      </size>
+     </property>
+     <property name="text" >
+      <string>&lt;p align="justify">Suppose &lt;b>$show$&lt;/b> is "Battlestar Galactica (2003)", &lt;b>$title$&lt;/b> is "Litmus", &lt;b>$season$&lt;/b> is "1" and &lt;b>$episode$&lt;/b> is "6":&lt;br />
+&lt;b>#1)&lt;/b> Format: $show$-$season$x$episode$-$title$&lt;br />
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Result: Battlestar Galactica (2003)-1x6-Litmus&lt;br />
+&lt;b>#2)&lt;/b> Format: $show:12$-$season$x$episode:2$-$title$&lt;br />
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Result: Battlestar G-1x06-Litmus&lt;br />
+&lt;b>#3)&lt;/b> Format: $show:12:...$/S$season:2$E$episode:2$/$title$&lt;br />
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Result: Battlestar G.../S01E06/Litmus&lt;/p></string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap" >
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_4" >
+     <property name="text" >
+      <string>&lt;p>&lt;b>Notes:&lt;/b>&lt;/p></string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_5" >
+     <property name="text" >
+      <string>&lt;p align="justify">&lt;b>&amp;middot;&lt;/b> When using the &lt;b>:trailing_chars&lt;/b> parameter, if the length of the text to display is shorter than the length of the text + trailing_chars, this option will be ignored!&lt;br />
+&lt;b>&amp;middot;&lt;/b> When using the &lt;b>:zero_padded_length&lt;/b> parameter and the content to display cannot fit, this value will be ignored. Example: if &lt;b>$episode$&lt;/b>=42 and you set &lt;b>$episode:1$&lt;/b> nextShows will display "42".&lt;/p></string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap" >
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QPushButton" name="btnClose" >
+     <property name="text" >
+      <string>&amp;Close</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <includes/>
+ <resources>
+  <include location="NextShowsConfig.qrc" />
+ </resources>
+ <connections/>
+</ui>
