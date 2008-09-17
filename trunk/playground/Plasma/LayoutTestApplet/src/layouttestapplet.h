@@ -24,6 +24,10 @@
 // Plasma
 #include <Plasma/Applet>
 
+// Qt
+#include <QtGui/QGraphicsGridLayout>
+#include <QtGui/QGraphicsLinearLayout>
+
 
 class LayoutTestApplet : public Plasma::Applet
 {
@@ -34,6 +38,20 @@ public:
     ~LayoutTestApplet();
 
     void init();
+
+
+private:
+    int m_maxCols;
+    int m_maxLines;
+
+    QGraphicsLinearLayout *m_mainLayout;
+    QGraphicsGridLayout   *m_btnsLayout;
+    QGraphicsGridLayout   *m_cellLayout;
+
+private Q_SLOTS:
+    void addLine();
+    void removeRandomCell();
+    void removeRandomLine();
 };
 
 
