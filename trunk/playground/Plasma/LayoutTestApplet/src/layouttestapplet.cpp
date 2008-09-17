@@ -80,7 +80,8 @@ void LayoutTestApplet::init()
     for (int i=0; i<m_maxCols; ++i) {
         for (int j=0; j<m_maxLines; ++j) {
             Plasma::Label *label = new Plasma::Label();
-            label->setText(QString("Cell_%1%2").arg(QLatin1Char(0x41+i)).arg(j));
+            QColor color(rand()%256, rand()%256, rand()%256);
+            label->setText(QString("<font color='%1'><b>Cell_%2%3</b></font>").arg(color.name()).arg(j).arg(QLatin1Char(0x41+i)));
             // Text alignment
             QLabel *lbl = label->nativeWidget();
             if (i == 0) {
@@ -117,6 +118,17 @@ void LayoutTestApplet::addLine()
 void LayoutTestApplet::removeRandomCell()
 {
     kDebug();
+
+    if (!m_cellLayout->count()) {
+        return;
+    }
+    int item = rand() % m_cellLayout->count();
+    kDebug() << m_cellLayout->count() << item;
+    QGraphicsLayoutItem *cell = m_cellLayout->itemAt(item);
+    m_cellLayout->removeAt(item);
+    delete cell;
+
+    kDebug() << contentsRect();
 } // removeRandomCell()
 
 void LayoutTestApplet::removeRandomLine()
