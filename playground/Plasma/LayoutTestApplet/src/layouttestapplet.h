@@ -23,6 +23,7 @@
 
 // Plasma
 #include <Plasma/Applet>
+#include <Plasma/LineEdit>
 
 // Qt
 #include <QtGui/QGraphicsGridLayout>
@@ -37,21 +38,24 @@ public:
     LayoutTestApplet(QObject *parent, const QVariantList &args);
     ~LayoutTestApplet();
 
+
+protected:
     void init();
+    void feedContent();
 
 
 private:
-    int m_maxCols;
-    int m_maxLines;
+    int m_lines;
 
-    QGraphicsLinearLayout *m_mainLayout;
-    QGraphicsGridLayout   *m_btnsLayout;
-    QGraphicsGridLayout   *m_cellLayout;
+    QGraphicsLinearLayout *m_layoutMain;
+    QGraphicsGridLayout   *m_layoutControls;
+    QGraphicsGridLayout   *m_layoutContent;
+
+    Plasma::LineEdit *m_ledit;
+
 
 private Q_SLOTS:
-    void addLine();
-    void removeRandomCell();
-    void removeRandomLine();
+    void refresh();
 };
 
 
