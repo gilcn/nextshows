@@ -24,8 +24,12 @@
 #include <Plasma/Label>
 #include <Plasma/PushButton>
 
+// KDE
+#include <KDE/KLineEdit>
+
 // Qt
 #include <QtGui/QLabel>
+#include <QtGui/QIntValidator>
 
 
 /*
@@ -33,16 +37,13 @@
 */
 LayoutTestApplet::LayoutTestApplet(QObject *parent, const QVariantList &args)
     : Plasma::Applet(parent, args)
-    , m_mainLayout(0), m_btnsLayout(0), m_cellLayout(0)
+    , m_layoutMain(0), m_layoutContent(0)
 {
     kDebug();
 
-    m_maxCols  = 4;
-    m_maxLines = 10;
-
     Plasma::Applet::setAspectRatioMode(Plasma::IgnoreAspectRatio);
 
-    resize(290, 360);
+//    resize(290, 360);
 } // ctor()
 
 LayoutTestApplet::~LayoutTestApplet()
@@ -50,91 +51,83 @@ LayoutTestApplet::~LayoutTestApplet()
     kDebug();
 } // dtor()
 
+
+/*
+** Protected
+*/
 void LayoutTestApplet::init()
 {
     kDebug();
 
-    // Buttons
-    m_btnsLayout = new QGraphicsGridLayout();
+    m_layoutMain     = new QGraphicsLinearLayout(Qt::Vertical);
+    m_layoutControls = new QGraphicsGridLayout();
+    m_layoutContent  = new QGraphicsGridLayout();
 
-    Plasma::PushButton *btnAddLine = new Plasma::PushButton();
-    btnAddLine->setText(i18n("Add line"));
-    connect(btnAddLine, SIGNAL(clicked()), this, SLOT(addLine()));
-    m_btnsLayout->addItem(btnAddLine, 0, 0);
+    Plasma::Label *label = new Plasma::Label();
+    label->setText(i18n("Lines:"));
+    m_layoutControls->addItem(label, 0, 0);
 
-    Plasma::PushButton *btnRemoveRandomLine = new Plasma::PushButton();
-    btnRemoveRandomLine->setText(i18n("Remove random line"));
-    connect(btnRemoveRandomLine, SIGNAL(clicked()), this, SLOT(removeRandomLine()));
-    m_btnsLayout->addItem(btnRemoveRandomLine, 1, 0);
+    m_ledit = new Plasma::LineEdit();
+    m_ledit->setText("10");
+    KLineEdit *nledit = m_ledit->nativeWidget();
+    nledit->setValidator(new QIntValidator(0, 30, this));
+    m_layoutControls->addItem(m_ledit, 0, 1);
 
-    Plasma::PushButton *btnRemoveRandomCell = new Plasma::PushButton();
-    btnRemoveRandomCell->setText(i18n("Remove random cell"));
-    connect(btnRemoveRandomCell, SIGNAL(clicked()), this, SLOT(removeRandomCell()));
-    m_btnsLayout->addItem(btnRemoveRandomCell, 2, 0);
+    Plasma::PushButton *button = new Plasma::PushButton();
+    button->setText(i18n("Refresh..."));
+    connect(button, SIGNAL(clicked()), this, SLOT(refresh()));
+    m_layoutControls->addItem(button, 1, 0, 1, 2);
 
+    m_layoutMain->addItem(m_layoutControls);
+    m_layoutMain->addItem(m_layoutContent);
 
-    // Cells
-    m_cellLayout = new QGraphicsGridLayout();
+    Plasma::Applet::setLayout(m_layoutMain);
 
-    // Display content
-    for (int i=0; i<m_maxCols; ++i) {
-        for (int j=0; j<m_maxLines; ++j) {
-            Plasma::Label *label = new Plasma::Label();
-            QColor color(rand()%256, rand()%256, rand()%256);
-            label->setText(QString("<font color='%1'><b>Cell_%2%3</b></font>").arg(color.name()).arg(j).arg(QLatin1Char(0x41+i)));
-            // Text alignment
-            QLabel *lbl = label->nativeWidget();
-            if (i == 0) {
-                lbl->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-            }
-            else if (i == m_maxCols-1) {
-                lbl->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-            }
-            else {
-                lbl->setAlignment(Qt::AlignCenter);
-            }
-            m_cellLayout->addItem(label, j, i);
-        }
+    feedContent();
+} // init()
+
+void LayoutTestApplet::feedContent()
+{
+    kDebug();
+
+    // Do some cleanup
+    for (int i=m_layoutContent->count()-1; i>=0; --i) {
+        QGraphicsLayoutItem *item = m_layoutContent->itemAt(i);
+        m_layoutContent->removeAt(i);
+        delete item;
     }
 
-
-    // Main
-    m_mainLayout = new QGraphicsLinearLayout(Qt::Vertical);
-    Plasma::Applet::setLayout(m_mainLayout);
-
-    m_mainLayout->addItem(m_btnsLayout);
-    m_mainLayout->addItem(m_cellLayout);
-} // init()
+    // Display some content
+    for (int col=0; col<2; ++col) {
+        for (int row=0; row<m_ledit->text().toInt(); ++row) {
+            Plasma::Label *label = new Plasma::Label();
+            label->setText(QString("Label_%1%2")
+                           .arg(QLatin1Char(0x41+col))
+                           .arg(row));
+            QLabel *nlabel = label->nativeWidget();
+            switch(col) {
+            case 0:
+                nlabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+                break;
+            case 1:
+                nlabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+                break;
+            }
+            m_layoutContent->addItem(label, row, col);
+        }
+    }
+} // feedContent()
 
 
 /*
 ** Private Q_SLOTS
 */
-void LayoutTestApplet::addLine()
-{
-    kDebug();
-} // addLine();
-
-void LayoutTestApplet::removeRandomCell()
+void LayoutTestApplet::refresh()
 {
     kDebug();
 
-    if (!m_cellLayout->count()) {
-        return;
-    }
-    int item = rand() % m_cellLayout->count();
-    kDebug() << m_cellLayout->count() << item;
-    QGraphicsLayoutItem *cell = m_cellLayout->itemAt(item);
-    m_cellLayout->removeAt(item);
-    delete cell;
-
-    kDebug() << contentsRect();
-} // removeRandomCell()
-
-void LayoutTestApplet::removeRandomLine()
-{
-    kDebug();
-} // removeRandomLine()
+    feedContent();
+} // refresh()
 
 
 #include "layouttestapplet.moc"
