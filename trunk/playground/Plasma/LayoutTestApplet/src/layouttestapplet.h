@@ -23,7 +23,11 @@
 
 // Plasma
 #include <Plasma/Applet>
+#include <Plasma/Label>
 #include <Plasma/LineEdit>
+
+// KDE
+#include <KDE/Solid/Networking>
 
 // Qt
 #include <QtGui/QGraphicsGridLayout>
@@ -52,10 +56,14 @@ private:
     QGraphicsGridLayout   *m_layoutContent;
 
     Plasma::LineEdit *m_ledit;
+    Plasma::Label    *m_netStatus;
 
+    void displayNetworkStatus(const Solid::Networking::Status &status);
 
 private Q_SLOTS:
     void refresh();
+
+    void networkStatusChanged(const Solid::Networking::Status &status);
 };
 
 

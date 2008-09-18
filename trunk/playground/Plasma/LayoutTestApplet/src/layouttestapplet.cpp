@@ -21,11 +21,11 @@
 #include "layouttestapplet.h"
 
 // Plasma
-#include <Plasma/Label>
 #include <Plasma/PushButton>
 
 // KDE
 #include <KDE/KLineEdit>
+#include <KDE/Solid/Networking>
 
 // Qt
 #include <QtGui/QLabel>
@@ -43,7 +43,8 @@ LayoutTestApplet::LayoutTestApplet(QObject *parent, const QVariantList &args)
 
     Plasma::Applet::setAspectRatioMode(Plasma::IgnoreAspectRatio);
 
-//    resize(290, 360);
+    resize(290, 360);
+    connect(Solid::Networking::notifier(), SIGNAL(statusChanged(Solid::Networking::Status)), this, SLOT(networkStatusChanged(Solid::Networking::Status)));
 } // ctor()
 
 LayoutTestApplet::~LayoutTestApplet()
@@ -80,6 +81,12 @@ void LayoutTestApplet::init()
 
     m_layoutMain->addItem(m_layoutControls);
     m_layoutMain->addItem(m_layoutContent);
+
+    m_netStatus = new Plasma::Label();
+    m_netStatus->nativeWidget()->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
+    m_netStatus->setStyleSheet("color: #999;");
+    displayNetworkStatus(Solid::Networking::status());
+    m_layoutMain->addItem(m_netStatus);
 
     Plasma::Applet::setLayout(m_layoutMain);
 
@@ -120,6 +127,36 @@ void LayoutTestApplet::feedContent()
 
 
 /*
+** Private
+*/
+void LayoutTestApplet::displayNetworkStatus(const Solid::Networking::Status &status)
+{
+    kDebug();
+
+    QString netStatus;
+    switch(status) {
+    case Solid::Networking::Connecting:
+        netStatus = "Connecting";
+        break;
+    case Solid::Networking::Connected:
+        netStatus = "Connected";
+        break;
+    case Solid::Networking::Disconnecting:
+        netStatus = "Disconnecting";
+        break;
+    case Solid::Networking::Unconnected:
+        netStatus = "Unconnected";
+        break;
+    default:
+        netStatus = "Unknown";
+        break;
+    }
+
+    m_netStatus->setText("Network status: "+netStatus);
+} // displayNetworkStatus()
+
+
+/*
 ** Private Q_SLOTS
 */
 void LayoutTestApplet::refresh()
@@ -128,6 +165,13 @@ void LayoutTestApplet::refresh()
 
     feedContent();
 } // refresh()
+
+void LayoutTestApplet::networkStatusChanged(const Solid::Networking::Status &status)
+{
+    kDebug();
+
+    displayNetworkStatus(status);
+} // networkStatusChanged()
 
 
 #include "layouttestapplet.moc"
