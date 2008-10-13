@@ -1,0 +1,465 @@
+<ui version="4.0" >
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>843</width>
+    <height>824</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <widget class="QFrame" name="frame_2" >
+    <property name="geometry" >
+     <rect>
+      <x>20</x>
+      <y>80</y>
+      <width>811</width>
+      <height>401</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QTreeWidget" name="treeWidget" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>256</width>
+       <height>351</height>
+      </rect>
+     </property>
+     <property name="indentation" >
+      <number>0</number>
+     </property>
+     <property name="itemsExpandable" >
+      <bool>false</bool>
+     </property>
+     <column>
+      <property name="text" >
+       <string/>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Show</string>
+      </property>
+     </column>
+     <item>
+      <property name="text" >
+       <string>QPicture::RED</string>
+      </property>
+      <property name="text" >
+       <string>Lost</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>QPicture::GREEN</string>
+      </property>
+      <property name="text" >
+       <string>Heroes</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>QPicture::GREEN</string>
+      </property>
+      <property name="text" >
+       <string>NCIS</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QTabWidget" name="tabWidget" >
+     <property name="geometry" >
+      <rect>
+       <x>280</x>
+       <y>40</y>
+       <width>521</width>
+       <height>351</height>
+      </rect>
+     </property>
+     <property name="currentIndex" >
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="tab" >
+      <attribute name="title" >
+       <string>Description</string>
+      </attribute>
+      <widget class="QLabel" name="label_5" >
+       <property name="geometry" >
+        <rect>
+         <x>80</x>
+         <y>70</y>
+         <width>321</width>
+         <height>131</height>
+        </rect>
+       </property>
+       <property name="text" >
+        <string>Ba une rapide description de la serie si on peut avoir ca en RSS</string>
+       </property>
+       <property name="wordWrap" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="tab_2" >
+      <attribute name="title" >
+       <string>Agenda</string>
+      </attribute>
+      <widget class="QTableWidget" name="tableWidget" >
+       <property name="geometry" >
+        <rect>
+         <x>0</x>
+         <y>10</y>
+         <width>511</width>
+         <height>211</height>
+        </rect>
+       </property>
+       <row>
+        <property name="text" >
+         <string>New Row</string>
+        </property>
+       </row>
+       <column>
+        <property name="text" >
+         <string>Episode</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Nom</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Date</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLabel" name="label_4" >
+       <property name="geometry" >
+        <rect>
+         <x>110</x>
+         <y>230</y>
+         <width>291</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text" >
+        <string>En gros ici l'agenda de la serie</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="tab_3" >
+      <attribute name="title" >
+       <string>TVRage Page</string>
+      </attribute>
+      <widget class="QWebView" name="webView" >
+       <property name="geometry" >
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>391</width>
+         <height>511</height>
+        </rect>
+       </property>
+       <property name="url" >
+        <url>
+         <string>http://www.tvrage.com/Lost</string>
+        </url>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QLabel" name="label_3" >
+     <property name="geometry" >
+      <rect>
+       <x>174</x>
+       <y>10</y>
+       <width>491</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Cette partie s'affiche si on choisi le mode d'affichage "Detail" </string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="frame" >
+    <property name="enabled" >
+     <bool>true</bool>
+    </property>
+    <property name="geometry" >
+     <rect>
+      <x>20</x>
+      <y>490</y>
+      <width>811</width>
+      <height>271</height>
+     </rect>
+    </property>
+    <property name="frameShape" >
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow" >
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QToolBox" name="toolBox" >
+     <property name="geometry" >
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>781</width>
+       <height>231</height>
+      </rect>
+     </property>
+     <property name="currentIndex" >
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="page" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>771</width>
+        <height>89</height>
+       </rect>
+      </property>
+      <attribute name="label" >
+       <string>La semaine derniere</string>
+      </attribute>
+      <widget class="QTableWidget" name="tableWidget_2" >
+       <property name="geometry" >
+        <rect>
+         <x>30</x>
+         <y>0</y>
+         <width>491</width>
+         <height>81</height>
+        </rect>
+       </property>
+       <row>
+        <property name="text" >
+         <string>New Row</string>
+        </property>
+       </row>
+       <row>
+        <property name="text" >
+         <string>New Row</string>
+        </property>
+       </row>
+       <column>
+        <property name="text" >
+         <string>show</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Saison &amp; episode number</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Episode name</string>
+        </property>
+       </column>
+       <item row="0" column="0" >
+        <property name="text" >
+         <string>Lost</string>
+        </property>
+       </item>
+       <item row="0" column="1" >
+        <property name="text" >
+         <string>S02E03</string>
+        </property>
+       </item>
+       <item row="0" column="2" >
+        <property name="text" >
+         <string>Orientation</string>
+        </property>
+       </item>
+       <item row="1" column="0" >
+        <property name="text" >
+         <string>Heroes</string>
+        </property>
+       </item>
+       <item row="1" column="1" >
+        <property name="text" >
+         <string>S03E04</string>
+        </property>
+       </item>
+       <item row="1" column="2" >
+        <property name="text" >
+         <string>BlaBla</string>
+        </property>
+       </item>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="page_3" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>771</width>
+        <height>89</height>
+       </rect>
+      </property>
+      <attribute name="label" >
+       <string>Aujourd'hui</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="page_2" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>771</width>
+        <height>89</height>
+       </rect>
+      </property>
+      <attribute name="label" >
+       <string>Demain</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="page_4" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>771</width>
+        <height>89</height>
+       </rect>
+      </property>
+      <attribute name="label" >
+       <string>Aprés :)</string>
+      </attribute>
+     </widget>
+    </widget>
+    <widget class="QLabel" name="label_2" >
+     <property name="geometry" >
+      <rect>
+       <x>120</x>
+       <y>10</y>
+       <width>551</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>cette partie s'affiche si on choisi le mode d'affichage "Agenda"</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="" >
+    <property name="geometry" >
+     <rect>
+      <x>220</x>
+      <y>20</y>
+      <width>349</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout" >
+     <item>
+      <widget class="QLabel" name="label" >
+       <property name="text" >
+        <string>Mode d'affichage : </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioButton" >
+       <property name="text" >
+        <string>Agenda</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioButton_2" >
+       <property name="text" >
+        <string>Detail</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>843</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile" >
+    <property name="title" >
+     <string>File</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuTruc" >
+    <property name="title" >
+     <string>1111</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuMuch" >
+    <property name="title" >
+     <string>2222</string>
+    </property>
+   </widget>
+   <addaction name="menuFile" />
+   <addaction name="menuTruc" />
+   <addaction name="menuMuch" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" />
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebView</class>
+   <extends>QWidget</extends>
+   <header>QtWebKit/QWebView</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>radioButton</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>frame</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>390</x>
+     <y>61</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>28</x>
+     <y>114</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_2</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>frame_2</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>529</x>
+     <y>68</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>826</x>
+     <y>109</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
