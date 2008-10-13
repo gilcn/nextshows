@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #######################################################################
 # nextShows - Applet class
-# Copyright (C) 2006-2008 Gilles CHAUVIN <gcnweb@gmail.com>
+# Copyright (C) 2006-2007 Gilles CHAUVIN <gcnweb@gmail.com>
 # $Id$
 #######################################################################
 # Coding: UTF-8, 4 spaces indent, LF line terminator
@@ -25,7 +25,7 @@
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #######################################################################
 
-from libs.Globals import Globals
+
 import libs.tools as tools
 
 from ConfigParser import SafeConfigParser
@@ -35,7 +35,7 @@ import os
 import karamba
 
 
-class Applet():
+class Applet:
 
     widget     = None       # Widget reference
     widgetSize = (340, 220) # This should match default value in nextShows.theme file
@@ -184,11 +184,6 @@ class Applet():
     ## Return formated date suitable for display in the "when" column
     ###########################################################################
     def _formatWhen(self, airDate, delta):
-
-        # Is this an undated episode ?
-        if airDate[0] == 0 or airDate[1] == 0 or airDate[2] == 0:
-            return "Unknown"
-
         # 0 : Date Format from config => [misc], "date_format"
         # 1 : +/- Days 
         # 2 : DOTW display
@@ -243,14 +238,7 @@ class Applet():
 
         if themeInfoContent == "":
             tools.msgDebug("Error finding/reading %s..." % themeInfo, __name__)
-            # Try to fallback to the default theme
-            self.themeName = Globals().defaultThemeName
-            self.themePath = os.path.join("themes", self.themeName)
-            themeInfo = os.path.join( self.themePath, "theme.info" )
-            themeInfoContent = karamba.readThemeFile( Applet.widget, themeInfo )
-            if themeInfoContent == "":
-                tools.msgDebug("Error finding/reading %s..." % themeInfo, __name__)
-                return False
+            return False
 
         #######################################################################
         # FIXME: Unfortunately, it is not possible to directly feed ConfigParser
@@ -323,7 +311,7 @@ class Applet():
     ###########################################################################
     ## Splash screen
     ###########################################################################
-    class Splash():
+    class Splash:
         ## Init the splash
         def __init__(self):
             self.splashImage   = "images/nextShows_logo.png"

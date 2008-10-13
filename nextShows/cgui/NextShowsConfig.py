@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #######################################################################
 # nextShows - Configuration GUI
-# Copyright (C) 2006-2008 Gilles CHAUVIN <gcnweb@gmail.com>
+# Copyright (C) 2006-2007 Gilles CHAUVIN <gcnweb@gmail.com>
 # $Id$
 #######################################################################
 # Coding: UTF-8, 4 spaces indent, LF line terminator
@@ -34,12 +34,12 @@ import libs.tools as tools
 from NextShowsConfig_ui import Ui_NextShowsConfig
 from FormatHelp import FormatHelp
 
-from PyQt4.Qt import *
+from PyQt4 import QtCore, QtGui
 
-import time, sys
+import time
 
 
-class NextShowsConfig(QDialog):
+class NextShowsConfig(QtGui.QDialog):
     def __init__(self, parent=None):
         #### Attributes
         self.searchResults        = []  # Returned search results
@@ -51,41 +51,32 @@ class NextShowsConfig(QDialog):
         #
         self.modifFlag            = False   # Set to True if modifications were made
         #
-        #self.lastColorUsed        = QColor( 0xFF, 0xFF, 0xFF )
+        #self.lastColorUsed        = QtGui.QColor( 0xFF, 0xFF, 0xFF )
         self.lastColorUsed        = "#FFFFFF"
         #
-        self.desktopSize          = QDesktopWidget().screenGeometry() # Holds the desktop's Size (QRect)
-        self.uiHelpDialogGeometry = QRect()  # Holds the Format Help Window's Geometry (QRect)
-        self.uiHelpDialogSize     = QSize()  # Holds the Format Help Window's Size (QSize)
+        self.desktopSize          = QtGui.QDesktopWidget().screenGeometry() # Holds the desktop's Size (QRect)
+        self.uiHelpDialogGeometry = QtCore.QRect()  # Holds the Format Help Window's Geometry (QRect)
+        self.uiHelpDialogSize     = QtCore.QSize()  # Holds the Format Help Window's Size (QSize)
 
         #### Init UI
-        QDialog.__init__(self, parent)
+        QtGui.QDialog.__init__(self, parent)
         self.ui = Ui_NextShowsConfig()
         self.ui.setupUi(self)   # Setup UI
-
-        #### Drag n' Drop support
-        self.ui.listSearchResults.setAcceptDrags(True)
-        self.ui.listMyShows.setAcceptDrags(True)
-        self.ui.listMyShows.setAcceptDrops(True)
-        self.ui.listMyColors.setAcceptDrags(True)
-        QObject.connect( self.ui.listMyShows,    SIGNAL("dropReceived"), self.addToMyShows       )
-        QObject.connect( self.ui.btnShowRemove,  SIGNAL("dropReceived"), self.removeFromMyShows  )
-        QObject.connect( self.ui.btnColorRemove, SIGNAL("dropReceived"), self.removeFromMyColors )
 
         #### Initialize form (read config, set labels, etc...)
         self.initForm()
 
         #### Inititialize Format Help Dialog
         self.uiHelpDialog = FormatHelp()
-        self.uiHelpDialog.setWindowFlags( Qt.Window )
-        self.uiHelpDialogSize = QSize( self.uiHelpDialog.width(), self.uiHelpDialog.height() )
+        self.uiHelpDialog.setWindowFlags( QtCore.Qt.Tool )
+        self.uiHelpDialogSize = QtCore.QSize( self.uiHelpDialog.width(), self.uiHelpDialog.height() )
         self.uiHelpDialog.setMinimumSize( self.uiHelpDialogSize )   # Fix the size (ugly hack)
         self.uiHelpDialog.setMaximumSize( self.uiHelpDialogSize )   # Fix the size (ugly hack)
 
         #### Signals / Slots
-        QObject.connect( self.ui.btnLookup,   SIGNAL("clicked()"),    self.lookupShow          )
-        QObject.connect( self.uiHelpDialog,   SIGNAL("hideWindow()"), self.resetBtnFormatInfos )
-        QObject.connect( self.ui.btnQuit,     SIGNAL("clicked()"),    self, SLOT("close()")    )
+        QtCore.QObject.connect( self.ui.btnLookup, QtCore.SIGNAL("clicked()"),      self.lookupShow )
+        QtCore.QObject.connect( self.uiHelpDialog, QtCore.SIGNAL("hideWindow()"),   self.resetBtnFormatInfos )
+        QtCore.QObject.connect( self.ui.btnQuit,   QtCore.SIGNAL("clicked()"),      self, QtCore.SLOT("close()") )
 
         #### Make sure the first tabs are shown when we 1st launch the GUI
         self.ui.tabWidgetWidget.setCurrentIndex(0)
@@ -97,7 +88,7 @@ class NextShowsConfig(QDialog):
     ###########################################################################
     #### "Shows" Tab
     # Text Changed in Lookup QLineEdit
-    @pyqtSignature("on_leditLookup_textChanged(const QString &)")
+    @QtCore.pyqtSignature("on_leditLookup_textChanged(const QString &)")
     def on_leditLookup_textChanged(self, qstring):
         text = str( qstring.toUtf8() )
         if text != "":
@@ -108,53 +99,53 @@ class NextShowsConfig(QDialog):
             self.ui.btnLookup.setDefault(False)
 
     # Click on "Clear Text"
-    @pyqtSignature("on_btnLeditLookupClear_clicked()")
+    @QtCore.pyqtSignature("on_btnLeditLookupClear_clicked()")
     def on_btnLeditLookupClear_clicked(self):
         self.ui.leditLookup.setText(u"")
 
     # Item on the search results selected
-    @pyqtSignature("on_listSearchResults_currentRowChanged(int)")
+    @QtCore.pyqtSignature("on_listSearchResults_currentRowChanged(int)")
     def on_listSearchResults_currentRowChanged(self, rowNum):
         if rowNum == -1: return
         self.ui.btnShowAdd.setEnabled( True )
 
     # Item double-clicked or add button clicked
-    @pyqtSignature("on_listSearchResults_activated(const QModelIndex &)")
+    @QtCore.pyqtSignature("on_listSearchResults_activated(const QModelIndex &)")
     def on_listSearchResults_activated(self, modelIndex):
         self.addToMyShows( modelIndex.row() )
-    @pyqtSignature("on_btnShowAdd_clicked()")
+    @QtCore.pyqtSignature("on_btnShowAdd_clicked()")
     def on_btnShowAdd_clicked(self):
         self.addToMyShows( self.ui.listSearchResults.currentRow() )
 
     # Item on my shows selected
-    @pyqtSignature("on_listMyShows_currentRowChanged(int)")
+    @QtCore.pyqtSignature("on_listMyShows_currentRowChanged(int)")
     def on_listMyShows_currentRowChanged(self, rowNum):
         if rowNum == -1: return
         self.ui.btnShowRemove.setEnabled( True )
 
     # "My Shows" item double-clicked or remove button clicked
-    @pyqtSignature("on_listMyShows_activated(const QModelIndex &)")
+    @QtCore.pyqtSignature("on_listMyShows_activated(const QModelIndex &)")
     def on_listMyShows_activated(self, modelIndex):
         self.removeFromMyShows( modelIndex.row() )
-    @pyqtSignature("on_btnShowRemove_clicked()")
+    @QtCore.pyqtSignature("on_btnShowRemove_clicked()")
     def on_btnShowRemove_clicked(self):
         self.removeFromMyShows( self.ui.listMyShows.currentRow() )
 
     # Filter state changed
-    @pyqtSignature("on_chkbxFilter_stateChanged(int)")
+    @QtCore.pyqtSignature("on_chkbxFilter_stateChanged(int)")
     def on_chkbxFilter_stateChanged(self, state):
         self.displaySearchResults()
 
     #### "Widget" Tab
     #### "Widget"->"Display" Tab
     # Past days value changed
-    @pyqtSignature("on_spinNumPastDays_valueChanged(int)")
+    @QtCore.pyqtSignature("on_spinNumPastDays_valueChanged(int)")
     def on_spinNumPastDays_valueChanged(self, value):
         # Need to save
         self.saveRequired()
 
     # Click on Fixed Size radio
-    @pyqtSignature("on_radioDispFixedLines_toggled(bool)")
+    @QtCore.pyqtSignature("on_radioDispFixedLines_toggled(bool)")
     def on_radioDispFixedLines_toggled(self, checked):
         if checked:
             # Enable Fixed Size
@@ -168,13 +159,13 @@ class NextShowsConfig(QDialog):
         self.saveRequired()
 
     # Fixed lines value changed
-    @pyqtSignature("on_spinFixedDispLines_valueChanged(int)")
+    @QtCore.pyqtSignature("on_spinFixedDispLines_valueChanged(int)")
     def on_spinFixedDispLines_valueChanged(self, value):
         # Need to save
         self.saveRequired()
 
     # Click on Automatic Resize radio
-    @pyqtSignature("on_radioDispAutoResize_toggled(bool)")
+    @QtCore.pyqtSignature("on_radioDispAutoResize_toggled(bool)")
     def on_radioDispAutoResize_toggled(self, checked):
         if checked:
             # Enable Automatic Size
@@ -192,7 +183,7 @@ class NextShowsConfig(QDialog):
         self.saveRequired()
 
     # MinDispLines Changed
-    @pyqtSignature("on_spinMinDispLines_valueChanged(int)")
+    @QtCore.pyqtSignature("on_spinMinDispLines_valueChanged(int)")
     def on_spinMinDispLines_valueChanged(self, newValue):
         currentMaxValue = self.ui.spinMaxDispLines.value()
         maxMaxValue     = self.ui.spinMaxDispLines.maximum()
@@ -205,7 +196,7 @@ class NextShowsConfig(QDialog):
         self.saveRequired()
 
     # MaxDispLines Changed
-    @pyqtSignature("on_spinMaxDispLines_valueChanged(int)")
+    @QtCore.pyqtSignature("on_spinMaxDispLines_valueChanged(int)")
     def on_spinMaxDispLines_valueChanged(self, newValue):
         currentMinValue = self.ui.spinMinDispLines.value()
         minMinValue     = self.ui.spinMinDispLines.minimum()
@@ -217,30 +208,8 @@ class NextShowsConfig(QDialog):
         # Need to save
         self.saveRequired()
 
-    # Date Separator Changed
-    @pyqtSignature("on_leditDateSeparator_editingFinished()")
-    def on_leditDateSeparator_editingFinished(self):
-        if not self.ui.leditDateSeparator.text() or self.ui.leditDateSeparator.text() == "%":
-            self.ui.leditDateSeparator.setText("/")
-    @pyqtSignature("on_leditDateSeparator_textChanged(const QString &)")
-    def on_leditDateSeparator_textChanged(self, QString):
-        if not self.ui.leditDateSeparator.text() or self.ui.leditDateSeparator.text() == "%":
-            self.ui.comboDateFormat.clear()
-            self.ui.comboDateFormat.addItem("INVALID SEPARATOR")
-            self.ui.comboDateFormat.setEnabled( False )
-        else:
-            self.populateDateFormat( QString )
-        # Need to save
-        self.saveRequired()
-
-    # Date Format Changed
-    @pyqtSignature("on_comboDateFormat_currentIndexChanged(int)")
-    def on_comboDateFormat_currentIndexChanged(self, idx):
-        # Need to save
-        self.saveRequired()
-
     # Click on checkable Format Info Button
-    @pyqtSignature("on_btnFormatInfos_clicked()")
+    @QtCore.pyqtSignature("on_btnFormatInfos_clicked()")
     def on_btnFormatInfos_clicked(self):
         # If this is the 1st time we ask for the Help Window
         # compute its geometry (relative to the main window)
@@ -253,20 +222,20 @@ class NextShowsConfig(QDialog):
                 xPos = self.pos().x() + self.width()
             else:
                 xPos = self.pos().x() - self.uiHelpDialogSize.width()
-            self.uiHelpDialogGeometry = QRect( xPos,
-                                               yPos,
-                                               self.uiHelpDialogSize.width(),
-                                               self.uiHelpDialogSize.height() )
+            self.uiHelpDialogGeometry = QtCore.QRect( xPos,
+                                                      yPos,
+                                                      self.uiHelpDialogSize.width(),
+                                                      self.uiHelpDialogSize.height() )
 
         if self.ui.btnFormatInfos.isChecked():
             self.uiHelpDialog.setGeometry( self.uiHelpDialogGeometry )
             self.uiHelpDialog.show()
         else:
-            self.uiHelpDialogGeometry = self.uiHelpDialog.geometry()
+            self.uiHelpDialogGeometry = self.uiHelpDialog.frameGeometry()
             self.uiHelpDialog.hide()
 
     # Format text changed
-    @pyqtSignature("on_leditFormat_textChanged(const QString &)")
+    @QtCore.pyqtSignature("on_leditFormat_textChanged(const QString &)")
     def on_leditFormat_textChanged(self, QString):
         text = str( QString )
         self.refreshFormatPreview(text)
@@ -281,9 +250,9 @@ class NextShowsConfig(QDialog):
 
     #### "Widget"->"Colors" tab
     # Set Default Color clicked
-    @pyqtSignature("on_btnSetDefaultColor_clicked()")
+    @QtCore.pyqtSignature("on_btnSetDefaultColor_clicked()")
     def on_btnSetDefaultColor_clicked(self):
-        selColor = QColorDialog.getColor(QColor(self.myColors['default']), self)
+        selColor = QtGui.QColorDialog.getColor(QtGui.QColor(self.myColors['default']), self)
         if not selColor.isValid():
             tools.msgDebug(u"Canceled by user!", __name__)
             return
@@ -294,9 +263,9 @@ class NextShowsConfig(QDialog):
         self.saveRequired()
 
     # Select Color clicked
-    @pyqtSignature("on_btnSelectColor_clicked()")
+    @QtCore.pyqtSignature("on_btnSelectColor_clicked()")
     def on_btnSelectColor_clicked(self):
-        selColor = QColorDialog.getColor(QColor(self.lastColorUsed), self)
+        selColor = QtGui.QColorDialog.getColor(QtGui.QColor(self.lastColorUsed), self)
         if not selColor.isValid():
             tools.msgDebug(u"Canceled by user!", __name__)
             return
@@ -305,7 +274,7 @@ class NextShowsConfig(QDialog):
         self.lastColorUsed = str( selColor.name() )
 
     # Click on Single Day radio
-    @pyqtSignature("on_radioSingleDay_toggled(bool)")
+    @QtCore.pyqtSignature("on_radioSingleDay_toggled(bool)")
     def on_radioSingleDay_toggled(self, checked):
         if checked:
             # Enable Single Day
@@ -317,7 +286,7 @@ class NextShowsConfig(QDialog):
             self.ui.spinColorsSingleDay.setEnabled(False)
 
     # Click on Automatic Resize radio
-    @pyqtSignature("on_radioDayRange_toggled(bool)")
+    @QtCore.pyqtSignature("on_radioDayRange_toggled(bool)")
     def on_radioDayRange_toggled(self, checked):
         if checked:
             # Enable Range
@@ -333,7 +302,7 @@ class NextShowsConfig(QDialog):
             self.ui.spinColorsTo.setEnabled(False)
 
     # Range From
-    @pyqtSignature("on_spinColorsFrom_editingFinished()")
+    @QtCore.pyqtSignature("on_spinColorsFrom_editingFinished()")
     def on_spinColorsFrom_editingFinished(self):
         fromValue  = self.ui.spinColorsFrom.value()
         toValue    = self.ui.spinColorsTo.value()
@@ -345,7 +314,7 @@ class NextShowsConfig(QDialog):
                 self.ui.spinColorsFrom.setValue( fromValue-1 )
 
     # Range To
-    @pyqtSignature("on_spinColorsTo_editingFinished()")
+    @QtCore.pyqtSignature("on_spinColorsTo_editingFinished()")
     def on_spinColorsTo_editingFinished(self):
         fromValue    = self.ui.spinColorsFrom.value()
         toValue      = self.ui.spinColorsTo.value()
@@ -357,7 +326,7 @@ class NextShowsConfig(QDialog):
                 self.ui.spinColorsTo.setValue( toValue+1 )
 
     # Item on my colors selected
-    @pyqtSignature("on_listMyColors_currentRowChanged(int)")
+    @QtCore.pyqtSignature("on_listMyColors_currentRowChanged(int)")
     def on_listMyColors_currentRowChanged(self, rowNum):
         if rowNum == -1: return
         self.ui.btnColorRemove.setEnabled( True )
@@ -373,57 +342,50 @@ class NextShowsConfig(QDialog):
         self.ui.lblSelectColor.setPixmap( self.drawPreviewColor( self.lastColorUsed, 36, 36 ) )
 
     # Color Add clicked
-    @pyqtSignature("on_btnColorAdd_clicked()")
+    @QtCore.pyqtSignature("on_btnColorAdd_clicked()")
     def on_btnColorAdd_clicked(self):
         self.ui.spinColorsFrom.clearFocus()
         self.ui.spinColorsTo.clearFocus()
         self.addToMyColors()
 
     # "My colors" item double-clicked or remove button clicked
-    @pyqtSignature("on_listMyColors_activated(const QModelIndex &)")
+    @QtCore.pyqtSignature("on_listMyColors_activated(const QModelIndex &)")
     def on_listMyColors_activated(self, modelIndex):
         self.removeFromMyColors( modelIndex.row() )
-    @pyqtSignature("on_btnColorRemove_clicked()")
+    @QtCore.pyqtSignature("on_btnColorRemove_clicked()")
     def on_btnColorRemove_clicked(self):
         self.removeFromMyColors( self.ui.listMyColors.currentRow() )
 
 
     #### "Widget"->"Misc" tab
     # Cache expiration time changed
-    @pyqtSignature("on_spinCacheExpiration_valueChanged(int)")
+    @QtCore.pyqtSignature("on_spinCacheExpiration_valueChanged(int)")
     def on_spinCacheExpiration_valueChanged(self, newValue):
         # Need to save
         self.saveRequired()
 
     # Text Changed in Browser
-    @pyqtSignature("on_leditBrowser_textChanged(const QString &)")
+    @QtCore.pyqtSignature("on_leditBrowser_textChanged(const QString &)")
     def on_leditBrowser_textChanged(self, qstring):
-        # Need to save
-        self.saveRequired()
-
-    # Theme changed
-    @pyqtSignature("on_comboTheme_currentIndexChanged(int)")
-    def on_comboTheme_currentIndexChanged(self, idx):
         # Need to save
         self.saveRequired()
 
     #### General
     # Save button clicked
-    @pyqtSignature("on_btnSave_clicked()")
+    @QtCore.pyqtSignature("on_btnSave_clicked()")
     def on_btnSave_clicked(self):
-        # import thread
-        # thread.start_new_thread( self.saveConfig, ("",) )
-        self.saveConfig()
+        import thread
+        thread.start_new_thread( self.saveConfig, ("",) )
 
     # React to close event
     def closeEvent(self, event):
         if self.modifFlag:
-            yesno = QMessageBox().question(self,
-                                           "Attention",
-                                           "Changes were made!\n" +
-                                           "Are you sure you want to quit without saving?",
-                                           QMessageBox.Yes, QMessageBox.No)
-            if yesno == QMessageBox().No:
+            yesno = QtGui.QMessageBox().question(self,
+                                                 "Attention",
+                                                 "Changes were made!\n" +
+                                                 "Are you sure you want to quit without saving?",
+                                                 QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+            if yesno == QtGui.QMessageBox().No:
                 event.ignore()
                 return
 
@@ -448,13 +410,13 @@ class NextShowsConfig(QDialog):
         self.ui.lblResultsDisplayed.setText( u"Displayed results: 0/0" )
         self.ui.lblTrackedShows.setText( u"Tracked shows: 0" )
 
-        # Format Sample
-        fmtSample = u"<u><b>Sample:</b></u> <b>show:</b> %s, <b>title:</b> %s, <b>season</b>: %d, <b>episode</b>: %d" % (
-                      Globals().sampleEpisode['show'],
-                      Globals().sampleEpisode['title'],
-                      Globals().sampleEpisode['season'],
-                      Globals().sampleEpisode['episode'] )
-        self.ui.lblFormatSample.setText( fmtSample )
+        # Format Example
+        fmtExample = u"<u><b>Example:</b></u> <b>show:</b> %s, <b>title:</b> %s, <b>season</b>: %d, <b>episode</b>: %d" % (
+                       Globals().sampleEpisode['show'],
+                       Globals().sampleEpisode['title'],
+                       Globals().sampleEpisode['season'],
+                       Globals().sampleEpisode['episode'] )
+        self.ui.lblFormatExample.setText( fmtExample )
 
         #### Versions
         version = Globals().versions
@@ -465,16 +427,12 @@ class NextShowsConfig(QDialog):
         labelContent=str(self.ui.lblNextShowsVersion.text())
         self.ui.lblNextShowsVersion.setText(labelContent % version['nextShows'])
         # Libs releases (About tab)
-        # Python version
-        a,b,c,d,e = sys.version_info
-        pythonVersion = "%d.%d.%d" % (a, b, c)
-        #
         labelContent=str(self.ui.lblLibsVersion.text())
         self.ui.lblLibsVersion.setText(labelContent % (
-            pythonVersion,
-            QT_VERSION_STR,
-            PYQT_VERSION_STR,
-            version["KDE"]) )
+            version["KDE"],
+            QtCore.QT_VERSION_STR,
+            QtCore.PYQT_VERSION_STR,
+            version["BeautifulSoup"]) )
 
 
         #### Default values
@@ -503,9 +461,6 @@ class NextShowsConfig(QDialog):
 
         # default color for "Select color"
         self.ui.lblSelectColor.setPixmap( self.drawPreviewColor( self.lastColorUsed, 36, 36 ) )
-
-        # Theme combo
-        self.ui.comboTheme.addItems( Globals().availableThemes )
 
 
         ####
@@ -541,29 +496,6 @@ class NextShowsConfig(QDialog):
         self.ui.spinCacheExpiration.setValue( int( config.get( "misc", "cache_expiration" ) ) )
         self.ui.leditBrowser.setText( config.get( "misc", "browser" ) )
 
-        # Fallback code since the "theme" key was located in the [display] section
-        # in versions < 2.1.0
-        try:
-            idx = int( Globals().availableThemes.index( config.get( "misc", "theme" ) ) )
-        except:
-            idx = 0
-        self.ui.comboTheme.setCurrentIndex( idx )
-
-        # Date Separator
-        # Fallback code since the "date_separator" key doesn't exist in version < 2.1.0
-        try:
-            sep = config.get( "display", "date_separator" )
-        except:
-            sep = "/"
-        self.ui.leditDateSeparator.setText( sep )
-
-        # Date Format
-        dateFormat = config.get( "display", "date_format" )
-        data       = [ "%"+a for a in dateFormat.split( sep ) ]
-        idx        = self.ui.comboDateFormat.findData( QVariant( data ) )
-        if idx==-1: idx = 0
-        self.ui.comboDateFormat.setCurrentIndex( idx )
-
         config.close()
 
         # Reset "Save" button state
@@ -587,12 +519,12 @@ class NextShowsConfig(QDialog):
     ## Draw a preview colour surrounded by a black frame ##
     #######################################################
     def drawPreviewColor(self, color, width, height):
-        pixmap  = QPixmap( QSize( width, height ) )
-        pixmap.fill( QColor( color ) )
+        pixmap  = QtGui.QPixmap( QtCore.QSize( width, height ) )
+        pixmap.fill( QtGui.QColor( color ) )
         # Draw black frame
-        painter = QPainter()
+        painter = QtGui.QPainter()
         painter.begin( pixmap )
-        painter.setPen( QPen( QColor( 0x00, 0x00, 0x00 ) ) )
+        painter.setPen( QtGui.QPen( QtGui.QColor( 0x00, 0x00, 0x00 ) ) )
         painter.drawRect( 0, 0, width-1, height-1 )
         painter.end()
 
@@ -603,19 +535,19 @@ class NextShowsConfig(QDialog):
     ############################################
     def drawFlag(self, flag):
         flagFile = ":/images/flags/images/flags/%s.gif" % flag
-        if not QFile().exists( flagFile ):   # If we don't have the icon, substitute with "blank.gif"
+        if not QtCore.QFile().exists( flagFile ):   # If we don't have the icon, substitute with "blank.gif"
             iconFile = ":/images/flags/images/flags/blank.gif"
 
-        pixmapFlag = QPixmap( flagFile )
-        pixmap     = QPixmap( QSize( pixmapFlag.width()+2, pixmapFlag.height()+2 ) )
-        painter    = QPainter()
+        pixmapFlag = QtGui.QPixmap( flagFile )
+        pixmap     = QtGui.QPixmap( QtCore.QSize( pixmapFlag.width()+2, pixmapFlag.height()+2 ) )
+        painter    = QtGui.QPainter()
         painter.begin( pixmap )
-        painter.drawPixmap( QPoint( 1, 1 ), pixmapFlag )
-        painter.setPen( QPen( QColor( 0x77, 0x77, 0x77 ) ) )
+        painter.drawPixmap( QtCore.QPoint( 1, 1 ), pixmapFlag )
+        painter.setPen( QtGui.QPen( QtGui.QColor( 0x77, 0x77, 0x77 ) ) )
         painter.drawRect( 0, 0, pixmapFlag.width()+1, pixmapFlag.height()+1 )
         painter.end()
 
-        return QIcon( pixmap )    # Return a QIcon() suitable for QListWidgetItem()
+        return QtGui.QIcon( pixmap )    # Return a QIcon() suitable for QListWidgetItem()
 
 
     ###########################
@@ -627,7 +559,7 @@ class NextShowsConfig(QDialog):
         self.ui.btnLookup.setEnabled( False )
         self.ui.btnLookup.setText( u"Fetching..." )
         self.repaint()
-        qApp.processEvents()
+        QtGui.qApp.processEvents()
 
         # Make request
         keyword = self.ui.leditLookup.text().toUtf8()
@@ -654,7 +586,7 @@ class NextShowsConfig(QDialog):
 
         # Find displayable shows
         self.dispSearchResults = []
-        if self.ui.chkbxFilter.checkState() == Qt.Unchecked:
+        if self.ui.chkbxFilter.checkState() == QtCore.Qt.Unchecked:
             self.dispSearchResults = self.searchResults
         else:
             for show in self.searchResults:
@@ -679,20 +611,16 @@ class NextShowsConfig(QDialog):
         showLines = []
         for show in self.dispSearchResults:
             showLines.append( listIdx )
-            showLines[listIdx] = QListWidgetItem( self.ui.listSearchResults )
+            showLines[listIdx] = QtGui.QListWidgetItem( self.ui.listSearchResults )
+            showLines[listIdx].setText( u"[%s-%s] %s" % ( show["year_begin"], show["year_end"], show["name"] ) )
             showLines[listIdx].setIcon( self.drawFlag( show["flag"] ) )
-            showLines[listIdx].setData( Qt.UserRole, QVariant( listIdx ) )  # Used for Drag n' Drop
             font = showLines[listIdx].font()
             if show["year_end"] == "????":
                 font.setBold( True )
-                showLines[listIdx].setText( u"%s" % show["name"] )
-                showLines[listIdx].setForeground( QBrush( QColor( 0x00, 0x00, 0x00 ) ) )
-                showLines[listIdx].setToolTip( "<b>%s</b><br /><b><u>Status:</u></b> Running since %s" % ( show["name"], show["year_begin"] ) )
+                showLines[listIdx].setForeground( QtGui.QBrush( QtGui.QColor( 0x00, 0x00, 0x00 ) ) )
             else:
                 font.setItalic( True )
-                showLines[listIdx].setText( u"%s [%s-%s]" % ( show["name"], show["year_begin"], show["year_end"] ) )
-                showLines[listIdx].setForeground( QBrush( QColor( 0x55, 0x55, 0x55 ) ) )
-                showLines[listIdx].setToolTip( "<b>%s</b><br /><b><u>Status:</u></b> Ended" % show["name"] )
+                showLines[listIdx].setForeground( QtGui.QBrush( QtGui.QColor( 0x55, 0x55, 0x55 ) ) )
             showLines[listIdx].setFont( font )
             listIdx += 1
 
@@ -702,9 +630,6 @@ class NextShowsConfig(QDialog):
     ## Adds the show to "My Shows" ##
     #################################
     def addToMyShows(self, index):
-        # Restore the cursor in case we're dropping an item and a messagebox appears
-        QApplication.changeOverrideCursor( Qt.ArrowCursor )
-
         selectedShow = self.dispSearchResults[index]
 
         # Make sure the requested show isn't already tracked
@@ -712,22 +637,22 @@ class NextShowsConfig(QDialog):
         checkShow = [ item['id'] for item in self.myShows if item['id'] == selectedShow['id']]
         if selectedShow['id'] in checkShow:
             tools.msgDebug(u"""Show already in "My Shows". Can't add!""", __name__)
-            QMessageBox().information(self,
-                                      "Information",
-                                      'Cannot add "%s".\n' % selectedShow['name'] +
-                                      'This show is already tracked.',
-                                      QMessageBox.Ok)
+            QtGui.QMessageBox().information(self,
+                                            "Information",
+                                            'Cannot add "%s".\n' % selectedShow['name'] +
+                                            'This show is already tracked.',
+                                            QtGui.QMessageBox.Ok)
             return
 
         # Tell the user if the show is terminated
         if selectedShow['year_end'] != "????":
-            yesno = QMessageBox().question(self,
-                                           "Attention",
-                                           '"%s" seem to be terminated.\n' % selectedShow['name'] +
-                                           "Adding it to your list would be pointless.\n\n" +
-                                           "Are you sure you still want to continue?",
-                                           QMessageBox.Yes, QMessageBox.No)
-            if yesno == QMessageBox().No:
+            yesno = QtGui.QMessageBox().question(self,
+                                                 "Attention",
+                                                 '"%s" seem to be terminated.\n' % selectedShow['name'] +
+                                                 "Adding it to your list would be pointless.\n\n" +
+                                                 "Are you sure you still want to continue?",
+                                                 QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+            if yesno == QtGui.QMessageBox().No:
                 return
 
         # Add the show to our list
@@ -752,17 +677,17 @@ class NextShowsConfig(QDialog):
 
 
     ########################################
-    ## Remove a show from "My Shows" list ##
+    ## Remove a show form "My Shows" list ##
     ########################################
     def removeFromMyShows(self, index):
         selectedShow = self.myShows[index]
 
         # Ask user before deletion
-        yesno = QMessageBox().question(self,
-                                       "Attention",
-                                       'Are you sure you want to remove "%s" ?' % selectedShow['name'],
-                                       QMessageBox.Yes, QMessageBox.No)
-        if yesno == QMessageBox().No:
+        yesno = QtGui.QMessageBox().question(self,
+                                             "Attention",
+                                             'Are you sure you want to remove "%s" ?' % selectedShow['name'],
+                                             QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+        if yesno == QtGui.QMessageBox().No:
             return
 
         # So be it...
@@ -798,19 +723,18 @@ class NextShowsConfig(QDialog):
         showLines = []
         for show in self.myShows:
             showLines.append( listIdx )
-            showLines[listIdx] = QListWidgetItem( self.ui.listMyShows )
+            showLines[listIdx] = QtGui.QListWidgetItem( self.ui.listMyShows )
             #showLines[listIdx].setText( u"[%s-%s] %s" % ( show["year_begin"], show["year_end"], show["name"] ) )
             showLines[listIdx].setText( u"%s" % show["name"] )
             showLines[listIdx].setIcon( self.drawFlag( show["flag"] ) )
-            showLines[listIdx].setData( Qt.UserRole, QVariant( listIdx ) )  # Used for Drag n' Drop
             font = showLines[listIdx].font()
             if show["year_end"] == "????":
                 font.setBold( True )
-                showLines[listIdx].setForeground( QBrush( QColor( 0x00, 0x00, 0x00 ) ) )
+                showLines[listIdx].setForeground( QtGui.QBrush( QtGui.QColor( 0x00, 0x00, 0x00 ) ) )
                 showLines[listIdx].setToolTip(u"Show still running...")
             else:
                 font.setItalic( True )
-                showLines[listIdx].setForeground( QBrush( QColor( 0x55, 0x55, 0x55 ) ) )
+                showLines[listIdx].setForeground( QtGui.QBrush( QtGui.QColor( 0x55, 0x55, 0x55 ) ) )
                 showLines[listIdx].setToolTip(u"%s ended in %d!" % (show['name'], int(show["year_end"])))
             showLines[listIdx].setFont( font )
             listIdx += 1
@@ -841,10 +765,10 @@ class NextShowsConfig(QDialog):
                 message = u"Overlapping detected.\nCannot add color for that day."
             else:
                 message = u"Overlapping ranges detected (%d → %d).\nCannot add color for the specified range." % (rangeStart ,rangeStop)
-            QMessageBox().information(self,
-                                      "Information",
-                                      message,
-                                      QMessageBox.Ok)
+            QtGui.QMessageBox().information(self,
+                                            "Information",
+                                            message,
+                                            QtGui.QMessageBox.Ok)
             return
 
         # Looks like everything went fine... Adding new color...
@@ -868,11 +792,11 @@ class NextShowsConfig(QDialog):
         rangeStart, rangeStop, selColor = selectedColor
 
         # Ask user before deletion
-        yesno = QMessageBox().question(self,
-                                       "Attention",
-                                       'Are you sure you want to remove this color ?',
-                                       QMessageBox.Yes, QMessageBox.No)
-        if yesno == QMessageBox().No:
+        yesno = QtGui.QMessageBox().question(self,
+                                             "Attention",
+                                             'Are you sure you want to remove this color ?',
+                                             QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+        if yesno == QtGui.QMessageBox().No:
             return
 
         # So be it...
@@ -912,27 +836,11 @@ class NextShowsConfig(QDialog):
             else:
                 text = u"Days: %d → %d" % (color[0], color[1])
             colorLines.append( listIdx )
-            colorLines[listIdx] = QListWidgetItem( self.ui.listMyColors )
+            colorLines[listIdx] = QtGui.QListWidgetItem( self.ui.listMyColors )
             colorLines[listIdx].setText( text )
-            icon = QIcon( self.drawPreviewColor( color[2], 16, 16 ) )
+            icon = QtGui.QIcon( self.drawPreviewColor( color[2], 16, 16 ) )
             colorLines[listIdx].setIcon( icon )
-            colorLines[listIdx].setData( Qt.UserRole, QVariant( listIdx ) )  # Used for Drag n' Drop
             listIdx +=1
-
-
-    ##########################
-    ## Populate Date Format ##
-    ##########################
-    def populateDateFormat(self, sep="/"):
-        # Store current index
-        idx = self.ui.comboDateFormat.currentIndex()
-        self.ui.comboDateFormat.clear()
-        self.ui.comboDateFormat.setEnabled( True )
-        self.ui.comboDateFormat.addItem( "DD"+sep+"MM"+sep+"YY", QVariant( [ "%%d", "%%m", "%%y" ] ) )
-        self.ui.comboDateFormat.addItem( "MM"+sep+"DD"+sep+"YY", QVariant( [ "%%m", "%%d", "%%y" ] ) )
-        self.ui.comboDateFormat.addItem( "YY"+sep+"MM"+sep+"DD", QVariant( [ "%%y", "%%m", "%%d" ] ) )
-        self.ui.comboDateFormat.addItem( "YY"+sep+"DD"+sep+"MM", QVariant( [ "%%y", "%%d", "%%m" ] ) )
-        self.ui.comboDateFormat.setCurrentIndex( idx )
 
 
     #####################################
@@ -952,20 +860,8 @@ class NextShowsConfig(QDialog):
     #################
     ## Save Config ##
     #################
-    #def saveConfig(self, dummy):   # Changed because of crashes with Debian/Kubuntu
-    def saveConfig(self):
+    def saveConfig(self, dummy):
         self.saveRequired( False )  # Reset save button state
-
-        # Disable quit button
-        self.ui.btnQuit.setEnabled( False )
-
-        # Save button icon & text
-        s_btnIcon = self.ui.btnSave.icon()
-        s_btnText = self.ui.btnSave.text()
-        self.ui.btnSave.setText(u"Saving...")
-        self.ui.btnSave.setIcon(QIcon())
-        self.repaint()
-        qApp.processEvents()
 
         tools.msgDebug(u"Saving configuration...", __name__)
 
@@ -986,15 +882,9 @@ class NextShowsConfig(QDialog):
         config.set( "display", "lines_min",     str( self.ui.spinMinDispLines.value()    ) )
         config.set( "display", "lines_max",     str( self.ui.spinMaxDispLines.value()    ) )
         config.set( "display", "format",        str( self.ui.leditFormat.text()          ) )
-        sep  = self.ui.leditDateSeparator.text()
-        list = self.ui.comboDateFormat.itemData( self.ui.comboDateFormat.currentIndex() ).toStringList()
-        dateFormat = list.join(sep)
-        config.set( "display", "date_separator",str( sep                                 ) )
-        config.set( "display", "date_format",   str( dateFormat                          ) )
 
         config.set( "misc", "cache_expiration", str( self.ui.spinCacheExpiration.value() ) )
         config.set( "misc", "browser",          str( self.ui.leditBrowser.text()         ) )
-        config.set( "misc", "theme",            str( self.ui.comboTheme.currentText()    ) )
 
         # Set this so that the widget knows something changed
         config.set( "main", "config_changed", "True" )
@@ -1002,8 +892,3 @@ class NextShowsConfig(QDialog):
         tools.msgDebug(u"Saving done!", __name__)
 
         config.close()  # Destroy Config()
-
-        # Restore buttons
-        self.ui.btnSave.setIcon( s_btnIcon )
-        self.ui.btnSave.setText( s_btnText )
-        self.ui.btnQuit.setEnabled( True )

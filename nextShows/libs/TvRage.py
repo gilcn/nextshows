@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #######################################################################
 # nextShows - Parser for tvrage.com webpages
-# Copyright (C) 2006-2008 Gilles CHAUVIN <gcnweb@gmail.com>
+# Copyright (C) 2006-2007 Gilles CHAUVIN <gcnweb@gmail.com>
 # $Id$
 #######################################################################
 # Coding: UTF-8, 4 spaces indent, LF line terminator
@@ -29,8 +29,9 @@
 from   libs.Http          import Http
 import libs.tools         as     tools
 
+from   libs.BeautifulSoup import BeautifulSoup
+
 import re, urllib
-import xml.etree.cElementTree as ETree
 
 
 class TvRage(Http):
@@ -44,13 +45,14 @@ class TvRage(Http):
 
         #### URL Templates for tvrage.com
         self.urlBase         = u"http://www.tvrage.com/"
-        self.urlSearch       = u"http://www.tvrage.com/feeds/search.php?show=%s"
+        self.urlSearch       = u"http://www.tvrage.com/search.php?search=%s&show_ids=1&sonly=1"
         self.urlShowTemplate = u"http://www.tvrage.com/shows/id-%d"
-        self.urlEpisodeList  = u"http://www.tvrage.com/feeds/episode_list.php?sid=%d"
+        self.urlEpisodeList  = u"http://www.tvrage.com/shows/id-%d/episode_list/all"
 
         #### RegExps
-        #self.reSeasonNumber   = re.compile(r"^Season(\d+)$")
-        self.reEpisodeAirDate = re.compile(r"^(\d{4})-(\d{2})-(\d{2})$")
+        self.rePatternFlag   = re.compile(r"^http://images.tvrage.net/flags/(\w+).gif$")
+        self.rePatternYears  = re.compile(r"^(.{4}) - (.{4})$")
+        self.reSeasonEpisode = re.compile(r"^(\d+)x(\d+)$")
 
         #### Parsed search results
         self.searchResults  = []
@@ -85,43 +87,40 @@ class TvRage(Http):
         # Sanitize keywords and build the URL
         url = self.urlSearch % urllib.quote_plus(keywords)
         tools.msgDebug("Requesting %s" % url, __name__)
-        # do the request
+        # do the request...
         content = self.request(url)     # request() from Http()
         if not content:
             return False    # In case something went wrong during fetching
-        # ...and parse the results
-        try:
-            tools.msgDebug("Parsing feed content...", __name__)
-            doc = ETree.fromstring(content)
-        except:
-            tools.msgDebug("Unexpected error while parsing the XML feed...", __name__)
-            return False
+        # ...and feed BeautifulSoup
+        tools.msgDebug("Parsing page content...", __name__)
+        page = BeautifulSoup(content)
+        tools.msgDebug("Parsing finished!", __name__)
 
-        # If the search returns nothing...
-        if doc.text == "0":
+        # The search can return nothing
+        try:
+            results = page.find("div", id="search_begin")("tr")
+        except:
             tools.msgDebug("Search returned 0 results", __name__)
             return self.searchResults
 
         # Extract infos from the returned results
-        for show in doc.getiterator('show'):
+        for show in page.findAll("tr", id="brow"):
             showInfos = {}
-            for child in show.getchildren():
-                if   child.tag == "showid":
-                    showInfos["id"]   = int( child.text )
-                    showInfos["url"]  = self.urlShowTemplate % showInfos["id"]
-                elif child.tag == "name":
-                    showInfos["name"] = u''+child.text
-                elif child.tag == "started":
-                    showInfos["year_begin"] = child.text
-                elif child.tag == "ended":
-                    # This hack is necessary to retain compatibility with
-                    # previous versions' config. files
-                    if child.text == "0":
-                        showInfos["year_end"] = "????"
-                    else:
-                        showInfos["year_end"] = child.text
-                elif child.tag == "country":
-                    showInfos["flag"] = child.text.lower()
+            ## Show Name
+            showInfos["name"]= u''+show("td")[0]("a")[0].contents[0]
+            ## Beginning/End Years
+            showYearRaw   = show("td")[1].contents[0]
+            showYearMatch = self.rePatternYears.match(showYearRaw)
+            showInfos["year_begin"] = showYearMatch.group(1)
+            showInfos["year_end"]   = showYearMatch.group(2)
+            ## Id
+            showInfos["id"]  = int( show("td")[2]("table")[0]("td")[0].contents[0] )
+            ## URL
+            showInfos["url"] = self.urlShowTemplate % showInfos["id"]
+            ## Flag
+            showFlagRaw=show("td")[0].img["src"]
+            showFlagMatch=self.rePatternFlag.match(showFlagRaw)
+            showInfos["flag"]=showFlagMatch.group(1)
 
             tools.msgDebug("ShowName: %s, Flag: %s, Years: %s-%s, id: %d, url: %s" % ( showInfos["name"], showInfos["flag"], showInfos["year_begin"], showInfos["year_end"], showInfos["id"], showInfos["url"] ), __name__ )
 
@@ -135,7 +134,7 @@ class TvRage(Http):
     ## Description: Return the parsed content of Episode List page
     ##
     ## Input args:
-    ##   - id : Show id (int)
+    ##   - id : Show id
     ##
     ## Output:
     ##       [
@@ -163,66 +162,58 @@ class TvRage(Http):
         content = self.request(url)     # request() from Http()
         if not content:
             return False    # In case something went wrong during fetching
-        # ...and parse the results
-        try:
-            tools.msgDebug("Parsing feed content...", __name__)
-            doc = ETree.fromstring(content)
-        except:
-            tools.msgDebug("Unexpected error while parsing the XML feed...", __name__)
-            return False
+        # ...and feed BeautifulSoup
+        page = BeautifulSoup(content)
 
-        showName = u''+doc.find('name').text
+        showName = u''+page('table')[3]('td')[7]('b')[0].contents[0]
 
-        # No Episode List ?
-        if not doc.find('Episodelist'):
-            return self.episodeList
+        tools.msgDebug("Parsing content...", __name__)
+        # Read each line and extract infos
+        for line in page.findAll("tr", id="brow"):
+            episode = {}
+            episode['show'] = showName
+            try:
+                firstCellWidth = int( line('td')[0]['width'] )
+                # Each "normal" episode 1st <td /> have width=30
+                if firstCellWidth == 30:
+                    # Get Season and Episode #
+                    match = self.reSeasonEpisode.match( str( line('td')[1]('a')[0].contents[0] ) )
+                    episode['season']  = int( match.group(1) )
+                    episode['episode'] = int( match.group(2) )
+                    # Episode title
+                    episode['title']   = u''+line('td')[8]('a')[0].contents[0]
+                    # Url
+                    episode['url']     = self.urlBase + line('td')[8].a['href'][1:]   # Remove leading "/"
+                    # Airdate
+                    day   = int( line('td')[3].contents[0] )
+                    m     = str( line('td')[5].contents[0] )
+                    month = self.monthsList[ m ]
+                    year  = int( line('td')[7].contents[0] )
+                    episode['airdate'] = ( year, month, day )
 
-        # Get Episode list...
-        for season in doc.find('Episodelist').getchildren():
-            if season.tag == "Season":
-                for ep in season.findall('episode'):
-                    episode = {}
-                    episode['show']    = showName
-                    episode['season']  = int( season.attrib["no"] )
-                    episode['episode'] = 0
-                    episode['title']   = ""
-                    episode['url']     = ""
-                    episode['airdate'] = ( 0, 0, 0 )
-                    for child in ep.getchildren():
-                        if   child.tag == "seasonnum":
-                            episode['episode'] = int( child.text )
-                        elif child.tag == "title":
-                            episode['title'] = u''+child.text
-                        elif child.tag == "link":
-                            episode['url'] = u''+child.text
-                        elif child.tag == "airdate":
-                            matchEAD = self.reEpisodeAirDate.match( child.text )
-                            if matchEAD:
-                                year, month, day = matchEAD.group(1), matchEAD.group(2), matchEAD.group(3)
-                                episode['airdate'] = ( int(year), int(month), int(day) )
-
-                    # Only append episode if we got all the data we need
-                    if   not episode['show']:
-                        continue
-                    elif episode['season'] <= 0:
-                        continue
-                    elif episode['episode'] <= 0:
-                        continue
-                    elif not episode['title']:
-                        continue
-                    elif not episode['url']:
-                        continue
-                    #elif episode['airdate'][0] <= 0:
-                    #    continue
-                    #elif episode['airdate'][1] < 1 or episode['airdate'][1] > 12:
-                    #    continue
-                    #elif episode['airdate'][2] < 1 or episode['airdate'][2] > 31:
-                    #    continue
-
-                    tools.msgDebug( "Found: %s-S%02dE%02d-%s (%04d-%02d-%02d)" %
-                        ( episode['show'], episode['season'], episode['episode'], episode['title'],
-                        episode['airdate'][0], episode['airdate'][1], episode['airdate'][2] ),
-                        __name__ )
+                    tools.msgDebug( "Found: %s-S%02dE%02d-%s" % ( episode['show'], episode['season'], episode['episode'], episode['title'] ), __name__ )
                     self.episodeList.append( episode )
+
+                # Each "special" episode 1st <td /> have width=70
+                elif firstCellWidth == 70:
+                    # Set Season and Episode numbers to a negative value
+                    episode['season']  = -1
+                    episode['episode'] = -1
+                    # Episode title
+                    episode['title']   = u''+line('td')[7]('a')[0].contents[0]
+                    # Episode URL
+                    episode['url']     = self.urlBase + str( line('td')[7].a['href'][1:] )
+                    # Airdate
+                    day   = int( line('td')[2].contents[0] )
+                    m     = str( line('td')[4].contents[0] )
+                    month = self.monthsList[ m ]
+                    year  = int( line('td')[6].contents[0] )
+                    episode['airdate'] = ( year, month, day )
+
+                    tools.msgDebug( "Found: %s-S%02dE%02d-%s" % ( episode['show'], episode['season'], episode['episode'], episode['title'] ), __name__ )
+                    self.episodeList.append( episode )
+            except:
+                tools.msgDebug("WARNING: Invalid line found! Skipping...", __name__)
+                continue
 
         return self.episodeList

@@ -1,7 +1,7 @@
 #!/bin/bash
 #######################################################################
 # nextShows - toolbox script
-# Copyright (C) 2006-2008 Gilles CHAUVIN <gcnweb@gmail.com>
+# Copyright (C) 2006-2007 Gilles CHAUVIN <gcnweb@gmail.com>
 # $Id$
 #######################################################################
 # This program is free software; you can redistribute it and/or modify
@@ -28,8 +28,10 @@
 WORKDIR="WorkFiles"
 # Credentials file (for FTP)
 FTPCREDENTIALS="$HOME/.nextShowsFTPCredentials"
+# QT DIR
+QTDIR="/opt/qt4/"
 # QT DESIGNER
-QTDESIGNER=/usr/bin/designer
+QTDESIGNER=${QTDIR}bin/designer
 # Destination path (FTP)
 FTPDESTPATH="/public/superkaramba/nextShows/"
 # Theme filename (name+version)
@@ -55,7 +57,7 @@ function usage() {
     echo    "  clean       remove useless files"
     echo    "  edit        edit GUI with QtDesigner 4"
     echo    "  ftp         send the current work to the FTP server"
-    echo    "  gen         Generate Resource and GUI code"
+    echo    "  gui         {,re}compile Resource and GUI"
     echo    "  help        display this help and exit"
     echo    "  skz         make SKZ theme (excluding unnecessary files)"
     echo    "  tgz         save all the files to a tarball"
@@ -67,7 +69,7 @@ function editGUI() {
     $QTDESIGNER $WORKDIR/ConfigGUI/FormatHelp.ui $WORKDIR/ConfigGUI/NextShowsConfig.ui 
 
     # Recompile files once editing's finished
-    genGUIRC
+    recompileGUI
 }
 
 # Remove *.pyc files
@@ -76,11 +78,11 @@ function removePYC() {
     find . -iname '*.pyc' -exec rm -vf {} \;
 }
 
-# Generate RC and GUI Python code
-function genGUIRC() {
-    msg "Generating Resource"
+# Recompile GUI
+function recompileGUI() {
+    msg "Recompiling Resource"
     /usr/bin/pyrcc4 -compress 9 $WORKDIR/ConfigGUI/NextShowsConfig.qrc -o cgui/NextShowsConfig_rc.py 
-    msg "Generating GUI"
+    msg "Recompiling GUI"
     /usr/bin/pyuic4             $WORKDIR/ConfigGUI/NextShowsConfig.ui  -o cgui/NextShowsConfig_ui.py
     /usr/bin/pyuic4             $WORKDIR/ConfigGUI/FormatHelp.ui       -o cgui/FormatHelp_ui.py
 }
@@ -134,7 +136,7 @@ function ftpSend() {
 # make all (SKZ)
 function makeSKZ() {
     removePYC
-    genGUIRC
+    recompileGUI
     createSKZ
 
     msg "File size"
@@ -144,7 +146,7 @@ function makeSKZ() {
 # clean and make TGZ
 function makeTGZ() {
     removePYC
-    genGUIRC
+    recompileGUI
     createTGZ
 
     msg "File size"
@@ -171,8 +173,8 @@ case "$1" in
         ftpSend
         exit 0
         ;;
-    gen)
-        genGUIRC
+    gui)
+        recompileGUI
         exit 0
         ;;
     skz)

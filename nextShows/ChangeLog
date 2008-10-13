@@ -1,5 +1,12 @@
-See the SVN log for a detailed Changelog.
-(read: I'm too lazy to maintain a ChangeLog file)
+* Wed Jun 13 2007 (2.0.0)
+- Code (almost) fully rewritten...
+- New configuration GUI
+- Dropped www.tv.com and now using www.tvrage.com as backend
+- Configuration file changed to support new features
 
-A short ChangeLog is also available here:
-http://code.google.com/p/nextshows/wiki/ChangeLog
+
+* Fri Mar 30 2007 (1.0.0)
+- First public relase !
+
+
+# EOF - vim:tw=80:sw=4:ts=4:et:
