@@ -1,18 +1,3 @@
 TODO:
-=====
-
-MAIN:
 - Whether a cache refresh/update occurs, check whether the show is terminated
   or not and update the GUI accordingly
-- Allow the user to select a color per show rather than having a color showing
-  the remaining days
-- Allow the user to chose how the widget should be expanded (top or bottom) in
-  case automatic resize is selected
-
-
-DONE:
-=====
-GUI:
-- Add a date_format entry in the GUI so that the user can choose how he wants
-  to display dates
-- Enable support for theme and fix some remaining parts of the theming engine

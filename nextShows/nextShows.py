@@ -45,6 +45,7 @@ warnings.simplefilter('ignore', RuntimeWarning) # Needed to wipe out os.tempnam(
 g_configGuiPid     = None
 #
 g_dateCheck        = date.today()
+g_dateCheck        = 123
 g_nextCacheRefresh = 0
 g_showList         = []         # Tracked shows list
 g_showIds          = []         # Tracked shows IDs
@@ -112,7 +113,7 @@ def initWidget(widget):
     splash.show()
 
     # Create dir structure
-    splash.setText("Checking config dirs...")
+    splash.setText("Creating config dirs (if necessary)...")
     createConfigDirs()
 
     # Read config
@@ -128,7 +129,7 @@ def initWidget(widget):
     if Globals().versions['nextShows'] != config.get("main", "version") \
     or not "launchGUI" in os.listdir( Globals().nsCGuiBaseDir ):
         # Init dir structures and copy files
-        splash.setText("Setup GUI...")
+        splash.setText("Copying GUI files...")
         copyThemeFilesToConfigDir(widget)
         config.set("main", "version", Globals().versions['nextShows'])
 
@@ -166,11 +167,11 @@ def initWidget(widget):
         for show in g_showList:
             if show['id'] == id:
                 showName = show['name']
-        splash.setText("Updating cache: '%s'..." % showName)
+        splash.setText("Refreshing cache: '%s'..." % showName)
         cache.cacheEpisodeList( id )
 
     # Fetch data to display
-    splash.setText("Filtering episodes...")
+    splash.setText("Filtering episodes to display...")
     data = Data()
     episodeList  = data.getEpisodeList( g_showIds, g_pastDays, g_linesMax )
     applet.episodeList = episodeList
@@ -180,12 +181,7 @@ def initWidget(widget):
     splash.hide()
 
     # Init widget
-    # Fallback (for compatibility reasons)
-    # "[display] theme=" was moved to "[misc] theme="
-    try:
-        applet.themeName = config.get("misc", "theme")
-    except:
-        applet.themeName = Globals().defaultThemeName
+    applet.themeName = config.get("display", "theme")
     numReturnedEpisode = len( episodeList )
     if numReturnedEpisode < g_linesMin:
         themeLines = g_linesMin
@@ -211,8 +207,6 @@ def initWidget(widget):
 def widgetUpdated(widget):
     global g_configGuiPid, g_dateCheck, g_nextCacheRefresh, g_showList, g_showIds, g_pastDays, g_linesMin, g_linesMax
 
-    tools.msgDebug("Widget update triggered...", __name__)
-
     # Block widget updates when GUI is running...
     if g_configGuiPid:
         tools.msgDebug("Widget updates suspended, GUI's running...", __name__)
@@ -220,7 +214,6 @@ def widgetUpdated(widget):
 
     # If date changed since the widget was launched, refresh view
     if date.today() != g_dateCheck:
-        tools.msgDebug("Day changed, refreshing view...", __name__)
         episodeList  = data.getEpisodeList( g_showIds, g_pastDays, g_linesMax )
         applet.episodeList = episodeList
         numReturnedEpisode = len( episodeList )
@@ -245,7 +238,6 @@ def widgetUpdated(widget):
         # Cache is empty...
         return
     if ncrTS < nowTS:
-        tools.msgDebug("Cache needs refresh...", __name__)
         # If nextCacheRefresh is past, we need to refresh cache
         # First, cleanup cache
         cache.deleteOldCacheFiles()

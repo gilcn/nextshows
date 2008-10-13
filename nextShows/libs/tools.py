@@ -77,9 +77,6 @@ def formatEpisode(episode, formatStr):
     regexp1Arg  = r'(?P<var>\$%s(?P<length>:\d+)?\$)'
     regexp2Args = r'(?P<var>\$%s((?P<length>:\d+)(?P<trail>:[^\$]+)?)?\$)'
 
-    # Special episodes replacement char
-    replChar = "?"
-
     # Process 1 arg vars
     for var in vars1Arg:
         regexp  = regexp1Arg % var
@@ -92,20 +89,13 @@ def formatEpisode(episode, formatStr):
                 if strLen > 10:
                     msgDebug("Values greater than 10 shouldn't be necessary...", __name__)
                     strLen = 10
-                if episode[var] < 0:
-                    res = replChar * strLen
-                else:
-                    fmt = "%%0%dd" % strLen
-                    res = fmt % episode[var]
+                fmt    = "%%0%dd" % strLen
+                res    = fmt % episode[var]
                 # Apply result
                 formatStr = pattern.sub( res, formatStr )
             else:
-                if episode[var] < 0:
-                    res = replChar
-                else:
-                    res = str( episode[var] )
                 # Apply result
-                formatStr = pattern.sub( res, formatStr )
+                formatStr = pattern.sub( str(episode[var]), formatStr )
 
     # Process 2 args vars
     for var in vars2Args:
@@ -133,8 +123,7 @@ def formatEpisode(episode, formatStr):
             else:
                 formatStr = pattern.sub(episode[var], formatStr)
 
-    return str(formatStr) # The str() here fixes a weird problem while running the widget under KDE4
-                          # Not sure it won't break something elsewhere... :s
+    return formatStr
 
 
 ###############################################################################

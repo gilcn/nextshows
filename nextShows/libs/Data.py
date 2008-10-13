@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #######################################################################
 # nextShows - Data presentation class
-# Copyright (C) 2006-2008 Gilles CHAUVIN <gcnweb@gmail.com>
+# Copyright (C) 2006-2007 Gilles CHAUVIN <gcnweb@gmail.com>
 # $Id$
 #######################################################################
 # Coding: UTF-8, 4 spaces indent, LF line terminator
@@ -29,7 +29,7 @@ from libs.Cache import Cache
 
 from datetime import date
 
-class Data():
+class Data:
     def __init__(self):
         pass
 
@@ -53,7 +53,7 @@ class Data():
         todaysDate = date.today()
 
         # Check and refresh cache if needed
-        allEpisodes = []
+        allShows = []
         cache = Cache()
         for id in showIds:
             status = cache.checkCacheFile( id )
@@ -62,28 +62,21 @@ class Data():
 #                ret = cache.cacheEpisodeList( id )  # Should return False if a problem occured
                 ret = False     # Don't include files not found
             if ret == True:
-                allEpisodes += cache.getCachedEpisodeList( id )
+                allShows += cache.getCachedEpisodeList( id )
 
         deltas = []
-        unairedEpisodes = []
+        unAiredShows = []
         # Compute deltas and feed the list
-        for episode in allEpisodes:
+        for episode in allShows:
             epAD = episode['airdate']
-            try:
-                episodeAirDate = date( epAD[0], epAD[1], epAD[2] )
-                delta = episodeAirDate - todaysDate
-                # Only append deltas and episode for unaired shows
-                if delta.days >= pastDays:
-                    deltas.append( delta.days )
-                    episodeOK = episode
-                    episodeOK['delta'] = delta.days
-                    unairedEpisodes.append( episodeOK )
-            except:
-                # Air date for this episode is unknown.
-                # We suppose it is unaired yet!
-                episode['delta'] = 999999
-                deltas.append( episode['delta'] )
-                unairedEpisodes.append( episode )
+            episodeAirDate = date( epAD[0], epAD[1], epAD[2] )
+            delta = episodeAirDate - todaysDate
+            # Only append deltas and episode for unaired shows
+            if delta.days >= pastDays:
+                deltas.append( delta.days )
+                episodeOK = episode
+                episodeOK['delta'] = delta.days
+                unAiredShows.append( episodeOK )
 
         # Sort deltas
         deltas.sort()
@@ -95,10 +88,10 @@ class Data():
         finalShowList = []
 
         for delta in deltas:
-            for show in unairedEpisodes:
+            for show in unAiredShows:
                 if show['delta'] == delta:
                     if not len( finalShowList ) >= linesMax:
-                        index=unairedEpisodes.index( show )
-                        finalShowList.append( unairedEpisodes.pop( index ) )
+                        index=unAiredShows.index( show )
+                        finalShowList.append( unAiredShows.pop( index ) )
 
         return finalShowList
