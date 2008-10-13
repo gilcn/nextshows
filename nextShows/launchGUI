@@ -23,6 +23,8 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #######################################################################
 
+from cgui.NextShowsConfig import NextShowsConfig
+import libs.tools as tools
 import os, sys
 
 try:
@@ -31,28 +33,16 @@ except:
     os.system('kdialog --title "Error" --error "The nextShows configuration GUI requires PyQt4!\nPlease install a recent version and retry." &')
     sys.exit(1)
 
-def checkVersion(libName = "foobar", localVersion = 0x00, requiredVersion = 0x00):
-    def cutVersion(versionNumber):
-        major   = (versionNumber & 0xFF0000) >> 16
-        minor   = (versionNumber & 0x00FF00) >> 8
-        release = (versionNumber & 0x0000FF)
-        return (int(major), int(minor), int(release))
-
-    if localVersion < requiredVersion:
-        cLocalVersion    = "%d.%d.%d" % cutVersion(localVersion)
-        cRequiredVersion = "%d.%d.%d" % cutVersion(requiredVersion)
-        message = "Your %s version is too old (v%s)!\nYou need %s v%s or later." % \
-        (libName, cLocalVersion, libName, cRequiredVersion)
-        os.system('kdialog --title "Error" --error "'+message+'" &')
-        sys.exit(1)
-
 # Check PyQt version
-checkVersion("PyQt", PYQT_VERSION, 0x040301)
+if PYQT_VERSION < 0x040301:
+    message = "Your PyQt version is too old (v%s)!\nYou need PyQt v4.3.0 or later." % PYQT_VERSION_STR
+    os.system('kdialog --title "Error" --error "'+message+'" &')
+    sys.exit(1)
 # Check Qt version
-checkVersion("Qt",   QT_VERSION,   0x040301)
-
-import libs.tools as tools
-from cgui.NextShowsConfig import NextShowsConfig
+if QT_VERSION < 0x040301:
+    message = "Your Qt version is too old (v%s)!\nYou need Qt v4.3.0 or later." % QT_VERSION_STR
+    os.system('kdialog --title "Error" --error "'+message+'" &')
+    sys.exit(1)
 
 
 
