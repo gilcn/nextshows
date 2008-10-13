@@ -27,14 +27,14 @@
 
 import os
 
-class Globals():
+class Globals:
 
     # Set DEBUG ?
     DEBUG = True
 
     def __init__(self):
         # Version
-        self.VERSION           = "2-dev" # Don't forget to update "maindata.xml"
+        self.VERSION           = "2.0.1" # Don't forget to update "maindata.xml"
 
         #### Working Directories & Files
         self.superKarambaDir   = os.path.expanduser("~/.superkaramba")
@@ -47,12 +47,11 @@ class Globals():
                                    'cgui/__init__.py',
                                    'cgui/FormatHelp.py',
                                    'cgui/FormatHelp_ui.py',
-                                   'cgui/ListWidget.py',
                                    'cgui/NextShowsConfig.py',
                                    'cgui/NextShowsConfig_ui.py',
                                    'cgui/NextShowsConfig_rc.py',
-                                   'cgui/ToolButton.py',
                                    'libs/__init__.py',
+                                   'libs/BeautifulSoup.py',
                                    'libs/Config.py',
                                    'libs/Globals.py',
                                    'libs/Http.py',
@@ -63,12 +62,6 @@ class Globals():
         self.nsCacheDir        = os.path.join(self.nsConfDir, "cache")
         self.nsDirMode         = 0755
         self.nsCacheFilePrefix = os.path.join(self.nsCacheDir, "show_")
-
-        # Hardcoding the theme names is not very efficient but it is the simpliest
-        # way since SuperKaramba lacks some functions we'd need otherwise.
-        self.availableThemes = [ "Default", "ClapperBoard" ]
-        # Default theme name
-        self.defaultThemeName  = "Default"
 
         # Sample episode (used for testing in the GUI)
         self.sampleEpisode     = { 'show'    : 'Battlestar Galactica (2003)',
@@ -94,6 +87,7 @@ class Globals():
     ##           'KDE'           : u'',
     ##           'Qt'            : u'',
     ##           'PyQt'          : u'',
+    ##           'BeautifulSoup' : u''
     ##     }
     ###############################################################################
     def getVersions(self):
@@ -121,6 +115,10 @@ class Globals():
         #from PyQt4 import QtCore
         #versDict['Qt']   = QtCore.QT_VERSION_STR.decode('utf-8')
         #versDict['PyQt'] = QtCore.PYQT_VERSION_STR.decode('utf-8')
+
+        # BeautifulSoup version
+        import libs.BeautifulSoup as BeautifulSoup
+        versDict['BeautifulSoup'] = BeautifulSoup.__version__.decode('utf-8')
 
         # Return result
         return versDict

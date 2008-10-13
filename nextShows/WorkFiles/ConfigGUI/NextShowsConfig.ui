@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>578</width>
-    <height>589</height>
+    <width>537</width>
+    <height>563</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -17,50 +17,35 @@
    <iconset resource="NextShowsConfig.qrc" >:/images/icons/images/icons/nextShows.png</iconset>
   </property>
   <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>9</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
    <item row="0" column="0" >
     <widget class="QTabWidget" name="tabWidget" >
      <property name="currentIndex" >
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tabShows" >
       <attribute name="title" >
        <string>S&amp;hows</string>
       </attribute>
       <layout class="QGridLayout" >
-       <property name="leftMargin" >
+       <property name="margin" >
         <number>9</number>
        </property>
-       <property name="topMargin" >
-        <number>9</number>
-       </property>
-       <property name="rightMargin" >
-        <number>9</number>
-       </property>
-       <property name="bottomMargin" >
-        <number>9</number>
-       </property>
-       <property name="horizontalSpacing" >
-        <number>6</number>
-       </property>
-       <property name="verticalSpacing" >
+       <property name="spacing" >
         <number>6</number>
        </property>
        <item row="4" column="1" >
         <layout class="QVBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
          <property name="spacing" >
           <number>6</number>
-         </property>
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
-          <number>0</number>
          </property>
          <item>
           <spacer>
@@ -108,7 +93,7 @@ p, li { white-space: pre-wrap; }
           </spacer>
          </item>
          <item>
-          <widget class="ToolButton" name="btnShowRemove" >
+          <widget class="QToolButton" name="btnShowRemove" >
            <property name="enabled" >
             <bool>false</bool>
            </property>
@@ -119,7 +104,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Click to remove the selected show from your tracked shows list.&lt;/p>&lt;/body>&lt;/html></string>
            </property>
            <property name="icon" >
-            <iconset resource="NextShowsConfig.qrc" >:/images/icons/images/icons/trash.png</iconset>
+            <iconset resource="NextShowsConfig.qrc" >:/images/icons/images/icons/leftarrow.png</iconset>
            </property>
           </widget>
          </item>
@@ -140,20 +125,11 @@ p, li { white-space: pre-wrap; }
        </item>
        <item row="4" column="0" >
         <layout class="QVBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
          <property name="spacing" >
           <number>6</number>
-         </property>
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
-          <number>0</number>
          </property>
          <item>
           <widget class="QLabel" name="lblSearchResults" >
@@ -172,7 +148,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="ListWidget" name="listSearchResults" >
+          <widget class="QListWidget" name="listSearchResults" >
            <property name="enabled" >
             <bool>false</bool>
            </property>
@@ -180,20 +156,11 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <layout class="QHBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
            <property name="spacing" >
             <number>6</number>
-           </property>
-           <property name="leftMargin" >
-            <number>0</number>
-           </property>
-           <property name="topMargin" >
-            <number>0</number>
-           </property>
-           <property name="rightMargin" >
-            <number>0</number>
-           </property>
-           <property name="bottomMargin" >
-            <number>0</number>
            </property>
            <item>
             <widget class="QCheckBox" name="chkbxFilter" >
@@ -230,20 +197,11 @@ p, li { white-space: pre-wrap; }
        </item>
        <item row="4" column="2" >
         <layout class="QVBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
          <property name="spacing" >
           <number>6</number>
-         </property>
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
-          <number>0</number>
          </property>
          <item>
           <widget class="QLabel" name="lblMyShows" >
@@ -262,7 +220,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="ListWidget" name="listMyShows" >
+          <widget class="QListWidget" name="listMyShows" >
            <property name="enabled" >
             <bool>false</bool>
            </property>
@@ -270,20 +228,11 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <layout class="QHBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
            <property name="spacing" >
             <number>6</number>
-           </property>
-           <property name="leftMargin" >
-            <number>0</number>
-           </property>
-           <property name="topMargin" >
-            <number>0</number>
-           </property>
-           <property name="rightMargin" >
-            <number>0</number>
-           </property>
-           <property name="bottomMargin" >
-            <number>0</number>
            </property>
            <item>
             <spacer>
@@ -324,20 +273,11 @@ p, li { white-space: pre-wrap; }
        </item>
        <item row="2" column="0" colspan="3" >
         <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
          <property name="spacing" >
           <number>6</number>
-         </property>
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
-          <number>0</number>
          </property>
          <item>
           <widget class="QLabel" name="labSearchFor" >
@@ -398,7 +338,7 @@ p, li { white-space: pre-wrap; }
            <weight>75</weight>
            <bold>true</bold>
            <strikeout>false</strikeout>
-           <stylestrategy>PreferDefault</stylestrategy>
+           <antialiasing>true</antialiasing>
            <kerning>true</kerning>
           </font>
          </property>
@@ -417,22 +357,10 @@ p, li { white-space: pre-wrap; }
        <string>&amp;Widget</string>
       </attribute>
       <layout class="QGridLayout" >
-       <property name="leftMargin" >
+       <property name="margin" >
         <number>9</number>
        </property>
-       <property name="topMargin" >
-        <number>9</number>
-       </property>
-       <property name="rightMargin" >
-        <number>9</number>
-       </property>
-       <property name="bottomMargin" >
-        <number>9</number>
-       </property>
-       <property name="horizontalSpacing" >
-        <number>6</number>
-       </property>
-       <property name="verticalSpacing" >
+       <property name="spacing" >
         <number>6</number>
        </property>
        <item row="1" column="0" >
@@ -462,79 +390,34 @@ p, li { white-space: pre-wrap; }
        <item row="2" column="0" >
         <widget class="QTabWidget" name="tabWidgetWidget" >
          <property name="currentIndex" >
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="tabDisplay" >
           <attribute name="title" >
            <string>&amp;Display</string>
           </attribute>
           <layout class="QGridLayout" >
-           <item row="0" column="0" >
-            <layout class="QHBoxLayout" >
-             <property name="spacing" >
-              <number>6</number>
+           <property name="margin" >
+            <number>9</number>
+           </property>
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <item row="7" column="0" >
+            <spacer>
+             <property name="orientation" >
+              <enum>Qt::Vertical</enum>
              </property>
-             <property name="leftMargin" >
-              <number>0</number>
+             <property name="sizeType" >
+              <enum>QSizePolicy::Fixed</enum>
              </property>
-             <property name="topMargin" >
-              <number>0</number>
+             <property name="sizeHint" >
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
              </property>
-             <property name="rightMargin" >
-              <number>0</number>
-             </property>
-             <property name="bottomMargin" >
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="lblNumPastDays" >
-               <property name="text" >
-                <string>&amp;Number of past days to display:</string>
-               </property>
-               <property name="buddy" >
-                <cstring>spinNumPastDays</cstring>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer>
-               <property name="orientation" >
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType" >
-                <enum>QSizePolicy::Fixed</enum>
-               </property>
-               <property name="sizeHint" >
-                <size>
-                 <width>10</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QSpinBox" name="spinNumPastDays" >
-               <property name="sizePolicy" >
-                <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="suffix" >
-                <string> day(s)</string>
-               </property>
-               <property name="prefix" >
-                <string/>
-               </property>
-               <property name="maximum" >
-                <number>30</number>
-               </property>
-               <property name="value" >
-                <number>1</number>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            </spacer>
            </item>
            <item row="1" column="0" >
             <spacer>
@@ -552,217 +435,13 @@ p, li { white-space: pre-wrap; }
              </property>
             </spacer>
            </item>
-           <item row="2" column="0" >
-            <widget class="QRadioButton" name="radioDispFixedLines" >
-             <property name="text" >
-              <string>&amp;Fixed number of lines:</string>
-             </property>
-             <property name="checked" >
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0" >
-            <layout class="QHBoxLayout" >
-             <property name="spacing" >
-              <number>6</number>
-             </property>
-             <property name="leftMargin" >
-              <number>0</number>
-             </property>
-             <property name="topMargin" >
-              <number>0</number>
-             </property>
-             <property name="rightMargin" >
-              <number>0</number>
-             </property>
-             <property name="bottomMargin" >
-              <number>0</number>
-             </property>
-             <item>
-              <spacer>
-               <property name="orientation" >
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType" >
-                <enum>QSizePolicy::Fixed</enum>
-               </property>
-               <property name="sizeHint" >
-                <size>
-                 <width>18</width>
-                 <height>25</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QLabel" name="lblFixedDispLines" >
-               <property name="text" >
-                <string>N&amp;umber:</string>
-               </property>
-               <property name="buddy" >
-                <cstring>spinFixedDispLines</cstring>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer>
-               <property name="orientation" >
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType" >
-                <enum>QSizePolicy::Fixed</enum>
-               </property>
-               <property name="sizeHint" >
-                <size>
-                 <width>130</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QSpinBox" name="spinFixedDispLines" >
-               <property name="sizePolicy" >
-                <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="suffix" >
-                <string> line(s)</string>
-               </property>
-               <property name="prefix" >
-                <string/>
-               </property>
-               <property name="minimum" >
-                <number>1</number>
-               </property>
-               <property name="maximum" >
-                <number>50</number>
-               </property>
-               <property name="value" >
-                <number>10</number>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item row="4" column="0" >
-            <widget class="QRadioButton" name="radioDispAutoResize" >
-             <property name="text" >
-              <string>Au&amp;tomatic resizing:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0" >
-            <layout class="QHBoxLayout" >
-             <property name="spacing" >
-              <number>6</number>
-             </property>
-             <property name="leftMargin" >
-              <number>0</number>
-             </property>
-             <property name="topMargin" >
-              <number>0</number>
-             </property>
-             <property name="rightMargin" >
-              <number>0</number>
-             </property>
-             <property name="bottomMargin" >
-              <number>0</number>
-             </property>
-             <item>
-              <spacer>
-               <property name="orientation" >
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType" >
-                <enum>QSizePolicy::Fixed</enum>
-               </property>
-               <property name="sizeHint" >
-                <size>
-                 <width>18</width>
-                 <height>25</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QLabel" name="lblMinDispLines" >
-               <property name="enabled" >
-                <bool>false</bool>
-               </property>
-               <property name="text" >
-                <string>M&amp;in:</string>
-               </property>
-               <property name="buddy" >
-                <cstring>spinMinDispLines</cstring>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer>
-               <property name="orientation" >
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType" >
-                <enum>QSizePolicy::Fixed</enum>
-               </property>
-               <property name="sizeHint" >
-                <size>
-                 <width>158</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QSpinBox" name="spinMinDispLines" >
-               <property name="enabled" >
-                <bool>false</bool>
-               </property>
-               <property name="sizePolicy" >
-                <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="suffix" >
-                <string> line(s)</string>
-               </property>
-               <property name="prefix" >
-                <string/>
-               </property>
-               <property name="minimum" >
-                <number>1</number>
-               </property>
-               <property name="maximum" >
-                <number>49</number>
-               </property>
-               <property name="value" >
-                <number>1</number>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
            <item row="6" column="0" >
             <layout class="QHBoxLayout" >
+             <property name="margin" >
+              <number>0</number>
+             </property>
              <property name="spacing" >
               <number>6</number>
-             </property>
-             <property name="leftMargin" >
-              <number>0</number>
-             </property>
-             <property name="topMargin" >
-              <number>0</number>
-             </property>
-             <property name="rightMargin" >
-              <number>0</number>
-             </property>
-             <property name="bottomMargin" >
-              <number>0</number>
              </property>
              <item>
               <spacer>
@@ -803,7 +482,7 @@ p, li { white-space: pre-wrap; }
                </property>
                <property name="sizeHint" >
                 <size>
-                 <width>155</width>
+                 <width>22</width>
                  <height>20</height>
                 </size>
                </property>
@@ -814,23 +493,17 @@ p, li { white-space: pre-wrap; }
                <property name="enabled" >
                 <bool>false</bool>
                </property>
-               <property name="sizePolicy" >
-                <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
                <property name="suffix" >
                 <string> line(s)</string>
                </property>
                <property name="prefix" >
                 <string/>
                </property>
-               <property name="minimum" >
-                <number>2</number>
-               </property>
                <property name="maximum" >
                 <number>50</number>
+               </property>
+               <property name="minimum" >
+                <number>2</number>
                </property>
                <property name="value" >
                 <number>10</number>
@@ -839,28 +512,47 @@ p, li { white-space: pre-wrap; }
              </item>
             </layout>
            </item>
-           <item row="7" column="0" >
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
+           <item row="2" column="0" >
+            <widget class="QRadioButton" name="radioDispFixedLines" >
+             <property name="text" >
+              <string>&amp;Fixed number of lines:</string>
              </property>
-             <property name="sizeType" >
-              <enum>QSizePolicy::Fixed</enum>
+             <property name="checked" >
+              <bool>true</bool>
              </property>
-             <property name="sizeHint" >
-              <size>
-               <width>20</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
+            </widget>
            </item>
-           <item row="8" column="0" >
+           <item row="3" column="0" >
             <layout class="QHBoxLayout" >
+             <property name="margin" >
+              <number>0</number>
+             </property>
+             <property name="spacing" >
+              <number>6</number>
+             </property>
              <item>
-              <widget class="QLabel" name="lblDateFormat" >
+              <spacer>
+               <property name="orientation" >
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType" >
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" >
+                <size>
+                 <width>18</width>
+                 <height>25</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="lblFixedDispLines" >
                <property name="text" >
-                <string>Date format:</string>
+                <string>N&amp;umber:</string>
+               </property>
+               <property name="buddy" >
+                <cstring>spinFixedDispLines</cstring>
                </property>
               </widget>
              </item>
@@ -874,89 +566,212 @@ p, li { white-space: pre-wrap; }
                </property>
                <property name="sizeHint" >
                 <size>
-                 <width>126</width>
+                 <width>22</width>
                  <height>20</height>
                 </size>
                </property>
               </spacer>
              </item>
              <item>
-              <widget class="QLabel" name="lblSeparator" >
-               <property name="text" >
-                <string>Separator:</string>
+              <widget class="QSpinBox" name="spinFixedDispLines" >
+               <property name="suffix" >
+                <string> line(s)</string>
                </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="leditDateSeparator" >
-               <property name="sizePolicy" >
-                <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
+               <property name="prefix" >
+                <string/>
                </property>
-               <property name="maximumSize" >
-                <size>
-                 <width>20</width>
-                 <height>16777215</height>
-                </size>
+               <property name="maximum" >
+                <number>50</number>
                </property>
-               <property name="maxLength" >
+               <property name="minimum" >
                 <number>1</number>
                </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="lblDash" >
-               <property name="text" >
-                <string>-</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="comboDateFormat" >
-               <property name="sizePolicy" >
-                <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
+               <property name="value" >
+                <number>10</number>
                </property>
               </widget>
              </item>
             </layout>
            </item>
-           <item row="9" column="0" >
+           <item row="4" column="0" >
+            <widget class="QRadioButton" name="radioDispAutoResize" >
+             <property name="text" >
+              <string>Au&amp;tomatic resizing:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0" >
+            <layout class="QHBoxLayout" >
+             <property name="margin" >
+              <number>0</number>
+             </property>
+             <property name="spacing" >
+              <number>6</number>
+             </property>
+             <item>
+              <spacer>
+               <property name="orientation" >
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType" >
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" >
+                <size>
+                 <width>18</width>
+                 <height>25</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="lblMinDispLines" >
+               <property name="enabled" >
+                <bool>false</bool>
+               </property>
+               <property name="text" >
+                <string>M&amp;in:</string>
+               </property>
+               <property name="buddy" >
+                <cstring>spinMinDispLines</cstring>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer>
+               <property name="orientation" >
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType" >
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" >
+                <size>
+                 <width>22</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="spinMinDispLines" >
+               <property name="enabled" >
+                <bool>false</bool>
+               </property>
+               <property name="suffix" >
+                <string> line(s)</string>
+               </property>
+               <property name="prefix" >
+                <string/>
+               </property>
+               <property name="maximum" >
+                <number>49</number>
+               </property>
+               <property name="minimum" >
+                <number>1</number>
+               </property>
+               <property name="value" >
+                <number>1</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="0" column="0" >
+            <layout class="QHBoxLayout" >
+             <property name="margin" >
+              <number>0</number>
+             </property>
+             <property name="spacing" >
+              <number>6</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="lblNumPastDays" >
+               <property name="text" >
+                <string>&amp;Number of past days to display:</string>
+               </property>
+               <property name="buddy" >
+                <cstring>spinNumPastDays</cstring>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer>
+               <property name="orientation" >
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType" >
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" >
+                <size>
+                 <width>37</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="spinNumPastDays" >
+               <property name="suffix" >
+                <string> day(s)</string>
+               </property>
+               <property name="prefix" >
+                <string/>
+               </property>
+               <property name="maximum" >
+                <number>30</number>
+               </property>
+               <property name="value" >
+                <number>1</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="11" column="0" >
             <spacer>
              <property name="orientation" >
               <enum>Qt::Vertical</enum>
              </property>
-             <property name="sizeType" >
-              <enum>QSizePolicy::Fixed</enum>
-             </property>
              <property name="sizeHint" >
               <size>
                <width>20</width>
-               <height>20</height>
+               <height>40</height>
               </size>
              </property>
             </spacer>
            </item>
            <item row="10" column="0" >
+            <widget class="QLabel" name="lblFormatPreview" >
+             <property name="text" >
+              <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600; text-decoration: underline;">Preview:&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+             </property>
+            </widget>
+           </item>
+           <item row="9" column="0" >
+            <widget class="QLabel" name="lblFormatExample" >
+             <property name="text" >
+              <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600; text-decoration: underline;">Example:&lt;/span> &lt;span style=" font-weight:600;">show:&lt;/span> Battlestar Galactica (2003), &lt;span style=" font-weight:600;">title:&lt;/span> Litmus, &lt;span style=" font-weight:600;">season:&lt;/span> 1, &lt;span style=" font-weight:600;">episode:&lt;/span> 6&lt;/p>&lt;/body>&lt;/html></string>
+             </property>
+             <property name="wordWrap" >
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0" >
             <layout class="QHBoxLayout" >
+             <property name="margin" >
+              <number>0</number>
+             </property>
              <property name="spacing" >
               <number>6</number>
-             </property>
-             <property name="leftMargin" >
-              <number>0</number>
-             </property>
-             <property name="topMargin" >
-              <number>0</number>
-             </property>
-             <property name="rightMargin" >
-              <number>0</number>
-             </property>
-             <property name="bottomMargin" >
-              <number>0</number>
              </property>
              <item>
               <widget class="QLabel" name="lblFormat" >
@@ -990,36 +805,6 @@ p, li { white-space: pre-wrap; }
              </item>
             </layout>
            </item>
-           <item row="11" column="0" >
-            <widget class="QLabel" name="lblFormatSample" >
-             <property name="text" >
-              <string>&lt;u>&lt;b>Sample:&lt;/b>&lt;/u> Some sample here !</string>
-             </property>
-             <property name="wordWrap" >
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="12" column="0" >
-            <widget class="QLabel" name="lblFormatPreview" >
-             <property name="text" >
-              <string>&lt;u>&lt;b>Preview:&lt;/b>&lt;/u> Some preview here !</string>
-             </property>
-            </widget>
-           </item>
-           <item row="13" column="0" >
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" >
-              <size>
-               <width>516</width>
-               <height>111</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
           </layout>
          </widget>
          <widget class="QWidget" name="tabColors" >
@@ -1027,22 +812,10 @@ p, li { white-space: pre-wrap; }
            <string>Co&amp;lors</string>
           </attribute>
           <layout class="QGridLayout" >
-           <property name="leftMargin" >
+           <property name="margin" >
             <number>9</number>
            </property>
-           <property name="topMargin" >
-            <number>9</number>
-           </property>
-           <property name="rightMargin" >
-            <number>9</number>
-           </property>
-           <property name="bottomMargin" >
-            <number>9</number>
-           </property>
-           <property name="horizontalSpacing" >
-            <number>6</number>
-           </property>
-           <property name="verticalSpacing" >
+           <property name="spacing" >
             <number>6</number>
            </property>
            <item row="2" column="0" >
@@ -1051,22 +824,10 @@ p, li { white-space: pre-wrap; }
               <string>Custom colors</string>
              </property>
              <layout class="QGridLayout" >
-              <property name="leftMargin" >
+              <property name="margin" >
                <number>9</number>
               </property>
-              <property name="topMargin" >
-               <number>9</number>
-              </property>
-              <property name="rightMargin" >
-               <number>9</number>
-              </property>
-              <property name="bottomMargin" >
-               <number>9</number>
-              </property>
-              <property name="horizontalSpacing" >
-               <number>6</number>
-              </property>
-              <property name="verticalSpacing" >
+              <property name="spacing" >
                <number>6</number>
               </property>
               <item row="0" column="0" >
@@ -1081,20 +842,11 @@ p, li { white-space: pre-wrap; }
               </item>
               <item row="1" column="0" >
                <layout class="QHBoxLayout" >
+                <property name="margin" >
+                 <number>0</number>
+                </property>
                 <property name="spacing" >
                  <number>6</number>
-                </property>
-                <property name="leftMargin" >
-                 <number>0</number>
-                </property>
-                <property name="topMargin" >
-                 <number>0</number>
-                </property>
-                <property name="rightMargin" >
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin" >
-                 <number>0</number>
                 </property>
                 <item>
                  <spacer>
@@ -1123,29 +875,7 @@ p, li { white-space: pre-wrap; }
                  </widget>
                 </item>
                 <item>
-                 <spacer>
-                  <property name="orientation" >
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType" >
-                   <enum>QSizePolicy::Fixed</enum>
-                  </property>
-                  <property name="sizeHint" >
-                   <size>
-                    <width>18</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
                  <widget class="QSpinBox" name="spinColorsSingleDay" >
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
                   <property name="minimum" >
                    <number>-99</number>
                   </property>
@@ -1162,20 +892,11 @@ p, li { white-space: pre-wrap; }
               </item>
               <item row="3" column="0" >
                <layout class="QHBoxLayout" >
+                <property name="margin" >
+                 <number>0</number>
+                </property>
                 <property name="spacing" >
                  <number>6</number>
-                </property>
-                <property name="leftMargin" >
-                 <number>0</number>
-                </property>
-                <property name="topMargin" >
-                 <number>0</number>
-                </property>
-                <property name="rightMargin" >
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin" >
-                 <number>0</number>
                 </property>
                 <item>
                  <spacer>
@@ -1207,37 +928,15 @@ p, li { white-space: pre-wrap; }
                  </widget>
                 </item>
                 <item>
-                 <spacer>
-                  <property name="orientation" >
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType" >
-                   <enum>QSizePolicy::Fixed</enum>
-                  </property>
-                  <property name="sizeHint" >
-                   <size>
-                    <width>10</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
                  <widget class="QSpinBox" name="spinColorsFrom" >
                   <property name="enabled" >
                    <bool>false</bool>
                   </property>
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
+                  <property name="maximum" >
+                   <number>98</number>
                   </property>
                   <property name="minimum" >
                    <number>-99</number>
-                  </property>
-                  <property name="maximum" >
-                   <number>98</number>
                   </property>
                   <property name="value" >
                    <number>-99</number>
@@ -1248,20 +947,11 @@ p, li { white-space: pre-wrap; }
               </item>
               <item row="4" column="0" >
                <layout class="QHBoxLayout" >
+                <property name="margin" >
+                 <number>0</number>
+                </property>
                 <property name="spacing" >
                  <number>6</number>
-                </property>
-                <property name="leftMargin" >
-                 <number>0</number>
-                </property>
-                <property name="topMargin" >
-                 <number>0</number>
-                </property>
-                <property name="rightMargin" >
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin" >
-                 <number>0</number>
                 </property>
                 <item>
                  <spacer>
@@ -1293,31 +983,9 @@ p, li { white-space: pre-wrap; }
                  </widget>
                 </item>
                 <item>
-                 <spacer>
-                  <property name="orientation" >
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType" >
-                   <enum>QSizePolicy::Fixed</enum>
-                  </property>
-                  <property name="sizeHint" >
-                   <size>
-                    <width>28</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
                  <widget class="QSpinBox" name="spinColorsTo" >
                   <property name="enabled" >
                    <bool>false</bool>
-                  </property>
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
                   </property>
                   <property name="minimum" >
                    <number>-98</number>
@@ -1347,25 +1015,18 @@ p, li { white-space: pre-wrap; }
               </item>
               <item row="6" column="0" >
                <layout class="QHBoxLayout" >
+                <property name="margin" >
+                 <number>0</number>
+                </property>
                 <property name="spacing" >
                  <number>6</number>
-                </property>
-                <property name="leftMargin" >
-                 <number>0</number>
-                </property>
-                <property name="topMargin" >
-                 <number>0</number>
-                </property>
-                <property name="rightMargin" >
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin" >
-                 <number>0</number>
                 </property>
                 <item>
                  <widget class="QPushButton" name="btnSelectColor" >
                   <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
+                   <sizepolicy>
+                    <hsizetype>3</hsizetype>
+                    <vsizetype>0</vsizetype>
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
@@ -1394,7 +1055,9 @@ p, li { white-space: pre-wrap; }
                 <item>
                  <widget class="QLabel" name="lblSelectColor" >
                   <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                   <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
                     <horstretch>48</horstretch>
                     <verstretch>48</verstretch>
                    </sizepolicy>
@@ -1427,20 +1090,11 @@ p, li { white-space: pre-wrap; }
            </item>
            <item row="1" column="0" >
             <layout class="QHBoxLayout" >
+             <property name="margin" >
+              <number>0</number>
+             </property>
              <property name="spacing" >
               <number>6</number>
-             </property>
-             <property name="leftMargin" >
-              <number>0</number>
-             </property>
-             <property name="topMargin" >
-              <number>0</number>
-             </property>
-             <property name="rightMargin" >
-              <number>0</number>
-             </property>
-             <property name="bottomMargin" >
-              <number>0</number>
              </property>
              <item>
               <spacer>
@@ -1461,7 +1115,9 @@ p, li { white-space: pre-wrap; }
              <item>
               <widget class="QPushButton" name="btnSetDefaultColor" >
                <property name="sizePolicy" >
-                <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
+                <sizepolicy>
+                 <hsizetype>3</hsizetype>
+                 <vsizetype>0</vsizetype>
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -1533,20 +1189,11 @@ p, li { white-space: pre-wrap; }
            </item>
            <item rowspan="3" row="0" column="1" >
             <layout class="QVBoxLayout" >
+             <property name="margin" >
+              <number>0</number>
+             </property>
              <property name="spacing" >
               <number>6</number>
-             </property>
-             <property name="leftMargin" >
-              <number>0</number>
-             </property>
-             <property name="topMargin" >
-              <number>0</number>
-             </property>
-             <property name="rightMargin" >
-              <number>0</number>
-             </property>
-             <property name="bottomMargin" >
-              <number>0</number>
              </property>
              <item>
               <spacer>
@@ -1569,8 +1216,8 @@ p, li { white-space: pre-wrap; }
                <property name="toolTip" >
                 <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Click to add this color to my custom colors list.&lt;/p>&lt;/body>&lt;/html></string>
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Click to add the selected show to your tracked shows list.&lt;/p>&lt;/body>&lt;/html></string>
                </property>
                <property name="icon" >
                 <iconset resource="NextShowsConfig.qrc" >:/images/icons/images/icons/rightarrow.png</iconset>
@@ -1594,18 +1241,18 @@ p, li { white-space: pre-wrap; }
               </spacer>
              </item>
              <item>
-              <widget class="ToolButton" name="btnColorRemove" >
+              <widget class="QToolButton" name="btnColorRemove" >
                <property name="enabled" >
                 <bool>false</bool>
                </property>
                <property name="toolTip" >
                 <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Click to remove the selected color.&lt;/p>&lt;/body>&lt;/html></string>
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Click to remove the selected show from your tracked shows list.&lt;/p>&lt;/body>&lt;/html></string>
                </property>
                <property name="icon" >
-                <iconset resource="NextShowsConfig.qrc" >:/images/icons/images/icons/trash.png</iconset>
+                <iconset resource="NextShowsConfig.qrc" >:/images/icons/images/icons/leftarrow.png</iconset>
                </property>
               </widget>
              </item>
@@ -1626,20 +1273,11 @@ p, li { white-space: pre-wrap; }
            </item>
            <item rowspan="3" row="0" column="2" >
             <layout class="QVBoxLayout" >
+             <property name="margin" >
+              <number>0</number>
+             </property>
              <property name="spacing" >
               <number>6</number>
-             </property>
-             <property name="leftMargin" >
-              <number>0</number>
-             </property>
-             <property name="topMargin" >
-              <number>0</number>
-             </property>
-             <property name="rightMargin" >
-              <number>0</number>
-             </property>
-             <property name="bottomMargin" >
-              <number>0</number>
              </property>
              <item>
               <widget class="QLabel" name="lblMyCustomColors" >
@@ -1658,7 +1296,7 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="ListWidget" name="listMyColors" />
+              <widget class="QListWidget" name="listMyColors" />
              </item>
             </layout>
            </item>
@@ -1669,27 +1307,30 @@ p, li { white-space: pre-wrap; }
            <string>&amp;Misc</string>
           </attribute>
           <layout class="QGridLayout" >
+           <property name="margin" >
+            <number>9</number>
+           </property>
+           <property name="spacing" >
+            <number>6</number>
+           </property>
            <item row="0" column="0" >
             <layout class="QVBoxLayout" >
+             <property name="margin" >
+              <number>0</number>
+             </property>
+             <property name="spacing" >
+              <number>6</number>
+             </property>
              <item>
               <layout class="QHBoxLayout" >
+               <property name="margin" >
+                <number>0</number>
+               </property>
                <property name="spacing" >
                 <number>6</number>
                </property>
-               <property name="leftMargin" >
-                <number>0</number>
-               </property>
-               <property name="topMargin" >
-                <number>0</number>
-               </property>
-               <property name="rightMargin" >
-                <number>0</number>
-               </property>
-               <property name="bottomMargin" >
-                <number>0</number>
-               </property>
                <item>
-                <widget class="QLabel" name="lblCacheExpirationTime" >
+                <widget class="QLabel" name="label_10" >
                  <property name="text" >
                   <string>Cache &amp;expiration time:</string>
                  </property>
@@ -1699,37 +1340,15 @@ p, li { white-space: pre-wrap; }
                 </widget>
                </item>
                <item>
-                <spacer>
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType" >
-                  <enum>QSizePolicy::Fixed</enum>
-                 </property>
-                 <property name="sizeHint" >
-                  <size>
-                   <width>10</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
                 <widget class="QSpinBox" name="spinCacheExpiration" >
-                 <property name="sizePolicy" >
-                  <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
                  <property name="suffix" >
                   <string> day(s)</string>
                  </property>
-                 <property name="minimum" >
-                  <number>1</number>
-                 </property>
                  <property name="maximum" >
                   <number>30</number>
+                 </property>
+                 <property name="minimum" >
+                  <number>1</number>
                  </property>
                  <property name="value" >
                   <number>1</number>
@@ -1740,23 +1359,14 @@ p, li { white-space: pre-wrap; }
              </item>
              <item>
               <layout class="QHBoxLayout" >
+               <property name="margin" >
+                <number>0</number>
+               </property>
                <property name="spacing" >
                 <number>6</number>
                </property>
-               <property name="leftMargin" >
-                <number>0</number>
-               </property>
-               <property name="topMargin" >
-                <number>0</number>
-               </property>
-               <property name="rightMargin" >
-                <number>0</number>
-               </property>
-               <property name="bottomMargin" >
-                <number>0</number>
-               </property>
                <item>
-                <widget class="QLabel" name="lblBrowser" >
+                <widget class="QLabel" name="label_3" >
                  <property name="text" >
                   <string>B&amp;rowser:</string>
                  </property>
@@ -1766,22 +1376,6 @@ p, li { white-space: pre-wrap; }
                 </widget>
                </item>
                <item>
-                <spacer>
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType" >
-                  <enum>QSizePolicy::Fixed</enum>
-                 </property>
-                 <property name="sizeHint" >
-                  <size>
-                   <width>94</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
                 <widget class="QLineEdit" name="leditBrowser" >
                  <property name="text" >
                   <string>firefox -remote 'openURL($url$,new-tab)'</string>
@@ -1789,19 +1383,6 @@ p, li { white-space: pre-wrap; }
                 </widget>
                </item>
               </layout>
-             </item>
-             <item>
-              <widget class="QLabel" name="lblBrowserNote" >
-               <property name="text" >
-                <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600; text-decoration: underline;">Note:&lt;/span> nextShows will substitute the &lt;span style=" font-weight:600;">$url$&lt;/span> variable with the corresponding episode URL.&lt;/p>&lt;/body>&lt;/html></string>
-               </property>
-               <property name="wordWrap" >
-                <bool>true</bool>
-               </property>
-              </widget>
              </item>
              <item>
               <spacer>
@@ -1820,59 +1401,32 @@ p, li { white-space: pre-wrap; }
               </spacer>
              </item>
              <item>
-              <layout class="QHBoxLayout" >
-               <item>
-                <widget class="QLabel" name="lblTheme" >
-                 <property name="text" >
-                  <string>&amp;Theme:</string>
-                 </property>
-                 <property name="buddy" >
-                  <cstring>comboTheme</cstring>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer>
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType" >
-                  <enum>QSizePolicy::Fixed</enum>
-                 </property>
-                 <property name="sizeHint" >
-                  <size>
-                   <width>103</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
-                <widget class="QComboBox" name="comboTheme" >
-                 <property name="sizePolicy" >
-                  <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+              <widget class="QLabel" name="label" >
+               <property name="text" >
+                <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600; text-decoration: underline;">Note:&lt;/span> nextShows will substitute the &lt;span style=" font-weight:600;">$url$&lt;/span> variable with the corresponding episode URL.&lt;/p>&lt;/body>&lt;/html></string>
+               </property>
+               <property name="wordWrap" >
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer>
+               <property name="orientation" >
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" >
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
-           </item>
-           <item row="1" column="0" >
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" >
-              <size>
-               <width>516</width>
-               <height>131</height>
-              </size>
-             </property>
-            </spacer>
            </item>
           </layout>
          </widget>
@@ -1885,45 +1439,24 @@ p, li { white-space: pre-wrap; }
        <string>A&amp;bout</string>
       </attribute>
       <layout class="QGridLayout" >
-       <property name="leftMargin" >
+       <property name="margin" >
         <number>9</number>
        </property>
-       <property name="topMargin" >
-        <number>9</number>
-       </property>
-       <property name="rightMargin" >
-        <number>9</number>
-       </property>
-       <property name="bottomMargin" >
-        <number>9</number>
-       </property>
-       <property name="horizontalSpacing" >
-        <number>6</number>
-       </property>
-       <property name="verticalSpacing" >
+       <property name="spacing" >
         <number>6</number>
        </property>
        <item row="1" column="0" >
         <layout class="QVBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
          <property name="spacing" >
           <number>6</number>
-         </property>
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
-          <number>0</number>
          </property>
          <item>
           <widget class="QLabel" name="lblDataProvidedBy" >
            <property name="text" >
-            <string>Data kindly provided by &lt;a href="http://www.tvrage.com/">www.tvrage.com&lt;/a></string>
+            <string>Data provided by &lt;a href="http://www.tvrage.com/">www.tvrage.com&lt;/a></string>
            </property>
            <property name="alignment" >
             <set>Qt::AlignCenter</set>
@@ -1936,7 +1469,9 @@ p, li { white-space: pre-wrap; }
          <item>
           <widget class="QLabel" name="lblTvRageLogo" >
            <property name="sizePolicy" >
-            <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+            <sizepolicy>
+             <hsizetype>5</hsizetype>
+             <vsizetype>5</vsizetype>
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -1959,20 +1494,11 @@ p, li { white-space: pre-wrap; }
        </item>
        <item row="0" column="0" >
         <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
          <property name="spacing" >
           <number>6</number>
-         </property>
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
-          <number>0</number>
          </property>
          <item>
           <widget class="QLabel" name="lblNetShowsLogo" >
@@ -1989,20 +1515,11 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <layout class="QVBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
            <property name="spacing" >
             <number>6</number>
-           </property>
-           <property name="leftMargin" >
-            <number>0</number>
-           </property>
-           <property name="topMargin" >
-            <number>0</number>
-           </property>
-           <property name="rightMargin" >
-            <number>0</number>
-           </property>
-           <property name="bottomMargin" >
-            <number>0</number>
            </property>
            <item>
             <widget class="QLabel" name="lblNextShowsTitle" >
@@ -2035,7 +1552,7 @@ Released under the GNU GPL v2.</string>
            <item>
             <widget class="QLabel" name="lbl_nextShowsGoogleCode" >
              <property name="text" >
-              <string>&lt;a href="http://nextshows.googlecode.com/">http://nextshows.googlecode.com/&lt;/a></string>
+              <string>&lt;a href="http://code.google.com/p/nextshows/">http://code.google.com/p/nextshows/&lt;/a></string>
              </property>
              <property name="alignment" >
               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -2068,11 +1585,10 @@ Released under the GNU GPL v2.</string>
 p, li { white-space: pre-wrap; }
 &lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-size:10pt; font-weight:600;">Using:&lt;/span>&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &amp;middot; Python: v%s&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &amp;middot; Qt: v%s&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &amp;middot; PyQt: v%s&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &amp;middot; KDE: v%s&lt;/p>
-&lt;/body>&lt;/html></string>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  - KDE: v%s&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  - Qt: v%s&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  - PyQt: v%s&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  - BeautifulSoup: v%s (internal)&lt;/p>&lt;/body>&lt;/html></string>
              </property>
             </widget>
            </item>
@@ -2103,8 +1619,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;img src=":/images/flags/images/flags/fr.gif" alt="" /> &lt;span style=" font-weight:600;">Emmanuel H.&lt;/span> (ideas, testing, bug-hunting)&lt;/p>
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;img src=":/images/flags/images/flags/se.gif" alt="" /> &lt;span style=" font-weight:600;">ge5239&lt;/span> (ideas, testing, bug-hunting)&lt;/p>
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;img src=":/images/flags/images/flags/fr.gif" alt="" /> &lt;span style=" font-weight:600;">Jean-Baptiste Sannier&lt;/span> (Qt4 help &amp;amp; tips)&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;img src=":/images/flags/images/flags/fr.gif" alt="" /> &lt;span style=" font-weight:600;">Joachim I.&lt;/span> (ideas, testing, bug-hunting)&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;img src=":/images/flags/images/flags/us.gif" alt="" /> &lt;span style=" font-weight:600;">Sebrioth [TVRage]&lt;/span> (XML feeds providing)&lt;/p>&lt;/body>&lt;/html></string>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;img src=":/images/flags/images/flags/fr.gif" alt="" /> &lt;span style=" font-weight:600;">Joachim I.&lt;/span> (ideas, testing, bug-hunting)&lt;/p>&lt;/body>&lt;/html></string>
              </property>
             </widget>
            </item>
@@ -2129,29 +1644,13 @@ p, li { white-space: pre-wrap; }
      </widget>
     </widget>
    </item>
-   <item row="1" column="0" >
-    <widget class="Line" name="line" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
    <item row="2" column="0" >
     <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
      <property name="spacing" >
       <number>6</number>
-     </property>
-     <property name="leftMargin" >
-      <number>0</number>
-     </property>
-     <property name="topMargin" >
-      <number>0</number>
-     </property>
-     <property name="rightMargin" >
-      <number>0</number>
-     </property>
-     <property name="bottomMargin" >
-      <number>0</number>
      </property>
      <item>
       <widget class="QLabel" name="lblFooterRelease" >
@@ -2187,7 +1686,9 @@ p, li { white-space: pre-wrap; }
         <bool>false</bool>
        </property>
        <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+        <sizepolicy>
+         <hsizetype>0</hsizetype>
+         <vsizetype>0</vsizetype>
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -2219,7 +1720,9 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QPushButton" name="btnQuit" >
        <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+        <sizepolicy>
+         <hsizetype>0</hsizetype>
+         <vsizetype>0</vsizetype>
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -2237,20 +1740,15 @@ p, li { white-space: pre-wrap; }
      </item>
     </layout>
    </item>
+   <item row="1" column="0" >
+    <widget class="Line" name="line" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>ListWidget</class>
-   <extends>QListWidget</extends>
-   <header>ListWidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>ToolButton</class>
-   <extends>QToolButton</extends>
-   <header>ToolButton.h</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>tabWidget</tabstop>
   <tabstop>leditLookup</tabstop>
