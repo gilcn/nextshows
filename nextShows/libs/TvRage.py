@@ -49,7 +49,7 @@ class TvRage(Http):
         self.urlEpisodeList  = u"http://www.tvrage.com/feeds/episode_list.php?sid=%d"
 
         #### RegExps
-        #self.reSeasonNumber   = re.compile(r"^Season(\d+)$")
+        self.reSeasonNumber   = re.compile(r"^Season(\d+)$")
         self.reEpisodeAirDate = re.compile(r"^(\d{4})-(\d{2})-(\d{2})$")
 
         #### Parsed search results
@@ -179,11 +179,12 @@ class TvRage(Http):
 
         # Get Episode list...
         for season in doc.find('Episodelist').getchildren():
-            if season.tag == "Season":
+            matchSN = self.reSeasonNumber.match( season.tag )
+            if matchSN:
                 for ep in season.findall('episode'):
                     episode = {}
                     episode['show']    = showName
-                    episode['season']  = int( season.attrib["no"] )
+                    episode['season']  = int( matchSN.group(1) )
                     episode['episode'] = 0
                     episode['title']   = ""
                     episode['url']     = ""
