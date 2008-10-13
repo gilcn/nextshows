@@ -9,7 +9,7 @@
     <description>Know your favorite TV shows schedule.</description>
     <author>Gilles CHAUVIN</author>
     <author_email>gcnweb@gmail.com</author_email>
-    <homepage>http://nextshows.googlecode.com/</homepage>
-    <version>2-dev</version><!-- Don't forget to update libs/Globals.py -->
+    <homepage>http://gcnweb.free.fr/</homepage>
+    <version>2.0.4</version><!-- Don't forget to update libs/Globals.py -->
     <license>GPL</license>
 </superkaramba_theme>

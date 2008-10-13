@@ -73,11 +73,9 @@ class Config(SafeConfigParser):
         ## Format
         self.format = "$show:12:...$-S$season:2$E$episode:2$-$title$"
         ## Theme
-        self.theme  = Globals().defaultThemeName
+        self.theme  = "Original"
         ## Date
         self.dateFormat = "%%d/%%m/%%y"
-        ## Date Separator
-        self.dateSeparator = "/"
         ## When format
         self.whenFormat = 0
 
@@ -284,13 +282,12 @@ class Config(SafeConfigParser):
         self.set( "display", "lines_max",   str(self.linesMax)    )
         self.set( "display", "type",        str(self.linesType)   )
         self.set( "display", "format",      str(self.format)      )
+        self.set( "display", "theme",       str(self.theme)       )
         self.set( "display", "date_format", str(self.dateFormat)  )
-        self.set( "display", "date_separator", str(self.dateSeparator)  )
         # Misc
         self.set( "misc",    "cache_expiration", str(self.cacheExpiration ) )
         self.set( "misc",    "browser",     str(self.browser)     )
         self.set( "misc",    "when_format", str(self.whenFormat)  )
-        self.set( "misc",    "theme",       str(self.theme)       )
         #----------------------------------------------------------------------
 
         # Set shows

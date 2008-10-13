@@ -241,7 +241,6 @@
         <file>images/icons/ok.png</file>
         <file>images/icons/rightarrow.png</file>
         <file>images/icons/save.png</file>
-        <file>images/icons/trash.png</file>
     </qresource>
     <qresource prefix="/images/logos" >
         <file>images/logos/nextShows.png</file>

@@ -180,12 +180,7 @@ def initWidget(widget):
     splash.hide()
 
     # Init widget
-    # Fallback (for compatibility reasons)
-    # "[display] theme=" was moved to "[misc] theme="
-    try:
-        applet.themeName = config.get("misc", "theme")
-    except:
-        applet.themeName = Globals().defaultThemeName
+    applet.themeName = config.get("display", "theme")
     numReturnedEpisode = len( episodeList )
     if numReturnedEpisode < g_linesMin:
         themeLines = g_linesMin

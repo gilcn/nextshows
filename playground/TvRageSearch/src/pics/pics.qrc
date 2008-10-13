@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/pics" >
-        <file>idle.png</file>
-        <file>working.png</file>
-    </qresource>
-</RCC>
