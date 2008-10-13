@@ -133,8 +133,7 @@ def formatEpisode(episode, formatStr):
             else:
                 formatStr = pattern.sub(episode[var], formatStr)
 
-    return str(formatStr) # The str() here fixes a weird problem while running the widget under KDE4
-                          # Not sure it won't break something elsewhere... :s
+    return formatStr
 
 
 ###############################################################################
