@@ -23,56 +23,92 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #######################################################################
 
-import os, sys
+from cgui.NextShowsConfig import NextShowsConfig
+import libs.tools as tools
+import os, sys, time
 
 try:
     from PyQt4.Qt import *
 except:
     os.system('kdialog --title "Error" --error "The nextShows configuration GUI requires PyQt4!\nPlease install a recent version and retry." &')
-    sys.exit(1)
+    sys.exit()
 
-def checkVersion(libName = "foobar", localVersion = 0x00, requiredVersion = 0x00):
-    def cutVersion(versionNumber):
-        major   = (versionNumber & 0xFF0000) >> 16
-        minor   = (versionNumber & 0x00FF00) >> 8
-        release = (versionNumber & 0x0000FF)
-        return (int(major), int(minor), int(release))
-
-    if localVersion < requiredVersion:
-        cLocalVersion    = "%d.%d.%d" % cutVersion(localVersion)
-        cRequiredVersion = "%d.%d.%d" % cutVersion(requiredVersion)
-        message = "Your %s version is too old (v%s)!\nYou need %s v%s or later." % \
-        (libName, cLocalVersion, libName, cRequiredVersion)
-        os.system('kdialog --title "Error" --error "'+message+'" &')
-        sys.exit(1)
 
 # Check PyQt version
-checkVersion("PyQt", PYQT_VERSION, 0x040301)
+if PYQT_VERSION < 0x040300:
+    message = "Your PyQt version is too old (v%s)!\nYou need PyQt v4.3.0 or later." % PYQT_VERSION_STR
+    os.system('kdialog --title "Error" --error "'+message+'" &')
+    sys.exit()
 # Check Qt version
-checkVersion("Qt",   QT_VERSION,   0x040301)
+if QT_VERSION < 0x040300:
+    message = "Your Qt version is too old (v%s)!\nYou need Qt v4.3.0 or later." % QT_VERSION_STR
+    os.system('kdialog --title "Error" --error "'+message+'" &')
+    sys.exit()
 
-import libs.tools as tools
-from cgui.NextShowsConfig import NextShowsConfig
 
+class Splash:
+    def __init__(self):
+        self.splash      = QSplashScreen()
+        self.pixLogo     = QPixmap(":/images/logos/images/logos/nextShows.png")
+        self.pixDesktop  = QPixmap()
+        self.captureArea = QRect()
+        self.animStep    = 0.0000001
+
+    def init(self):
+        ## FIXME: Desktop area screenshot doesn't work properly with multiple-displays
+        desktopAGeo = qApp.desktop().availableGeometry( qApp.desktop().primaryScreen() )
+        self.captureArea = QRect( ( desktopAGeo.width()  - self.pixLogo.width()  ) / 2,
+                                         ( desktopAGeo.height() - self.pixLogo.height() ) / 2,
+                                           self.pixLogo.width(),
+                                           self.pixLogo.height() )
+        self.pixDesktop  = QPixmap().grabWindow( QApplication.desktop().winId(),
+                                                       self.captureArea.x(),
+                                                       self.captureArea.y(),
+                                                       self.captureArea.width(),
+                                                       self.captureArea.height() )
+    def finish(self, window):
+        self.splash.finish(window)
+
+    def fadeIn(self):
+        for i in range(0, 101):
+            self._showImage( float(i) / 100 )
+            time.sleep( self.animStep )
+
+    def fadeOut(self):
+        for i in range(0, 101):
+            self._showImage( float(100-i) / 100 )
+            time.sleep( self.animStep )
+
+    def _showImage(self, opacity):
+        painter   = QPainter()
+        pixSplash = QPixmap( self.captureArea.width(), self.captureArea.height() )
+
+        painter.begin( pixSplash )
+        painter.drawPixmap( 0, 0, self.pixDesktop )
+        painter.setOpacity( opacity )
+        painter.drawPixmap( 0, 0, self.pixLogo )
+        painter.end()
+
+        self.splash.setPixmap( pixSplash )
+        self.splash.show()
 
 
 def main():
+    # Init qApp
     app=QApplication(sys.argv)
-
-    splash = QSplashScreen()
-    logo = QPixmap(":/images/logos/images/logos/nextShows.png")
-    splash.setMask( logo.mask() )
-    splash.setPixmap( logo )
-    splash.show()
-    app.processEvents()
-
+    # Splash "in" / init
+    splash = Splash()
+    splash.init()
+    splash.fadeIn()
+    # Load main window
     window=NextShowsConfig()
+    # Splash "out"
+    splash.fadeOut()
+    # Show main window
     window.show()
-
     splash.finish(window)
-
+    # Entering Event Loop
     return app.exec_()
-
 
 
 if __name__ == "__main__":

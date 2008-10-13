@@ -63,15 +63,6 @@ class NextShowsConfig(QDialog):
         self.ui = Ui_NextShowsConfig()
         self.ui.setupUi(self)   # Setup UI
 
-        #### Drag n' Drop support
-        self.ui.listSearchResults.setAcceptDrags(True)
-        self.ui.listMyShows.setAcceptDrags(True)
-        self.ui.listMyShows.setAcceptDrops(True)
-        self.ui.listMyColors.setAcceptDrags(True)
-        QObject.connect( self.ui.listMyShows,    SIGNAL("dropReceived"), self.addToMyShows       )
-        QObject.connect( self.ui.btnShowRemove,  SIGNAL("dropReceived"), self.removeFromMyShows  )
-        QObject.connect( self.ui.btnColorRemove, SIGNAL("dropReceived"), self.removeFromMyColors )
-
         #### Initialize form (read config, set labels, etc...)
         self.initForm()
 
@@ -83,9 +74,9 @@ class NextShowsConfig(QDialog):
         self.uiHelpDialog.setMaximumSize( self.uiHelpDialogSize )   # Fix the size (ugly hack)
 
         #### Signals / Slots
-        QObject.connect( self.ui.btnLookup,   SIGNAL("clicked()"),    self.lookupShow          )
-        QObject.connect( self.uiHelpDialog,   SIGNAL("hideWindow()"), self.resetBtnFormatInfos )
-        QObject.connect( self.ui.btnQuit,     SIGNAL("clicked()"),    self, SLOT("close()")    )
+        QObject.connect( self.ui.btnLookup, SIGNAL("clicked()"),      self.lookupShow )
+        QObject.connect( self.uiHelpDialog, SIGNAL("hideWindow()"),   self.resetBtnFormatInfos )
+        QObject.connect( self.ui.btnQuit,   SIGNAL("clicked()"),      self, SLOT("close()") )
 
         #### Make sure the first tabs are shown when we 1st launch the GUI
         self.ui.tabWidgetWidget.setCurrentIndex(0)
@@ -254,9 +245,9 @@ class NextShowsConfig(QDialog):
             else:
                 xPos = self.pos().x() - self.uiHelpDialogSize.width()
             self.uiHelpDialogGeometry = QRect( xPos,
-                                               yPos,
-                                               self.uiHelpDialogSize.width(),
-                                               self.uiHelpDialogSize.height() )
+                                                      yPos,
+                                                      self.uiHelpDialogSize.width(),
+                                                      self.uiHelpDialogSize.height() )
 
         if self.ui.btnFormatInfos.isChecked():
             self.uiHelpDialog.setGeometry( self.uiHelpDialogGeometry )
@@ -419,10 +410,10 @@ class NextShowsConfig(QDialog):
     def closeEvent(self, event):
         if self.modifFlag:
             yesno = QMessageBox().question(self,
-                                           "Attention",
-                                           "Changes were made!\n" +
-                                           "Are you sure you want to quit without saving?",
-                                           QMessageBox.Yes, QMessageBox.No)
+                                                 "Attention",
+                                                 "Changes were made!\n" +
+                                                 "Are you sure you want to quit without saving?",
+                                                 QMessageBox.Yes, QMessageBox.No)
             if yesno == QMessageBox().No:
                 event.ignore()
                 return
@@ -680,20 +671,21 @@ class NextShowsConfig(QDialog):
         for show in self.dispSearchResults:
             showLines.append( listIdx )
             showLines[listIdx] = QListWidgetItem( self.ui.listSearchResults )
+            #showLines[listIdx].setText( u"[%s-%s] %s" % ( show["year_begin"], show["year_end"], show["name"] ) )
+            showLines[listIdx].setText( u"%s" % show["name"] )
             showLines[listIdx].setIcon( self.drawFlag( show["flag"] ) )
-            showLines[listIdx].setData( Qt.UserRole, QVariant( listIdx ) )  # Used for Drag n' Drop
             font = showLines[listIdx].font()
             if show["year_end"] == "????":
                 font.setBold( True )
-                showLines[listIdx].setText( u"%s" % show["name"] )
                 showLines[listIdx].setForeground( QBrush( QColor( 0x00, 0x00, 0x00 ) ) )
-                showLines[listIdx].setToolTip( "<b>%s</b><br /><b><u>Status:</u></b> Running since %s" % ( show["name"], show["year_begin"] ) )
+                showLines[listIdx].setToolTip( "<b>%s</b><br /><b><u>Status:</u></b> Running" % show["name"] )
             else:
                 font.setItalic( True )
-                showLines[listIdx].setText( u"%s [%s-%s]" % ( show["name"], show["year_begin"], show["year_end"] ) )
                 showLines[listIdx].setForeground( QBrush( QColor( 0x55, 0x55, 0x55 ) ) )
-                showLines[listIdx].setToolTip( "<b>%s</b><br /><b><u>Status:</u></b> Ended" % show["name"] )
+                showLines[listIdx].setToolTip( "<b>%s</b><br /><b><u>Status:</u></b> Ended in %s"
+                        % ( show["name"], show["year_end"] ) )
             showLines[listIdx].setFont( font )
+            showLines[listIdx].setStatusTip( "XXXXXXX" )
             listIdx += 1
 
 
@@ -702,9 +694,6 @@ class NextShowsConfig(QDialog):
     ## Adds the show to "My Shows" ##
     #################################
     def addToMyShows(self, index):
-        # Restore the cursor in case we're dropping an item and a messagebox appears
-        QApplication.changeOverrideCursor( Qt.ArrowCursor )
-
         selectedShow = self.dispSearchResults[index]
 
         # Make sure the requested show isn't already tracked
@@ -713,20 +702,20 @@ class NextShowsConfig(QDialog):
         if selectedShow['id'] in checkShow:
             tools.msgDebug(u"""Show already in "My Shows". Can't add!""", __name__)
             QMessageBox().information(self,
-                                      "Information",
-                                      'Cannot add "%s".\n' % selectedShow['name'] +
-                                      'This show is already tracked.',
-                                      QMessageBox.Ok)
+                                            "Information",
+                                            'Cannot add "%s".\n' % selectedShow['name'] +
+                                            'This show is already tracked.',
+                                            QMessageBox.Ok)
             return
 
         # Tell the user if the show is terminated
         if selectedShow['year_end'] != "????":
             yesno = QMessageBox().question(self,
-                                           "Attention",
-                                           '"%s" seem to be terminated.\n' % selectedShow['name'] +
-                                           "Adding it to your list would be pointless.\n\n" +
-                                           "Are you sure you still want to continue?",
-                                           QMessageBox.Yes, QMessageBox.No)
+                                                 "Attention",
+                                                 '"%s" seem to be terminated.\n' % selectedShow['name'] +
+                                                 "Adding it to your list would be pointless.\n\n" +
+                                                 "Are you sure you still want to continue?",
+                                                 QMessageBox.Yes, QMessageBox.No)
             if yesno == QMessageBox().No:
                 return
 
@@ -759,9 +748,9 @@ class NextShowsConfig(QDialog):
 
         # Ask user before deletion
         yesno = QMessageBox().question(self,
-                                       "Attention",
-                                       'Are you sure you want to remove "%s" ?' % selectedShow['name'],
-                                       QMessageBox.Yes, QMessageBox.No)
+                                             "Attention",
+                                             'Are you sure you want to remove "%s" ?' % selectedShow['name'],
+                                             QMessageBox.Yes, QMessageBox.No)
         if yesno == QMessageBox().No:
             return
 
@@ -802,7 +791,6 @@ class NextShowsConfig(QDialog):
             #showLines[listIdx].setText( u"[%s-%s] %s" % ( show["year_begin"], show["year_end"], show["name"] ) )
             showLines[listIdx].setText( u"%s" % show["name"] )
             showLines[listIdx].setIcon( self.drawFlag( show["flag"] ) )
-            showLines[listIdx].setData( Qt.UserRole, QVariant( listIdx ) )  # Used for Drag n' Drop
             font = showLines[listIdx].font()
             if show["year_end"] == "????":
                 font.setBold( True )
@@ -842,9 +830,9 @@ class NextShowsConfig(QDialog):
             else:
                 message = u"Overlapping ranges detected (%d → %d).\nCannot add color for the specified range." % (rangeStart ,rangeStop)
             QMessageBox().information(self,
-                                      "Information",
-                                      message,
-                                      QMessageBox.Ok)
+                                            "Information",
+                                            message,
+                                            QMessageBox.Ok)
             return
 
         # Looks like everything went fine... Adding new color...
@@ -869,9 +857,9 @@ class NextShowsConfig(QDialog):
 
         # Ask user before deletion
         yesno = QMessageBox().question(self,
-                                       "Attention",
-                                       'Are you sure you want to remove this color ?',
-                                       QMessageBox.Yes, QMessageBox.No)
+                                             "Attention",
+                                             'Are you sure you want to remove this color ?',
+                                             QMessageBox.Yes, QMessageBox.No)
         if yesno == QMessageBox().No:
             return
 
@@ -916,7 +904,6 @@ class NextShowsConfig(QDialog):
             colorLines[listIdx].setText( text )
             icon = QIcon( self.drawPreviewColor( color[2], 16, 16 ) )
             colorLines[listIdx].setIcon( icon )
-            colorLines[listIdx].setData( Qt.UserRole, QVariant( listIdx ) )  # Used for Drag n' Drop
             listIdx +=1
 
 

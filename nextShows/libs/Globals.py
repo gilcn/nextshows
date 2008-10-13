@@ -27,14 +27,14 @@
 
 import os
 
-class Globals():
+class Globals:
 
     # Set DEBUG ?
     DEBUG = True
 
     def __init__(self):
         # Version
-        self.VERSION           = "2-dev" # Don't forget to update "maindata.xml"
+        self.VERSION           = "2.1.0" # Don't forget to update "maindata.xml"
 
         #### Working Directories & Files
         self.superKarambaDir   = os.path.expanduser("~/.superkaramba")
@@ -47,11 +47,9 @@ class Globals():
                                    'cgui/__init__.py',
                                    'cgui/FormatHelp.py',
                                    'cgui/FormatHelp_ui.py',
-                                   'cgui/ListWidget.py',
                                    'cgui/NextShowsConfig.py',
                                    'cgui/NextShowsConfig_ui.py',
                                    'cgui/NextShowsConfig_rc.py',
-                                   'cgui/ToolButton.py',
                                    'libs/__init__.py',
                                    'libs/Config.py',
                                    'libs/Globals.py',

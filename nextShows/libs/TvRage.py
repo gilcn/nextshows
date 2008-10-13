@@ -49,7 +49,7 @@ class TvRage(Http):
         self.urlEpisodeList  = u"http://www.tvrage.com/feeds/episode_list.php?sid=%d"
 
         #### RegExps
-        #self.reSeasonNumber   = re.compile(r"^Season(\d+)$")
+        self.reSeasonNumber   = re.compile(r"^Season(\d+)$")
         self.reEpisodeAirDate = re.compile(r"^(\d{4})-(\d{2})-(\d{2})$")
 
         #### Parsed search results
@@ -179,11 +179,12 @@ class TvRage(Http):
 
         # Get Episode list...
         for season in doc.find('Episodelist').getchildren():
-            if season.tag == "Season":
+            matchSN = self.reSeasonNumber.match( season.tag )
+            if matchSN:
                 for ep in season.findall('episode'):
                     episode = {}
                     episode['show']    = showName
-                    episode['season']  = int( season.attrib["no"] )
+                    episode['season']  = int( matchSN.group(1) )
                     episode['episode'] = 0
                     episode['title']   = ""
                     episode['url']     = ""
@@ -212,14 +213,14 @@ class TvRage(Http):
                         continue
                     elif not episode['url']:
                         continue
-                    #elif episode['airdate'][0] <= 0:
-                    #    continue
-                    #elif episode['airdate'][1] < 1 or episode['airdate'][1] > 12:
-                    #    continue
-                    #elif episode['airdate'][2] < 1 or episode['airdate'][2] > 31:
-                    #    continue
+                    elif episode['airdate'][0] <= 0:
+                        continue
+                    elif episode['airdate'][1] < 1 or episode['airdate'][1] > 12:
+                        continue
+                    elif episode['airdate'][2] < 1 or episode['airdate'][2] > 31:
+                        continue
 
-                    tools.msgDebug( "Found: %s-S%02dE%02d-%s (%04d-%02d-%02d)" %
+                    tools.msgDebug( "Found: %s-S%02dE%02d-%s (%d-%d-%d)" %
                         ( episode['show'], episode['season'], episode['episode'], episode['title'],
                         episode['airdate'][0], episode['airdate'][1], episode['airdate'][2] ),
                         __name__ )
