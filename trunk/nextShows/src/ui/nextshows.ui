@@ -1,0 +1,38 @@
+<ui version="4.0" >
+ <class>NextShows</class>
+ <widget class="QWidget" name="NextShows" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>349</width>
+    <height>295</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>nextShows</string>
+  </property>
+  <widget class="KTitleWidget" name="ktitlewidget" >
+   <property name="geometry" >
+    <rect>
+     <x>9</x>
+     <y>9</y>
+     <width>331</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>nextShows</string>
+   </property>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KTitleWidget</class>
+   <extends>QWidget</extends>
+   <header>ktitlewidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
