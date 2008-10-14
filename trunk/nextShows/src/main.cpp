@@ -42,9 +42,7 @@ int main (int argc, char **argv)
                          ki18n("(c)2006-2008, Gilles CHAUVIN"),
                          ki18n(""),
                          "http://nextshows.googlecode.com/",
-                         // The following parameter is wrong since we got no email address
-                         // to send bug reports to. But we don't want reports to be sent to KDE!
-                         "http://code.google.com/p/nextshows/issues/list");
+                         "nextshows-bugs@googlegroups.com");
     aboutData.addAuthor(ki18n("Gilles CHAUVIN"),
                         ki18n("Author and maintainer"),
                         "gcnweb+nextshows@gmail.com");
