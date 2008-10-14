@@ -19,51 +19,19 @@
 
 
 // Own
-#include "nextshowsmain.h"
+#include "mainwindow.h"
 
-// KDE
-#include <KDE/KAboutData>
-#include <KDE/KCmdLineArgs>
-#include <KDE/KUniqueApplication>
+// Qt
+#include <QtGui/QApplication>
 
 
-static const char appName[] = "nextShows";
-static const char version[] = "2.99.0";
-
-
-int main (int argc, char **argv)
+int main(int argc, char **argv)
 {
-    KAboutData aboutData(appName,
-                         0,
-                         ki18n(appName),
-                         version,
-                         ki18n("Track your favorite TV shows"),
-                         KAboutData::License_GPL_V2,
-                         ki18n("(c)2006-2008, Gilles CHAUVIN"),
-                         ki18n(""),
-                         "http://nextshows.googlecode.com/",
-                         "nextshows-bugs@googlegroups.com");
-    aboutData.addAuthor(ki18n("Gilles CHAUVIN"),
-                        ki18n("Author and maintainer"),
-                        "gcnweb+nextshows@gmail.com");
-    aboutData.addCredit(ki18n("Jean-Baptiste SANNIER"),
-                        ki18n("Qt4 help and tips"));
-    aboutData.addCredit(ki18n("Sebrioth [TVRage]"),
-                        ki18n("XML feeds providing"),
-                        QByteArray(),
-                        "http://tvrage.com/");
-
-    KCmdLineArgs::init(argc, argv, &aboutData);
-
-    // REMOVEME
-    if (!KUniqueApplication::start()) {
-        fprintf(stderr, "nextShows is already running!\n");
-        return 0;
-    }
-    // /REMOVEME
-
-    KUniqueApplication app;
-    NextShowsMain *window = new NextShowsMain();
-    window->show();
+    QApplication app(argc, argv);
+    MainWindow window;
+    window.show();
     return app.exec();
-}
+} // main()
+
+
+// EOF - vim:ts=4:sw=4:et:

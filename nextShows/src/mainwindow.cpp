@@ -17,32 +17,22 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef __NEXTSHOWSMAIN_H__
-#define __NEXTSHOWSMAIN_H__
-
 
 // Own
-//#include "ui_nextshows.h"
-
-// KDE
-#include <KDE/KXmlGuiWindow>
+#include "mainwindow.h"
 
 
-class NextShowsMain : public KXmlGuiWindow
+/*
+** public:
+*/
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
 {
-    Q_OBJECT
+} // ctor()
 
-public:
-    NextShowsMain(QWidget *parent = 0);
-    ~NextShowsMain();
-
-private:
-//    Ui::NextShows ui;
-    void setupActions();
-
-private Q_SLOTS:
-    void quit();
-};
+MainWindow::~MainWindow()
+{
+} // dtor()
 
 
-#endif // __NEXTSHOWSMAIN_H__
+// EOF - vim:ts=4:sw=4:et:
