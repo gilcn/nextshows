@@ -17,58 +17,24 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-// Own
-#include "nextshowsmain.h"
+#ifndef __MAINWINDOW_H__
+#define __MAINWINDOW_H__
 
-// KDE
-#include <KDE/KDebug>
-#include <KDE/KAction>
-#include <KDE/KActionCollection>
-#include <KDE/KLocale>
-#include <KDE/KStandardAction>
+// Qt
+#include <QtGui/QMainWindow>
 
 
-/*
-** public:
-*/
-NextShowsMain::NextShowsMain(QWidget *parent)
-    : KXmlGuiWindow(parent)
+class MainWindow : public QMainWindow
 {
-    kDebug();
+    Q_OBJECT
 
-//    ui.setupUi(this);
-    setupActions();
-
-    createGUI("nextShowsui.rc");
-} // ctor()
-
-NextShowsMain::~NextShowsMain()
-{
-    kDebug();
-} // dtor()
+public:
+    MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+};
 
 
-/*
-** private:
-*/
-void NextShowsMain::setupActions()
-{
-    kDebug();
-
-    KStandardAction::quit(this, SLOT(quit()), actionCollection());
-
-    kDebug() << actionCollection()->actions();
-} // setupActions()
+#endif // __MAINWINDOW_H__
 
 
-/*
-** private Q_SLOTS:
-*/
-void NextShowsMain::quit()
-{
-    kDebug();
-
-    close();
-} // quit()
-
-#include "nextshowsmain.moc"
+// EOF - vim:ts=4:sw=4:et:

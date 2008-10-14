@@ -1,0 +1,9 @@
+REQUIREMENTS:
+- Qt 4.3.3 or later
+- make
+- A C++ compiler :)
+
+
+HOWTO BUILD:
+$ qmake -makefile
+$ make
