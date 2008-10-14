@@ -38,6 +38,10 @@ public:
 
 private:
 //    Ui::NextShows ui;
+    void setupActions();
+
+private Q_SLOTS:
+    void quit();
 };
 
 
