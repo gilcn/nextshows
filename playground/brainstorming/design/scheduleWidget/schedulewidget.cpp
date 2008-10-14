@@ -1,5 +1,5 @@
 /*
-** Copyright (C) 2008 Emmanuel Hamelet <kh.starlifter@gmail.com>
+** Copyright (C) 2008 Emmanuel Hamelet <kh.starlifter+nextshows@gmail.com>
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -17,14 +17,17 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-// KDE
-#include <KDE/KDebug>
+// ######################################################################
+//    Coding: UTF-8, 4 spaces indent
+// ######################################################################
+
 
 // Own
 #include "schedulewidget.h"
 
 // QT
 #include <QtGui>
+#include <QDebug>
 
 
 /*
@@ -32,14 +35,14 @@
 */
 ScheduleWidget::ScheduleWidget(QWidget *parent)
 {
-    kDebug();
+    qDebug();
     setupActions();
 
 } // ctor()
 
 ScheduleWidget::~ScheduleWidget()
 {
-    kDebug();
+    qDebug();
 } // dtor()
 
 
@@ -48,8 +51,21 @@ ScheduleWidget::~ScheduleWidget()
 */
 void ScheduleWidget::setupActions()
 {
-    kDebug();
-    this->setColumnCount(3);
+    qDebug();
+
+    // Tune the default option of QTableWidget
+    this->setShowGrid(false);
+    this->setCornerButtonEnabled(false);
+    this->setSelectionMode(QAbstractItemView::SingleSelection);
+    this->setAlternatingRowColors(true);
+    this->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    this->setColumnCount(5);
+    this->setHorizontalHeaderLabels(QStringList() << tr("Show") << tr("Saison") << tr("Episode") << tr("Episode name") << tr("When"));
     this->setRowCount(5);
+
+    // Set the header label
+    qDebug() << "Horizontal Header" << horizontalHeader();
+
 
 } // setupActions()
