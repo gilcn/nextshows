@@ -22,14 +22,23 @@
 
 // KDE
 #include <KDE/KDebug>
+#include <KDE/KAction>
+#include <KDE/KActionCollection>
+#include <KDE/KLocale>
+#include <KDE/KStandardAction>
 
 
+/*
+** public:
+*/
 NextShowsMain::NextShowsMain(QWidget *parent)
     : KXmlGuiWindow(parent)
 {
     kDebug();
 
 //    ui.setupUi(this);
+    setupActions();
+
     createGUI("nextShowsui.rc");
 } // ctor()
 
@@ -38,5 +47,28 @@ NextShowsMain::~NextShowsMain()
     kDebug();
 } // dtor()
 
+
+/*
+** private:
+*/
+void NextShowsMain::setupActions()
+{
+    kDebug();
+
+    KStandardAction::quit(this, SLOT(quit()), actionCollection());
+
+    kDebug() << actionCollection()->actions();
+} // setupActions()
+
+
+/*
+** private Q_SLOTS:
+*/
+void NextShowsMain::quit()
+{
+    kDebug();
+
+    close();
+} // quit()
 
 #include "nextshowsmain.moc"
