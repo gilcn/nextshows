@@ -27,19 +27,33 @@
 #include <KDE/KUniqueApplication>
 
 
-static const char description[] = I18N_NOOP("Some description here...");
+static const char appName[] = "nextShows";
 static const char version[] = "2.99.0";
 
 
 int main (int argc, char **argv)
 {
-    KAboutData aboutData("nextShows", 0, ki18n("nextShows"), version,
-                         ki18n(description), KAboutData::License_GPL_V2,
-                         ki18n("(c)2006-2008, Gilles CHAUVIN"), ki18n("N/A"),
-                         "http://nextshows.googlecode.com/", "http://code.google.com/p/nextshows/issues/list");
+    KAboutData aboutData(appName,
+                         0,
+                         ki18n(appName),
+                         version,
+                         ki18n("Track your favorite TV shows"),
+                         KAboutData::License_GPL_V2,
+                         ki18n("(c)2006-2008, Gilles CHAUVIN"),
+                         ki18n(""),
+                         "http://nextshows.googlecode.com/",
+                         // The following parameter is wrong since we got no email address
+                         // to send bug reports to. But we don't want reports to be sent to KDE!
+                         "http://code.google.com/p/nextshows/issues/list");
     aboutData.addAuthor(ki18n("Gilles CHAUVIN"),
                         ki18n("Author and maintainer"),
                         "gcnweb+nextshows@gmail.com");
+    aboutData.addCredit(ki18n("Jean-Baptiste SANNIER"),
+                        ki18n("Qt4 help and tips"));
+    aboutData.addCredit(ki18n("Sebrioth [TVRage]"),
+                        ki18n("XML feeds providing"),
+                        QByteArray(),
+                        "http://tvrage.com/");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
 
@@ -48,8 +62,8 @@ int main (int argc, char **argv)
         fprintf(stderr, "nextShows is already running!\n");
         return 0;
     }
+    // /REMOVEME
 
-    //KUniqueApplication app(true, true);
     KUniqueApplication app;
     NextShowsMain *window = new NextShowsMain();
     window->show();
