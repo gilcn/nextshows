@@ -15,7 +15,7 @@ DEPENDPATH  += libs
 
 QT          += network xml
 
-;FORMS       += ui/XXXX.ui
+FORMS       += ui/mainwindow.ui
 
 HEADERS     += mainwindow.h
 SOURCES     += mainwindow.cpp main.cpp

@@ -20,17 +20,25 @@
 #ifndef __MAINWINDOW_H__
 #define __MAINWINDOW_H__
 
+
+// Own
+#include "ui_mainwindow.h"
+
 // Qt
 #include <QtGui/QMainWindow>
+#include <QtGui/QStandardItemModel>
 
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, public Ui::MainWindow
 {
     Q_OBJECT
 
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+private:
+    QStandardItemModel *m_dataModel;
 };
 
 
