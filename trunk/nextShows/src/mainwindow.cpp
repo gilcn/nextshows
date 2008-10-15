@@ -60,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent)
         m_dataModel->setItem(i, 4, new QStandardItem(rndDate.toString("yyyy/MM/dd")));
     }
 
-    setWindowTitle("nextShows");
+    setWindowTitle(QString("nextShows - v%1").arg(NEXTSHOWS_VERSION));
     statusBar()->showMessage(tr("nextShows started"), 1000*3);
 
     // Some tests

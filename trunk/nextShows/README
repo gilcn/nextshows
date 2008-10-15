@@ -1,5 +1,5 @@
 REQUIREMENTS:
-- Qt 4.3.3 or later
+- Qt 4
 - make
 - A C++ compiler :)
 
