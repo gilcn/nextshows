@@ -1,5 +1,6 @@
 TEMPLATE     = app
 
+# Show the current SVN rev. if available
 SVNVERSION=$$system(svnversion -n)
 !isEmpty(SVNVERSION) {
     !contains(SVNVERSION, exported) {
