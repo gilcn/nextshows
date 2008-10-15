@@ -20,6 +20,7 @@
 
 // Own
 #include "mainwindow.h"
+#include "version.h"
 
 // Qt
 #include <QtCore/QDate>
@@ -45,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
     tableView->verticalHeader()->hide();
     tableView->horizontalHeader()->setResizeMode(QHeaderView::Interactive);
     tableView->horizontalHeader()->setStretchLastSection(true);
-//    tableView->horizontalHeader()->setCascadingSectionResizes(true);
+    tableView->horizontalHeader()->setCascadingSectionResizes(true);
     tableView->horizontalHeader()->setHighlightSections(true);
     tableView->horizontalHeader()->setMovable(true);
 
@@ -61,6 +62,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     setWindowTitle("nextShows");
     statusBar()->showMessage(tr("nextShows started"), 1000*3);
+
+    // Some tests
+    qDebug() << NEXTSHOWS_VERSION;
+    qDebug() << NEXTSHOWS_BUILDDATE;
+    qDebug() << GCC_VERSION;
 } // ctor()
 
 MainWindow::~MainWindow()

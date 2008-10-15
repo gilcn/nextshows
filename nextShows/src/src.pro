@@ -1,5 +1,12 @@
 TEMPLATE     = app
 
+SVNVERSION=$$system(svnversion -n)
+!isEmpty(SVNVERSION) {
+    !contains(SVNVERSION, exported) {
+        DEFINES += SVN_VERSION=$${SVNVERSION}
+    }
+}
+
 bindir       = ../bin
 builddir     = ../build
 
@@ -17,8 +24,11 @@ QT          += network xml
 
 FORMS       += ui/mainwindow.ui
 
+SOURCES     += main.cpp
+HEADERS     += version.h
+
 HEADERS     += mainwindow.h
-SOURCES     += mainwindow.cpp main.cpp
+SOURCES     += mainwindow.cpp
 
 ;RESOURCES    = pics/XXXX.qrc
 
