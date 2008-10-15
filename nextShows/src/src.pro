@@ -8,29 +8,28 @@ SVNVERSION=$$system(svnversion -n)
     }
 }
 
+#### QT          += network xml
+
 bindir       = ../bin
 builddir     = ../build
-
 DESTDIR      = $${bindir}
-TARGET       = nextShows
-
 OBJECTS_DIR  = $${builddir}
 MOC_DIR      = $${builddir}
 UI_DIR       = $${builddir}
 RCC_DIR      = $${builddir}
+TARGET       = nextShows
 
 DEPENDPATH  += libs
 
-QT          += network xml
+RESOURCES    = pics/nextshows.qrc
 
-FORMS       += ui/mainwindow.ui
+FORMS       += ui/mainwindow.ui ui/aboutdialog.ui
 
 SOURCES     += main.cpp
 HEADERS     += version.h
 
-HEADERS     += mainwindow.h
-SOURCES     += mainwindow.cpp
+HEADERS     += mainwindow.h   aboutdialog.h
+SOURCES     += mainwindow.cpp aboutdialog.cpp
 
-;RESOURCES    = pics/XXXX.qrc
 
-;TRANSLATIONS = XXXX_en.ts XXXX_fr.ts
+#### TRANSLATIONS = XXXX_en.ts XXXX_fr.ts

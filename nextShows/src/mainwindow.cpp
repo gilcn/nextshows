@@ -19,12 +19,15 @@
 
 
 // Own
+#include "aboutdialog.h"
 #include "mainwindow.h"
 #include "version.h"
 
-// Qt
+// QtCore
 #include <QtCore/QDate>
 #include <QtCore/QDebug>
+// QtGui
+#include <QtGui/QDialog>
 #include <QtGui/QHeaderView>
 
 
@@ -34,21 +37,22 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    setupUi(this);
-
     m_dataModel = new QStandardItemModel(this);
     m_dataModel->setColumnCount(5);
+
+    setupUi(this);
+
     QStringList labels;
     labels << tr("Show") << tr("Episode name")
            << tr("Season") << tr("Episode #") << tr("Date");
     m_dataModel->setHorizontalHeaderLabels(labels);
-    tableView->setModel(m_dataModel);
-    tableView->verticalHeader()->hide();
-    tableView->horizontalHeader()->setResizeMode(QHeaderView::Interactive);
-    tableView->horizontalHeader()->setStretchLastSection(true);
-    tableView->horizontalHeader()->setCascadingSectionResizes(true);
-    tableView->horizontalHeader()->setHighlightSections(true);
-    tableView->horizontalHeader()->setMovable(true);
+    showsTableView->setModel(m_dataModel);
+    showsTableView->verticalHeader()->hide();
+    showsTableView->horizontalHeader()->setResizeMode(QHeaderView::Interactive);
+    showsTableView->horizontalHeader()->setStretchLastSection(true);
+    showsTableView->horizontalHeader()->setCascadingSectionResizes(true);
+    showsTableView->horizontalHeader()->setHighlightSections(true);
+    showsTableView->horizontalHeader()->setMovable(true);
 
     // Fill with random stuff
     for (int i=0; i<30; ++i) {
@@ -63,15 +67,22 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle(QString("nextShows - v%1").arg(NEXTSHOWS_VERSION));
     statusBar()->showMessage(tr("nextShows started"), 1000*3);
 
-    // Some tests
-    qDebug() << NEXTSHOWS_VERSION;
-    qDebug() << NEXTSHOWS_BUILDDATE;
-    qDebug() << GCC_VERSION;
+    connect(action_About, SIGNAL(triggered()), this, SLOT(showAbout()));
 } // ctor()
 
 MainWindow::~MainWindow()
 {
 } // dtor()
+
+
+/*
+** private Q_SLOTS:
+*/
+void MainWindow::showAbout()
+{
+    AboutDialog *dlgAbout = new AboutDialog();
+    dlgAbout->show();
+} // showAbout()
 
 
 // EOF - vim:ts=4:sw=4:et:
