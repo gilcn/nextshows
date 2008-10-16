@@ -53,19 +53,16 @@ void ScheduleWidget::setupActions()
 {
     qDebug();
 
-    // Tune the default option of QTableWidget
-    this->setShowGrid(false);
-    this->setCornerButtonEnabled(false);
-    this->setSelectionMode(QAbstractItemView::SingleSelection);
-    this->setAlternatingRowColors(true);
-    this->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
-    this->setColumnCount(5);
-    this->setHorizontalHeaderLabels(QStringList() << tr("Show") << tr("Saison") << tr("Episode") << tr("Episode name") << tr("When"));
-    this->setRowCount(5);
-
-    // Set the header label
-    qDebug() << "Horizontal Header" << horizontalHeader();
+    verticalHeader()->hide();
+    setSelectionMode(QAbstractItemView::SingleSelection);
+    setAlternatingRowColors(true);
+    setShowGrid(false);
+    setEditTriggers(QAbstractItemView::NoEditTriggers);
+    horizontalHeader()->setResizeMode(QHeaderView::Interactive);
+    horizontalHeader()->setStretchLastSection(true);
+    horizontalHeader()->setCascadingSectionResizes(true);
+    horizontalHeader()->setHighlightSections(true);
+    horizontalHeader()->setMovable(true);
 
 
 } // setupActions()
