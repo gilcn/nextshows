@@ -20,9 +20,10 @@
 #ifndef __SCHEDULEWIDGET_H__
 #define __SCHEDULEWIDGET_H__
 
-#include <QTableWidget>
+//#include <QTableWidget>
+#include <QTableView>
 
-class ScheduleWidget : public QTableWidget
+class ScheduleWidget : public QTableView
 {
     Q_OBJECT
 
