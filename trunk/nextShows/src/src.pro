@@ -31,5 +31,7 @@ HEADERS     += version.h
 HEADERS     += mainwindow.h   aboutdialog.h
 SOURCES     += mainwindow.cpp aboutdialog.cpp
 
+HEADERS     += config/configdialog.h
+SOURCES     += config/configdialog.cpp
 
 #### TRANSLATIONS = XXXX_en.ts XXXX_fr.ts

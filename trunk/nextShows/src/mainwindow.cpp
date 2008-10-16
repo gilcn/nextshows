@@ -19,6 +19,7 @@
 
 
 // Own
+#include "config/configdialog.h"
 #include "aboutdialog.h"
 #include "mainwindow.h"
 #include "version.h"
@@ -67,7 +68,9 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle(QString("nextShows - v%1").arg(NEXTSHOWS_VERSION));
     statusBar()->showMessage(tr("nextShows started"), 1000*3);
 
-    connect(action_About, SIGNAL(triggered()), this, SLOT(showAbout()));
+    connect(actionConfigure, SIGNAL(triggered()), this, SLOT(showConfig()));
+    connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAbout()));
+    connect(actionQuit, SIGNAL(triggered()), this, SLOT(close()));
 } // ctor()
 
 MainWindow::~MainWindow()
@@ -78,6 +81,14 @@ MainWindow::~MainWindow()
 /*
 ** private Q_SLOTS:
 */
+void MainWindow::showConfig()
+{
+    ConfigDialog *dlgConfig = new ConfigDialog();
+    dlgConfig->show();
+
+    qDebug() << "kkkkkk";
+} // showConfig()
+
 void MainWindow::showAbout()
 {
     AboutDialog *dlgAbout = new AboutDialog();
