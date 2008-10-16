@@ -20,7 +20,6 @@
 
 // Own
 #include "config/configdialog.h"
-#include "aboutdialog.h"
 #include "mainwindow.h"
 #include "version.h"
 
@@ -37,6 +36,7 @@
 */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
+    , m_dialogAbout(0)
 {
     m_dataModel = new QStandardItemModel(this);
     m_dataModel->setColumnCount(5);
@@ -44,8 +44,8 @@ MainWindow::MainWindow(QWidget *parent)
     setupUi(this);
 
     QStringList labels;
-    labels << tr("Show") << tr("Episode name")
-           << tr("Season") << tr("Episode #") << tr("Date");
+    labels << tr("Show name") << tr("Episode name")
+           << tr("Season #") << tr("Episode #") << tr("Date");
     m_dataModel->setHorizontalHeaderLabels(labels);
     showsTableView->setModel(m_dataModel);
     showsTableView->verticalHeader()->hide();
@@ -68,6 +68,14 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle(QString("nextShows - v%1").arg(NEXTSHOWS_VERSION));
     statusBar()->showMessage(tr("nextShows started"), 1000*3);
 
+    // Test alternate row colors
+    QPalette pal(showsTableView->palette());
+    pal.setColor(QPalette::Base, QColor("#C7FFFF"));
+    pal.setColor(QPalette::AlternateBase, QColor("#E7FFFF"));
+//    pal.setColor(QPalette::Highlight, QColor("#BEFFBE"));
+    showsTableView->setPalette(pal);
+
+
     connect(actionConfigure, SIGNAL(triggered()), this, SLOT(showConfig()));
     connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAbout()));
     connect(actionQuit, SIGNAL(triggered()), this, SLOT(close()));
@@ -85,14 +93,14 @@ void MainWindow::showConfig()
 {
     ConfigDialog *dlgConfig = new ConfigDialog();
     dlgConfig->show();
-
-    qDebug() << "kkkkkk";
 } // showConfig()
 
 void MainWindow::showAbout()
 {
-    AboutDialog *dlgAbout = new AboutDialog();
-    dlgAbout->show();
+    if (!m_dialogAbout) {
+        m_dialogAbout = new AboutDialog(this);
+    }
+    m_dialogAbout->show();
 } // showAbout()
 
 

@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>534</width>
-    <height>509</height>
+    <width>592</width>
+    <height>534</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -19,10 +19,16 @@
       <property name="editTriggers" >
        <set>QAbstractItemView::NoEditTriggers</set>
       </property>
-      <property name="gridStyle" >
-       <enum>Qt::DashDotLine</enum>
+      <property name="alternatingRowColors" >
+       <bool>true</bool>
       </property>
-      <property name="cornerButtonEnabled" >
+      <property name="selectionMode" >
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior" >
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <property name="showGrid" >
        <bool>false</bool>
       </property>
      </widget>
@@ -36,6 +42,9 @@
    </property>
    <property name="movable" >
     <bool>false</bool>
+   </property>
+   <property name="allowedAreas" >
+    <set>Qt::TopToolBarArea</set>
    </property>
    <property name="iconSize" >
     <size>
@@ -57,16 +66,18 @@
    </attribute>
    <addaction name="actionConfigure" />
    <addaction name="actionAbout" />
-   <addaction name="separator" />
    <addaction name="actionQuit" />
   </widget>
   <action name="actionConfigure" >
+   <property name="checkable" >
+    <bool>false</bool>
+   </property>
    <property name="icon" >
     <iconset resource="../pics/nextshows.qrc" >
      <normaloff>:/images/icons/configure.png</normaloff>:/images/icons/configure.png</iconset>
    </property>
    <property name="text" >
-    <string>configure</string>
+    <string>Configure</string>
    </property>
   </action>
   <action name="actionAbout" >
@@ -75,7 +86,7 @@
      <normaloff>:/images/icons/help-about.png</normaloff>:/images/icons/help-about.png</iconset>
    </property>
    <property name="text" >
-    <string>about</string>
+    <string>About</string>
    </property>
   </action>
   <action name="actionQuit" >
@@ -84,7 +95,7 @@
      <normaloff>:/images/icons/exit.png</normaloff>:/images/icons/exit.png</iconset>
    </property>
    <property name="text" >
-    <string>quit</string>
+    <string>Quit</string>
    </property>
   </action>
  </widget>
