@@ -27,7 +27,7 @@
 // nextShows version
 #define NEXTSHOWS_RELEASE 2.99.0
 #ifdef SVN_VERSION
-    #define NEXTSHOWS_VERSION TEXT(SVN_VERSION) "-svn"
+    #define NEXTSHOWS_VERSION TEXT(SVN_VERSION) "/svn"
 #else
     #define NEXTSHOWS_VERSION TEXT(NEXTSHOWS_RELEASE)
 #endif
