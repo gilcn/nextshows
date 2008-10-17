@@ -79,6 +79,9 @@
    <property name="text" >
     <string>Configure</string>
    </property>
+   <property name="iconText" >
+    <string>&amp;Configure</string>
+   </property>
   </action>
   <action name="actionAbout" >
    <property name="icon" >
@@ -88,6 +91,9 @@
    <property name="text" >
     <string>About</string>
    </property>
+   <property name="iconText" >
+    <string>&amp;About</string>
+   </property>
   </action>
   <action name="actionQuit" >
    <property name="icon" >
@@ -96,6 +102,12 @@
    </property>
    <property name="text" >
     <string>Quit</string>
+   </property>
+   <property name="iconText" >
+    <string>&amp;Quit</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+Q</string>
    </property>
   </action>
  </widget>

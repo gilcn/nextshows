@@ -21,6 +21,9 @@
 // Own
 #include "configdialog.h"
 
+// QtGui
+#include <QtGui/QLabel>
+
 
 /*
 ** public:
@@ -28,6 +31,7 @@
 ConfigDialog::ConfigDialog(QWidget *parent)
     : QWidget(parent)
 {
+    QLabel *test = new QLabel("TEST", this);
 } // ctor()
 
 ConfigDialog::~ConfigDialog()

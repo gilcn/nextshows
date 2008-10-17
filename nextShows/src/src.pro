@@ -4,7 +4,7 @@ TEMPLATE     = app
 SVNVERSION=$$system(svnversion -n)
 !isEmpty(SVNVERSION) {
     !contains(SVNVERSION, exported) {
-        DEFINES += SVN_VERSION=$${SVNVERSION}
+        DEFINES += NS_SVNVERSION=$${SVNVERSION}
     }
 }
 
@@ -25,13 +25,14 @@ RESOURCES    = pics/nextshows.qrc
 
 FORMS       += ui/mainwindow.ui ui/aboutdialog.ui
 
-SOURCES     += main.cpp
-HEADERS     += version.h
+HEADERS     += version.h \
+               mainwindow.h \
+               aboutdialog.h \
+               config/configdialog.h
 
-HEADERS     += mainwindow.h   aboutdialog.h
-SOURCES     += mainwindow.cpp aboutdialog.cpp
-
-HEADERS     += config/configdialog.h
-SOURCES     += config/configdialog.cpp
+SOURCES     += main.cpp \
+               mainwindow.cpp \
+               aboutdialog.cpp \
+               config/configdialog.cpp
 
 #### TRANSLATIONS = XXXX_en.ts XXXX_fr.ts
