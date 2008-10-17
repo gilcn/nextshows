@@ -19,15 +19,14 @@
 
 
 // Own
-#include "config/configdialog.h"
 #include "mainwindow.h"
+#include "config/configdialog.h"
 #include "version.h"
 
 // QtCore
 #include <QtCore/QDate>
 #include <QtCore/QDebug>
 // QtGui
-#include <QtGui/QDialog>
 #include <QtGui/QHeaderView>
 
 
@@ -36,6 +35,7 @@
 */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
+    , m_dialogConfig(0)
     , m_dialogAbout(0)
 {
     m_dataModel = new QStandardItemModel(this);
@@ -91,8 +91,12 @@ MainWindow::~MainWindow()
 */
 void MainWindow::showConfig()
 {
-    ConfigDialog *dlgConfig = new ConfigDialog();
-    dlgConfig->show();
+    if (!m_dialogConfig) {
+        m_dialogConfig = new QDialog(this);
+        ConfigDialog *configForm = new ConfigDialog(m_dialogConfig);
+    }
+
+    m_dialogConfig->show();
 } // showConfig()
 
 void MainWindow::showAbout()

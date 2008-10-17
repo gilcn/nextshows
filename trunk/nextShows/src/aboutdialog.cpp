@@ -22,18 +22,37 @@
 #include "aboutdialog.h"
 #include "version.h"
 
+#include <QtCore/QDebug>
 
 /*
 ** public:
 */
 AboutDialog::AboutDialog(QWidget *parent)
-    : QDialog(parent)
+    : QDialog(parent, Qt::Dialog)
 {
+    // Define some default behavior
+//    QDialog::setModal(true);
+
     ui.setupUi(this);
 
-    ui.lblNextShowsVersion->setText("nextShows v"+QLatin1String(NEXTSHOWS_VERSION));
-
     connect(ui.btnClose, SIGNAL(clicked()), this, SLOT(close()));
+
+    // Fill labels with their relevant values
+    QString version(ui.lblNextShowsVersion->text());
+    version = version.replace("%NSVER%", QLatin1String(NEXTSHOWS_VERSION));
+    ui.lblNextShowsVersion->setText(version);
+
+    QString buildInfos(ui.lblBuildInfos->text());
+    buildInfos = buildInfos.replace("%BUILD%", QLatin1String(NEXTSHOWS_BUILDDATE));
+    buildInfos = buildInfos.replace("%GCCVER%", QLatin1String(GCC_VERSION));
+    QString versionCompiled(QT_VERSION_STR);
+    QString versionRunning(qVersion());
+    if (versionCompiled != versionRunning) {
+        buildInfos = buildInfos.replace("%QTVER%", versionCompiled+" / "+versionRunning);
+    } else {
+        buildInfos = buildInfos.replace("%QTVER%", QLatin1String(QT_VERSION_STR));
+    }
+    ui.lblBuildInfos->setText(buildInfos);
 } // ctor()
 
 AboutDialog::~AboutDialog()

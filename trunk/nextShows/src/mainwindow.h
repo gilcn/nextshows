@@ -25,7 +25,8 @@
 #include "ui_mainwindow.h"
 #include "aboutdialog.h"
 
-// Qt
+// QtGui
+#include <QtGui/QDialog>
 #include <QtGui/QMainWindow>
 #include <QtGui/QStandardItemModel>
 
@@ -45,6 +46,7 @@ private Q_SLOTS:
 private:
     QStandardItemModel *m_dataModel;
 
+    QDialog *m_dialogConfig;
     AboutDialog *m_dialogAbout;
 };
 
