@@ -20,7 +20,6 @@
 
 // Own
 #include "mainwindow.h"
-#include "config/configdialog.h"
 #include "version.h"
 
 // QtCore
@@ -94,12 +93,11 @@ MainWindow::~MainWindow()
 void MainWindow::showConfig()
 {
     if (!m_dialogConfig) {
-        m_dialogConfig = new QDialog(this);
-        ConfigDialog *configForm = new ConfigDialog(m_dialogConfig);
+        m_dialogConfig = new ConfigDialog(this);
     }
 
     m_dialogConfig->show();
-    m_dialogConfig->adjustSize();
+//    m_dialogConfig->adjustSize();
 } // showConfig()
 
 void MainWindow::showAbout()

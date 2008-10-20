@@ -37,7 +37,7 @@ public:
     ~AboutDialog();
 
 private:
-    Ui::dialogAbout ui;
+    Ui::AboutDialog ui;
 };
 
 

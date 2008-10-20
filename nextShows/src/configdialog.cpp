@@ -17,45 +17,23 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef __MAINWINDOW_H__
-#define __MAINWINDOW_H__
-
 
 // Own
-#include "ui_mainwindow.h"
-#include "systrayicon.h"
-#include "aboutdialog.h"
 #include "configdialog.h"
 
-// QtGui
-#include <QtGui/QDialog>
-#include <QtGui/QMainWindow>
-#include <QtGui/QStandardItemModel>
 
-
-class MainWindow : public QMainWindow, public Ui::MainWindow
+/*
+** public:
+*/
+ConfigDialog::ConfigDialog(QWidget *parent)
+    : QDialog(parent, Qt::Dialog)
 {
-    Q_OBJECT
+    ui.setupUi(this);
+} // ctor()
 
-public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
-private Q_SLOTS:
-    void showConfig();
-    void showAbout();
-
-private:
-    QStandardItemModel *m_dataModel;
-
-    SysTrayIcon *m_sysTrayIcon;
-
-    ConfigDialog *m_dialogConfig;
-    AboutDialog *m_dialogAbout;
-};
-
-
-#endif // __MAINWINDOW_H__
+ConfigDialog::~ConfigDialog()
+{
+} // dtor()
 
 
 // EOF - vim:ts=4:sw=4:et:
