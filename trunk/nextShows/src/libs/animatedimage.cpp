@@ -1,5 +1,5 @@
 /*
- *   Copyright 2008 Gilles CHAUVIN <gcnweb@gmail.com>
+ *   Copyright 2008 Gilles CHAUVIN <gcnweb+nextshows@gmail.com>
  *
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as
@@ -17,10 +17,14 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+
+// Own
 #include "animatedimage.h"
 
+// QtCore
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
+// QtGui
 #include <QtGui/QPainter>
 
 
@@ -40,9 +44,12 @@ public:
     QTimer         *timer;
     int             currentFrame;
     QList<QPixmap>  picList;
-};  // Private
+}; // Private
 
 
+/*
+** public:
+*/
 AnimatedImage::AnimatedImage(QObject *parent, const QString &fileName)
     : QObject(parent)
     , d(new Private())
@@ -51,12 +58,12 @@ AnimatedImage::AnimatedImage(QObject *parent, const QString &fileName)
 
     if (!fileName.isEmpty())
         setPicture(fileName);
-}
+} // ctor()
 
 AnimatedImage::~AnimatedImage()
 {
     delete d;
-}
+} // dtor()
 
 bool AnimatedImage::setPicture(const QString &fileName)
 {
@@ -92,7 +99,7 @@ bool AnimatedImage::setPicture(const QString &fileName)
     }
 
     return true;
-}
+} // setPicture()
 
 void AnimatedImage::start()
 {
@@ -101,23 +108,30 @@ void AnimatedImage::start()
 
     sendPixmap();
     d->timer->start();
-}
+} // start()
 
 void AnimatedImage::stop()
 {
     d->timer->stop();
     d->currentFrame=0;
-}
+} // stop()
 
 bool AnimatedImage::isActive()
 {
     return d->timer->isActive();
-}
+} // isActive()
 
+
+/*
+** private Q_SLOTS:
+*/
 void AnimatedImage::sendPixmap()
 {
     d->currentFrame++;
     if (d->currentFrame >= d->picList.count())
         d->currentFrame=0;
     emit newFrame(d->picList.value(d->currentFrame));
-}
+} // sendPixmap()
+
+
+// EOF - vim:ts=4:sw=4:et:

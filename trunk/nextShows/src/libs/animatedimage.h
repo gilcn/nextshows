@@ -1,5 +1,5 @@
 /*
- *   Copyright 2008 Gilles CHAUVIN <gcnweb@gmail.com>
+ *   Copyright 2008 Gilles CHAUVIN <gcnweb+nextshows@gmail.com>
  *
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as
@@ -25,8 +25,10 @@
 #ifndef __ANIMATEDIMAGE_H__
 #define __ANIMATEDIMAGE_H__
 
+// QtCore
 #include <QtCore/QObject>
 #include <QtCore/QTimer>
+// QtGui
 #include <QtGui/QPixmap>
 
 
@@ -56,3 +58,6 @@ private:
 
 
 #endif // __ANIMATEDIMAGE_H__
+
+
+// EOF - vim:ts=4:sw=4:et:
