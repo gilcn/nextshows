@@ -22,7 +22,9 @@
 #include "aboutdialog.h"
 #include "version.h"
 
+// QtCore
 #include <QtCore/QDebug>
+
 
 /*
 ** public:
