@@ -17,44 +17,28 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef __MAINWINDOW_H__
-#define __MAINWINDOW_H__
+#ifndef __SYSTRAYICON_H__
+#define __SYSTRAYICON_H__
 
-
-// Own
-#include "ui_mainwindow.h"
-#include "systrayicon.h"
-#include "aboutdialog.h"
 
 // QtGui
-#include <QtGui/QDialog>
-#include <QtGui/QMainWindow>
-#include <QtGui/QStandardItemModel>
+#include <QtGui/QSystemTrayIcon>
 
 
-class MainWindow : public QMainWindow, public Ui::MainWindow
+class SysTrayIcon : public QObject
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
-private Q_SLOTS:
-    void showConfig();
-    void showAbout();
+    SysTrayIcon(QObject *parent = 0);
+    ~SysTrayIcon();
 
 private:
-    QStandardItemModel *m_dataModel;
-
-    SysTrayIcon *m_sysTrayIcon;
-
-    QDialog *m_dialogConfig;
-    AboutDialog *m_dialogAbout;
+    QSystemTrayIcon *m_sysTrayIcon;
 };
 
 
-#endif // __MAINWINDOW_H__
+#endif // __SYSTRAYICON_H__
 
 
 // EOF - vim:ts=4:sw=4:et:

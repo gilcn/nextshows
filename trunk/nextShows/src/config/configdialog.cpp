@@ -22,7 +22,9 @@
 #include "configdialog.h"
 
 // QtGui
-#include <QtGui/QLabel>
+#include <QtGui/QButtonGroup>
+#include <QtGui/QToolButton>
+#include <QtGui/QVBoxLayout>
 
 
 /*
@@ -31,7 +33,39 @@
 ConfigDialog::ConfigDialog(QWidget *parent)
     : QWidget(parent)
 {
-    QLabel *test = new QLabel("TEST", this);
+    m_layoutMain = new QGridLayout(this);
+
+    QVBoxLayout *layoutCategories = new QVBoxLayout();
+
+    QButtonGroup *buttonGroup = new QButtonGroup(this);
+    buttonGroup->setExclusive(true);
+
+#define ADD_CATEGORY(button, label, icon, num)                            \
+    QToolButton *button = new QToolButton(this);                          \
+    button->setIcon(QIcon(":/images/prefs/" #icon));                      \
+    button->setIconSize(QSize(64, 64));                                   \
+    button->setText(label);                                               \
+    button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);              \
+    button->resize(74, 74);                                               \
+    button->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding); \
+    button->setAutoRaise(true);                                           \
+    button->setCheckable(true);                                           \
+    buttonGroup->addButton(button, num);                                  \
+    layoutCategories->addWidget(button);
+
+    ADD_CATEGORY(findShows, tr("Shows"), television.png, 0);
+    ADD_CATEGORY(Misc, tr("Misc"), television.png, 1);
+
+    findShows->setChecked(true);
+    layoutCategories->setMargin(0);
+    layoutCategories->setSpacing(1);
+
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    m_layoutMain->addLayout(layoutCategories, 0, 0);
+
+    QWidget *panelWidget = new QWidget(this);
+    m_layoutMain->addWidget(panelWidget, 0, 1);
 } // ctor()
 
 ConfigDialog::~ConfigDialog()

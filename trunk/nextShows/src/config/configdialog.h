@@ -22,6 +22,7 @@
 
 
 // Qt
+#include <QtGui/QGridLayout>
 #include <QtGui/QWidget>
 
 
@@ -32,6 +33,9 @@ class ConfigDialog : public QWidget
 public:
     ConfigDialog(QWidget *parent = 0);
     ~ConfigDialog();
+
+private:
+    QGridLayout *m_layoutMain;
 };
 
 
