@@ -10,7 +10,7 @@ SVNVERSION=$$system(svnversion -n)
 
 #### QMAKE_CXXFLAGS += -pedantic
 
-#### QT          += network xml
+QT          += network xml
 
 bindir       = ../bin
 builddir     = ../build
@@ -31,12 +31,16 @@ HEADERS     += version.h               \
                mainwindow.h            \
                systrayicon.h           \
                aboutdialog.h           \
-               config/configdialog.h
+               config/configdialog.h   \
+               libs/animatedimage.h    \
+               libs/tvrageparser.h
 
 SOURCES     += main.cpp                \
                mainwindow.cpp          \
                systrayicon.cpp         \
                aboutdialog.cpp         \
-               config/configdialog.cpp
+               config/configdialog.cpp \
+               libs/animatedimage.cpp  \
+               libs/tvrageparser.cpp
 
 #### TRANSLATIONS = XXXX_en.ts XXXX_fr.ts

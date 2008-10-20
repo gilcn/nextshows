@@ -12,6 +12,10 @@
   <property name="windowTitle" >
    <string>MainWindow</string>
   </property>
+  <property name="windowIcon" >
+   <iconset resource="../pics/nextshows.qrc" >
+    <normaloff>:/images/logos/nextShows.png</normaloff>:/images/logos/nextShows.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget" >
    <layout class="QGridLayout" name="gridLayout" >
     <item row="0" column="0" >
