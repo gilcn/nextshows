@@ -31,7 +31,7 @@ AboutDialog::AboutDialog(QWidget *parent)
     : QDialog(parent, Qt::Dialog)
 {
     // Define some default behavior
-//    QDialog::setModal(true);
+    QDialog::setModal(true);
 
     ui.setupUi(this);
 
