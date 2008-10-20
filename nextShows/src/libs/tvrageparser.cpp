@@ -1,5 +1,5 @@
 /*
- *   Copyright 2008 Gilles CHAUVIN <gcnweb@gmail.com>
+ *   Copyright 2008 Gilles CHAUVIN <gcnweb+nextshows@gmail.com>
  *
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as
@@ -17,14 +17,21 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+
+// Own
 #include "tvrageparser.h"
 
+// QtCore
 #include <QtCore/QDebug>
+// QtXml
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 #include <QtXml/QDomNode>
 
 
+/*
+** public:
+*/
 QList<TvRageParser::show_t> TvRageParser::parseSearchResults(const QByteArray &content)
 {
     QList<TvRageParser::show_t> showList;
@@ -52,9 +59,12 @@ QList<TvRageParser::show_t> TvRageParser::parseSearchResults(const QByteArray &c
     }
 
     return showList;
-}
+} // parseSearchResults()
 
 
+/*
+** private:
+*/
 TvRageParser::show_t TvRageParser::parseShow(const QDomNode &node)
 {
     TvRageParser::show_t showInfos;
@@ -89,4 +99,7 @@ TvRageParser::show_t TvRageParser::parseShow(const QDomNode &node)
     }
 
     return showInfos;
-}
+} // parseShow()
+
+
+// EOF - vim:ts=4:sw=4:et:

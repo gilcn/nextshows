@@ -44,3 +44,6 @@ SOURCES     += main.cpp                \
                libs/tvrageparser.cpp
 
 #### TRANSLATIONS = XXXX_en.ts XXXX_fr.ts
+
+
+# EOF - vim:ts=4:sw=4:et:

@@ -1,5 +1,5 @@
 /*
- *   Copyright 2008 Gilles CHAUVIN <gcnweb@gmail.com>
+ *   Copyright 2008 Gilles CHAUVIN <gcnweb+nextshows@gmail.com>
  *
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as
@@ -17,18 +17,16 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-/*
- * This pretty basic library assumes that the resulting images are square
- * shaped. Improvements will be made later (if needed :).
- */
 
 #ifndef __TVRAGEPARSER_H__
 #define __TVRAGEPARSER_H__
 
 
+// QtCore
 #include <QtCore/QList>
 #include <QtCore/QString>
 
+// Forward declarations
 class QByteArray;
 class QDomNode;
 
@@ -59,3 +57,6 @@ private:
 
 
 #endif // __TVRAGEPARSER_H__
+
+
+// EOF - vim:ts=4:sw=4:et:
