@@ -8,6 +8,8 @@ SVNVERSION=$$system(svnversion -n)
     }
 }
 
+#### QMAKE_CXXFLAGS += -pedantic
+
 #### QT          += network xml
 
 bindir       = ../bin
@@ -25,14 +27,16 @@ RESOURCES    = pics/nextshows.qrc
 
 FORMS       += ui/mainwindow.ui ui/aboutdialog.ui
 
-HEADERS     += version.h \
-               mainwindow.h \
-               aboutdialog.h \
+HEADERS     += version.h               \
+               mainwindow.h            \
+               systrayicon.h           \
+               aboutdialog.h           \
                config/configdialog.h
 
-SOURCES     += main.cpp \
-               mainwindow.cpp \
-               aboutdialog.cpp \
+SOURCES     += main.cpp                \
+               mainwindow.cpp          \
+               systrayicon.cpp         \
+               aboutdialog.cpp         \
                config/configdialog.cpp
 
 #### TRANSLATIONS = XXXX_en.ts XXXX_fr.ts

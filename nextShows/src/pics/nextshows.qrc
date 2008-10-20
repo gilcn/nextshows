@@ -237,5 +237,7 @@
     <file>flags/zw.gif</file>
     <file>logos/nextShows.png</file>
     <file>logos/tvrage.jpg</file>
+    <file>prefs/television.png</file>
+    <file>systray/systrayicon.png</file>
   </qresource>
 </RCC>

@@ -75,10 +75,12 @@ MainWindow::MainWindow(QWidget *parent)
 //    pal.setColor(QPalette::Highlight, QColor("#BEFFBE"));
     showsTableView->setPalette(pal);
 
-
     connect(actionConfigure, SIGNAL(triggered()), this, SLOT(showConfig()));
     connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAbout()));
     connect(actionQuit, SIGNAL(triggered()), this, SLOT(close()));
+
+    // SysTray
+    SysTrayIcon *m_sysTrayIcon = new SysTrayIcon(this);
 } // ctor()
 
 MainWindow::~MainWindow()
@@ -97,6 +99,7 @@ void MainWindow::showConfig()
     }
 
     m_dialogConfig->show();
+    m_dialogConfig->adjustSize();
 } // showConfig()
 
 void MainWindow::showAbout()
