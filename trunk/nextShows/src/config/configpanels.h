@@ -17,8 +17,8 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef __CONFIGDIALOG_H__
-#define __CONFIGDIALOG_H__
+#ifndef __CONFIGPANELS_H__
+#define __CONFIGPANELS_H__
 
 
 // Qt
@@ -26,20 +26,17 @@
 #include <QtGui/QWidget>
 
 
-class ConfigDialog : public QWidget
+class ConfigCategories : public QWidget
 {
     Q_OBJECT
 
 public:
-    ConfigDialog(QWidget *parent = 0);
-    ~ConfigDialog();
-
-private:
-    QGridLayout *m_layoutMain;
+    ConfigCategories(QWidget *parent = 0);
+    ~ConfigCategories();
 };
 
 
-#endif // __CONFIGDIALOG_H__
+#endif // __CONFIGPANELS_H__
 
 
 // EOF - vim:ts=4:sw=4:et:

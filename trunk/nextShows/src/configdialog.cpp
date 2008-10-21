@@ -20,6 +20,10 @@
 
 // Own
 #include "configdialog.h"
+#include "config/configpanels.h"
+
+// QtCore
+#include <QtCore/QDebug>
 
 
 /*
@@ -29,6 +33,11 @@ ConfigDialog::ConfigDialog(QWidget *parent)
     : QDialog(parent, Qt::Dialog)
 {
     ui.setupUi(this);
+
+    m_layoutCats = new QHBoxLayout();
+    ui.wCategories->setLayout(m_layoutCats);
+    ConfigCategories *panelCats = new ConfigCategories();
+    m_layoutCats->addWidget(panelCats);
 } // ctor()
 
 ConfigDialog::~ConfigDialog()

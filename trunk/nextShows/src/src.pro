@@ -8,12 +8,14 @@ SVNVERSION=$$system(svnversion -n)
     }
 }
 
+CONFIG      += warn_on debug_and_release
+
 #### QMAKE_CXXFLAGS += -pedantic
 
 QT          += network xml
 
-bindir       = ../bin
-builddir     = ../build
+bindir       = ../Build
+builddir     = ../Build
 DESTDIR      = $${bindir}
 OBJECTS_DIR  = $${builddir}
 MOC_DIR      = $${builddir}
@@ -34,6 +36,7 @@ HEADERS     += version.h               \
                systrayicon.h           \
                aboutdialog.h           \
                configdialog.h          \
+               config/configpanels.h   \
                libs/animatedimage.h    \
                libs/tvrageparser.h
 
@@ -42,6 +45,7 @@ SOURCES     += main.cpp                \
                systrayicon.cpp         \
                aboutdialog.cpp         \
                configdialog.cpp        \
+               config/configpanels.cpp \
                libs/animatedimage.cpp  \
                libs/tvrageparser.cpp
 
