@@ -21,6 +21,7 @@
 // Own
 #include "configdialog.h"
 #include "config/configpanels.h"
+#include "config/findshows.h"
 
 // QtCore
 #include <QtCore/QDebug>
@@ -38,6 +39,12 @@ ConfigDialog::ConfigDialog(QWidget *parent)
     ui.wCategories->setLayout(m_layoutCats);
     ConfigCategories *panelCats = new ConfigCategories();
     m_layoutCats->addWidget(panelCats);
+
+
+    m_layoutPanel = new QHBoxLayout();
+    ui.wPanel->setLayout(m_layoutPanel);
+    FindShows *panel = new FindShows();
+    m_layoutPanel->addWidget(panel);
 } // ctor()
 
 ConfigDialog::~ConfigDialog()

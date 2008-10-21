@@ -27,9 +27,10 @@ DEPENDPATH  += libs
 
 RESOURCES    = pics/nextshows.qrc
 
-FORMS       += ui/mainwindow.ui  \
-               ui/aboutdialog.ui \
-               ui/configdialog.ui
+FORMS       += ui/mainwindow.ui       \
+               ui/aboutdialog.ui      \
+               ui/configdialog.ui     \
+               config/ui/findshows.ui
 
 HEADERS     += version.h               \
                mainwindow.h            \
@@ -37,6 +38,7 @@ HEADERS     += version.h               \
                aboutdialog.h           \
                configdialog.h          \
                config/configpanels.h   \
+               config/findshows.h      \
                libs/animatedimage.h    \
                libs/tvrageparser.h
 
@@ -46,6 +48,7 @@ SOURCES     += main.cpp                \
                aboutdialog.cpp         \
                configdialog.cpp        \
                config/configpanels.cpp \
+               config/findshows.cpp    \
                libs/animatedimage.cpp  \
                libs/tvrageparser.cpp
 
