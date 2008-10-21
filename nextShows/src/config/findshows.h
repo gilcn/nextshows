@@ -17,34 +17,31 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef __CONFIGDIALOG_H__
-#define __CONFIGDIALOG_H__
+#ifndef __FINDSHOWS_H__
+#define __FINDSHOWS_H__
 
 
 // Own
-#include "ui_configdialog.h"
+#include "ui_findshows.h"
 
 // QtGui
-#include <QtGui/QDialog>
+#include <QtGui/QWidget>
 
 
-class ConfigDialog : public QDialog
+class FindShows : public QWidget
 {
     Q_OBJECT
 
 public:
-    ConfigDialog(QWidget *parent = 0);
-    ~ConfigDialog();
+    FindShows(QWidget *parent = 0);
+    ~FindShows();
 
 private:
-    Ui::ConfigDialog ui;
-
-    QHBoxLayout *m_layoutCats;
-    QHBoxLayout *m_layoutPanel;
+    Ui::FindShows ui;
 };
 
 
-#endif // __CONFIGDIALOG_H__
+#endif // __FINDSHOWS_H__
 
 
 // EOF - vim:ts=4:sw=4:et:

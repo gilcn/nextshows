@@ -21,6 +21,10 @@
 // Own
 #include "systrayicon.h"
 
+// QtGui
+#include <QtGui/QAction>
+#include <QtGui/QMenu>
+
 
 /*
 ** public:
@@ -30,6 +34,15 @@ SysTrayIcon::SysTrayIcon(QObject *parent)
 {
     m_sysTrayIcon = new QSystemTrayIcon(parent);
     m_sysTrayIcon->setIcon(QIcon(":/images/systray/systrayicon.png"));
+
+    QAction *actionQuit = new QAction(tr("&Quit"), this);
+//    connect(actionQuit, SIGNAL(triggered()), this, SLOT(quit()));
+
+    QMenu *menu = new QMenu();
+    menu->addAction(actionQuit);
+
+    m_sysTrayIcon->setContextMenu(menu);
+
     m_sysTrayIcon->show();
 } // ctor()
 
