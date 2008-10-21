@@ -38,6 +38,8 @@ public:
 
 private:
     Ui::ConfigDialog ui;
+
+    QHBoxLayout *m_layoutCats;
 };
 
 

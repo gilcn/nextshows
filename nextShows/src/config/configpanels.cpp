@@ -19,7 +19,7 @@
 
 
 // Own
-#include "configdialog.h"
+#include "configpanels.h"
 
 // QtGui
 #include <QtGui/QButtonGroup>
@@ -30,12 +30,10 @@
 /*
 ** public:
 */
-ConfigDialog::ConfigDialog(QWidget *parent)
+ConfigCategories::ConfigCategories(QWidget *parent)
     : QWidget(parent)
 {
-    m_layoutMain = new QGridLayout(this);
-
-    QVBoxLayout *layoutCategories = new QVBoxLayout();
+    QVBoxLayout *layout = new QVBoxLayout();
 
     QButtonGroup *buttonGroup = new QButtonGroup(this);
     buttonGroup->setExclusive(true);
@@ -51,24 +49,23 @@ ConfigDialog::ConfigDialog(QWidget *parent)
     button->setAutoRaise(true);                                           \
     button->setCheckable(true);                                           \
     buttonGroup->addButton(button, num);                                  \
-    layoutCategories->addWidget(button);
+    layout->addWidget(button);
 
-    ADD_CATEGORY(findShows, tr("Shows"), television.png, 0);
-    ADD_CATEGORY(Misc, tr("Misc"), television.png, 1);
+    ADD_CATEGORY(findShows, tr("Find Shows"), television.png, 0);
+    ADD_CATEGORY(Cat1, tr("Category 1"), television.png, 1);
+    ADD_CATEGORY(Cat2, tr("Category 2"), television.png, 2);
+    ADD_CATEGORY(Cat3, tr("Category 3"), television.png, 3);
 
     findShows->setChecked(true);
-    layoutCategories->setMargin(0);
-    layoutCategories->setSpacing(1);
+    layout->setMargin(0);
+    layout->setSpacing(0);
 
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    m_layoutMain->addLayout(layoutCategories, 0, 0);
-
-    QWidget *panelWidget = new QWidget(this);
-    m_layoutMain->addWidget(panelWidget, 0, 1);
+    setLayout(layout);
 } // ctor()
 
-ConfigDialog::~ConfigDialog()
+ConfigCategories::~ConfigCategories()
 {
 } // dtor()
 
