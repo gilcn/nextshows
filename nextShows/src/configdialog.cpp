@@ -20,8 +20,6 @@
 
 // Own
 #include "configdialog.h"
-//#include "config/configcategopanels.h"
-//#include "config/findshows.h"
 
 // QtCore
 #include <QtCore/QDebug>
@@ -35,27 +33,29 @@ ConfigDialog::ConfigDialog(QWidget *parent)
 {
     ui.setupUi(this);
 
-    ui.btnOK->setDefault(true);
+    for (int i=0; i<ui.wPanel->count(); ++i) {
+        QWidget *page = ui.wPanel->widget(i);
+        ui.wCategories->addCategory(page->windowTitle(), page->windowIcon());
+    }
 
-/*    m_layoutCats = new QHBoxLayout();
-    ui.wCategories->setLayout(m_layoutCats);
-    ConfigCategories *panelCats = new ConfigCategories();
-    m_layoutCats->addWidget(panelCats);
-*/
+    ui.lblCategoryName->setText(ui.wPanel->currentWidget()->windowTitle());
 
-//    FindShows *panel = new FindShows();
-//    m_layoutPanel->addWidget(panel);
-//    m_layoutPanel = new QHBoxLayout();
-//    ui.wPanel->setLayout(m_layoutPanel);
-//    ui.wPanel->addWidget(panel);
-
-    qDebug() << ui.wPanel->currentIndex();
-    qDebug() << ui.wPanel->count();
+    connect(ui.wCategories, SIGNAL(categoryChanged(const int &)), this, SLOT(changePage(const int &)));
 } // ctor()
 
 ConfigDialog::~ConfigDialog()
 {
 } // dtor()
+
+
+/*
+** private:
+*/
+void ConfigDialog::changePage(const int &id)
+{
+    ui.wPanel->setCurrentIndex(id);
+    ui.lblCategoryName->setText(ui.wPanel->currentWidget()->windowTitle());
+} // changePage()
 
 
 // EOF - vim:ts=4:sw=4:et:

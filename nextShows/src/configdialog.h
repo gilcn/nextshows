@@ -36,11 +36,11 @@ public:
     ConfigDialog(QWidget *parent = 0);
     ~ConfigDialog();
 
+private Q_SLOTS:
+    void changePage(const int &id);
+
 private:
     Ui::ConfigDialog ui;
-
-    QHBoxLayout *m_layoutCats;
-    QHBoxLayout *m_layoutPanel;
 };
 
 
