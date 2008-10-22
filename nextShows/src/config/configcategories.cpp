@@ -19,7 +19,7 @@
 
 
 // Own
-#include "configpanels.h"
+#include "configcategories.h"
 
 // QtGui
 #include <QtGui/QButtonGroup>

@@ -20,8 +20,8 @@
 
 // Own
 #include "configdialog.h"
-#include "config/configpanels.h"
-#include "config/findshows.h"
+//#include "config/configcategopanels.h"
+//#include "config/findshows.h"
 
 // QtCore
 #include <QtCore/QDebug>
@@ -35,16 +35,22 @@ ConfigDialog::ConfigDialog(QWidget *parent)
 {
     ui.setupUi(this);
 
-    m_layoutCats = new QHBoxLayout();
+    ui.btnOK->setDefault(true);
+
+/*    m_layoutCats = new QHBoxLayout();
     ui.wCategories->setLayout(m_layoutCats);
     ConfigCategories *panelCats = new ConfigCategories();
     m_layoutCats->addWidget(panelCats);
+*/
 
+//    FindShows *panel = new FindShows();
+//    m_layoutPanel->addWidget(panel);
+//    m_layoutPanel = new QHBoxLayout();
+//    ui.wPanel->setLayout(m_layoutPanel);
+//    ui.wPanel->addWidget(panel);
 
-    m_layoutPanel = new QHBoxLayout();
-    ui.wPanel->setLayout(m_layoutPanel);
-    FindShows *panel = new FindShows();
-    m_layoutPanel->addWidget(panel);
+    qDebug() << ui.wPanel->currentIndex();
+    qDebug() << ui.wPanel->count();
 } // ctor()
 
 ConfigDialog::~ConfigDialog()

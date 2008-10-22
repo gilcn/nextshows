@@ -32,24 +32,24 @@ FORMS       += ui/mainwindow.ui       \
                ui/configdialog.ui     \
                config/ui/findshows.ui
 
-HEADERS     += version.h               \
-               mainwindow.h            \
-               systrayicon.h           \
-               aboutdialog.h           \
-               configdialog.h          \
-               config/configpanels.h   \
-               config/findshows.h      \
-               libs/animatedimage.h    \
+HEADERS     += version.h                 \
+               mainwindow.h              \
+               systrayicon.h             \
+               aboutdialog.h             \
+               configdialog.h            \
+               config/configcategories.h \
+               config/findshows.h        \
+               libs/animatedimage.h      \
                libs/tvrageparser.h
 
-SOURCES     += main.cpp                \
-               mainwindow.cpp          \
-               systrayicon.cpp         \
-               aboutdialog.cpp         \
-               configdialog.cpp        \
-               config/configpanels.cpp \
-               config/findshows.cpp    \
-               libs/animatedimage.cpp  \
+SOURCES     += main.cpp                    \
+               mainwindow.cpp              \
+               systrayicon.cpp             \
+               aboutdialog.cpp             \
+               configdialog.cpp            \
+               config/configcategories.cpp \
+               config/findshows.cpp        \
+               libs/animatedimage.cpp      \
                libs/tvrageparser.cpp
 
 #### TRANSLATIONS = XXXX_en.ts XXXX_fr.ts
