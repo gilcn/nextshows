@@ -36,6 +36,7 @@ SysTrayIcon::SysTrayIcon(QObject *parent)
     m_sysTrayIcon->setIcon(QIcon(":/images/systray/systrayicon.png"));
 
     QAction *actionQuit = new QAction(tr("&Quit"), this);
+    actionQuit->setIcon(QIcon(":/images/icons/exit.png"));
 //    connect(actionQuit, SIGNAL(triggered()), this, SLOT(quit()));
 
     QMenu *menu = new QMenu();

@@ -23,8 +23,9 @@
 #include "version.h"
 
 // QtCore
-#include <QtCore/QDate>
 #include <QtCore/QDebug>
+#include <QtCore/QDate> // REMOVEME
+#include <QtCore/QTime> // REMOVEME
 // QtGui
 #include <QtGui/QHeaderView>
 
@@ -53,6 +54,8 @@ MainWindow::MainWindow(QWidget *parent)
     showsTableView->horizontalHeader()->setCascadingSectionResizes(true);
     showsTableView->horizontalHeader()->setHighlightSections(true);
     showsTableView->horizontalHeader()->setMovable(true);
+
+    srand(QTime::currentTime().toString("hhmmsszzz").toUInt());
 
     // Fill with random stuff
     for (int i=0; i<30; ++i) {
