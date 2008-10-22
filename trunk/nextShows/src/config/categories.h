@@ -17,26 +17,42 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef __CONFIGCATEGORIES_H__
-#define __CONFIGCATEGORIES_H__
+#ifndef __CONFIG_CATEGORIES_H__
+#define __CONFIG_CATEGORIES_H__
 
 
-// Qt
+// QtGui
+#include <QtGui/QButtonGroup>
 #include <QtGui/QGridLayout>
+#include <QtGui/QVBoxLayout>
 #include <QtGui/QWidget>
 
 
-class ConfigCategories : public QWidget
+namespace Config
+{
+
+class Categories : public QWidget
 {
     Q_OBJECT
 
 public:
-    ConfigCategories(QWidget *parent = 0);
-    ~ConfigCategories();
+    Categories(QWidget *parent = 0);
+    ~Categories();
+
+    void addCategory(const QString &name, const QIcon &icon);
+
+Q_SIGNALS:
+    void categoryChanged(const int &);
+
+private:
+    QVBoxLayout *m_layout;
+    QButtonGroup *m_buttonGroup;
+    int m_itemCount;
 };
 
+} // namespace Config
 
-#endif // __CONFIGCATEGORIES_H__
+#endif // __CONFIG_CATEGORIES_H__
 
 
 // EOF - vim:ts=4:sw=4:et:

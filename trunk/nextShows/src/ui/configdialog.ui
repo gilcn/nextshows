@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>309</height>
+    <width>551</width>
+    <height>442</height>
    </rect>
   </property>
   <property name="minimumSize" >
@@ -24,7 +24,7 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2" >
        <item>
-        <widget class="ConfigCategories" native="1" name="wCategories" >
+        <widget class="Config::Categories" native="1" name="wCategories" >
          <property name="enabled" >
           <bool>true</bool>
          </property>
@@ -60,7 +60,7 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout" >
        <item>
-        <widget class="QLabel" name="lblCategory" >
+        <widget class="QLabel" name="lblCategoryName" >
          <property name="font" >
           <font>
            <pointsize>12</pointsize>
@@ -82,7 +82,8 @@
        </item>
        <item>
         <widget class="QStackedWidget" name="wPanel" >
-         <widget class="FindShows" name="page_1" />
+         <widget class="Config::FindShows" name="page_1" />
+         <widget class="Config::Misc" name="page" />
         </widget>
        </item>
       </layout>
@@ -149,15 +150,21 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>FindShows</class>
+   <class>Config::FindShows</class>
    <extends>QWidget</extends>
    <header>config/findshows.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>ConfigCategories</class>
+   <class>Config::Categories</class>
    <extends>QWidget</extends>
-   <header>config/configcategories.h</header>
+   <header>config/categories.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Config::Misc</class>
+   <extends>QWidget</extends>
+   <header>config/misc.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

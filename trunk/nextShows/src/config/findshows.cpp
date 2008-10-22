@@ -22,6 +22,9 @@
 #include "findshows.h"
 
 
+namespace Config
+{
+
 /*
 ** public:
 */
@@ -29,11 +32,16 @@ FindShows::FindShows(QWidget *parent)
     : QWidget(parent)
 {
     ui.setupUi(this);
+
+    setWindowTitle(tr("Find Shows"));
+    setWindowIcon(QIcon(":/images/prefs/television.png"));
 } // ctor()
 
 FindShows::~FindShows()
 {
 } // dtor()
+
+} // namespace Config
 
 
 // EOF - vim:ts=4:sw=4:et:
