@@ -42,7 +42,8 @@ HEADERS     += version.h             \
                settings/findshows.h  \
                settings/misc.h       \
                libs/animatedimage.h  \
-               libs/tvrageparser.h
+               libs/tvrageparser.h  \
+               libs/getdatatvrage.h
 
 SOURCES     += main.cpp                \
                mainwindow.cpp          \
@@ -53,7 +54,8 @@ SOURCES     += main.cpp                \
                settings/findshows.cpp  \
                settings/misc.cpp       \
                libs/animatedimage.cpp  \
-               libs/tvrageparser.cpp
+               libs/tvrageparser.cpp  \
+               libs/getdatatvrage.cpp
 
 #### TRANSLATIONS = XXXX_en.ts XXXX_fr.ts
 

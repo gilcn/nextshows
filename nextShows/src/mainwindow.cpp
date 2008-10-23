@@ -21,6 +21,7 @@
 // Own
 #include "mainwindow.h"
 #include "version.h"
+#include "libs/getdatatvrage.h"
 
 // QtCore
 #include <QtCore/QDebug>
@@ -83,6 +84,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     // SysTray
     SysTrayIcon *m_sysTrayIcon = new SysTrayIcon(this);
+
+    // For test getdatatvrage libs
+    qDebug() << GetDataTvRage::searchShow("Lost");
+
 } // ctor()
 
 MainWindow::~MainWindow()

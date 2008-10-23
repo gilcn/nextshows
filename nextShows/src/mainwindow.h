@@ -26,6 +26,7 @@
 #include "systrayicon.h"
 #include "dialogs/about.h"
 #include "dialogs/settings.h"
+#include "libs/getdatatvrage.h"
 
 // QtGui
 #include <QtGui/QDialog>
