@@ -1,0 +1,34 @@
+# Version: 2
+create rectangle 348.0 465.0 548.0 535.0 -disabledwidth 0 -outline #000000 -tags {gilles@scratchy/145481021 rectangle std}
+create rectangle 333.0 275.0 613.0 378.0 -disabledwidth 0 -outline #000000 -tags {gilles@scratchy/145481022 rectangle std}
+create text 429.0 486.0 -anchor nw -fill #000000 -font {Helvetica 2 normal} -tags {gilles@scratchy/145481023 std text} -text Main
+create text 416.0 309.0 -anchor nw -fill #000000 -font {Courier 3 bold} -tags {gilles@scratchy/145481024 std text} -text GetData
+create line 377.0 454.0 377.0 390.0 -arrow last -fill #000000 -tags {gilles@scratchy/145481032 line std}
+create line 380.0 259.0 346.0 205.0 -arrow last -fill #000000 -tags {gilles@scratchy/145481033 line std}
+create rectangle 146.0 151.0 321.0 223.0 -disabledwidth 0 -outline #000000 -tags {gilles@scratchy/145481039 rectangle std}
+create text 168.0 155.0 -anchor nw -fill #000000 -font {Courier 3 bold} -stipple gray50 -tags {gilles@scratchy/145481041 std text} -text Cache
+create rectangle 67.0 275.0 223.0 362.0 -disabledwidth 0 -outline #000000 -tags {gilles@scratchy/145481043 rectangle std}
+create line 155.0 231.0 139.0 267.0 -arrow both -fill #000000 -tags {gilles@scratchy/145481044 line std}
+create rectangle 270.0 27.0 422.0 114.0 -disabledwidth 0 -outline #000000 -tags {gilles@scratchy/145481045 rectangle std}
+create text 288.0 44.0 -anchor nw -fill #000000 -font {Courier 3 bold} -tags {gilles@scratchy/145481048 std text} -text TvRageParser
+create text 348.0 280.0 -anchor nw -fill #000000 -font {Helvetica 2 normal} -tags {gilles@scratchy/145481054 std text} -text {getEpisodeList()\n}
+create text 470.0 281.0 -anchor nw -fill #000000 -font {Helvetica 2 normal} -tags {gilles@scratchy/145481055 std text} -text searchShow()
+create line 259.0 140.0 270.0 118.0 -arrow both -fill #000000 -tags {gilles@scratchy/145481060 line std}
+create line 229.0 315.0 326.0 315.0 -arrow both -smooth true -tags {line starlifter@localhost.localdomain/214875971 std}
+create line 399.0 128.0 425.0 263.0 -arrow both -fill #000000 -tags {gilles@scratchy/145481064 line std}
+create text 90.0 295.0 -anchor nw -fill #000000 -font {Courier 3 bold} -tags {gilles@scratchy/145481074 std text} -text FetchUrl
+create text 90.0 312.0 -anchor nw -fill #000000 -font {Helvetica 2 normal} -tags {gilles@scratchy/145481075 std text} -text libs/fetchurl.{h,cpp}
+create text 167.0 183.0 -anchor nw -fill #000000 -font {Helvetica 2 normal} -tags {gilles@scratchy/145481076 std text} -text libs/cache.{h,cpp}
+create text 281.0 67.0 -anchor nw -fill #000000 -font {Helvetica 2 normal} -tags {gilles@scratchy/145481077 std text} -text libs/tvrageparser.{h,cpp}
+create text 458.0 138.0 -anchor nw -fill #000000 -font {Helvetica 2 normal} -tags {gilles@scratchy/145481079 std text} -text {QList<QVariant> shows;}
+create text 458.0 159.0 -anchor nw -fill #000000 -font {Helvetica 2 normal} -tags {gilles@scratchy/145481082 std text} -text {QVariantMap show;}
+create text 460.0 179.0 -anchor nw -fill #000000 -font {Helvetica 2 normal} -tags {gilles@scratchy/145481088 std text} -text {show["showid"]\n....\nshow["genres"]}
+create text 461.0 235.0 -anchor nw -fill #000000 -font {Helvetica 2 normal} -tags {gilles@scratchy/145481090 std text} -text {shows << show;}
+create text 401.0 324.0 -anchor nw -fill #000000 -font {Helvetica 2 normal} -tags {gilles@scratchy/145481092 std text} -text libs/getdata.{h,cpp}
+create line 526.0 456.0 526.0 392.0 -arrow last -fill #000000 -tags {gilles@scratchy/145481094 line std}
+create text 344.0 359.0 -anchor nw -fill #000000 -font {Helvetica 2 normal} -tags {gilles@scratchy/145481095 std text} -text getEpisodeList(int)
+create text 482.0 358.0 -anchor nw -fill #000000 -font {Helvetica 2 normal} -tags {gilles@scratchy/145481096 std text} -text searchShow(QString)
+create text 62.0 110.0 -anchor nw -fill #000000 -font {Helvetica 2 normal} -tags {gilles@scratchy/145481101 std text} -text ~/.nextShows/cache/show_5678
+create text 62.0 92.0 -anchor nw -fill #000000 -font {Helvetica 2 normal} -tags {gilles@scratchy/145481102 std text} -text {~/.nextShows/cache/show_1234\n}
+create text 34.0 388.0 -anchor nw -fill #000000 -font {Helvetica 2 normal} -tags {gilles@scratchy/145481103 std text} -text http://www.tvrage.com/feeds/search.php?show=%s
+create text 34.0 405.0 -anchor nw -fill #000000 -font {Helvetica 2 normal} -tags {gilles@scratchy/145481104 std text} -text http://www.tvrage.com/feeds/episode_list.php?sid=%d
