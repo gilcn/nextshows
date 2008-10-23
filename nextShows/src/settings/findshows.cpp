@@ -19,43 +19,29 @@
 
 
 // Own
-#include "configdialog.h"
+#include "findshows.h"
 
-// QtCore
-#include <QtCore/QDebug>
 
+namespace Settings
+{
 
 /*
 ** public:
 */
-ConfigDialog::ConfigDialog(QWidget *parent)
-    : QDialog(parent, Qt::Dialog)
+FindShows::FindShows(QWidget *parent)
+    : QWidget(parent)
 {
     ui.setupUi(this);
 
-    for (int i=0; i<ui.wPanel->count(); ++i) {
-        QWidget *page = ui.wPanel->widget(i);
-        ui.wCategories->addCategory(page->windowTitle(), page->windowIcon());
-    }
-
-    ui.lblCategoryName->setText(ui.wPanel->currentWidget()->windowTitle());
-
-    connect(ui.wCategories, SIGNAL(categoryChanged(const int &)), this, SLOT(changePage(const int &)));
+    setWindowTitle(tr("Find Shows"));
+    setWindowIcon(QIcon(":/images/prefs/television.png"));
 } // ctor()
 
-ConfigDialog::~ConfigDialog()
+FindShows::~FindShows()
 {
 } // dtor()
 
-
-/*
-** private:
-*/
-void ConfigDialog::changePage(const int &id)
-{
-    ui.wPanel->setCurrentIndex(id);
-    ui.lblCategoryName->setText(ui.wPanel->currentWidget()->windowTitle());
-} // changePage()
+} // namespace Settings
 
 
 // EOF - vim:ts=4:sw=4:et:

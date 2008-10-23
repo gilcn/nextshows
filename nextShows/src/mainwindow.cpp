@@ -35,7 +35,7 @@
 */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , m_dialogConfig(0)
+    , m_dialogSettings(0)
     , m_dialogAbout(0)
 {
     m_dataModel = new QStandardItemModel(this);
@@ -77,7 +77,7 @@ MainWindow::MainWindow(QWidget *parent)
 //    pal.setColor(QPalette::Highlight, QColor("#BEFFBE"));
     showsTableView->setPalette(pal);
 
-    connect(actionConfigure, SIGNAL(triggered()), this, SLOT(showConfig()));
+    connect(actionSettings, SIGNAL(triggered()), this, SLOT(showSettings()));
     connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAbout()));
     connect(actionQuit, SIGNAL(triggered()), this, SLOT(close()));
 
@@ -93,20 +93,20 @@ MainWindow::~MainWindow()
 /*
 ** private Q_SLOTS:
 */
-void MainWindow::showConfig()
+void MainWindow::showSettings()
 {
-    if (!m_dialogConfig) {
-        m_dialogConfig = new ConfigDialog(this);
+    if (!m_dialogSettings) {
+        m_dialogSettings = new Dialogs::Settings(this);
     }
 
-    m_dialogConfig->show();
-//    m_dialogConfig->adjustSize();
-} // showConfig()
+    m_dialogSettings->show();
+//    m_dialogSettings->adjustSize();
+} // showSettings()
 
 void MainWindow::showAbout()
 {
     if (!m_dialogAbout) {
-        m_dialogAbout = new AboutDialog(this);
+        m_dialogAbout = new Dialogs::About(this);
     }
     m_dialogAbout->show();
 } // showAbout()

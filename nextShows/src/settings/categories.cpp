@@ -25,7 +25,7 @@
 #include <QtGui/QToolButton>
 
 
-namespace Config
+namespace Settings
 {
 
 /*
@@ -74,7 +74,7 @@ void Categories::addCategory(const QString &name, const QIcon &icon)
     m_itemCount++;
 } // addCategory()
 
-} // namespace Config
+} // namespace Settings
 
 
 // EOF - vim:ts=4:sw=4:et:

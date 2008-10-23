@@ -17,42 +17,34 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef __CONFIG_CATEGORIES_H__
-#define __CONFIG_CATEGORIES_H__
+#ifndef __DIALOG_ABOUT_H__
+#define __DIALOG_ABOUT_H__
 
 
-// QtGui
-#include <QtGui/QButtonGroup>
-#include <QtGui/QGridLayout>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QWidget>
+// Own
+#include "ui_aboutdialog.h"
 
+// Qt
+#include <QtGui/QDialog>
 
-namespace Config
+namespace Dialogs
 {
 
-class Categories : public QWidget
+class About : public QDialog
 {
     Q_OBJECT
 
 public:
-    Categories(QWidget *parent = 0);
-    ~Categories();
-
-    void addCategory(const QString &name, const QIcon &icon);
-
-Q_SIGNALS:
-    void categoryChanged(const int &);
+    About(QWidget *parent = 0);
+    ~About();
 
 private:
-    QVBoxLayout *m_layout;
-    QButtonGroup *m_buttonGroup;
-    int m_itemCount;
+    Ui::AboutDialog ui;
 };
 
-} // namespace Config
+} // namespace Dialogs
 
-#endif // __CONFIG_CATEGORIES_H__
+#endif // __ABOUTDIALOG_H__
 
 
 // EOF - vim:ts=4:sw=4:et:

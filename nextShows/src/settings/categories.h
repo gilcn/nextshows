@@ -17,35 +17,42 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef __CONFIG_FINDSHOWS_H__
-#define __CONFIG_FINDSHOWS_H__
+#ifndef __SETTINGS_CATEGORIES_H__
+#define __SETTINGS_CATEGORIES_H__
 
-
-// Own
-#include "ui_findshows.h"
 
 // QtGui
+#include <QtGui/QButtonGroup>
+#include <QtGui/QGridLayout>
+#include <QtGui/QVBoxLayout>
 #include <QtGui/QWidget>
 
 
-namespace Config
+namespace Settings
 {
 
-class FindShows : public QWidget
+class Categories : public QWidget
 {
     Q_OBJECT
 
 public:
-    FindShows(QWidget *parent = 0);
-    ~FindShows();
+    Categories(QWidget *parent = 0);
+    ~Categories();
+
+    void addCategory(const QString &name, const QIcon &icon);
+
+Q_SIGNALS:
+    void categoryChanged(const int &);
 
 private:
-    Ui::FindShows ui;
+    QVBoxLayout *m_layout;
+    QButtonGroup *m_buttonGroup;
+    int m_itemCount;
 };
 
-} // namespace Config
+} // namespace Settings
 
-#endif // __CONFIG_FINDSHOWS_H__
+#endif // __SETTINGS_CATEGORIES_H__
 
 
 // EOF - vim:ts=4:sw=4:et:
