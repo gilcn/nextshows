@@ -17,34 +17,36 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef __CONFIGDIALOG_H__
-#define __CONFIGDIALOG_H__
+#ifndef __SETTINGS_MISC_H__
+#define __SETTINGS_MISC_H__
 
 
 // Own
-#include "ui_configdialog.h"
+#include "ui_misc.h"
 
 // QtGui
-#include <QtGui/QDialog>
+#include <QtGui/QWidget>
 
 
-class ConfigDialog : public QDialog
+namespace Settings
+{
+
+class Misc : public QWidget
 {
     Q_OBJECT
 
 public:
-    ConfigDialog(QWidget *parent = 0);
-    ~ConfigDialog();
-
-private Q_SLOTS:
-    void changePage(const int &id);
+    Misc(QWidget *parent = 0);
+    ~Misc();
 
 private:
-    Ui::ConfigDialog ui;
+    Ui::Misc ui;
 };
 
 
-#endif // __CONFIGDIALOG_H__
+} // namespace Settings
+
+#endif // __Settings_MISC_H__
 
 
 // EOF - vim:ts=4:sw=4:et:

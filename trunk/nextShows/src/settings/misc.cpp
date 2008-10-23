@@ -19,29 +19,29 @@
 
 
 // Own
-#include "findshows.h"
+#include "misc.h"
 
 
-namespace Config
+namespace Settings
 {
 
 /*
 ** public:
 */
-FindShows::FindShows(QWidget *parent)
+Misc::Misc(QWidget *parent)
     : QWidget(parent)
 {
     ui.setupUi(this);
 
-    setWindowTitle(tr("Find Shows"));
+    setWindowTitle(tr("Misc"));
     setWindowIcon(QIcon(":/images/prefs/television.png"));
 } // ctor()
 
-FindShows::~FindShows()
+Misc::~Misc()
 {
 } // dtor()
 
-} // namespace Config
+} // namespace Settings
 
 
 // EOF - vim:ts=4:sw=4:et:

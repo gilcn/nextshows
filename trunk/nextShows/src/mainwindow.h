@@ -24,8 +24,8 @@
 // Own
 #include "ui_mainwindow.h"
 #include "systrayicon.h"
-#include "aboutdialog.h"
-#include "configdialog.h"
+#include "dialogs/about.h"
+#include "dialogs/settings.h"
 
 // QtGui
 #include <QtGui/QDialog>
@@ -42,7 +42,7 @@ public:
     ~MainWindow();
 
 private Q_SLOTS:
-    void showConfig();
+    void showSettings();
     void showAbout();
 
 private:
@@ -50,8 +50,8 @@ private:
 
     SysTrayIcon *m_sysTrayIcon;
 
-    ConfigDialog *m_dialogConfig;
-    AboutDialog *m_dialogAbout;
+    Dialogs::Settings *m_dialogSettings;
+    Dialogs::About *m_dialogAbout;
 };
 
 

@@ -19,29 +19,48 @@
 
 
 // Own
-#include "misc.h"
+#include "dialogs/settings.h"
+
+// QtCore
+#include <QtCore/QDebug>
 
 
-namespace Config
+namespace Dialogs
 {
 
 /*
 ** public:
 */
-Misc::Misc(QWidget *parent)
-    : QWidget(parent)
+Settings::Settings(QWidget *parent)
+    : QDialog(parent, Qt::Dialog)
 {
     ui.setupUi(this);
 
-    setWindowTitle(tr("Misc"));
-    setWindowIcon(QIcon(":/images/prefs/television.png"));
+    for (int i=0; i<ui.wPanel->count(); ++i) {
+        QWidget *page = ui.wPanel->widget(i);
+        ui.wCategories->addCategory(page->windowTitle(), page->windowIcon());
+    }
+
+    ui.lblCategoryName->setText(ui.wPanel->currentWidget()->windowTitle());
+
+    connect(ui.wCategories, SIGNAL(categoryChanged(const int &)), this, SLOT(changePage(const int &)));
 } // ctor()
 
-Misc::~Misc()
+Settings::~Settings()
 {
 } // dtor()
 
-} // namespace Config
+
+/*
+** private Q_SLOTS:
+*/
+void Settings::changePage(const int &id)
+{
+    ui.wPanel->setCurrentIndex(id);
+    ui.lblCategoryName->setText(ui.wPanel->currentWidget()->windowTitle());
+} // changePage()
+
+} // namespace Dialogs
 
 
 // EOF - vim:ts=4:sw=4:et:

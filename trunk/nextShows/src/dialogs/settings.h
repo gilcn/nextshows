@@ -17,31 +17,37 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef __ABOUTDIALOG_H__
-#define __ABOUTDIALOG_H__
+#ifndef __DIALOG_SETTINGS_H__
+#define __DIALOG_SETTINGS_H__
 
 
 // Own
-#include "ui_aboutdialog.h"
+#include "ui_settingsdialog.h"
 
-// Qt
+// QtGui
 #include <QtGui/QDialog>
 
+namespace Dialogs
+{
 
-class AboutDialog : public QDialog
+class Settings : public QDialog
 {
     Q_OBJECT
 
 public:
-    AboutDialog(QWidget *parent = 0);
-    ~AboutDialog();
+    Settings(QWidget *parent = 0);
+    ~Settings();
+
+private Q_SLOTS:
+    void changePage(const int &id);
 
 private:
-    Ui::AboutDialog ui;
+    Ui::SettingsDialog ui;
 };
 
+} // namespace Dialogs
 
-#endif // __ABOUTDIALOG_H__
+#endif // __DIALOG_SETTINGS_H__
 
 
 // EOF - vim:ts=4:sw=4:et:

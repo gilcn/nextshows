@@ -25,34 +25,34 @@ TARGET       = nextShows
 
 DEPENDPATH  += libs
 
-RESOURCES    = pics/nextshows.qrc
+RESOURCES    = pixmaps/nextshows.qrc
 
-FORMS       += ui/mainwindow.ui       \
-               ui/aboutdialog.ui      \
-               ui/configdialog.ui     \
-               config/ui/findshows.ui \
-               config/ui/misc.ui
+FORMS       += ui/mainwindow.ui             \
+               dialogs/ui/aboutdialog.ui    \
+               dialogs/ui/settingsdialog.ui \
+               settings/ui/findshows.ui     \
+               settings/ui/misc.ui
 
-HEADERS     += version.h            \
-               mainwindow.h         \
-               systrayicon.h        \
-               aboutdialog.h        \
-               configdialog.h       \
-               config/categories.h  \
-               config/findshows.h   \
-               config/misc.h        \
-               libs/animatedimage.h \
+HEADERS     += version.h             \
+               mainwindow.h          \
+               systrayicon.h         \
+               dialogs/about.h       \
+               dialogs/settings.h    \
+               settings/categories.h \
+               settings/findshows.h  \
+               settings/misc.h       \
+               libs/animatedimage.h  \
                libs/tvrageparser.h
 
-SOURCES     += main.cpp               \
-               mainwindow.cpp         \
-               systrayicon.cpp        \
-               aboutdialog.cpp        \
-               configdialog.cpp       \
-               config/categories.cpp  \
-               config/findshows.cpp   \
-               config/misc.cpp        \
-               libs/animatedimage.cpp \
+SOURCES     += main.cpp                \
+               mainwindow.cpp          \
+               systrayicon.cpp         \
+               dialogs/about.cpp       \
+               dialogs/settings.cpp    \
+               settings/categories.cpp \
+               settings/findshows.cpp  \
+               settings/misc.cpp       \
+               libs/animatedimage.cpp  \
                libs/tvrageparser.cpp
 
 #### TRANSLATIONS = XXXX_en.ts XXXX_fr.ts

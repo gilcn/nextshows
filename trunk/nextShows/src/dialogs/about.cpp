@@ -19,17 +19,19 @@
 
 
 // Own
-#include "aboutdialog.h"
+#include "dialogs/about.h"
 #include "version.h"
 
 // QtCore
 #include <QtCore/QDebug>
 
+namespace Dialogs
+{
 
 /*
 ** public:
 */
-AboutDialog::AboutDialog(QWidget *parent)
+About::About(QWidget *parent)
     : QDialog(parent, Qt::Dialog)
 {
     // Define some default behavior
@@ -57,9 +59,11 @@ AboutDialog::AboutDialog(QWidget *parent)
     ui.lblBuildInfos->setText(buildInfos);
 } // ctor()
 
-AboutDialog::~AboutDialog()
+About::~About()
 {
 } // dtor()
+
+} // namespace Dialogs
 
 
 // EOF - vim:ts=4:sw=4:et:

@@ -17,36 +17,35 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef __CONFIG_MISC_H__
-#define __CONFIG_MISC_H__
+#ifndef __SETTINGS_FINDSHOWS_H__
+#define __SETTINGS_FINDSHOWS_H__
 
 
 // Own
-#include "ui_misc.h"
+#include "ui_findshows.h"
 
 // QtGui
 #include <QtGui/QWidget>
 
 
-namespace Config
+namespace Settings
 {
 
-class Misc : public QWidget
+class FindShows : public QWidget
 {
     Q_OBJECT
 
 public:
-    Misc(QWidget *parent = 0);
-    ~Misc();
+    FindShows(QWidget *parent = 0);
+    ~FindShows();
 
 private:
-    Ui::Misc ui;
+    Ui::FindShows ui;
 };
 
+} // namespace Settings
 
-} // namespace Config
-
-#endif // __CONFIG_MISC_H__
+#endif // __SETTINGS_FINDSHOWS_H__
 
 
 // EOF - vim:ts=4:sw=4:et:

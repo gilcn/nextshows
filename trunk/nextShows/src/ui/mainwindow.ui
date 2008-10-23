@@ -13,7 +13,7 @@
    <string>MainWindow</string>
   </property>
   <property name="windowIcon" >
-   <iconset resource="../pics/nextshows.qrc" >
+   <iconset resource="../pixmaps/nextshows.qrc" >
     <normaloff>:/images/logos/nextShows.png</normaloff>:/images/logos/nextShows.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget" >
@@ -68,29 +68,29 @@
    <attribute name="toolBarBreak" >
     <bool>false</bool>
    </attribute>
-   <addaction name="actionConfigure" />
+   <addaction name="actionSettings" />
    <addaction name="actionAbout" />
    <addaction name="actionQuit" />
   </widget>
-  <action name="actionConfigure" >
+  <action name="actionSettings" >
    <property name="checkable" >
     <bool>false</bool>
    </property>
    <property name="icon" >
-    <iconset resource="../pics/nextshows.qrc" >
-     <normaloff>:/images/icons/configure.png</normaloff>:/images/icons/configure.png</iconset>
+    <iconset resource="../pixmaps/nextshows.qrc" >
+     <normaloff>:/images/icons/settings.png</normaloff>:/images/icons/settings.png</iconset>
    </property>
    <property name="text" >
-    <string>Configure</string>
+    <string>Settings</string>
    </property>
    <property name="iconText" >
-    <string>&amp;Configure</string>
+    <string>&amp;Settings</string>
    </property>
   </action>
   <action name="actionAbout" >
    <property name="icon" >
-    <iconset resource="../pics/nextshows.qrc" >
-     <normaloff>:/images/icons/help-about.png</normaloff>:/images/icons/help-about.png</iconset>
+    <iconset resource="../pixmaps/nextshows.qrc" >
+     <normaloff>:/images/icons/about.png</normaloff>:/images/icons/about.png</iconset>
    </property>
    <property name="text" >
     <string>About</string>
@@ -101,7 +101,7 @@
   </action>
   <action name="actionQuit" >
    <property name="icon" >
-    <iconset resource="../pics/nextshows.qrc" >
+    <iconset resource="../pixmaps/nextshows.qrc" >
      <normaloff>:/images/icons/exit.png</normaloff>:/images/icons/exit.png</iconset>
    </property>
    <property name="text" >
@@ -116,7 +116,7 @@
   </action>
  </widget>
  <resources>
-  <include location="../pics/nextshows.qrc" />
+  <include location="../pixmaps/nextshows.qrc" />
  </resources>
  <connections/>
 </ui>
