@@ -82,8 +82,9 @@
        </item>
        <item>
         <widget class="QStackedWidget" name="wPanel" >
-         <widget class="Settings::FindShows" name="page_1" />
-         <widget class="Settings::Misc" name="page" />
+         <property name="currentIndex" >
+          <number>0</number>
+         </property>
         </widget>
        </item>
       </layout>
@@ -150,21 +151,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>Settings::FindShows</class>
-   <extends>QWidget</extends>
-   <header>settings/findshows.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>Settings::Categories</class>
    <extends>QWidget</extends>
    <header>settings/categories.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>Settings::Misc</class>
-   <extends>QWidget</extends>
-   <header>settings/misc.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

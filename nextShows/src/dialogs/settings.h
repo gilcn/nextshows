@@ -23,9 +23,12 @@
 
 // Own
 #include "ui_settingsdialog.h"
+#include "settings/findshows.h"
+#include "settings/misc.h"
 
 // QtGui
 #include <QtGui/QDialog>
+
 
 namespace Dialogs
 {
@@ -43,6 +46,9 @@ private Q_SLOTS:
 
 private:
     Ui::SettingsDialog ui;
+
+    ::Settings::FindShows *m_wFindShows;
+    ::Settings::Misc      *m_wMisc;
 };
 
 } // namespace Dialogs

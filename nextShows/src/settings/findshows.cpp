@@ -33,7 +33,9 @@ FindShows::FindShows(QWidget *parent)
 {
     ui.setupUi(this);
 
+    // Category title
     setWindowTitle(tr("Find Shows"));
+    // Category icon
     setWindowIcon(QIcon(":/images/prefs/television.png"));
 } // ctor()
 
