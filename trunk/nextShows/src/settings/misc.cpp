@@ -33,7 +33,9 @@ Misc::Misc(QWidget *parent)
 {
     ui.setupUi(this);
 
+    // Category title
     setWindowTitle(tr("Misc"));
+    // Category icon
     setWindowIcon(QIcon(":/images/prefs/television.png"));
 } // ctor()
 

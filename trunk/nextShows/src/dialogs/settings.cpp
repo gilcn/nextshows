@@ -33,15 +33,24 @@ namespace Dialogs
 */
 Settings::Settings(QWidget *parent)
     : QDialog(parent, Qt::Dialog)
+    , m_wFindShows(new ::Settings::FindShows)
+    , m_wMisc(new ::Settings::Misc)
 {
     ui.setupUi(this);
 
+    ui.wPanel->addWidget(m_wFindShows);
+    ui.wCategories->addCategory(m_wFindShows->windowTitle(), m_wFindShows->windowIcon());
+    ui.wPanel->addWidget(m_wMisc);
+    ui.wCategories->addCategory(m_wMisc->windowTitle(), m_wMisc->windowIcon());
+
+/*
     for (int i=0; i<ui.wPanel->count(); ++i) {
         QWidget *page = ui.wPanel->widget(i);
         ui.wCategories->addCategory(page->windowTitle(), page->windowIcon());
     }
 
     ui.lblCategoryName->setText(ui.wPanel->currentWidget()->windowTitle());
+*/
 
     connect(ui.wCategories, SIGNAL(categoryChanged(const int &)), this, SLOT(changePage(const int &)));
 } // ctor()

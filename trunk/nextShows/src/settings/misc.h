@@ -46,7 +46,7 @@ private:
 
 } // namespace Settings
 
-#endif // __Settings_MISC_H__
+#endif // __SETTINGS_MISC_H__
 
 
 // EOF - vim:ts=4:sw=4:et:
