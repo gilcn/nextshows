@@ -1,5 +1,5 @@
 /*
- *   Copyright 2008 Emmanuel Hamelet <kh.starlifter@gmail.com>
+ *   Copyright (C) 2008 Emmanuel Hamelet <kh.starlifter@gmail.com>
  *
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as
