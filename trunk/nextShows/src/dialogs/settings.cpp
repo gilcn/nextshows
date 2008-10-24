@@ -43,6 +43,8 @@ Settings::Settings(QWidget *parent)
     ui.wPanel->addWidget(m_wMisc);
     ui.wCategories->addCategory(m_wMisc->windowTitle(), m_wMisc->windowIcon());
 
+    setCategoryTitle(ui.wPanel->currentWidget()->windowTitle());
+
 /*
     for (int i=0; i<ui.wPanel->count(); ++i) {
         QWidget *page = ui.wPanel->widget(i);
@@ -66,8 +68,18 @@ Settings::~Settings()
 void Settings::changePage(const int &id)
 {
     ui.wPanel->setCurrentIndex(id);
-    ui.lblCategoryName->setText(ui.wPanel->currentWidget()->windowTitle());
+    setCategoryTitle(ui.wPanel->currentWidget()->windowTitle());
 } // changePage()
+
+
+/*
+** private:
+*/
+void Settings::setCategoryTitle(const QString &title)
+{
+    ui.lblCategoryName->setText(title);
+} // setCategoryTitle()
+
 
 } // namespace Dialogs
 

@@ -45,10 +45,12 @@ private Q_SLOTS:
     void changePage(const int &id);
 
 private:
-    Ui::SettingsDialog ui;
+    void setCategoryTitle(const QString &title);
 
     ::Settings::FindShows *m_wFindShows;
     ::Settings::Misc      *m_wMisc;
+
+    Ui::SettingsDialog ui;
 };
 
 } // namespace Dialogs
