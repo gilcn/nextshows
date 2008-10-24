@@ -39,7 +39,7 @@ public:
     Categories(QWidget *parent = 0);
     ~Categories();
 
-    void addCategory(const QString &name, const QIcon &icon);
+    void addCategory(const QString &, const QIcon &);
 
 Q_SIGNALS:
     void categoryChanged(const int &);

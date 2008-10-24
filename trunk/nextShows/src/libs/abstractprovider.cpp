@@ -25,7 +25,8 @@
 /*
 ** public:
 */
-AbstractProvider::AbstractProvider()
+AbstractProvider::AbstractProvider(QObject *parent)
+    : QObject(parent)
 {
 } // ctor()
 
@@ -33,5 +34,23 @@ AbstractProvider::~AbstractProvider()
 {
 } // dtor()
 
+QVariant AbstractProvider::searchShow(const QString &/*showName*/)
+{
+    return QVariant();
+} // searchShow()
+
+QVariant AbstractProvider::getEpisodeList(const QString &/*showId*/)
+{
+    return QVariant();
+} // getEpisodeList()
+
+
+/*
+** protected:
+*/
+void AbstractProvider::setBaseUrl(const AbstractProvider::UrlTypes &urlType, const QUrl &url)
+{
+    m_urls.insert(urlType, url);
+} // setBaseUrl()
 
 // EOF - vim:ts=4:sw=4:et:

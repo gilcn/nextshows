@@ -42,10 +42,10 @@ public:
     ~Settings();
 
 private Q_SLOTS:
-    void changePage(const int &id);
+    void changePage(const int &);
 
 private:
-    void setCategoryTitle(const QString &title);
+    void setCategoryTitle(const QString &);
 
     ::Settings::FindShows *m_wFindShows;
     ::Settings::Misc      *m_wMisc;

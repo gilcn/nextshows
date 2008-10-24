@@ -25,13 +25,34 @@
 /*
 ** public:
 */
-TvRageProvider::TvRageProvider()
+TvRageProvider::TvRageProvider(QObject *parent)
+    : AbstractProvider(parent)
 {
+    // "Search Show" base URL
+    setBaseUrl(AbstractProvider::SearchShowUrl,
+               QUrl("http://www.tvrage.com/feeds/search.php?show=", QUrl::StrictMode));
+    // "Episode List" base URL
+    setBaseUrl(AbstractProvider::EpisodeListUrl,
+               QUrl("http://www.tvrage.com/feeds/episode_list.php?sid=", QUrl::StrictMode));
 } // ctor()
 
 TvRageProvider::~TvRageProvider()
 {
 } // dtor()
+
+
+/*
+** protected:
+*/
+QVariant TvRageProvider::parseSearchResults(const QByteArray &/*data*/)
+{
+    return QVariant();
+} // parseSearchResults()
+
+QVariant TvRageProvider::parseEpisodeList(const QByteArray &/*data*/)
+{
+    return QVariant();
+} // parseEpisodeList()
 
 
 // EOF - vim:ts=4:sw=4:et:

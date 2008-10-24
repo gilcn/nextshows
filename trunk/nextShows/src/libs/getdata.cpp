@@ -25,13 +25,25 @@
 /*
 ** public:
 */
-GetData::GetData()
+GetData::GetData(QObject *parent)
+    : QObject(parent)
+    , m_provider(new TvRageProvider(parent))
 {
 } // ctor()
 
 GetData::~GetData()
 {
 } // dtor()
+
+QVariant GetData::searchShow(const QString &showName)
+{
+    return m_provider->searchShow(showName);
+} // searchShow()
+
+QVariant GetData::getEpisodeList(const QString &showId)
+{
+    return m_provider->getEpisodeList(showId);
+} // getEpisodeList()
 
 
 // EOF - vim:ts=4:sw=4:et:
