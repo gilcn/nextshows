@@ -33,28 +33,36 @@ FORMS       += ui/mainwindow.ui             \
                settings/ui/findshows.ui     \
                settings/ui/misc.ui
 
-HEADERS     += version.h             \
-               mainwindow.h          \
-               systrayicon.h         \
-               dialogs/about.h       \
-               dialogs/settings.h    \
-               settings/categories.h \
-               settings/findshows.h  \
-               settings/misc.h       \
-               libs/animatedimage.h  \
-               libs/tvrageparser.h  \
+HEADERS     += version.h               \
+               mainwindow.h            \
+               systrayicon.h           \
+               dialogs/about.h         \
+               dialogs/settings.h      \
+               settings/categories.h   \
+               settings/findshows.h    \
+               settings/misc.h         \
+               libs/abstractprovider.h \
+               libs/animatedimage.h    \
+               libs/fetchurl.h         \
+               libs/getdata.h          \
+               libs/tvrageparser.h     \
+               libs/tvrageprovider.h   \
                libs/getdatatvrage.h
 
-SOURCES     += main.cpp                \
-               mainwindow.cpp          \
-               systrayicon.cpp         \
-               dialogs/about.cpp       \
-               dialogs/settings.cpp    \
-               settings/categories.cpp \
-               settings/findshows.cpp  \
-               settings/misc.cpp       \
-               libs/animatedimage.cpp  \
-               libs/tvrageparser.cpp  \
+SOURCES     += main.cpp                  \
+               mainwindow.cpp            \
+               systrayicon.cpp           \
+               dialogs/about.cpp         \
+               dialogs/settings.cpp      \
+               settings/categories.cpp   \
+               settings/findshows.cpp    \
+               settings/misc.cpp         \
+               libs/abstractprovider.cpp \
+               libs/animatedimage.cpp    \
+               libs/fetchurl.cpp         \
+               libs/getdata.cpp          \
+               libs/tvrageparser.cpp     \
+               libs/tvrageprovider.cpp   \
                libs/getdatatvrage.cpp
 
 #### TRANSLATIONS = XXXX_en.ts XXXX_fr.ts
