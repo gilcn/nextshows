@@ -22,14 +22,20 @@
 
 
 // Own
-#include "libs/abstractprovider.h"
+#include "abstractprovider.h"
 
 
 class TvRageProvider : public AbstractProvider
 {
+    Q_OBJECT
+
 public:
-    TvRageProvider();
+    TvRageProvider(QObject *parent = 0);
     ~TvRageProvider();
+
+protected:
+    QVariant parseSearchResults(const QByteArray &);
+    QVariant parseEpisodeList(const QByteArray &);
 };
 
 

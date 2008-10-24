@@ -17,15 +17,30 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+
 #ifndef __GETDATA_H__
 #define __GETDATA_H__
 
 
-class GetData
+// Own
+#include "tvrageprovider.h"
+// QtCore
+#include <QtCore/QVariant>
+
+
+class GetData : public QObject
 {
+    Q_OBJECT
+
 public:
-    GetData();
+    GetData(QObject *parent = 0);
     ~GetData();
+
+    QVariant searchShow(const QString &);
+    QVariant getEpisodeList(const QString &);
+
+private:
+    AbstractProvider *m_provider;
 };
 
 

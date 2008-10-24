@@ -24,6 +24,13 @@
 class Cache
 {
 public:
+    enum CacheState {
+        CacheFileOK       = 0x00,
+        CacheFileNotFound = 0x01,
+        CacheFileExpired  = 0x02,
+        CacheFileInvalid  = CacheFileNotFound | CacheFileExpired
+    };
+
     Cache();
     ~Cache();
 };

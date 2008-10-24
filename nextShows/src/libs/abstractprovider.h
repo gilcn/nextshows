@@ -21,11 +21,35 @@
 #define __ABSTRACTPROVIDER_H__
 
 
-class AbstractProvider
+// QtCore
+#include <QtCore/QUrl>
+#include <QtCore/QVariant>
+
+
+class AbstractProvider : public QObject
 {
+    Q_OBJECT
+
 public:
-    AbstractProvider();
+    AbstractProvider(QObject *parent = 0);
     ~AbstractProvider();
+
+    QVariant searchShow(const QString &);
+    QVariant getEpisodeList(const QString &);
+
+protected:
+    enum UrlTypes {
+        SearchShowUrl,
+        EpisodeListUrl
+    };
+
+    virtual QVariant parseSearchResults(const QByteArray &) = 0;
+    virtual QVariant parseEpisodeList(const QByteArray &) = 0;
+
+    void setBaseUrl(const UrlTypes &, const QUrl &);
+
+private:
+    QMap<UrlTypes, QUrl> m_urls;
 };
 
 
