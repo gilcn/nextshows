@@ -23,7 +23,7 @@
 
 // Own
 #include "ui_findshows.h"
-
+#include "libs/getdata.h"
 // QtGui
 #include <QtGui/QWidget>
 
@@ -39,8 +39,13 @@ public:
     FindShows(QWidget *parent = 0);
     ~FindShows();
 
+private Q_SLOTS:
+    void on_pushButton_clicked();
+
 private:
     Ui::FindShows ui;
+
+    GetData *m_data;
 };
 
 } // namespace Settings

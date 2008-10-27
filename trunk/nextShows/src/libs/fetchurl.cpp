@@ -20,18 +20,53 @@
 
 // Own
 #include "fetchurl.h"
+// QtCore
+#include <QtCore/QDebug>
+#include <QtCore/QUrl>
 
 
 /*
 ** public:
 */
-FetchUrl::FetchUrl()
+FetchUrl::FetchUrl(QObject *parent)
+    : QObject(parent)
 {
+    m_http = new QHttp(this);
+    connect(m_http, SIGNAL(requestFinished(int, bool)),
+            this, SLOT(httpRequestFinished(const int &, const bool &)));
 } // ctor()
 
 FetchUrl::~FetchUrl()
 {
 } // dtor()
+
+void FetchUrl::getUrl(const QUrl &url)
+{
+    m_http->setHost(url.host(), QHttp::ConnectionModeHttp, url.port());
+    m_requestId = m_http->get(url.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority));
+} // get()
+
+
+/*
+** private Q_SLOTS:
+*/
+void FetchUrl::httpRequestFinished(const int &id, const bool &error)
+{
+    qDebug() << "Id:" << id;
+    qDebug() << "Error:" << error;
+    if (error) {
+        qCritical() << "Error while processing HTTP request!";
+        qCritical() << m_http->errorString();
+    }
+
+    if (id != m_requestId) {
+        return;
+    }
+
+    emit(dataReady(m_http->readAll()));
+
+    m_requestId = 0;
+} // httpRequestFinished()
 
 
 // EOF - vim:ts=4:sw=4:et:

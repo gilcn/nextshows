@@ -45,9 +45,7 @@ HEADERS     += version.h               \
                libs/animatedimage.h    \
                libs/fetchurl.h         \
                libs/getdata.h          \
-               libs/tvrageparser.h     \
-               libs/tvrageprovider.h   \
-               libs/getdatatvrage.h
+               libs/tvrageprovider.h
 
 SOURCES     += main.cpp                  \
                mainwindow.cpp            \
@@ -61,9 +59,7 @@ SOURCES     += main.cpp                  \
                libs/animatedimage.cpp    \
                libs/fetchurl.cpp         \
                libs/getdata.cpp          \
-               libs/tvrageparser.cpp     \
-               libs/tvrageprovider.cpp   \
-               libs/getdatatvrage.cpp
+               libs/tvrageprovider.cpp
 
 #### TRANSLATIONS = XXXX_en.ts XXXX_fr.ts
 

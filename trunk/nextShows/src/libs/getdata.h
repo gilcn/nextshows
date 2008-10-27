@@ -36,8 +36,8 @@ public:
     GetData(QObject *parent = 0);
     ~GetData();
 
-    QVariant searchShow(const QString &);
-    QVariant getEpisodeList(const QString &);
+    void searchShow(const QString &);
+    void getEpisodeList(const QString &);
 
 private:
     AbstractProvider *m_provider;

@@ -20,6 +20,8 @@
 
 // Own
 #include "findshows.h"
+// QtCore
+#include <QtCore/QDebug>
 
 
 namespace Settings
@@ -37,11 +39,22 @@ FindShows::FindShows(QWidget *parent)
     setWindowTitle(tr("Find Shows"));
     // Category icon
     setWindowIcon(QIcon(":/images/prefs/television.png"));
+
+    m_data = new GetData(this);
 } // ctor()
 
 FindShows::~FindShows()
 {
 } // dtor()
+
+
+/*
+** private:
+*/
+void FindShows::on_pushButton_clicked()
+{
+    m_data->searchShow(ui.lineEdit->text());
+} // on_pushButton_clicked()
 
 } // namespace Settings
 

@@ -25,8 +25,11 @@ class Cache
 {
 public:
     enum CacheState {
-        CacheFileOK       = 0x00,
+        // File found and not expired
+        CacheFileValid    = 0x00,
+        // File not found
         CacheFileNotFound = 0x01,
+        // File found but content expired
         CacheFileExpired  = 0x02,
         CacheFileInvalid  = CacheFileNotFound | CacheFileExpired
     };
