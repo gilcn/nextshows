@@ -20,6 +20,12 @@
 
 // Own
 #include "tvrageprovider.h"
+// QtCore
+#include <QtCore/QDebug>
+// QtXml
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomElement>
+#include <QtXml/QDomNode>
 
 
 /*
@@ -28,12 +34,6 @@
 TvRageProvider::TvRageProvider(QObject *parent)
     : AbstractProvider(parent)
 {
-    // "Search Show" base URL
-    setBaseUrl(AbstractProvider::SearchShowUrl,
-               QUrl("http://www.tvrage.com/feeds/search.php?show=", QUrl::StrictMode));
-    // "Episode List" base URL
-    setBaseUrl(AbstractProvider::EpisodeListUrl,
-               QUrl("http://www.tvrage.com/feeds/episode_list.php?sid=", QUrl::StrictMode));
 } // ctor()
 
 TvRageProvider::~TvRageProvider()
@@ -44,15 +44,98 @@ TvRageProvider::~TvRageProvider()
 /*
 ** protected:
 */
-QVariant TvRageProvider::parseSearchResults(const QByteArray &/*data*/)
+QUrl TvRageProvider::urlForRequest(const AbstractProvider::UrlType &urlType, const QString &request)
 {
-    return QVariant();
+    QUrl url;
+
+    switch(urlType) {
+    case AbstractProvider::SearchShowUrl:
+        url="http://www.tvrage.com:80/feeds/search.php";
+        url.addQueryItem("show", request);
+        break;
+    case AbstractProvider::EpisodeListUrl:
+        url="http://www.tvrage.com:80/feeds/episode_list.php";
+        url.addQueryItem("sid", request);
+        break;
+    }
+
+    qDebug() << "urlForRequest:" << url;
+    return url;
+} // urlForRequest()
+
+
+QVariantList TvRageProvider::parseSearchResults(const QByteArray &data)
+{
+    QVariantList showList;
+
+    QDomDocument doc("TvRage Search Results");
+    if (!doc.setContent(data))
+        qCritical() << QObject::tr("Error while parsing document!");
+
+    QDomElement results = doc.documentElement();
+
+    // <Results>0</Results>
+    if (results.text() == "0")
+        return showList;    // Empty show list
+
+    // Iterate over results
+    QDomNode resultsDN = results.firstChild();
+    while (!resultsDN.isNull())
+    {
+        if (resultsDN.nodeName() == "show") {
+            QVariantMap show(parseSearchResultsTag_Show(resultsDN));
+            showList << show;
+        }
+        resultsDN = resultsDN.nextSibling();
+    }
+
+    return showList;
 } // parseSearchResults()
 
 QVariant TvRageProvider::parseEpisodeList(const QByteArray &/*data*/)
 {
     return QVariant();
 } // parseEpisodeList()
+
+
+/*
+** private:
+*/
+QVariantMap TvRageProvider::parseSearchResultsTag_Show(const QDomNode &node)
+{
+    QVariantMap showInfos;
+
+    QDomNode child = node.firstChild();
+    while (!child.isNull())
+    {
+        if (child.isElement()) {
+            QDomElement element = child.toElement();
+            QString tagName(element.tagName().toLower());
+            if (tagName == "showid") {
+                showInfos[tagName] = element.text().toUInt();
+            } else if (tagName == "name") {
+                showInfos[tagName] = element.text();
+            } else if (tagName == "link") {
+                showInfos[tagName] = element.text();
+            } else if (tagName == "country") {
+                showInfos[tagName] = element.text();
+            } else if (tagName == "started") {
+                showInfos[tagName] = element.text().toUInt();
+            } else if (tagName == "ended") {
+                showInfos[tagName] = element.text().toUInt();
+            } else if (tagName == "seasons") {
+                showInfos[tagName] = element.text().toUInt();
+            } else if (tagName == "classification") {
+                showInfos[tagName] = element.text();
+            } else if (tagName == "genres") {
+                showInfos[tagName] = element.text();
+            }
+        }
+        child = child.nextSibling();
+    }
+
+    return showInfos;
+} // parseSearchResultsTag_Show()
 
 
 // EOF - vim:ts=4:sw=4:et:

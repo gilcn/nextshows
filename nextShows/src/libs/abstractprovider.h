@@ -21,6 +21,8 @@
 #define __ABSTRACTPROVIDER_H__
 
 
+// Own
+#include "fetchurl.h"
 // QtCore
 #include <QtCore/QUrl>
 #include <QtCore/QVariant>
@@ -34,22 +36,24 @@ public:
     AbstractProvider(QObject *parent = 0);
     ~AbstractProvider();
 
-    QVariant searchShow(const QString &);
-    QVariant getEpisodeList(const QString &);
+    void searchShow(const QString &);
+    void getEpisodeList(const QString &);
 
 protected:
-    enum UrlTypes {
+    enum UrlType {
         SearchShowUrl,
         EpisodeListUrl
     };
 
-    virtual QVariant parseSearchResults(const QByteArray &) = 0;
+    virtual QUrl urlForRequest(const UrlType &, const QString &) = 0;
+    virtual QVariantList parseSearchResults(const QByteArray &) = 0;
     virtual QVariant parseEpisodeList(const QByteArray &) = 0;
 
-    void setBaseUrl(const UrlTypes &, const QUrl &);
+private Q_SLOTS:
+    void dataReceived(const QByteArray &);
 
 private:
-    QMap<UrlTypes, QUrl> m_urls;
+    FetchUrl *m_fetchUrl;
 };
 
 

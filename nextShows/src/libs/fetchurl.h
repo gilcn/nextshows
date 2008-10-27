@@ -21,11 +21,34 @@
 #define __FETCHURL_H__
 
 
-class FetchUrl
+// QtCore
+#include <QtCore/QObject>
+// QtNetwork
+#include <QtNetwork/QHttp>
+// Forward declarations
+class QUrl;
+
+
+class FetchUrl : public QObject
 {
+    Q_OBJECT
+
 public:
-    FetchUrl();
+    FetchUrl(QObject *parent = 0);
     ~FetchUrl();
+
+    void getUrl(const QUrl &);
+
+Q_SIGNALS:
+    // Emitted when data were received and ready to be served
+    void dataReady(const QByteArray &);
+
+private Q_SLOTS:
+    void httpRequestFinished(const int &, const bool &);
+
+private:
+    QHttp *m_http;
+    int m_requestId;
 };
 
 

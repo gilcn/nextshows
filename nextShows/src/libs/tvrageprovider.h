@@ -23,6 +23,8 @@
 
 // Own
 #include "abstractprovider.h"
+// Forward declarations
+class QDomNode;
 
 
 class TvRageProvider : public AbstractProvider
@@ -34,8 +36,12 @@ public:
     ~TvRageProvider();
 
 protected:
-    QVariant parseSearchResults(const QByteArray &);
+    QUrl urlForRequest(const AbstractProvider::UrlType &, const QString &);
+    QVariantList parseSearchResults(const QByteArray &);
     QVariant parseEpisodeList(const QByteArray &);
+
+private:
+    QVariantMap parseSearchResultsTag_Show(const QDomNode &);
 };
 
 

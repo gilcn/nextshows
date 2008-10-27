@@ -20,6 +20,8 @@
 
 // Own
 #include "abstractprovider.h"
+// QtCore
+#include <QtCore/QDebug>
 
 
 /*
@@ -28,29 +30,44 @@
 AbstractProvider::AbstractProvider(QObject *parent)
     : QObject(parent)
 {
+    m_fetchUrl = new FetchUrl(this);
+    connect(m_fetchUrl, SIGNAL(dataReady(const QByteArray &)),
+            this, SLOT(dataReceived(const QByteArray &)));
 } // ctor()
 
 AbstractProvider::~AbstractProvider()
 {
 } // dtor()
 
-QVariant AbstractProvider::searchShow(const QString &/*showName*/)
+void AbstractProvider::searchShow(const QString &showName)
 {
-    return QVariant();
+    QUrl url(urlForRequest(SearchShowUrl, showName));
+
+    m_fetchUrl->getUrl(url);
 } // searchShow()
 
-QVariant AbstractProvider::getEpisodeList(const QString &/*showId*/)
+void AbstractProvider::getEpisodeList(const QString &showId)
 {
-    return QVariant();
+    QUrl url(urlForRequest(EpisodeListUrl, showId));
 } // getEpisodeList()
 
 
 /*
-** protected:
+** private Q_SLOTS:
 */
-void AbstractProvider::setBaseUrl(const AbstractProvider::UrlTypes &urlType, const QUrl &url)
+void AbstractProvider::dataReceived(const QByteArray &data)
 {
-    m_urls.insert(urlType, url);
-} // setBaseUrl()
+    qDebug() << "Search Results:";
+    qDebug() << "-------------------------------------------------------------------------------";
+    foreach(QVariant showItem, parseSearchResults(data)) {
+        QVariantMap show(showItem.toMap());
+        qDebug("%s [id: %u, started: %u, ended: %u]", qPrintable(show["name"].toString()),
+                              show["showid"].toUInt(),
+                              show["started"].toUInt(),
+                              show["ended"].toUInt());
+    }
+    qDebug() << "-------------------------------------------------------------------------------";
+} // dataReceived()
+
 
 // EOF - vim:ts=4:sw=4:et:
