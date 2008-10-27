@@ -40,7 +40,7 @@ public:
     ~FindShows();
 
 private Q_SLOTS:
-    void on_pushButton_clicked();
+    void on_btnLookup_clicked();
 
 private:
     Ui::FindShows ui;
@@ -49,6 +49,7 @@ private:
 };
 
 } // namespace Settings
+
 
 #endif // __SETTINGS_FINDSHOWS_H__
 

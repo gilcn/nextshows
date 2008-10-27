@@ -83,7 +83,7 @@
        <item>
         <widget class="QStackedWidget" name="wPanel" >
          <property name="currentIndex" >
-          <number>0</number>
+          <number>-1</number>
          </property>
         </widget>
        </item>
@@ -111,12 +111,6 @@
        <property name="text" >
         <string>&amp;OK</string>
        </property>
-       <property name="autoDefault" >
-        <bool>true</bool>
-       </property>
-       <property name="default" >
-        <bool>true</bool>
-       </property>
       </widget>
      </item>
      <item>
@@ -124,24 +118,12 @@
        <property name="text" >
         <string>&amp;Apply</string>
        </property>
-       <property name="autoDefault" >
-        <bool>true</bool>
-       </property>
-       <property name="default" >
-        <bool>true</bool>
-       </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="btnCancel" >
        <property name="text" >
         <string>&amp;Cancel</string>
-       </property>
-       <property name="autoDefault" >
-        <bool>true</bool>
-       </property>
-       <property name="default" >
-        <bool>true</bool>
        </property>
       </widget>
      </item>

@@ -51,10 +51,14 @@ FindShows::~FindShows()
 /*
 ** private:
 */
-void FindShows::on_pushButton_clicked()
+void FindShows::on_btnLookup_clicked()
 {
-    m_data->searchShow(ui.lineEdit->text());
-} // on_pushButton_clicked()
+    if (ui.leSearch->text().isEmpty()) {
+        return;
+    }
+
+    m_data->searchShow(ui.leSearch->text());
+} // on_btnLookup_clicked()
 
 } // namespace Settings
 
