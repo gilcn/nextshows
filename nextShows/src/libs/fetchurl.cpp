@@ -20,6 +20,7 @@
 
 // Own
 #include "fetchurl.h"
+#include "version.h"
 // QtCore
 #include <QtCore/QDebug>
 #include <QtCore/QUrl>
@@ -42,8 +43,14 @@ FetchUrl::~FetchUrl()
 
 void FetchUrl::getUrl(const QUrl &url)
 {
+    // Custom header
+    QHttpRequestHeader header("GET", url.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority), 1, 1);
+    header.setValue("User-agent", QString("nextShows v%1 (http://nextshows.googlecode.com/)").arg(NEXTSHOWS_VERSION));
+    header.setValue("Connection", "Keep-Alive");
+    header.setValue("Host", url.host());
+
     m_http->setHost(url.host(), QHttp::ConnectionModeHttp, url.port());
-    m_requestId = m_http->get(url.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority));
+    m_requestId = m_http->request(header);
 } // get()
 
 
