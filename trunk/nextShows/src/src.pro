@@ -43,7 +43,6 @@ HEADERS     += version.h               \
                settings/misc.h         \
                libs/abstractprovider.h \
                libs/animatedimage.h    \
-               libs/fetchurl.h         \
                libs/getdata.h          \
                libs/tvrageprovider.h
 
@@ -57,7 +56,6 @@ SOURCES     += main.cpp                  \
                settings/misc.cpp         \
                libs/abstractprovider.cpp \
                libs/animatedimage.cpp    \
-               libs/fetchurl.cpp         \
                libs/getdata.cpp          \
                libs/tvrageprovider.cpp
 

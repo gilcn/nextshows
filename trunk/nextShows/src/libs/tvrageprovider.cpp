@@ -44,22 +44,23 @@ TvRageProvider::~TvRageProvider()
 /*
 ** protected:
 */
-QUrl TvRageProvider::urlForRequest(const AbstractProvider::UrlType &urlType, const QString &request)
+QUrl TvRageProvider::urlForRequest(const AbstractProvider::RequestType &urlType, const QString &request)
 {
     QUrl url;
 
     switch(urlType) {
-    case AbstractProvider::SearchShowUrl:
+    case AbstractProvider::SearchShow:
         url="http://www.tvrage.com:80/feeds/search.php";
         url.addQueryItem("show", request);
         break;
-    case AbstractProvider::EpisodeListUrl:
+    case AbstractProvider::EpisodeList:
         url="http://www.tvrage.com:80/feeds/episode_list.php";
         url.addQueryItem("sid", request);
         break;
+    default:
+        qFatal("This should never happen!\n%s", Q_FUNC_INFO);
     }
 
-    qDebug() << "urlForRequest:" << url;
     return url;
 } // urlForRequest()
 
@@ -70,7 +71,7 @@ QVariantList TvRageProvider::parseSearchResults(const QByteArray &data)
 
     QDomDocument doc("TvRage Search Results");
     if (!doc.setContent(data))
-        qCritical() << QObject::tr("Error while parsing document!");
+        qCritical() << tr("Error while parsing document!");
 
     QDomElement results = doc.documentElement();
 

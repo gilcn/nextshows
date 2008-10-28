@@ -23,7 +23,8 @@
 
 // Own
 #include "ui_findshows.h"
-#include "libs/getdata.h"
+//#include "libs/getdata.h"
+#include "libs/tvrageprovider.h"
 // QtGui
 #include <QtGui/QWidget>
 
@@ -41,11 +42,13 @@ public:
 
 private Q_SLOTS:
     void on_btnLookup_clicked();
+    void displaySearchResults(const QVariantList &);
 
 private:
     Ui::FindShows ui;
 
-    GetData *m_data;
+//    GetData *m_data;
+    AbstractProvider *m_tvrage;
 };
 
 } // namespace Settings

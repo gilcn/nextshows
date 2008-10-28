@@ -20,8 +20,12 @@
 
 // Own
 #include "abstractprovider.h"
+#include "version.h"
 // QtCore
 #include <QtCore/QDebug>
+// QtNetwork
+#include <QtNetwork/QNetworkRequest>
+#include <QtNetwork/QNetworkReply>
 
 
 /*
@@ -30,44 +34,77 @@
 AbstractProvider::AbstractProvider(QObject *parent)
     : QObject(parent)
 {
-    m_fetchUrl = new FetchUrl(this);
-    connect(m_fetchUrl, SIGNAL(dataReady(const QByteArray &)),
-            this, SLOT(dataReceived(const QByteArray &)));
+    m_networkManager = new QNetworkAccessManager(this);
+    connect(m_networkManager, SIGNAL(finished(QNetworkReply *)),
+            this, SLOT(requestFinished(QNetworkReply *)));
 } // ctor()
 
 AbstractProvider::~AbstractProvider()
 {
+    delete m_networkManager;
 } // dtor()
 
 void AbstractProvider::searchShow(const QString &showName)
 {
-    QUrl url(urlForRequest(SearchShowUrl, showName));
-
-    m_fetchUrl->getUrl(url);
+    QUrl url(urlForRequest(SearchShow, showName));
+    doRequest(url, AbstractProvider::SearchShow);
 } // searchShow()
 
 void AbstractProvider::getEpisodeList(const QString &showId)
 {
-    QUrl url(urlForRequest(EpisodeListUrl, showId));
+    QUrl url(urlForRequest(EpisodeList, showId));
+    doRequest(url, AbstractProvider::EpisodeList);
 } // getEpisodeList()
 
 
 /*
 ** private Q_SLOTS:
 */
-void AbstractProvider::dataReceived(const QByteArray &data)
+void AbstractProvider::requestFinished(QNetworkReply *reply)
 {
-    qDebug() << "Search Results:";
-    qDebug() << "-------------------------------------------------------------------------------";
-    foreach(QVariant showItem, parseSearchResults(data)) {
-        QVariantMap show(showItem.toMap());
-        qDebug("%s [id: %u, started: %u, ended: %u]", qPrintable(show["name"].toString()),
-                              show["showid"].toUInt(),
-                              show["started"].toUInt(),
-                              show["ended"].toUInt());
+    switch(reply->property("RequestType").toInt()) {
+    case AbstractProvider::SearchShow: {
+        QVariantList searchResults(parseSearchResults(reply->readAll()));
+        emit searchShowReady(searchResults);
+
+        qDebug();
+        qDebug("Search Results (%s):", qPrintable(reply->request().url().toString()));
+        qDebug() << "-------------------------------------------------------------------------------";
+        foreach(QVariant showItem, searchResults) {
+            QVariantMap show(showItem.toMap());
+            qDebug("%s [id: %u, started: %u, ended: %u]", qPrintable(show["name"].toString()),
+                                  show["showid"].toUInt(),
+                                  show["started"].toUInt(),
+                                  show["ended"].toUInt());
+        }
+        qDebug() << "-------------------------------------------------------------------------------";
+        break;
     }
-    qDebug() << "-------------------------------------------------------------------------------";
-} // dataReceived()
+    case AbstractProvider::EpisodeList: {
+        break;
+    }
+    default:
+        qFatal("This should never happen!\n%s", Q_FUNC_INFO);
+    }
+
+    reply->deleteLater();
+} // requestFinished()
+
+
+/*
+** private:
+*/
+void AbstractProvider::doRequest(const QUrl &url, const RequestType &urlType)
+{
+    QNetworkRequest request;
+    QString httpUA = QString("nextShows/%1 (http://nextshows.googlecode.com/)").arg(NEXTSHOWS_VERSION);
+    request.setRawHeader("User-Agent", qPrintable(httpUA));
+    request.setUrl(url);
+
+    QNetworkReply *reply = m_networkManager->get(request);
+    // Mark the request type
+    reply->setProperty("RequestType", QVariant(urlType));
+} // doRequest()
 
 
 // EOF - vim:ts=4:sw=4:et:
