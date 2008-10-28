@@ -21,11 +21,11 @@
 #define __ABSTRACTPROVIDER_H__
 
 
-// Own
-#include "fetchurl.h"
 // QtCore
 #include <QtCore/QUrl>
 #include <QtCore/QVariant>
+// QtNetwork
+#include <QtNetwork/QNetworkAccessManager>
 
 
 class AbstractProvider : public QObject
@@ -39,21 +39,27 @@ public:
     void searchShow(const QString &);
     void getEpisodeList(const QString &);
 
+Q_SIGNALS:
+    void searchShowReady(QVariantList);
+    void episodeListReady(QVariant);
+
 protected:
-    enum UrlType {
-        SearchShowUrl,
-        EpisodeListUrl
+    enum RequestType {
+        SearchShow,
+        EpisodeList
     };
 
-    virtual QUrl urlForRequest(const UrlType &, const QString &) = 0;
+    virtual QUrl urlForRequest(const RequestType &, const QString &) = 0;
     virtual QVariantList parseSearchResults(const QByteArray &) = 0;
     virtual QVariant parseEpisodeList(const QByteArray &) = 0;
 
 private Q_SLOTS:
-    void dataReceived(const QByteArray &);
+    void requestFinished(QNetworkReply *);
 
 private:
-    FetchUrl *m_fetchUrl;
+    void doRequest(const QUrl &, const RequestType &);
+
+    QNetworkAccessManager *m_networkManager;
 };
 
 

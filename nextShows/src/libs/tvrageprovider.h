@@ -36,7 +36,7 @@ public:
     ~TvRageProvider();
 
 protected:
-    QUrl urlForRequest(const AbstractProvider::UrlType &, const QString &);
+    QUrl urlForRequest(const AbstractProvider::RequestType &, const QString &);
     QVariantList parseSearchResults(const QByteArray &);
     QVariant parseEpisodeList(const QByteArray &);
 

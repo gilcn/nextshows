@@ -40,11 +40,16 @@ FindShows::FindShows(QWidget *parent)
     // Category icon
     setWindowIcon(QIcon(":/images/prefs/television.png"));
 
-    m_data = new GetData(this);
+//    m_data = new GetData(this);
+    m_tvrage = new TvRageProvider(this);
+    connect(m_tvrage, SIGNAL(searchShowReady(QVariantList)),
+            this, SLOT(displaySearchResults(const QVariantList &)));
 } // ctor()
 
 FindShows::~FindShows()
 {
+//    delete m_data;
+    delete m_tvrage;
 } // dtor()
 
 
@@ -57,8 +62,17 @@ void FindShows::on_btnLookup_clicked()
         return;
     }
 
-    m_data->searchShow(ui.leSearch->text());
+    m_tvrage->searchShow(ui.leSearch->text());
 } // on_btnLookup_clicked()
+
+void FindShows::displaySearchResults(const QVariantList &shows)
+{
+    foreach(QVariant show, shows) {
+        QVariantMap map(show.toMap());
+        ui.listWidget->addItem(map["name"].toString());
+    }
+} // displaySearchResults()
+
 
 } // namespace Settings
 
