@@ -51,6 +51,7 @@ QUrl TvRageProvider::urlForRequest(const AbstractProvider::RequestType &urlType,
     switch(urlType) {
     case AbstractProvider::SearchShow:
         url="http://www.tvrage.com:80/feeds/search.php";
+        url.addQueryItem("results", "-1"); // Request all available results
         url.addQueryItem("show", request);
         break;
     case AbstractProvider::EpisodeList:
