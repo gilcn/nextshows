@@ -67,9 +67,23 @@ void FindShows::on_btnLookup_clicked()
 
 void FindShows::displaySearchResults(const QVariantList &shows)
 {
+    ui.listWidget->clear();
     foreach(QVariant show, shows) {
         QVariantMap map(show.toMap());
-        ui.listWidget->addItem(map["name"].toString());
+        QListWidgetItem *item = new QListWidgetItem();
+        item->setIcon(QIcon(QString(":/images/flags/%1.gif").arg(map["country"].toString().toLower())));
+        item->setText(map["name"].toString());
+        if (map["ended"].toInt() == 0) {
+            QFont font(item->font());
+            font.setBold(true);
+            item->setFont(font);
+        }
+        else {
+            QBrush brush(item->foreground());
+            brush.setColor(Qt::gray);
+            item->setForeground(brush);
+        }
+        ui.listWidget->addItem(item);
     }
 } // displaySearchResults()
 
