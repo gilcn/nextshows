@@ -41,6 +41,10 @@ FindShows::FindShows(QWidget *parent)
     // Category icon
     setWindowIcon(QIcon(":/pixmaps/prefs/television.png"));
 
+
+    ui.leSearch->setClickMessage(tr("Enter a show name"));
+
+
     m_animatedImage = new AnimatedImage(this, ":/pixmaps/prefs/progress_working.png");
     connect(m_animatedImage, SIGNAL(newFrame(const QPixmap &)),
             this, SLOT(newImageFrame(const QPixmap &)));
