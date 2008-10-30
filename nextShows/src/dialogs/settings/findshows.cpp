@@ -70,9 +70,6 @@ void FindShows::on_btnLookup_clicked()
 
     ui.btnLookup->setEnabled(false);
     m_animatedImage->start();
-    m_animatedImage->start();
-    m_animatedImage->start();
-    m_animatedImage->start();
     m_tvrage->searchShow(ui.leSearch->text());
 } // on_btnLookup_clicked()
 

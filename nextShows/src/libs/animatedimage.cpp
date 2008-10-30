@@ -51,9 +51,9 @@ bool AnimatedImage::setPicture(const QString &fileName)
 {
     if (!QFile::exists(fileName)) {
         if (fileName.isEmpty()) {
-            qCritical() << tr("No filename given!");
+            qCritical() << "No filename given!";
         } else {
-            qCritical(tr("File %1 not found!").arg(fileName).toLocal8Bit().constData());
+            qCritical() << "File" << qPrintable(fileName) << "not found!";
         }
         return false;
     }
@@ -110,7 +110,7 @@ void AnimatedImage::stop()
 
 bool AnimatedImage::isActive() const
 {
-    return (bool)m_timerId;
+    return m_timerId != 0;
 } // isActive()
 
 

@@ -23,8 +23,8 @@
 
 // Own
 #include "ui_settingsdialog.h"
-#include "settings/findshows.h"
-#include "settings/misc.h"
+#include "dialogs/settings/findshows.h"
+#include "dialogs/settings/misc.h"
 
 // QtGui
 #include <QtGui/QDialog>

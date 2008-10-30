@@ -135,7 +135,7 @@
   <customwidget>
    <class>Settings::Categories</class>
    <extends>QWidget</extends>
-   <header>settings/categories.h</header>
+   <header>dialogs/settings/categories.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
