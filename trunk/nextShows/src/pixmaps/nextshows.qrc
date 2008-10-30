@@ -8,16 +8,17 @@
     <file>flags/af.gif</file>
     <file>flags/ag.gif</file>
     <file>flags/ai.gif</file>
-    <file>flags/aj.gif</file>
     <file>flags/al.gif</file>
     <file>flags/am.gif</file>
     <file>flags/an.gif</file>
     <file>flags/ao.gif</file>
+    <file>flags/aq.gif</file>
     <file>flags/ar.gif</file>
     <file>flags/as.gif</file>
     <file>flags/at.gif</file>
     <file>flags/au.gif</file>
     <file>flags/aw.gif</file>
+    <file>flags/ax.gif</file>
     <file>flags/az.gif</file>
     <file>flags/ba.gif</file>
     <file>flags/bb.gif</file>
@@ -35,11 +36,11 @@
     <file>flags/br.gif</file>
     <file>flags/bs.gif</file>
     <file>flags/bt.gif</file>
+    <file>flags/bv.gif</file>
     <file>flags/bw.gif</file>
     <file>flags/by.gif</file>
     <file>flags/bz.gif</file>
     <file>flags/ca.gif</file>
-    <file>flags/cc.gif</file>
     <file>flags/cd.gif</file>
     <file>flags/cf.gif</file>
     <file>flags/cg.gif</file>
@@ -51,9 +52,9 @@
     <file>flags/cn.gif</file>
     <file>flags/co.gif</file>
     <file>flags/cr.gif</file>
+    <file>flags/cs.gif</file>
     <file>flags/cu.gif</file>
     <file>flags/cv.gif</file>
-    <file>flags/cx.gif</file>
     <file>flags/cy.gif</file>
     <file>flags/cz.gif</file>
     <file>flags/de.gif</file>
@@ -68,6 +69,7 @@
     <file>flags/er.gif</file>
     <file>flags/es.gif</file>
     <file>flags/et.gif</file>
+    <file>flags/eu.gif</file>
     <file>flags/fi.gif</file>
     <file>flags/fj.gif</file>
     <file>flags/fk.gif</file>
@@ -78,6 +80,7 @@
     <file>flags/gb.gif</file>
     <file>flags/gd.gif</file>
     <file>flags/ge.gif</file>
+    <file>flags/gf.gif</file>
     <file>flags/gh.gif</file>
     <file>flags/gi.gif</file>
     <file>flags/gl.gif</file>
@@ -91,6 +94,7 @@
     <file>flags/gw.gif</file>
     <file>flags/gy.gif</file>
     <file>flags/hk.gif</file>
+    <file>flags/hm.gif</file>
     <file>flags/hn.gif</file>
     <file>flags/hr.gif</file>
     <file>flags/ht.gif</file>
@@ -98,12 +102,14 @@
     <file>flags/id.gif</file>
     <file>flags/ie.gif</file>
     <file>flags/il.gif</file>
+    <file>flags/im.gif</file>
     <file>flags/in.gif</file>
     <file>flags/io.gif</file>
     <file>flags/iq.gif</file>
     <file>flags/ir.gif</file>
     <file>flags/is.gif</file>
     <file>flags/it.gif</file>
+    <file>flags/je.gif</file>
     <file>flags/jm.gif</file>
     <file>flags/jo.gif</file>
     <file>flags/jp.gif</file>
@@ -113,6 +119,7 @@
     <file>flags/ki.gif</file>
     <file>flags/km.gif</file>
     <file>flags/kn.gif</file>
+    <file>flags/kp.gif</file>
     <file>flags/kr.gif</file>
     <file>flags/kw.gif</file>
     <file>flags/ky.gif</file>
@@ -131,6 +138,7 @@
     <file>flags/ma.gif</file>
     <file>flags/mc.gif</file>
     <file>flags/md.gif</file>
+    <file>flags/me.gif</file>
     <file>flags/mg.gif</file>
     <file>flags/mh.gif</file>
     <file>flags/mk.gif</file>
@@ -170,14 +178,15 @@
     <file>flags/pk.gif</file>
     <file>flags/pl.gif</file>
     <file>flags/pm.gif</file>
-    <file>flags/pn.gif</file>
     <file>flags/pr.gif</file>
     <file>flags/ps.gif</file>
     <file>flags/pt.gif</file>
     <file>flags/pw.gif</file>
     <file>flags/py.gif</file>
     <file>flags/qa.gif</file>
+    <file>flags/re.gif</file>
     <file>flags/ro.gif</file>
+    <file>flags/rs.gif</file>
     <file>flags/ru.gif</file>
     <file>flags/rw.gif</file>
     <file>flags/sa.gif</file>
@@ -186,7 +195,6 @@
     <file>flags/sd.gif</file>
     <file>flags/se.gif</file>
     <file>flags/sg.gif</file>
-    <file>flags/sh.gif</file>
     <file>flags/si.gif</file>
     <file>flags/sk.gif</file>
     <file>flags/sl.gif</file>
@@ -231,9 +239,11 @@
     <file>flags/wf.gif</file>
     <file>flags/ws.gif</file>
     <file>flags/ye.gif</file>
+    <file>flags/yt.gif</file>
     <file>flags/yu.gif</file>
     <file>flags/za.gif</file>
     <file>flags/zm.gif</file>
+    <file>flags/zr.gif</file>
     <file>flags/zw.gif</file>
     <file>logos/nextShows.png</file>
     <file>logos/tvrage.jpg</file>
