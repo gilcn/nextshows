@@ -22,6 +22,7 @@
 #include "findshows.h"
 // QtCore
 #include <QtCore/QDebug>
+#include <QtCore/QFile>
 
 
 namespace Settings
@@ -38,7 +39,11 @@ FindShows::FindShows(QWidget *parent)
     // Category title
     setWindowTitle(tr("Find Shows"));
     // Category icon
-    setWindowIcon(QIcon(":/images/prefs/television.png"));
+    setWindowIcon(QIcon(":/pixmaps/prefs/television.png"));
+
+    m_animatedImage = new AnimatedImage(this, ":/pixmaps/prefs/progress_working.png");
+    connect(m_animatedImage, SIGNAL(newFrame(const QPixmap &)),
+            this, SLOT(newImageFrame(const QPixmap &)));
 
 //    m_data = new GetData(this);
     m_tvrage = new TvRageProvider(this);
@@ -50,11 +55,12 @@ FindShows::~FindShows()
 {
 //    delete m_data;
     delete m_tvrage;
+    delete m_animatedImage;
 } // dtor()
 
 
 /*
-** private:
+** private Q_SLOTS:
 */
 void FindShows::on_btnLookup_clicked()
 {
@@ -62,16 +68,34 @@ void FindShows::on_btnLookup_clicked()
         return;
     }
 
+    ui.btnLookup->setEnabled(false);
+    m_animatedImage->start();
+    m_animatedImage->start();
+    m_animatedImage->start();
+    m_animatedImage->start();
     m_tvrage->searchShow(ui.leSearch->text());
 } // on_btnLookup_clicked()
 
+void FindShows::newImageFrame(const QPixmap &pixmap)
+{
+    ui.btnLookup->setIcon(pixmap);
+} // newImageFrame()
+
 void FindShows::displaySearchResults(const QVariantList &shows)
 {
+    m_animatedImage->stop();
+    ui.btnLookup->setEnabled(true);
+
     ui.listWidget->clear();
     foreach(QVariant show, shows) {
         QVariantMap map(show.toMap());
         QListWidgetItem *item = new QListWidgetItem();
-        item->setIcon(QIcon(QString(":/images/flags/%1.gif").arg(map["country"].toString().toLower())));
+        QString flagFile = QString(":/pixmaps/flags/%1.gif").arg(map["country"].toString().toLower());
+        if (QFile::exists(flagFile)) {
+            item->setIcon(QIcon(flagFile));
+        } else {
+            item->setIcon(QIcon(":/pixmaps/flags/unknown.gif"));
+        }
         item->setText(map["name"].toString());
         if (map["ended"].toInt() == 0) {
             QFont font(item->font());

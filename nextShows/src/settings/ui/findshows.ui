@@ -122,6 +122,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../pixmaps/nextshows.qrc" />
+ </resources>
  <connections/>
 </ui>

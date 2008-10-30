@@ -30,7 +30,7 @@
         <string/>
        </property>
        <property name="pixmap" >
-        <pixmap resource="../pixmaps/nextshows.qrc" >:/images/logos/nextShows.png</pixmap>
+        <pixmap resource="../pixmaps/nextshows.qrc" >:/pixmaps/logos/nextShows.png</pixmap>
        </property>
        <property name="alignment" >
         <set>Qt::AlignHCenter|Qt::AlignTop</set>
@@ -169,7 +169,7 @@ p, li { white-space: pre-wrap; }
         <string/>
        </property>
        <property name="pixmap" >
-        <pixmap resource="../pixmaps/nextshows.qrc" >:/images/logos/tvrage.jpg</pixmap>
+        <pixmap resource="../pixmaps/nextshows.qrc" >:/pixmaps/logos/tvrage.jpg</pixmap>
        </property>
        <property name="alignment" >
         <set>Qt::AlignCenter</set>

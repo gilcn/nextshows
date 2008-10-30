@@ -14,7 +14,7 @@
   </property>
   <property name="windowIcon" >
    <iconset resource="../pixmaps/nextshows.qrc" >
-    <normaloff>:/images/logos/nextShows.png</normaloff>:/images/logos/nextShows.png</iconset>
+    <normaloff>:/pixmaps/logos/nextShows.png</normaloff>:/pixmaps/logos/nextShows.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget" >
    <layout class="QGridLayout" name="gridLayout" >
@@ -78,7 +78,7 @@
    </property>
    <property name="icon" >
     <iconset resource="../pixmaps/nextshows.qrc" >
-     <normaloff>:/images/icons/settings.png</normaloff>:/images/icons/settings.png</iconset>
+     <normaloff>:/pixmaps/icons/settings.png</normaloff>:/pixmaps/icons/settings.png</iconset>
    </property>
    <property name="text" >
     <string>Settings</string>
@@ -90,7 +90,7 @@
   <action name="actionAbout" >
    <property name="icon" >
     <iconset resource="../pixmaps/nextshows.qrc" >
-     <normaloff>:/images/icons/about.png</normaloff>:/images/icons/about.png</iconset>
+     <normaloff>:/pixmaps/icons/about.png</normaloff>:/pixmaps/icons/about.png</iconset>
    </property>
    <property name="text" >
     <string>About</string>
@@ -102,7 +102,7 @@
   <action name="actionQuit" >
    <property name="icon" >
     <iconset resource="../pixmaps/nextshows.qrc" >
-     <normaloff>:/images/icons/exit.png</normaloff>:/images/icons/exit.png</iconset>
+     <normaloff>:/pixmaps/icons/exit.png</normaloff>:/pixmaps/icons/exit.png</iconset>
    </property>
    <property name="text" >
     <string>Quit</string>

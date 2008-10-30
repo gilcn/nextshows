@@ -1,5 +1,5 @@
 <RCC>
-  <qresource prefix="/images/" >
+  <qresource prefix="/pixmaps/" >
     <file>icons/settings.png</file>
     <file>icons/exit.png</file>
     <file>icons/about.png</file>
@@ -226,6 +226,7 @@
     <file>flags/ug.gif</file>
     <file>flags/uk.gif</file>
     <file>flags/um.gif</file>
+    <file>flags/unknown.gif</file>
     <file>flags/us.gif</file>
     <file>flags/uy.gif</file>
     <file>flags/uz.gif</file>
@@ -247,6 +248,8 @@
     <file>flags/zw.gif</file>
     <file>logos/nextShows.png</file>
     <file>logos/tvrage.jpg</file>
+    <file>prefs/progress_idle.png</file>
+    <file>prefs/progress_working.png</file>
     <file>prefs/television.png</file>
     <file>systray/systrayicon.png</file>
   </qresource>
