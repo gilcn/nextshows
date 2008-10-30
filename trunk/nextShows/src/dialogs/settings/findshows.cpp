@@ -43,6 +43,7 @@ FindShows::FindShows(QWidget *parent)
 
 
     ui.leSearch->setClickMessage(tr("Enter a show name"));
+//    ui.leSearch->setIcon(QIcon(":/pixmaps/prefs/progress_idle.png"));
 
 
     m_animatedImage = new AnimatedImage(this, ":/pixmaps/prefs/progress_working.png");

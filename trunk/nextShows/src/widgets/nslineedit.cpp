@@ -20,19 +20,26 @@
 
 // Own
 #include "nslineedit.h"
+// QtCore
+#include <QtCore/QDebug>
 // QtGui
 #include <QtGui/QFont>
 #include <QtGui/QPainter>
 #include <QtGui/QPalette>
-#include <QtGui/QStyleOptionFrame>
+#include <QtGui/QStyleOptionFrameV2>
+
 
 /*
 ** public:
 */
-NSLineEdit::NSLineEdit(QWidget *parent, const QString &clickMessage)
+NSLineEdit::NSLineEdit(QWidget *parent)
     : QLineEdit(parent)
 {
-    setClickMessage(clickMessage);
+} // ctor()
+
+NSLineEdit::NSLineEdit(const QString &contents, QWidget *parent)
+    : QLineEdit(contents, parent)
+{
 } // ctor()
 
 NSLineEdit::~NSLineEdit()
@@ -49,6 +56,18 @@ QString NSLineEdit::clickMessage() const
     return m_clickMessage;
 } // clickMessage()
 
+void NSLineEdit::setIcon(const QIcon &icon)
+{
+    m_icon = icon;
+    update(); // Repaint
+} // setIcon()
+
+QIcon NSLineEdit::icon() const
+{
+    return m_icon;
+} // icon()
+
+
 /*
 ** protected:
 */
@@ -56,11 +75,21 @@ void NSLineEdit::paintEvent(QPaintEvent *event)
 {
     QLineEdit::paintEvent(event);
 
+    // Content rect
+    QStyleOptionFrameV2 opt;
+    initStyleOption(&opt);
+    QRect cr = style()->subElementRect(QStyle::SE_LineEditContents, &opt, this);
+
+    QPainter p(this);
+
+    // Do we need to display an icon ?
+    if (!m_icon.isNull()) {
+        m_icon.paint(&p, cr, Qt::AlignLeft | Qt::AlignVCenter);
+    }
+
     if (hasFocus() || !text().isEmpty() || m_clickMessage.isEmpty()) {
         return;
     }
-
-    QPainter p(this);
 
     // Font
     QFont f(font());
@@ -70,12 +99,9 @@ void NSLineEdit::paintEvent(QPaintEvent *event)
     // Pen
     p.setPen(palette().color(QPalette::Disabled, QPalette::Text));
 
-    // Position
-    QStyleOptionFrame opt;
-    initStyleOption(&opt);
-    QRect cr = style()->subElementRect(QStyle::SE_LineEditContents, &opt, this);
-    cr.setLeft(cr.left() + 2);
-    cr.setRight(cr.right() - 2);
+    // Text Position
+    cr.setLeft(cr.left() + 3);
+    cr.setRight(cr.right() - 3);
 
     // Draw
     p.drawText(cr, Qt::AlignLeft|Qt::AlignVCenter, m_clickMessage);

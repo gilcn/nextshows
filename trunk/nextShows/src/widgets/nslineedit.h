@@ -26,7 +26,8 @@
 #define __WIDGET_NSLINEEDIT_H__
 
 
-// Qt
+// QtGui
+#include <QtGui/QIcon>
 #include <QtGui/QLineEdit>
 
 
@@ -35,18 +36,24 @@ class NSLineEdit : public QLineEdit
     Q_OBJECT
 
 public:
-    NSLineEdit(QWidget *parent = 0, const QString &clickMessage = "");
+    NSLineEdit(QWidget *parent = 0);
+    NSLineEdit(const QString &contents, QWidget *parent = 0);
     ~NSLineEdit();
 
     void setClickMessage(const QString &clickMessage);
     QString clickMessage() const;
+
+    void setIcon(const QIcon &icon);
+    QIcon icon() const;
+
 
 protected:
     void paintEvent(QPaintEvent *event);
 
 
 private:
-    QString m_clickMessage;
+    QString  m_clickMessage;
+    QIcon    m_icon;
 };
 
 #endif // __WIDGET_NSLINEEDIT_H__
