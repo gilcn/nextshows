@@ -36,6 +36,7 @@ FORMS       += ui/mainwindow.ui                 \
 HEADERS     += version.h                     \
                mainwindow.h                  \
                systrayicon.h                 \
+               widgets/nslineedit.h          \
                dialogs/about.h               \
                dialogs/settings.h            \
                dialogs/settings/categories.h \
@@ -49,6 +50,7 @@ HEADERS     += version.h                     \
 SOURCES     += main.cpp                        \
                mainwindow.cpp                  \
                systrayicon.cpp                 \
+               widgets/nslineedit.cpp          \
                dialogs/about.cpp               \
                dialogs/settings.cpp            \
                dialogs/settings/categories.cpp \
