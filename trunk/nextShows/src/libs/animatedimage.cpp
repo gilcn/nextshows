@@ -20,7 +20,6 @@
 
 // Own
 #include "animatedimage.h"
-
 // QtCore
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
@@ -28,23 +27,8 @@
 #include <QtGui/QPainter>
 
 
-// Private
-class AnimatedImage::Private
-{
-public:
-    Private()
-        : timer(new QTimer())
-    {
-        timer->setInterval(50);
-    };
-    ~Private()
-    {
-        delete timer;
-    };
-    QTimer         *timer;
-    int             currentFrame;
-    QList<QPixmap>  picList;
-}; // Private
+// Default timer interval
+#define TIMER_INTERVAL 50
 
 
 /*
@@ -52,17 +36,15 @@ public:
 */
 AnimatedImage::AnimatedImage(QObject *parent, const QString &fileName)
     : QObject(parent)
-    , d(new Private())
+    , m_timerId(0)
 {
-    connect(d->timer, SIGNAL(timeout()), this, SLOT(sendPixmap()));
-
-    if (!fileName.isEmpty())
+    if (!fileName.isEmpty()) {
         setPicture(fileName);
+    }
 } // ctor()
 
 AnimatedImage::~AnimatedImage()
 {
-    delete d;
 } // dtor()
 
 bool AnimatedImage::setPicture(const QString &fileName)
@@ -76,8 +58,9 @@ bool AnimatedImage::setPicture(const QString &fileName)
         return false;
     }
 
-    if (!d->picList.isEmpty())
-        d->picList.clear();
+    if (!m_picList.isEmpty()) {
+        m_picList.clear();
+    }
 
     QPixmap animatedPic(fileName);
     int picSize        = qMin(animatedPic.width(), animatedPic.height());
@@ -95,7 +78,7 @@ bool AnimatedImage::setPicture(const QString &fileName)
         p.drawPixmap(QPoint(0, 0),
                      animatedPic,
                      QRect(0, i * picSize, picSize, picSize));
-        d->picList.append(pic);
+        m_picList.append(pic);
     }
 
     return true;
@@ -103,35 +86,53 @@ bool AnimatedImage::setPicture(const QString &fileName)
 
 void AnimatedImage::start()
 {
-    if(d->picList.isEmpty())
+    // We just need 1 timer running
+    if (isActive()) {
+        qWarning() << "A timer is already active!";
         return;
+    }
+    if (m_picList.isEmpty()) {
+        qWarning() << "Picture list is empty!";
+        return;
+    }
 
     sendPixmap();
-    d->timer->start();
+    m_timerId = QObject::startTimer(TIMER_INTERVAL);
 } // start()
 
 void AnimatedImage::stop()
 {
-    d->timer->stop();
-    d->currentFrame=0;
+    QObject::killTimer(m_timerId);
+    m_timerId = 0;
+    m_currentFrame=0;
+    emit newFrame(QPixmap());
 } // stop()
 
-bool AnimatedImage::isActive()
+bool AnimatedImage::isActive() const
 {
-    return d->timer->isActive();
+    return (bool)m_timerId;
 } // isActive()
 
 
 /*
-** private Q_SLOTS:
+** protected:
+*/
+void AnimatedImage::timerEvent(QTimerEvent *event)
+{
+    Q_UNUSED(event);
+    sendPixmap();
+} // timerEvent()
+
+
+/*
+** private
 */
 void AnimatedImage::sendPixmap()
 {
-    d->currentFrame++;
-    if (d->currentFrame >= d->picList.count())
-        d->currentFrame=0;
-    emit newFrame(d->picList.value(d->currentFrame));
+    m_currentFrame++;
+    if (m_currentFrame >= m_picList.count())
+        m_currentFrame=0;
+    emit newFrame(m_picList.value(m_currentFrame));
 } // sendPixmap()
-
 
 // EOF - vim:ts=4:sw=4:et:

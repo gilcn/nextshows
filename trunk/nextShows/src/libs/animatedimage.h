@@ -22,8 +22,10 @@
  * shaped. Improvements will be made later (if needed :).
  */
 
+
 #ifndef __ANIMATEDIMAGE_H__
 #define __ANIMATEDIMAGE_H__
+
 
 // QtCore
 #include <QtCore/QObject>
@@ -43,17 +45,20 @@ public:
     bool setPicture(const QString &fileName);
     void start();       // Starts animation
     void stop();        // Stops animation
-    bool isActive();
+    bool isActive() const;
 
 Q_SIGNALS:
-    void newFrame(const QPixmap&);
+    void newFrame(const QPixmap &);
 
-private Q_SLOTS:
-    void sendPixmap();
+protected:
+    void timerEvent(QTimerEvent *event);
 
 private:
-    class Private;
-    Private * const d;
+    void sendPixmap();
+
+    int             m_timerId;
+    int             m_currentFrame;
+    QList<QPixmap>  m_picList;
 };
 
 
