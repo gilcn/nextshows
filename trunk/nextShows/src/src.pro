@@ -27,36 +27,36 @@ DEPENDPATH  += libs
 
 RESOURCES    = pixmaps/nextshows.qrc
 
-FORMS       += ui/mainwindow.ui             \
-               dialogs/ui/aboutdialog.ui    \
-               dialogs/ui/settingsdialog.ui \
-               settings/ui/findshows.ui     \
-               settings/ui/misc.ui
+FORMS       += ui/mainwindow.ui                 \
+               dialogs/ui/aboutdialog.ui        \
+               dialogs/ui/settingsdialog.ui     \
+               dialogs/settings/ui/findshows.ui \
+               dialogs/settings/ui/misc.ui
 
-HEADERS     += version.h               \
-               mainwindow.h            \
-               systrayicon.h           \
-               dialogs/about.h         \
-               dialogs/settings.h      \
-               settings/categories.h   \
-               settings/findshows.h    \
-               settings/misc.h         \
-               libs/abstractprovider.h \
-               libs/animatedimage.h    \
-               libs/getdata.h          \
+HEADERS     += version.h                     \
+               mainwindow.h                  \
+               systrayicon.h                 \
+               dialogs/about.h               \
+               dialogs/settings.h            \
+               dialogs/settings/categories.h \
+               dialogs/settings/findshows.h  \
+               dialogs/settings/misc.h       \
+               libs/abstractprovider.h       \
+               libs/animatedimage.h          \
+               libs/getdata.h                \
                libs/tvrageprovider.h
 
-SOURCES     += main.cpp                  \
-               mainwindow.cpp            \
-               systrayicon.cpp           \
-               dialogs/about.cpp         \
-               dialogs/settings.cpp      \
-               settings/categories.cpp   \
-               settings/findshows.cpp    \
-               settings/misc.cpp         \
-               libs/abstractprovider.cpp \
-               libs/animatedimage.cpp    \
-               libs/getdata.cpp          \
+SOURCES     += main.cpp                        \
+               mainwindow.cpp                  \
+               systrayicon.cpp                 \
+               dialogs/about.cpp               \
+               dialogs/settings.cpp            \
+               dialogs/settings/categories.cpp \
+               dialogs/settings/findshows.cpp  \
+               dialogs/settings/misc.cpp       \
+               libs/abstractprovider.cpp       \
+               libs/animatedimage.cpp          \
+               libs/getdata.cpp                \
                libs/tvrageprovider.cpp
 
 #### TRANSLATIONS = XXXX_en.ts XXXX_fr.ts
