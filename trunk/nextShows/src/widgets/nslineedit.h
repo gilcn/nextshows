@@ -43,7 +43,7 @@ public:
     void setClickMessage(const QString &clickMessage);
     QString clickMessage() const;
 
-    void setIcon(const QIcon &icon);
+    void setIcon(const QIcon &icon); // FIXME (Need Qt4.5)!!!
     QIcon icon() const;
 
 

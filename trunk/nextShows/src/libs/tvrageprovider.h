@@ -37,11 +37,11 @@ public:
 
 protected:
     QUrl urlForRequest(const AbstractProvider::RequestType &, const QString &);
-    QVariantList parseSearchResults(const QByteArray &);
+    QList<AbstractProvider::SearchResults_t> parseSearchResults(const QByteArray &);
     QVariant parseEpisodeList(const QByteArray &);
 
 private:
-    QVariantMap parseSearchResultsTag_Show(const QDomNode &);
+    AbstractProvider::SearchResults_t parseSearchResultsTag_Show(const QDomNode &);
 };
 
 

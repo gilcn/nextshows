@@ -39,10 +39,13 @@ class AnimatedImage : public QObject
     Q_OBJECT
 
 public:
-    AnimatedImage(QObject *parent=0, const QString &fileName="");
+    AnimatedImage(QObject *parent=0,
+                  const QString &fileNameAnim="",
+                  const QString &fileNameIdle="");
     ~AnimatedImage();
 
-    bool setPicture(const QString &fileName);
+    bool setAnimPicture(const QString &fileName);
+    bool setIdlePicture(const QString &fileName);
     void start();       // Starts animation
     void stop();        // Stops animation
     bool isActive() const;
@@ -58,7 +61,8 @@ private:
 
     int             m_timerId;
     int             m_currentFrame;
-    QList<QPixmap>  m_picList;
+    QList<QPixmap>  m_pixmapList;
+    QPixmap         m_pixmapIdle;
 };
 
 

@@ -34,12 +34,18 @@
 /*
 ** public:
 */
-AnimatedImage::AnimatedImage(QObject *parent, const QString &fileName)
+AnimatedImage::AnimatedImage(QObject *parent,
+                             const QString &fileNameAnim,
+                             const QString &fileNameIdle)
     : QObject(parent)
     , m_timerId(0)
 {
-    if (!fileName.isEmpty()) {
-        setPicture(fileName);
+    if (!fileNameAnim.isEmpty()) {
+        setAnimPicture(fileNameAnim);
+    }
+
+    if (!fileNameIdle.isEmpty()) {
+        setIdlePicture(fileNameIdle);
     }
 } // ctor()
 
@@ -47,7 +53,7 @@ AnimatedImage::~AnimatedImage()
 {
 } // dtor()
 
-bool AnimatedImage::setPicture(const QString &fileName)
+bool AnimatedImage::setAnimPicture(const QString &fileName)
 {
     if (!QFile::exists(fileName)) {
         if (fileName.isEmpty()) {
@@ -58,8 +64,8 @@ bool AnimatedImage::setPicture(const QString &fileName)
         return false;
     }
 
-    if (!m_picList.isEmpty()) {
-        m_picList.clear();
+    if (!m_pixmapList.isEmpty()) {
+        m_pixmapList.clear();
     }
 
     QPixmap animatedPic(fileName);
@@ -78,11 +84,21 @@ bool AnimatedImage::setPicture(const QString &fileName)
         p.drawPixmap(QPoint(0, 0),
                      animatedPic,
                      QRect(0, i * picSize, picSize, picSize));
-        m_picList.append(pic);
+        m_pixmapList.append(pic);
     }
 
     return true;
-} // setPicture()
+} // setAnimPicture()
+
+bool AnimatedImage::setIdlePicture(const QString &fileName)
+{
+    if (!m_pixmapIdle.load(fileName)) {
+        qCritical() << "Invalid file" << qPrintable(fileName);
+        return false;
+    }
+
+    return true;
+} // setIdlePicture()
 
 void AnimatedImage::start()
 {
@@ -91,7 +107,7 @@ void AnimatedImage::start()
         qWarning() << "A timer is already active!";
         return;
     }
-    if (m_picList.isEmpty()) {
+    if (m_pixmapList.isEmpty()) {
         qWarning() << "Picture list is empty!";
         return;
     }
@@ -105,7 +121,11 @@ void AnimatedImage::stop()
     QObject::killTimer(m_timerId);
     m_timerId = 0;
     m_currentFrame=0;
-    emit newFrame(QPixmap());
+    if (m_pixmapIdle.isNull()) {
+        emit newFrame(QPixmap());
+    } else {
+        emit newFrame(m_pixmapIdle);
+    }
 } // stop()
 
 bool AnimatedImage::isActive() const
@@ -130,9 +150,9 @@ void AnimatedImage::timerEvent(QTimerEvent *event)
 void AnimatedImage::sendPixmap()
 {
     m_currentFrame++;
-    if (m_currentFrame >= m_picList.count())
+    if (m_currentFrame >= m_pixmapList.count())
         m_currentFrame=0;
-    emit newFrame(m_picList.value(m_currentFrame));
+    emit newFrame(m_pixmapList.value(m_currentFrame));
 } // sendPixmap()
 
 // EOF - vim:ts=4:sw=4:et:

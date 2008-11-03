@@ -55,6 +55,8 @@ Settings::Settings(QWidget *parent)
 */
 
     connect(ui.wCategories, SIGNAL(categoryChanged(const int &)), this, SLOT(changePage(const int &)));
+
+    adjustSize();
 } // ctor()
 
 Settings::~Settings()

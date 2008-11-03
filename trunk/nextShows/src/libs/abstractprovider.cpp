@@ -64,20 +64,19 @@ void AbstractProvider::requestFinished(QNetworkReply *reply)
 {
     switch(reply->property("RequestType").toInt()) {
     case AbstractProvider::SearchShow: {
-        QVariantList searchResults(parseSearchResults(reply->readAll()));
-        emit searchShowReady(searchResults);
+        QList<AbstractProvider::SearchResults_t> searchResults(parseSearchResults(reply->readAll()));
+        emit searchResultsReady(searchResults);
 
+        /*
         qDebug();
         qDebug("Search Results (%s):", qPrintable(reply->request().url().toString()));
         qDebug() << "-------------------------------------------------------------------------------";
-        foreach(QVariant showItem, searchResults) {
-            QVariantMap show(showItem.toMap());
-            qDebug("%s [id: %u, started: %u, ended: %u]", qPrintable(show["name"].toString()),
-                                  show["showid"].toUInt(),
-                                  show["started"].toUInt(),
-                                  show["ended"].toUInt());
+        foreach(AbstractProvider::SearchResults_t showEntry, searchResults) {
+            qDebug("%s [id: %u, started: %u, ended: %u]", qPrintable(showEntry.name),
+                                  showEntry.showid, showEntry.started, showEntry.ended);
         }
         qDebug() << "-------------------------------------------------------------------------------";
+        */
         break;
     }
     case AbstractProvider::EpisodeList: {

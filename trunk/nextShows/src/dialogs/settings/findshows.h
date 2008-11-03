@@ -23,7 +23,6 @@
 
 // Own
 #include "ui_findshows.h"
-//#include "libs/getdata.h"
 #include "libs/animatedimage.h"
 #include "libs/tvrageprovider.h"
 // QtGui
@@ -43,15 +42,20 @@ public:
 
 private Q_SLOTS:
     void on_btnLookup_clicked();
+    void on_cbFilterResults_stateChanged(int);
     void newImageFrame(const QPixmap &);
-    void displaySearchResults(const QVariantList &);
+    void searchResultsReady(const QList<AbstractProvider::SearchResults_t> &);
 
 private:
+    void displaySearchResults();
+
     Ui::FindShows ui;
 
     AnimatedImage *m_animatedImage;
-//    GetData *m_data;
     AbstractProvider *m_tvrage;
+
+    QList<AbstractProvider::SearchResults_t> m_searchResults;
+    bool m_filterResults;
 };
 
 } // namespace Settings

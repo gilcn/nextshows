@@ -22,6 +22,7 @@
 
 
 // QtCore
+#include <QtCore/QStringList>
 #include <QtCore/QUrl>
 #include <QtCore/QVariant>
 // QtNetwork
@@ -33,6 +34,19 @@ class AbstractProvider : public QObject
     Q_OBJECT
 
 public:
+    struct SearchResults_t {
+        uint        showid;
+        QString     name;
+        QUrl        link;
+        QString     country;
+        uint        started;
+        uint        ended;
+        uint        seasons;
+        QString     status;
+        QString     classification;
+        QStringList genres;
+    };
+
     AbstractProvider(QObject *parent = 0);
     ~AbstractProvider();
 
@@ -40,7 +54,7 @@ public:
     void getEpisodeList(const QString &);
 
 Q_SIGNALS:
-    void searchShowReady(QVariantList);
+    void searchResultsReady(QList<AbstractProvider::SearchResults_t>);
     void episodeListReady(QVariant);
 
 protected:
@@ -50,7 +64,7 @@ protected:
     };
 
     virtual QUrl urlForRequest(const RequestType &, const QString &) = 0;
-    virtual QVariantList parseSearchResults(const QByteArray &) = 0;
+    virtual QList<AbstractProvider::SearchResults_t> parseSearchResults(const QByteArray &) = 0;
     virtual QVariant parseEpisodeList(const QByteArray &) = 0;
 
 private Q_SLOTS:

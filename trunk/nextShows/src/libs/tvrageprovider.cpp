@@ -66,9 +66,9 @@ QUrl TvRageProvider::urlForRequest(const AbstractProvider::RequestType &urlType,
 } // urlForRequest()
 
 
-QVariantList TvRageProvider::parseSearchResults(const QByteArray &data)
+QList<AbstractProvider::SearchResults_t> TvRageProvider::parseSearchResults(const QByteArray &data)
 {
-    QVariantList showList;
+    QList<AbstractProvider::SearchResults_t> showList;
 
     QDomDocument doc("TvRage Search Results");
     if (!doc.setContent(data))
@@ -85,7 +85,7 @@ QVariantList TvRageProvider::parseSearchResults(const QByteArray &data)
     while (!resultsDN.isNull())
     {
         if (resultsDN.nodeName() == "show") {
-            QVariantMap show(parseSearchResultsTag_Show(resultsDN));
+            AbstractProvider::SearchResults_t show(parseSearchResultsTag_Show(resultsDN));
             showList << show;
         }
         resultsDN = resultsDN.nextSibling();
@@ -103,9 +103,9 @@ QVariant TvRageProvider::parseEpisodeList(const QByteArray &/*data*/)
 /*
 ** private:
 */
-QVariantMap TvRageProvider::parseSearchResultsTag_Show(const QDomNode &node)
+AbstractProvider::SearchResults_t TvRageProvider::parseSearchResultsTag_Show(const QDomNode &node)
 {
-    QVariantMap showInfos;
+    AbstractProvider::SearchResults_t showInfos;
 
     QDomNode child = node.firstChild();
     while (!child.isNull())
@@ -114,23 +114,32 @@ QVariantMap TvRageProvider::parseSearchResultsTag_Show(const QDomNode &node)
             QDomElement element = child.toElement();
             QString tagName(element.tagName().toLower());
             if (tagName == "showid") {
-                showInfos[tagName] = element.text().toUInt();
+                showInfos.showid = element.text().toUInt();
             } else if (tagName == "name") {
-                showInfos[tagName] = element.text();
+                showInfos.name = element.text();
             } else if (tagName == "link") {
-                showInfos[tagName] = element.text();
+                showInfos.link = element.text();
             } else if (tagName == "country") {
-                showInfos[tagName] = element.text();
+                showInfos.country = element.text();
             } else if (tagName == "started") {
-                showInfos[tagName] = element.text().toUInt();
+                showInfos.started = element.text().toUInt();
             } else if (tagName == "ended") {
-                showInfos[tagName] = element.text().toUInt();
+                showInfos.ended = element.text().toUInt();
             } else if (tagName == "seasons") {
-                showInfos[tagName] = element.text().toUInt();
+                showInfos.seasons = element.text().toUInt();
+            } else if (tagName == "status") {
+                showInfos.status = element.text();
             } else if (tagName == "classification") {
-                showInfos[tagName] = element.text();
+                showInfos.classification = element.text();
             } else if (tagName == "genres") {
-                showInfos[tagName] = element.text();
+                if (element.hasChildNodes()) {
+                    QDomNode genreNode = element.firstChild();
+                    while (!genreNode.isNull()) {
+                        QDomElement genreElement = genreNode.toElement();
+                        showInfos.genres << genreElement.text();
+                        genreNode = genreNode.nextSibling();
+                    }
+                }
             }
         }
         child = child.nextSibling();
