@@ -231,7 +231,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QListWidget" name="lstMyShows" >
+      <widget class="QListWidget" name="lstTrackedShows" >
        <property name="enabled" >
         <bool>false</bool>
        </property>

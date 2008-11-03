@@ -36,6 +36,14 @@ FindShows::FindShows(QWidget *parent)
 {
     ui.setupUi(this);
 
+    // Adjust Layout
+    QLayout *widgetLayout = layout();
+    QGridLayout *gridLayout = qobject_cast<QGridLayout *>(widgetLayout);
+    if (gridLayout) {
+        gridLayout->setColumnStretch(0, 20); // "Search Results" column
+        gridLayout->setColumnStretch(2, 10); // "Tracked shows" column
+    }
+
     // Category title
     setWindowTitle(tr("Find Shows"));
     // Category icon
@@ -210,6 +218,8 @@ void FindShows::displaySearchResults()
         ui.treeSearchResults->addTopLevelItem(item);
         ui.treeSearchResults->setRootIsDecorated(false);
     }
+
+    ui.treeSearchResults->resizeColumnToContents(0);
 
     ui.lblDisplayed->setText(QString("Displayed: %1/%2")
                              .arg(displayedShowCounter)
