@@ -65,7 +65,6 @@ void AbstractProvider::requestFinished(QNetworkReply *reply)
     switch(reply->property("RequestType").toInt()) {
     case AbstractProvider::SearchShow: {
         QList<AbstractProvider::SearchResults_t> searchResults(parseSearchResults(reply->readAll()));
-        emit searchResultsReady(searchResults);
 
         /*
         qDebug();
@@ -77,6 +76,9 @@ void AbstractProvider::requestFinished(QNetworkReply *reply)
         }
         qDebug() << "-------------------------------------------------------------------------------";
         */
+
+        emit searchResultsReady(searchResults);
+
         break;
     }
     case AbstractProvider::EpisodeList: {

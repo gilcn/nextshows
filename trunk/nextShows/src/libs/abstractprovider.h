@@ -35,17 +35,17 @@ class AbstractProvider : public QObject
 
 public:
     struct SearchResults_t {
-        uint        showid;         // TvRage
-        QString     name;           // TvRage
-        QUrl        link;           // TvRage
-        QString     country;        // TvRage
-        uint        started;        // TvRage
-        uint        ended;          // TvRage
-        uint        seasons;        // TvRage
-        QString     status;         // TvRage
-        QString     classification; // TvRage
-        QStringList genres;         // TvRage
-        bool        endedFlag;      // Internal
+        uint        showid;         // Show unique ID [TvRage]
+        QString     name;           // Show name [TvRage]
+        QUrl        link;           // Show URL [TvRage]
+        QString     country;        // Show country [TvRage]
+        uint        started;        // Show started year [TvRage]
+        uint        ended;          // Show ended year [TvRage]
+        uint        seasons;        // Total number of seasons [TvRage]
+        QString     status;         // Show status [TvRage]
+        QString     classification; // Show classification [TvRage]
+        QStringList genres;         // Show genres [TvRage]
+        bool        endedFlag;      // Show Ended flag [Internal]
     };
 
     AbstractProvider(QObject *parent = 0);

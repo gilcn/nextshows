@@ -45,6 +45,8 @@ Settings::Settings(QWidget *parent)
 
     setCategoryTitle(ui.wPanel->currentWidget()->windowTitle());
 
+    setMinimumSize(sizeHint());
+
 /*
     for (int i=0; i<ui.wPanel->count(); ++i) {
         QWidget *page = ui.wPanel->widget(i);
@@ -56,7 +58,7 @@ Settings::Settings(QWidget *parent)
 
     connect(ui.wCategories, SIGNAL(categoryChanged(const int &)), this, SLOT(changePage(const int &)));
 
-    adjustSize();
+//    adjustSize();
 } // ctor()
 
 Settings::~Settings()
