@@ -118,7 +118,7 @@ void FindShows::displaySearchResults()
     int displayedShowCounter = 0;
 
     foreach(AbstractProvider::SearchResults_t show, m_searchResults) {
-        if (m_filterResults && show.ended != 0) {
+        if (m_filterResults && show.endedFlag) {
             continue; // Skip to the next result when user wants to filter
         }
 
@@ -135,7 +135,7 @@ void FindShows::displaySearchResults()
 
         parentItem->setText(0, show.name);
 
-        if (show.ended == 0) {
+        if (!show.endedFlag) {
             if (!m_filterResults) {
                 font.setBold(true);
                 parentItem->setFont(0, font);
