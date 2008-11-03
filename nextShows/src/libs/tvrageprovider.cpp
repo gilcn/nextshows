@@ -129,6 +129,7 @@ AbstractProvider::SearchResults_t TvRageProvider::parseSearchResultsTag_Show(con
                 showInfos.seasons = element.text().toUInt();
             } else if (tagName == "status") {
                 showInfos.status = element.text();
+                showInfos.endedFlag = (showInfos.status == "Canceled/Ended") ? true : false; 
             } else if (tagName == "classification") {
                 showInfos.classification = element.text();
             } else if (tagName == "genres") {
