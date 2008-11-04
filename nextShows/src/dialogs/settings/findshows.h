@@ -42,20 +42,23 @@ public:
 
 private Q_SLOTS:
     void on_btnLookup_clicked();
-    void on_cbFilterResults_stateChanged(int);
+    void on_cbHideEndedShows_stateChanged(int);
     void newImageFrame(const QPixmap &);
     void searchResultsReady(const QList<AbstractProvider::SearchResults_t> &);
 
 private:
     void displaySearchResults();
+    void updateSearchResultsWidgets();
 
     Ui::FindShows ui;
 
     AnimatedImage *m_animatedImage;
     AbstractProvider *m_tvrage;
 
-    QList<AbstractProvider::SearchResults_t> m_searchResults;
     bool m_filterResults;
+    int m_displayedShowCount;
+    QList<AbstractProvider::SearchResults_t> m_searchResults;
+    QList<AbstractProvider::SearchResults_t> m_trackedShows;
 };
 
 } // namespace Settings
