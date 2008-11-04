@@ -131,8 +131,10 @@ void FindShows::displaySearchResults()
         }
 
         QTreeWidgetItem *parentItem = new QTreeWidgetItem();
+
         QFont font(parentItem->font(0));
         QBrush brush(parentItem->foreground(0));
+
         QString flagFile = QString(":/pixmaps/flags/%1.gif").arg(show.country.toLower());
 
         if (QFile::exists(flagFile)) {
@@ -141,55 +143,47 @@ void FindShows::displaySearchResults()
             parentItem->setIcon(0, QIcon(":/pixmaps/flags/unknown.gif"));
         }
 
-        parentItem->setText(0, show.name);
 
         if (!show.endedFlag) {
             if (!m_filterResults) {
                 font.setBold(true);
-                parentItem->setFont(0, font);
             }
         } else {
-            brush.setColor(Qt::gray);
-            parentItem->setForeground(0, brush);
+            font.setItalic(true);
+            brush.setColor(Qt::darkGray);
         }
+
+        parentItem->setFont(0, font);
+        parentItem->setForeground(0, brush);
+        parentItem->setText(0, show.name);
 
         ui.treeSearchResults->addTopLevelItem(parentItem);
 
+#define ADD_CHILDITEM(section, value)                                     \
+        {                                                                 \
+            QTreeWidgetItem *childItem = new QTreeWidgetItem(parentItem); \
+            if (show.endedFlag) {                                         \
+                childItem->setFont(0, font);                              \
+            }                                                             \
+            childItem->setForeground(0, brush);                           \
+            childItem->setText(0, QString(#section ": %1").arg(value));   \
+        }
+
         // Seasons
-        {
-            QTreeWidgetItem *childItem = new QTreeWidgetItem(parentItem);
-            childItem->setForeground(0, brush);
-            childItem->setText(0, QString("Seasons: %1").arg(show.seasons));
-        }
+        ADD_CHILDITEM(Seasons, show.seasons)
         // Status
-        {
-            QTreeWidgetItem *childItem = new QTreeWidgetItem(parentItem);
-            childItem->setForeground(0, brush);
-            childItem->setText(0, QString("Status: %1").arg(show.status));
-        }
+        ADD_CHILDITEM(Status, show.status)
         // Started
-        {
-            QTreeWidgetItem *childItem = new QTreeWidgetItem(parentItem);
-            childItem->setForeground(0, brush);
-            childItem->setText(0, QString("Started: %1").arg(show.started));
-        }
+        ADD_CHILDITEM(Started, show.started)
         // Ended
         if (show.ended != 0) {
-            QTreeWidgetItem *childItem = new QTreeWidgetItem(parentItem);
-            childItem->setForeground(0, brush);
-            childItem->setText(0, QString("Ended: %1").arg(show.ended));
+            ADD_CHILDITEM(Ended, show.ended)
         }
         // Classification
-        {
-            QTreeWidgetItem *childItem = new QTreeWidgetItem(parentItem);
-            childItem->setForeground(0, brush);
-            childItem->setText(0, QString("Classification: %1").arg(show.classification));
-        }
-        // Genres
+        ADD_CHILDITEM(Classification, show.classification)
+        // genres
         if (!show.genres.empty()) {
-            QTreeWidgetItem *childItem = new QTreeWidgetItem(parentItem);
-            childItem->setForeground(0, brush);
-            childItem->setText(0, QString("Genres: %1").arg(show.genres.join(", ")));
+            ADD_CHILDITEM(Genres, show.genres.join(", "))
         }
 
         displayedShowCounter++;
