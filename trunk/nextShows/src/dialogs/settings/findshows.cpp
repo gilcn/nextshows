@@ -33,8 +33,15 @@ namespace Settings
 */
 FindShows::FindShows(QWidget *parent)
     : QWidget(parent)
+    , m_displayedShowCount(0)
 {
     ui.setupUi(this);
+    m_filterResults = (ui.cbHideEndedShows->checkState() == Qt::Checked) ? true : false;
+
+    // Category title
+    setWindowTitle(tr("Find Shows"));
+    // Category icon
+    setWindowIcon(QIcon(":/pixmaps/prefs/television.png"));
 
     // Adjust Layout
     QLayout *widgetLayout = layout();
@@ -44,16 +51,9 @@ FindShows::FindShows(QWidget *parent)
         gridLayout->setColumnStretch(2, 10); // "Tracked shows" column
     }
 
-    // Category title
-    setWindowTitle(tr("Find Shows"));
-    // Category icon
-    setWindowIcon(QIcon(":/pixmaps/prefs/television.png"));
-
-
     ui.leSearch->setClickMessage(tr("Enter a show name"));
-    // FIXME: Qt4.5
+    // FIXME: Postponed until Qt4.5 is out
 //    ui.leSearch->setIcon(QIcon(":/pixmaps/prefs/progress_idle.png"));
-
 
     m_animatedImage = new AnimatedImage(this,
                                         ":/pixmaps/prefs/progress_working.png",
@@ -64,8 +64,6 @@ FindShows::FindShows(QWidget *parent)
     m_tvrage = new TvRageProvider(this);
     connect(m_tvrage, SIGNAL(searchResultsReady(QList<AbstractProvider::SearchResults_t>)),
             this, SLOT(searchResultsReady(const QList<AbstractProvider::SearchResults_t> &)));
-
-    m_filterResults = (ui.cbFilterResults->checkState() == Qt::Checked) ? true : false;
 } // ctor()
 
 FindShows::~FindShows()
@@ -91,11 +89,28 @@ void FindShows::on_btnLookup_clicked()
     m_tvrage->searchShow(ui.leSearch->text());
 } // on_btnLookup_clicked()
 
-void FindShows::on_cbFilterResults_stateChanged(int state)
+void FindShows::on_cbHideEndedShows_stateChanged(int state)
 {
     m_filterResults = (state == Qt::Checked) ? true : false;
-    displaySearchResults(); // Refresh list
-} // on_cbFilterResults_stateChanged()
+
+    m_displayedShowCount = 0;
+
+    QTreeWidgetItem *rootItem = ui.treeSearchResults->invisibleRootItem();
+    QTreeWidgetItem *childItem;
+    QFont font;
+    for (int i=0; i < ui.treeSearchResults->topLevelItemCount(); ++i) {
+        childItem = rootItem->child(i);
+        childItem->setHidden(m_filterResults && m_searchResults[i].endedFlag);
+        if (!childItem->isHidden()) {
+            m_displayedShowCount++;
+        }
+        font = childItem->font(0);
+        font.setBold(!m_filterResults && !m_searchResults[i].endedFlag);
+        childItem->setFont(0, font);
+    }
+
+    updateSearchResultsWidgets();
+} // on_cbHideEndedShows_stateChanged()
 
 void FindShows::newImageFrame(const QPixmap &pixmap)
 {
@@ -123,26 +138,22 @@ void FindShows::displaySearchResults()
 {
     ui.treeSearchResults->clear();
 
-    int displayedShowCounter = 0;
+    m_displayedShowCount = 0;
 
     foreach(AbstractProvider::SearchResults_t show, m_searchResults) {
-        if (m_filterResults && show.endedFlag) {
-            continue; // Skip to the next result when user wants to filter
-        }
-
         QTreeWidgetItem *parentItem = new QTreeWidgetItem();
 
         QFont font(parentItem->font(0));
         QBrush brush(parentItem->foreground(0));
 
+        // Set the proper flag
         QString flagFile = QString(":/pixmaps/flags/%1.gif").arg(show.country.toLower());
-
         if (QFile::exists(flagFile)) {
             parentItem->setIcon(0, QIcon(flagFile));
         } else {
             parentItem->setIcon(0, QIcon(":/pixmaps/flags/unknown.gif"));
         }
-
+        parentItem->setToolTip(0, QString(tr("Country: %1")).arg(show.country.toUpper()));
 
         if (!show.endedFlag) {
             if (!m_filterResults) {
@@ -159,67 +170,77 @@ void FindShows::displaySearchResults()
 
         ui.treeSearchResults->addTopLevelItem(parentItem);
 
-#define ADD_CHILDITEM(section, value)                                     \
-        {                                                                 \
-            QTreeWidgetItem *childItem = new QTreeWidgetItem(parentItem); \
-            if (show.endedFlag) {                                         \
-                childItem->setFont(0, font);                              \
-            }                                                             \
-            childItem->setForeground(0, brush);                           \
-            childItem->setText(0, QString(#section ": %1").arg(value));   \
+        // Hide item if filter's on and the show has ended
+        parentItem->setHidden(m_filterResults && show.endedFlag);
+        if (!parentItem->isHidden()) {
+            m_displayedShowCount++;
+        }
+
+#define ADD_CHILDITEM(section, value)                                         \
+        {                                                                     \
+            QTreeWidgetItem *childItem = new QTreeWidgetItem(parentItem);     \
+            if (show.endedFlag) {                                             \
+                childItem->setFont(0, font);                                  \
+            }                                                                 \
+            childItem->setForeground(0, brush);                               \
+            childItem->setText(0, QString("%1: %2").arg(section).arg(value)); \
         }
 
         // Seasons
-        ADD_CHILDITEM(Seasons, show.seasons)
+        ADD_CHILDITEM(tr("Seasons"), show.seasons)
         // Status
-        ADD_CHILDITEM(Status, show.status)
+        ADD_CHILDITEM(tr("Status"), show.status)
         // Started
-        ADD_CHILDITEM(Started, show.started)
+        ADD_CHILDITEM(tr("Started"), show.started)
         // Ended
         if (show.ended != 0) {
-            ADD_CHILDITEM(Ended, show.ended)
+            ADD_CHILDITEM(tr("Ended"), show.ended)
         }
         // Classification
-        ADD_CHILDITEM(Classification, show.classification)
+        ADD_CHILDITEM(tr("Classification"), show.classification)
         // genres
         if (!show.genres.empty()) {
-            ADD_CHILDITEM(Genres, show.genres.join(", "))
+            ADD_CHILDITEM(tr("Genres"), show.genres.join(", "))
         }
-
-        displayedShowCounter++;
     } // foreach()
 
-    if (m_searchResults.count() != 0) {
-        ui.cbFilterResults->setEnabled(true);
-        ui.lblDisplayed->setEnabled(true);
-        if (displayedShowCounter != 0) {
-            ui.treeSearchResults->setEnabled(true);
-            ui.treeSearchResults->setRootIsDecorated(true);
-        } else {
-            ui.treeSearchResults->setEnabled(false);
-            QTreeWidgetItem *item = new QTreeWidgetItem();
-            item->setText(0, tr("Only ended shows were found!"));
-            ui.treeSearchResults->addTopLevelItem(item);
-            ui.treeSearchResults->setRootIsDecorated(false);
-        }
-    } else {
-        ui.treeSearchResults->setEnabled(false);
-        ui.cbFilterResults->setEnabled(false);
-        ui.lblDisplayed->setEnabled(false);
 
-        QTreeWidgetItem *item = new QTreeWidgetItem();
-        item->setText(0, tr("No results found!"));
-        ui.treeSearchResults->addTopLevelItem(item);
-        ui.treeSearchResults->setRootIsDecorated(false);
-    }
-
-    ui.treeSearchResults->resizeColumnToContents(0);
-
-    ui.lblDisplayed->setText(QString("Displayed: %1/%2")
-                             .arg(displayedShowCounter)
-                             .arg(m_searchResults.count()));
+    updateSearchResultsWidgets();
 } // displaySearchResults()
 
+void FindShows::updateSearchResultsWidgets()
+{
+    QPalette palette(ui.lblDisplayed->palette());
+    QFont font(ui.lblDisplayed->font());
+
+    if (m_searchResults.count() == 0) {
+        ui.treeSearchResults->setEnabled(false);
+        ui.cbHideEndedShows->setEnabled(false);
+        palette.setColor(QPalette::WindowText, Qt::red);
+        font.setBold(true);
+        ui.lblDisplayed->setText(tr("Search returned nothing!"));
+    } else {
+        ui.cbHideEndedShows->setEnabled(true);
+        if (m_displayedShowCount == 0) {
+            ui.treeSearchResults->setEnabled(false);
+            palette.setColor(QPalette::WindowText, Qt::red);
+            font.setBold(true);
+            ui.lblDisplayed->setText(tr("All results are filtered!"));
+        } else {
+            ui.treeSearchResults->setEnabled(true);
+            palette.setColor(QPalette::WindowText, Qt::black);
+            font.setBold(false);
+            ui.lblDisplayed->setText(QString(tr("Displayed: %1/%2"))
+                                     .arg(m_displayedShowCount)
+                                     .arg(m_searchResults.count()));
+        }
+    }
+
+    ui.lblDisplayed->setPalette(palette);
+    ui.lblDisplayed->setFont(font);
+
+    ui.treeSearchResults->resizeColumnToContents(0);
+} // updateSearchResultsWidgets()
 
 } // namespace Settings
 
