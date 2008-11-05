@@ -21,15 +21,12 @@
 #include "view.h"
 
 
-/*****************************************************************************
-** View
-*****************************************************************************/
 /*
 ** public:
 */
 View::View(QWidget *parent)
     : QGraphicsView(parent)
-    , m_timer(new QTimer(this))
+    , m_timer(0)
     , m_scene(new QGraphicsScene())
     , m_gridLayout(new QGridLayout())
 {
@@ -37,23 +34,20 @@ View::View(QWidget *parent)
 
     // Remove white background
     QPalette pal(palette());
-    QPalette::ColorRole bgRole = backgroundRole();
-    QColor color(pal.color(QPalette::Active, bgRole));
+    QColor color(pal.color(QPalette::Active, backgroundRole()));
     color.setAlpha(0);
-    pal.setColor(QPalette::Active, bgRole, color);
-    setPalette(pal);
-
+    pal.setColor(QPalette::Active, backgroundRole(), color);
+    pal.setColor(QPalette::Inactive, backgroundRole(), color);
+//    setPalette(pal);
 
     ScrollWidget *widget = new ScrollWidget();
-    widget->setAttribute(Qt::WA_NoSystemBackground);
+//    widget->setAttribute(Qt::WA_NoSystemBackground);
     widget->setLayout(m_gridLayout);
 
     m_scrollWidget = m_scene->addWidget(widget);
+    m_scrollWidget->setPos(999999, 999999); // Put the ScrollWidget offscreen
 
     setScene(m_scene);
-
-    m_timer->setInterval(30);
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(moveText()));
 
     connect(widget, SIGNAL(widgetEntered()), this, SLOT(pause()));
     connect(widget, SIGNAL(widgetLeaved()), this, SLOT(unpause()));
@@ -63,11 +57,24 @@ View::~View()
 {
 } // dtor()
 
-void View::startScrolling()
+void View::startScrolling(const int &interval)
 {
-    qDebug() << size() << Q_FUNC_INFO;
+    if (m_timer) {
+        return;
+    }
+
+    m_timer = new QTimer(this);
+    m_timer->setInterval(interval);
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(moveText()));
     m_timer->start();
 } // startScroll()
+
+void View::stopScrolling()
+{
+    disconnect(m_timer, 0, 0, 0);
+    delete m_timer;
+    m_timer = 0;
+} // stopScrolling
 
 void View::addCreditSection(const QString &text, const int &fontSize)
 {
@@ -129,21 +136,10 @@ void View::resizeEvent(QResizeEvent *event)
 {
     m_scene->setSceneRect(0, 0, event->size().width(), event->size().height());
     setSceneRect(m_scene->sceneRect());
-    qDebug();
-    qDebug() << m_scene->sceneRect() << "m_scene->sceneRect()";
-    qDebug() << sceneRect() << "sceneRect()";
-    qDebug() << m_scrollWidget->pos() << " m_scrollWidget->pos()";
-    qDebug() << size() << "size()";
-    qDebug() << m_scrollWidget->size() << "m_scrollWidget->size()";
 
-    int yPos = m_scrollWidget->pos().y();
-    if (yPos > size().height()) {
-        yPos = size().height();
-    }
-    int ww = m_scrollWidget->size().width() / 2;
-    int vw = size().width() / 2;
-    m_scrollWidget->setPos(vw-ww, yPos);
     setMinimumSize(m_scrollWidget->size().width(), 0);
+
+    positionScrollWidget();
 } // resizeEvent()
 
 
@@ -152,12 +148,12 @@ void View::resizeEvent(QResizeEvent *event)
 */
 void View::moveText()
 {
-    QPointF oldPos = m_scrollWidget->pos();
-    QPointF newPos(oldPos.x(), oldPos.y()-1);
-    m_scrollWidget->setPos(newPos);
+    positionScrollWidget();
 
-//    qDebug() << m_scrollWidget->pos() << m_scrollWidget->size();
-//    qDebug() << -m_scrollWidget->size().height();
+    int xPos = (size().width() / 2) - (m_scrollWidget->size().width() / 2);
+    int yPos = m_scrollWidget->pos().y();
+
+    m_scrollWidget->setPos(xPos, yPos-1);
 
     if (m_scrollWidget->pos().y() < -m_scrollWidget->size().height()) {
         m_scrollWidget->setPos(m_scrollWidget->pos().x(), size().height());
@@ -184,6 +180,18 @@ void View::unpause()
 /*
 ** private:
 */
+void View::positionScrollWidget()
+{
+    int xPos = (size().width() / 2) - (m_scrollWidget->size().width() / 2);
 
+    int yPos = m_scrollWidget->pos().y();
+    if (yPos > size().height()) {
+        yPos = size().height();
+    } else {
+        yPos = m_scrollWidget->pos().y();
+    }
+
+    m_scrollWidget->setPos(xPos, yPos);
+} // positionScrollWidget();
 
 // EOF - vim:ts=4:sw=4:et:

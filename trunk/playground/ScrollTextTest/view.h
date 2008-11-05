@@ -64,7 +64,8 @@ public:
                    const QByteArray &name,
                    const QString &link,
                    const QString &task);
-    void startScrolling();
+    void startScrolling(const int &interval = 30);
+    void stopScrolling();
 
 protected:
     void resizeEvent(QResizeEvent *event);
@@ -75,6 +76,8 @@ private Q_SLOTS:
     void unpause();
 
 private:
+    void positionScrollWidget();
+
     QTimer               *m_timer;
     QGraphicsScene       *m_scene;
     QGridLayout          *m_gridLayout;
