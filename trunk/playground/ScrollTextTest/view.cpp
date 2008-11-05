@@ -109,7 +109,7 @@ void View::addCredit(const QString &country, const QByteArray &name, const QStri
 
         QString text(QString::fromUtf8(name.data()));
         if (!link.isEmpty()) {
-            if (link.contains(QRegExp("^http://.*"))) {
+            if (link.startsWith("http://")) {
                 text += QString("<br /><a href=\"%1\" style=\"text-decoration: none;\">%1</a>").arg(link);
             } else {
                 // Consider link is an e-mail address
@@ -148,12 +148,7 @@ void View::resizeEvent(QResizeEvent *event)
 */
 void View::moveText()
 {
-    positionScrollWidget();
-
-    int xPos = (size().width() / 2) - (m_scrollWidget->size().width() / 2);
-    int yPos = m_scrollWidget->pos().y();
-
-    m_scrollWidget->setPos(xPos, yPos-1);
+    positionScrollWidget(1);
 
     if (m_scrollWidget->pos().y() < -m_scrollWidget->size().height()) {
         m_scrollWidget->setPos(m_scrollWidget->pos().x(), size().height());
@@ -180,7 +175,7 @@ void View::unpause()
 /*
 ** private:
 */
-void View::positionScrollWidget()
+void View::positionScrollWidget(const int &yStep)
 {
     int xPos = (size().width() / 2) - (m_scrollWidget->size().width() / 2);
 
@@ -188,10 +183,12 @@ void View::positionScrollWidget()
     if (yPos > size().height()) {
         yPos = size().height();
     } else {
-        yPos = m_scrollWidget->pos().y();
+        yPos = m_scrollWidget->pos().y() - qAbs(yStep);
     }
 
     m_scrollWidget->setPos(xPos, yPos);
+
+    qDebug() << m_scrollWidget->pos();
 } // positionScrollWidget();
 
 // EOF - vim:ts=4:sw=4:et:

@@ -76,7 +76,7 @@ private Q_SLOTS:
     void unpause();
 
 private:
-    void positionScrollWidget();
+    void positionScrollWidget(const int &yStep = 0);
 
     QTimer               *m_timer;
     QGraphicsScene       *m_scene;
