@@ -24,6 +24,32 @@
 #include <QtGui>
 
 
+class ScrollWidget : public QWidget
+{
+    Q_OBJECT
+
+public:
+    ScrollWidget(QWidget *parent = 0)
+        : QWidget(parent) {}
+
+Q_SIGNALS:
+    void widgetEntered();
+    void widgetLeaved();
+
+protected:
+    void enterEvent(QEvent *)
+    {
+        emit(widgetEntered());
+    }
+    void leaveEvent(QEvent *)
+    {
+        emit(widgetLeaved());
+    }
+};
+
+
+
+
 class View : public QGraphicsView
 {
     Q_OBJECT
@@ -45,6 +71,8 @@ protected:
 
 private Q_SLOTS:
     void moveText();
+    void pause();
+    void unpause();
 
 private:
     QTimer               *m_timer;

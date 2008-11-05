@@ -21,6 +21,9 @@
 #include "view.h"
 
 
+/*****************************************************************************
+** View
+*****************************************************************************/
 /*
 ** public:
 */
@@ -32,8 +35,10 @@ View::View(QWidget *parent)
 {
     setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 
-    QWidget *widget = new QWidget();
-    //widget->setAttribute(Qt::WA_NoSystemBackground);
+    ScrollWidget *widget = new ScrollWidget();
+//    widget->setAttribute(Qt::WA_NoSystemBackground);
+//    setAttribute(Qt::WA_NoSystemBackground);
+//    qDebug() << testAttribute(Qt::WA_NoSystemBackground);
     widget->setLayout(m_gridLayout);
 
     m_scrollWidget = m_scene->addWidget(widget);
@@ -42,6 +47,9 @@ View::View(QWidget *parent)
 
     m_timer->setInterval(30);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(moveText()));
+
+    connect(widget, SIGNAL(widgetEntered()), this, SLOT(pause()));
+    connect(widget, SIGNAL(widgetLeaved()), this, SLOT(unpause()));
 } // ctor()
 
 View::~View()
@@ -148,6 +156,22 @@ void View::moveText()
         m_scrollWidget->setPos(m_scrollWidget->pos().x(), size().height());
     }
 } // timerEvent()
+
+void View::pause()
+{
+    qDebug() << "Scroller paused";
+    if (m_timer) {
+        m_timer->stop();
+    }
+} // pause()
+
+void View::unpause()
+{
+    qDebug() << "Scroller unpaused";
+    if (m_timer) {
+        m_timer->start();
+    }
+} // unpause()
 
 
 /*
