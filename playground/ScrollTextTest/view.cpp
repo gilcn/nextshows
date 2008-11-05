@@ -35,10 +35,17 @@ View::View(QWidget *parent)
 {
     setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 
+    // Remove white background
+    QPalette pal(palette());
+    QPalette::ColorRole bgRole = backgroundRole();
+    QColor color(pal.color(QPalette::Active, bgRole));
+    color.setAlpha(0);
+    pal.setColor(QPalette::Active, bgRole, color);
+    setPalette(pal);
+
+
     ScrollWidget *widget = new ScrollWidget();
-//    widget->setAttribute(Qt::WA_NoSystemBackground);
-//    setAttribute(Qt::WA_NoSystemBackground);
-//    qDebug() << testAttribute(Qt::WA_NoSystemBackground);
+    widget->setAttribute(Qt::WA_NoSystemBackground);
     widget->setLayout(m_gridLayout);
 
     m_scrollWidget = m_scene->addWidget(widget);
