@@ -21,7 +21,14 @@
 #define __VIEW_H__
 
 
-#include <QtGui>
+// QtCore
+#include <QtCore/QTimer>
+// QtGui
+#include <QtGui/QGraphicsProxyWidget>
+#include <QtGui/QGraphicsScene>
+#include <QtGui/QGraphicsView>
+#include <QtGui/QGridLayout>
+#include <QtGui/QWidget>
 
 
 class ScrollWidget : public QWidget
@@ -82,6 +89,8 @@ private:
     QGraphicsScene       *m_scene;
     QGridLayout          *m_gridLayout;
     QGraphicsProxyWidget *m_scrollWidget;
+
+    int                   m_nextGridLayoutRow;
 };
 
 #endif // __VIEW_H__

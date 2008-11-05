@@ -18,7 +18,12 @@
 */
 
 
+// Own
 #include "view.h"
+// QtCore
+#include <QtCore/QDebug>
+// QtGui
+#include <QtGui/QLabel>
 
 
 /*
@@ -29,23 +34,24 @@ View::View(QWidget *parent)
     , m_timer(0)
     , m_scene(new QGraphicsScene())
     , m_gridLayout(new QGridLayout())
+    , m_nextGridLayoutRow(0)
 {
     setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 
-    // Remove white background
+    // Transparent background
     QPalette pal(palette());
     QColor color(pal.color(QPalette::Active, backgroundRole()));
     color.setAlpha(0);
     pal.setColor(QPalette::Active, backgroundRole(), color);
     pal.setColor(QPalette::Inactive, backgroundRole(), color);
-//    setPalette(pal);
+    setPalette(pal);
 
     ScrollWidget *widget = new ScrollWidget();
-//    widget->setAttribute(Qt::WA_NoSystemBackground);
+    widget->setAttribute(Qt::WA_NoSystemBackground);
     widget->setLayout(m_gridLayout);
 
     m_scrollWidget = m_scene->addWidget(widget);
-    m_scrollWidget->setPos(999999, 999999); // Put the ScrollWidget offscreen
+    m_scrollWidget->setPos(999999, 999999); // Force the ScrollWidget offscreen
 
     setScene(m_scene);
 
@@ -71,61 +77,69 @@ void View::startScrolling(const int &interval)
 
 void View::stopScrolling()
 {
-    disconnect(m_timer, 0, 0, 0);
+    if (m_timer) {
+        m_timer->stop();
+        disconnect(m_timer, 0, 0, 0);
+    }
     delete m_timer;
     m_timer = 0;
 } // stopScrolling
 
 void View::addCreditSection(const QString &text, const int &fontSize)
 {
+    int topMargin = (!m_nextGridLayoutRow) ? 0 : 60;
+
     QLabel *label = new QLabel(text);
+
     QFont font(label->font());
     font.setBold(true);
     font.setPointSize(fontSize);
     label->setFont(font);
-    label->setContentsMargins(0, 60, 0, 5);
-    m_gridLayout->addWidget(label, m_gridLayout->rowCount(), 0, 1, 3, Qt::AlignHCenter | Qt::AlignTop);
+
+    label->setContentsMargins(0, topMargin, 0, 5);
+
+    m_gridLayout->addWidget(label, m_nextGridLayoutRow, 0, 1, 3, Qt::AlignHCenter | Qt::AlignTop);
+
+    m_nextGridLayoutRow++;
 } // addCreditSection()
 
 void View::addCredit(const QString &country, const QByteArray &name, const QString &link, const QString &task)
 {
-    int nextRow = m_gridLayout->rowCount();
+    int topMargin = (!m_nextGridLayoutRow) ? 0 : 5;
 
     // Country
     {
         QLabel *label = new QLabel(country);
-        label->setContentsMargins(0, 5, 0, 5);
-        m_gridLayout->addWidget(label, nextRow, 0);
+        label->setContentsMargins(0, topMargin, 0, 5);
+        m_gridLayout->addWidget(label, m_nextGridLayoutRow, 0);
     }
     // Name
     {
         QLabel *label = new QLabel();
-        label->setContentsMargins(0, 5, 0, 5);
+        label->setContentsMargins(0, topMargin, 0, 5);
         label->setOpenExternalLinks(true);
 
-        QFont font = label->font();
-        font.setBold(true);
-        label->setFont(font);
-
-        QString text(QString::fromUtf8(name.data()));
+        QString text = QString("<b>%1</b>").arg(QString::fromUtf8(name.data()));
         if (!link.isEmpty()) {
             if (link.startsWith("http://")) {
                 text += QString("<br /><a href=\"%1\" style=\"text-decoration: none;\">%1</a>").arg(link);
             } else {
-                // Consider link is an e-mail address
+                // Assume link is an e-mail address
                 text += QString("<br /><a href=\"mailto:%1\" style=\"text-decoration: none;\">%1</a>").arg(link);
             }
         }
         label->setText(text);
 
-        m_gridLayout->addWidget(label, nextRow, 1);
+        m_gridLayout->addWidget(label, m_nextGridLayoutRow, 1);
     }
     // Task
     {
         QLabel *label = new QLabel(task);
-        label->setContentsMargins(0, 5, 0, 5);
-        m_gridLayout->addWidget(label, nextRow, 2);
+        label->setContentsMargins(0, topMargin, 0, 5);
+        m_gridLayout->addWidget(label, m_nextGridLayoutRow, 2);
     }
+
+    m_nextGridLayoutRow++;
 } // addCredit()
 
 
@@ -148,8 +162,9 @@ void View::resizeEvent(QResizeEvent *event)
 */
 void View::moveText()
 {
-    positionScrollWidget(1);
+    positionScrollWidget(-1);
 
+    // Reset scroller
     if (m_scrollWidget->pos().y() < -m_scrollWidget->size().height()) {
         m_scrollWidget->setPos(m_scrollWidget->pos().x(), size().height());
     }
@@ -187,8 +202,6 @@ void View::positionScrollWidget(const int &yStep)
     }
 
     m_scrollWidget->setPos(xPos, yPos);
-
-    qDebug() << m_scrollWidget->pos();
 } // positionScrollWidget();
 
 // EOF - vim:ts=4:sw=4:et:
