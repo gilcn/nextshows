@@ -12,12 +12,15 @@ public:
     ~View();
 
 protected:
+    void timerEvent(QTimerEvent *event);
     void resizeEvent(QResizeEvent *event);
 
 private:
     QWidget *m_scrollWidget;
+    QGraphicsProxyWidget *m_scrollWidgetProxy;
     QGridLayout *m_gridLayout;
     QGraphicsScene *m_scene;
+    int m_timer;
 };
 
 #endif // __VIEW_H__
