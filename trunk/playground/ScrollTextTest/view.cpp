@@ -9,6 +9,8 @@ View::View(QWidget *parent)
     , m_gridLayout(new QGridLayout())
     , m_scene(new QGraphicsScene())
 {
+    setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+
     m_scrollWidget->setLayout(m_gridLayout);
     m_scrollWidget->setAttribute(Qt::WA_NoSystemBackground);
 
@@ -18,22 +20,30 @@ View::View(QWidget *parent)
         }
     }
 
-    m_scene->addWidget(m_scrollWidget);
+    m_scrollWidgetProxy = m_scene->addWidget(m_scrollWidget);
 
     setScene(m_scene);
+
+    m_timer = startTimer(50);
 } // ctor()
 
 View::~View()
 {
-    delete m_scene;
-    delete m_gridLayout;
-    delete m_scrollWidget;
 } // dtor()
 
 
 /*
 ** protected:
 */
+void View::timerEvent(QTimerEvent * /*event*/)
+{
+    QPointF oldPos = m_scrollWidgetProxy->pos();
+    QPointF newPos(oldPos.x(), oldPos.y()-0.5);
+    m_scrollWidgetProxy->setPos(newPos);
+
+//    qDebug() << m_scrollWidgetProxy->pos();
+} // timerEvent()
+
 void View::resizeEvent(QResizeEvent * /*event*/)
 {
 } // resizeEvent()
