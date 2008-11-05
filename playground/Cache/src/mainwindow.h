@@ -14,16 +14,16 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    public:
-        MainWindow(QWidget *parent = 0);
-        ~MainWindow();
+public:
+    MainWindow(QWidget *parent = 0);
+    ~MainWindow();
 
-    private slots:
-        void initDb();
+private slots:
+    void initDb();
 
-    private:
-        Ui::MainWindow ui;
-        Cache *m_cache;
+private:
+    Ui::MainWindow ui;
+    Cache *m_cache;
 };
 
 

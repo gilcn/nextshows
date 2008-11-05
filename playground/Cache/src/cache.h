@@ -30,25 +30,27 @@ class Cache : public QObject
 {
     Q_OBJECT
 
-    public:
-        enum CacheState {
-            // File found and not expired
-            CacheFileValid    = 0x00,
-            // File not found
-            CacheFileNotFound = 0x01,
-            // File found but content expired
-            CacheFileExpired  = 0x02,
-            CacheFileInvalid  = CacheFileNotFound | CacheFileExpired
-        };
+public:
+    enum CacheState {
+        // File found and not expired
+        CacheFileValid    = 0x00,
+        // File not found
+        CacheFileNotFound = 0x01,
+        // File found but content expired
+        CacheFileExpired  = 0x02,
+        CacheFileInvalid  = CacheFileNotFound | CacheFileExpired
+    };
 
-        Cache();
-        ~Cache();
-   
-    signals:
-        void stateChanged(QString text);
+    Cache(QObject *parent = 0);
+    ~Cache();
 
-    private:
-        QSqlDatabase db;
+    void openDB();
+
+signals:
+    void stateChanged(const QString &text);
+
+private:
+    QSqlDatabase m_db;
 };
 
 

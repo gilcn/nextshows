@@ -11,12 +11,15 @@
 ** public:
 */
 MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , m_cache(new Cache(this))
 {
     ui.setupUi(this);
     
     //connect(ui.btnCheckCache, SIGNAL(clicked(bool)), ui.textInfo, SLOT(clear()));
     connect(ui.btnCheckCache, SIGNAL(clicked(bool)), this, SLOT(initDb()));
 
+    connect(m_cache, SIGNAL(stateChanged(const QString &)), ui.infoTextEdit, SLOT(append(const QString &)));
 } // ctor()
 
 MainWindow::~MainWindow()
@@ -25,7 +28,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::initDb()
 {
-    m_cache = new Cache();
     ui.btnCheckCache->setEnabled(false);
-    connect(m_cache, SIGNAL(stateChanged(QString text)), ui.infoTextEdit, SLOT(append()));
+    m_cache->openDB();
 }

@@ -29,23 +29,27 @@
 /*
 ** public:
 */
-Cache::Cache()
+Cache::Cache(QObject *parent)
+    : QObject(parent)
+{
+} // ctor()
+
+Cache::~Cache()
+{
+} // dtor()
+
+void Cache::openDB()
 {
     // test if db file exist. if don't, create it !
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("ns.db");
-    if (db.open()) {
+    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE");
+    m_db.setDatabaseName("ns.db");
+    if (m_db.open()) {
         qDebug() << "Db open !";
         emit stateChanged("DB Open\n");
     }
     else {
         qDebug() << "Db open FAILED !";
     }
-
-} // ctor()
-
-Cache::~Cache()
-{
-} // dtor()
+} // openDB()
 
 // EOF - vim:ts=4:sw=4:et:
