@@ -9,10 +9,10 @@ Form::Form(QWidget *parent)
     connect(ui.buttonBox, SIGNAL(accepted()), this, SLOT(close()));
 
     ui.graphicsView->addCreditSection("Credits", 15);
-    ui.graphicsView->addCredit("FR", "Gilles Chauvin", "gcnweb@gmail.com", "Author");
+    ui.graphicsView->addCredit("FR", "Gilles Chauvin", "gcnweb@gmail.com", "Author, main developper");
     ui.graphicsView->addCredit("FR", "Emmanuel Hamelet", "kh.starlifter@gmail.com", "Contributor");
     ui.graphicsView->addCreditSection("Releases prior to v3.0.0<br />(SuperKaramba widget)");
-    ui.graphicsView->addCredit("FR", "Gilles Chauvin", "gcnweb@gmail.com","Author");
+    ui.graphicsView->addCredit("FR", "Gilles Chauvin", "gcnweb@gmail.com","Author, main developper");
     ui.graphicsView->addCredit("FR", "Emmanuel Hamelet", "kh.starlifter@gmail.com","Ideas, testing, bug-hunting");
     ui.graphicsView->addCredit("ES", "Alexandre Vázquez", "", "Testing, bug-hunting");
     ui.graphicsView->addCredit("SE", "ge5239", "", "Ideas, testing, bug-hunting");
