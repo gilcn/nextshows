@@ -72,12 +72,13 @@ NSCreditScroller::NSCreditScroller(QWidget *parent)
 {
 //    setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 
+    // Store parent widget background color
+    m_parentBgColor = parent->palette().color(QPalette::Active, QPalette::Window);
+
     // Transparent background
     QPalette pal(palette());
-    QColor color(pal.color(QPalette::Active, backgroundRole()));
-    color.setAlpha(0);
-    pal.setColor(QPalette::Active, backgroundRole(), color);
-    pal.setColor(QPalette::Inactive, backgroundRole(), color);
+    pal.setColor(QPalette::Active, backgroundRole(), m_parentBgColor);
+    pal.setColor(QPalette::Inactive, backgroundRole(), m_parentBgColor);
     setPalette(pal);
 
     ScrollWidget *widget = new ScrollWidget();
@@ -193,6 +194,28 @@ void NSCreditScroller::resizeEvent(QResizeEvent *event)
 
     positionScrollWidget();
 } // resizeEvent()
+
+void NSCreditScroller::paintEvent(QPaintEvent *event)
+{
+    QGraphicsView::paintEvent(event);
+
+    QPainter p(viewport());
+
+    QColor colorStart(m_parentBgColor);
+    QColor colorStop(m_parentBgColor);
+    colorStart.setAlphaF(1.0);
+    colorStop.setAlphaF(0);
+
+    QLinearGradient topGradient(0, 0, 0, 20);
+    topGradient.setColorAt(0, colorStart);
+    topGradient.setColorAt(1, colorStop);
+    QLinearGradient bottomGradient(0, size().height()-20, 0, size().height());
+    bottomGradient.setColorAt(1, colorStart);
+    bottomGradient.setColorAt(0, colorStop);
+
+    p.fillRect(0, 0, size().width(), 20, topGradient);
+    p.fillRect(0, size().height()-20, size().width(), size().height(), bottomGradient);
+} // paintEvent()
 
 
 /*
