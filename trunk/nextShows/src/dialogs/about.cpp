@@ -1,5 +1,5 @@
 /*
-** Copyright (C) 2008 Gilles CHAUVIN <gcnweb+nextshows@gmail.com>
+** Copyright (C) 2008 Gilles Chauvin <gcnweb+nextshows@gmail.com>
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -36,10 +36,11 @@ About::About(QWidget *parent)
 {
     // Define some default behavior
     QDialog::setModal(true);
+    QWidget::setAttribute(Qt::WA_DeleteOnClose);
 
     ui.setupUi(this);
 
-    connect(ui.btnClose, SIGNAL(clicked()), this, SLOT(close()));
+    connect(ui.btnBox, SIGNAL(accepted()), this, SLOT(close()));
 
     // Fill labels with their relevant values
     QString version(ui.lblNextShowsVersion->text());
@@ -57,10 +58,27 @@ About::About(QWidget *parent)
         buildInfos = buildInfos.replace("%QTVER%", QLatin1String(QT_VERSION_STR));
     }
     ui.lblBuildInfos->setText(buildInfos);
+
+    // Scrolling credits
+    ui.gvCreditScroller->addCreditSection("Credits", 15);
+    ui.gvCreditScroller->addCredit("FR", "Gilles Chauvin", "gcnweb@gmail.com", "Author, main developper");
+    ui.gvCreditScroller->addCredit("FR", "Emmanuel Hamelet", "kh.starlifter@gmail.com", "Contributor");
+    ui.gvCreditScroller->addCreditSection("Releases prior to v3.0.0<br />(SuperKaramba widget)");
+    ui.gvCreditScroller->addCredit("FR", "Gilles Chauvin", "gcnweb@gmail.com","Author, main developper");
+    ui.gvCreditScroller->addCredit("FR", "Emmanuel Hamelet", "kh.starlifter@gmail.com","Ideas, testing, bug-hunting");
+    ui.gvCreditScroller->addCredit("ES", "Alexandre Vázquez", "", "Testing, bug-hunting");
+    ui.gvCreditScroller->addCredit("SE", "ge5239", "", "Ideas, testing, bug-hunting");
+    ui.gvCreditScroller->addCredit("FR", "Joachim Ionoff", "", "Ideas, testing, bug-hunting");
+    ui.gvCreditScroller->addCreditSection("Special thanks to");
+    ui.gvCreditScroller->addCredit("FR", "Jean-Baptiste Sannier", "http://jsannier.org/", "Qt help, tips & tricks");
+    ui.gvCreditScroller->addCredit("US", "Sebrioth", "http://www.tvrage.com/", "XML feeds providing");
+
+    ui.gvCreditScroller->startScrolling();
 } // ctor()
 
 About::~About()
 {
+    qDebug() << Q_FUNC_INFO;
 } // dtor()
 
 } // namespace Dialogs

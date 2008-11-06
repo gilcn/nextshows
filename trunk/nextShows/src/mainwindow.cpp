@@ -1,5 +1,5 @@
 /*
-** Copyright (C) 2008 Gilles CHAUVIN <gcnweb+nextshows@gmail.com>
+** Copyright (C) 2008 Gilles Chauvin <gcnweb+nextshows@gmail.com>
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , m_dialogSettings(0)
-    , m_dialogAbout(0)
+    , m_dialogAbout(0) // Guarded by QPointer
 {
     m_dataModel = new QStandardItemModel(this);
     m_dataModel->setColumnCount(5);
