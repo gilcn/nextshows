@@ -27,9 +27,6 @@
      </item>
      <item>
       <widget class="QLabel" name="imgProgress" >
-       <property name="text" >
-        <string/>
-       </property>
        <property name="pixmap" >
         <pixmap resource="../../../pixmaps/nextshows.qrc" >:/pixmaps/prefs/progress_idle.png</pixmap>
        </property>
@@ -40,6 +37,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="btnLookup" >
+       <property name="enabled" >
+        <bool>false</bool>
+       </property>
        <property name="text" >
         <string>&amp;Lookup</string>
        </property>
@@ -100,7 +100,7 @@
        </property>
        <column>
         <property name="text" >
-         <string>1</string>
+         <string/>
         </property>
        </column>
       </widget>
@@ -162,9 +162,13 @@
       </spacer>
      </item>
      <item>
-      <widget class="QToolButton" name="toolButton" >
-       <property name="text" >
-        <string>...</string>
+      <widget class="QToolButton" name="tbtnAddShow" >
+       <property name="enabled" >
+        <bool>false</bool>
+       </property>
+       <property name="icon" >
+        <iconset resource="../../../pixmaps/nextshows.qrc" >
+         <normaloff>:/pixmaps/icons/rightarrow.png</normaloff>:/pixmaps/icons/rightarrow.png</iconset>
        </property>
       </widget>
      </item>
@@ -185,9 +189,13 @@
       </spacer>
      </item>
      <item>
-      <widget class="QToolButton" name="toolButton_2" >
-       <property name="text" >
-        <string>...</string>
+      <widget class="QToolButton" name="tbtnRemoveShow" >
+       <property name="enabled" >
+        <bool>false</bool>
+       </property>
+       <property name="icon" >
+        <iconset resource="../../../pixmaps/nextshows.qrc" >
+         <normaloff>:/pixmaps/icons/trash.png</normaloff>:/pixmaps/icons/trash.png</iconset>
        </property>
       </widget>
      </item>

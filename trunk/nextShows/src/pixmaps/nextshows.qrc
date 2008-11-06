@@ -1,8 +1,10 @@
 <RCC>
   <qresource prefix="/pixmaps/" >
-    <file>icons/settings.png</file>
-    <file>icons/exit.png</file>
     <file>icons/about.png</file>
+    <file>icons/exit.png</file>
+    <file>icons/rightarrow.png</file>
+    <file>icons/settings.png</file>
+    <file>icons/trash.png</file>
     <file>flags/ad.gif</file>
     <file>flags/ae.gif</file>
     <file>flags/af.gif</file>

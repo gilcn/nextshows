@@ -46,12 +46,12 @@ private Q_SLOTS:
     void showAbout();
 
 private:
-    QStandardItemModel       *m_dataModel;
+    QStandardItemModel          *m_dataModel;
 
-    SysTrayIcon              *m_sysTrayIcon;
+    SysTrayIcon                 *m_sysTrayIcon;
 
-    Dialogs::Settings        *m_dialogSettings;
-    QPointer<Dialogs::About>  m_dialogAbout;
+    QPointer<Dialogs::Settings>  m_dialogSettings;
+    QPointer<Dialogs::About>     m_dialogAbout;
 };
 
 

@@ -75,7 +75,7 @@ NSCreditScroller::NSCreditScroller(QWidget *parent)
     // Store parent widget background color
     m_parentBgColor = parent->palette().color(QPalette::Active, QPalette::Window);
 
-    // Transparent background
+    // Set background color the same as parent widget background color
     QPalette pal(palette());
     pal.setColor(QPalette::Active, backgroundRole(), m_parentBgColor);
     pal.setColor(QPalette::Inactive, backgroundRole(), m_parentBgColor);

@@ -36,6 +36,9 @@ Settings::Settings(QWidget *parent)
     , m_wFindShows(new ::Settings::FindShows)
     , m_wMisc(new ::Settings::Misc)
 {
+    // Default behavior / attributes
+    QWidget::setAttribute(Qt::WA_DeleteOnClose);
+
     ui.setupUi(this);
 
     ui.wPanel->addWidget(m_wFindShows);
@@ -63,6 +66,7 @@ Settings::Settings(QWidget *parent)
 
 Settings::~Settings()
 {
+    qDebug() << Q_FUNC_INFO;
 } // dtor()
 
 

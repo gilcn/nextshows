@@ -36,6 +36,7 @@ FindShows::FindShows(QWidget *parent)
     , m_displayedShowCount(0)
 {
     ui.setupUi(this);
+
     m_filterResults = (ui.cbHideEndedShows->checkState() == Qt::Checked) ? true : false;
 
     // Category title
@@ -48,7 +49,7 @@ FindShows::FindShows(QWidget *parent)
     QGridLayout *gridLayout = qobject_cast<QGridLayout *>(widgetLayout);
     if (gridLayout) {
         gridLayout->setColumnStretch(0, 20); // "Search Results" column
-        gridLayout->setColumnStretch(2, 10); // "Tracked shows" column
+        gridLayout->setColumnStretch(2, 14); // "Tracked shows" column
     }
 
     ui.leSearch->setClickMessage(tr("Enter a show name"));
@@ -89,6 +90,25 @@ void FindShows::on_btnLookup_clicked()
     m_tvrage->searchShow(ui.leSearch->text());
 } // on_btnLookup_clicked()
 
+void FindShows::on_leSearch_textChanged(const QString &text)
+{
+    ui.btnLookup->setEnabled(!text.isEmpty());
+} // on_leSearch_textChanged()
+
+void FindShows::on_treeSearchResults_itemClicked(QTreeWidgetItem *item, int /*column*/)
+{
+    // Select the parent widget if it's a child widget
+    if (item->parent()) {
+        ui.treeSearchResults->setCurrentItem(item->parent());
+    }
+} // on_treeSearchResults_itemClicked()
+
+void FindShows::on_treeSearchResults_itemSelectionChanged()
+{
+    bool state = !(ui.treeSearchResults->indexOfTopLevelItem(ui.treeSearchResults->currentItem()) < 0);
+    ui.tbtnAddShow->setEnabled(state);
+} // on_treeSearchResults_itemSelectionChanged()
+
 void FindShows::on_cbHideEndedShows_stateChanged(int state)
 {
     m_filterResults = (state == Qt::Checked) ? true : false;
@@ -111,6 +131,19 @@ void FindShows::on_cbHideEndedShows_stateChanged(int state)
 
     updateSearchResultsWidgets();
 } // on_cbHideEndedShows_stateChanged()
+
+void FindShows::on_tbtnAddShow_clicked()
+{
+    int index = ui.treeSearchResults->indexOfTopLevelItem(ui.treeSearchResults->currentItem());
+
+    if (index < 0) {
+        return;
+    }
+
+    insertIntoTrackedShowList(m_searchResults[index]);
+
+    displayTrackedShows();
+} // on_btnLookup_clicked()
 
 void FindShows::newImageFrame(const QPixmap &pixmap)
 {
@@ -182,6 +215,7 @@ void FindShows::displaySearchResults()
             if (show.endedFlag) {                                             \
                 childItem->setFont(0, font);                                  \
             }                                                                 \
+            childItem->setFlags(Qt::NoItemFlags);                             \
             childItem->setForeground(0, brush);                               \
             childItem->setText(0, QString("%1: %2").arg(section).arg(value)); \
         }
@@ -208,6 +242,32 @@ void FindShows::displaySearchResults()
     updateSearchResultsWidgets();
 } // displaySearchResults()
 
+void FindShows::displayTrackedShows()
+{
+    bool state = m_trackedShows.count();
+    if (!state) {
+        return;
+    }
+    ui.lstTrackedShows->setEnabled(state);
+    ui.lstTrackedShows->clear();
+
+    foreach(AbstractProvider::SearchResults_t show, m_trackedShows) {
+        QListWidgetItem *item = new QListWidgetItem();
+
+        // Set the proper flag
+        QString flagFile = QString(":/pixmaps/flags/%1.gif").arg(show.country.toLower());
+        if (QFile::exists(flagFile)) {
+            item->setIcon(QIcon(flagFile));
+        } else {
+            item->setIcon(QIcon(":/pixmaps/flags/unknown.gif"));
+        }
+
+        item->setText(show.name);
+
+        ui.lstTrackedShows->addItem(item);
+    } // foreach()
+} // displayTrackedShows()
+
 void FindShows::updateSearchResultsWidgets()
 {
     QPalette palette(ui.lblDisplayed->palette());
@@ -216,6 +276,7 @@ void FindShows::updateSearchResultsWidgets()
     if (m_searchResults.count() == 0) {
         ui.treeSearchResults->setEnabled(false);
         ui.cbHideEndedShows->setEnabled(false);
+        ui.tbtnAddShow->setEnabled(false);
         palette.setColor(QPalette::WindowText, Qt::red);
         font.setBold(true);
         ui.lblDisplayed->setText(tr("Search returned nothing!"));
@@ -223,6 +284,7 @@ void FindShows::updateSearchResultsWidgets()
         ui.cbHideEndedShows->setEnabled(true);
         if (m_displayedShowCount == 0) {
             ui.treeSearchResults->setEnabled(false);
+            ui.tbtnAddShow->setEnabled(false);
             palette.setColor(QPalette::WindowText, Qt::red);
             font.setBold(true);
             ui.lblDisplayed->setText(tr("All results are filtered!"));
@@ -241,6 +303,34 @@ void FindShows::updateSearchResultsWidgets()
 
     ui.treeSearchResults->resizeColumnToContents(0);
 } // updateSearchResultsWidgets()
+
+void FindShows::insertIntoTrackedShowList(const AbstractProvider::SearchResults_t &showInfos)
+{
+    QList<uint> trackedShowIds;
+    QString previousShowName;
+    int pos = 0;
+    int insertPos = -1;
+
+    // Check dups and insert show at the proper position (sorted by show name)
+    foreach(AbstractProvider::SearchResults_t show, m_trackedShows) {
+        trackedShowIds.append(show.showid);
+
+        if (QString::localeAwareCompare(previousShowName, showInfos.name) < 0 &&
+            QString::localeAwareCompare(showInfos.name, show.name) <= 0  &&
+            insertPos < 0) {
+            insertPos = pos;
+        }
+        
+        previousShowName = show.name;
+        pos++;
+    }
+
+    insertPos = (insertPos < 0) ? pos : insertPos;
+
+    if (!trackedShowIds.contains(showInfos.showid)) {
+        m_trackedShows.insert(insertPos, showInfos);
+    }
+} // insertIntoTrackedShowList()
 
 } // namespace Settings
 
