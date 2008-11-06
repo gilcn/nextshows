@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(m_cache, SIGNAL(stateChanged(const QString &)), ui.infoTextEdit, SLOT(append(const QString &)));
     
-    connect(ui.btnListShows,SIGNAL(clicked(bool)),this,SLOT(getShowsList()));
+    connect(ui.btnListShows,SIGNAL(clicked(bool)),this,SLOT(getShowList()));
 } // ctor()
 
 MainWindow::~MainWindow()
@@ -40,7 +40,7 @@ void MainWindow::initDb()
     }
 }
 
-void MainWindow::getShowsList()
+void MainWindow::getShowList()
 {
     QMap<QString, QString> map = m_cache->getShows();
 
