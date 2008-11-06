@@ -35,8 +35,8 @@
 */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , m_dialogSettings(0)
-    , m_dialogAbout(0) // Guarded by QPointer
+    , m_dialogSettings(0) // Guarded by QPointer
+    , m_dialogAbout(0)    // Guarded by QPointer
 {
     m_dataModel = new QStandardItemModel(this);
     m_dataModel->setColumnCount(5);

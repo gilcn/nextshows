@@ -42,13 +42,19 @@ public:
 
 private Q_SLOTS:
     void on_btnLookup_clicked();
+    void on_leSearch_textChanged(const QString &);
+    void on_treeSearchResults_itemClicked(QTreeWidgetItem *, int);
+    void on_treeSearchResults_itemSelectionChanged();
     void on_cbHideEndedShows_stateChanged(int);
+    void on_tbtnAddShow_clicked();
     void newImageFrame(const QPixmap &);
     void searchResultsReady(const QList<AbstractProvider::SearchResults_t> &);
 
 private:
     void displaySearchResults();
+    void displayTrackedShows();
     void updateSearchResultsWidgets();
+    void insertIntoTrackedShowList(const AbstractProvider::SearchResults_t &);
 
     Ui::FindShows ui;
 

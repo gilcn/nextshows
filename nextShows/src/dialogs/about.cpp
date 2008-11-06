@@ -34,7 +34,7 @@ namespace Dialogs
 About::About(QWidget *parent)
     : QDialog(parent, Qt::Dialog)
 {
-    // Define some default behavior
+    // Default behavior / attributes
     QDialog::setModal(true);
     QWidget::setAttribute(Qt::WA_DeleteOnClose);
 
