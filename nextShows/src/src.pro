@@ -37,6 +37,7 @@ HEADERS     += version.h                     \
                mainwindow.h                  \
                systrayicon.h                 \
                widgets/nslineedit.h          \
+               widgets/nscreditscroller.h    \
                dialogs/about.h               \
                dialogs/settings.h            \
                dialogs/settings/categories.h \
@@ -51,6 +52,7 @@ SOURCES     += main.cpp                        \
                mainwindow.cpp                  \
                systrayicon.cpp                 \
                widgets/nslineedit.cpp          \
+               widgets/nscreditscroller.cpp    \
                dialogs/about.cpp               \
                dialogs/settings.cpp            \
                dialogs/settings/categories.cpp \
