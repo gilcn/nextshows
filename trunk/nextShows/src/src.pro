@@ -63,7 +63,7 @@ SOURCES     += main.cpp                        \
                libs/getdata.cpp                \
                libs/tvrageprovider.cpp
 
-#### TRANSLATIONS = XXXX_en.ts XXXX_fr.ts
+TRANSLATIONS = nextshows_fr.ts
 
 
 # EOF - vim:ts=4:sw=4:et:

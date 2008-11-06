@@ -124,7 +124,7 @@ void NSCreditScroller::addCreditSection(const QString &text, const int &fontSize
 {
     int topMargin = (!m_nextGridLayoutRow) ? 0 : 60;
 
-    QLabel *label = new QLabel(text);
+    QLabel *label = new QLabel(QString("<p align=\"center\">%1</p>").arg(text));
 
     QFont font(label->font());
     font.setBold(true);
