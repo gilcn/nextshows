@@ -22,6 +22,7 @@ public:
 
 private slots:
     void initDb();
+    void getShowsList();
 
 private:
     Ui::MainWindow ui;

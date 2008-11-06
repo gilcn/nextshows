@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui.btnCheckCache, SIGNAL(clicked(bool)), this, SLOT(initDb()));
 
     connect(m_cache, SIGNAL(stateChanged(const QString &)), ui.infoTextEdit, SLOT(append(const QString &)));
+    
+    connect(ui.btnListShows,SIGNAL(clicked(bool)),this,SLOT(getShowsList()));
 } // ctor()
 
 MainWindow::~MainWindow()
@@ -31,7 +33,16 @@ void MainWindow::initDb()
 {
     ui.btnCheckCache->setEnabled(false);
     QMap<QString, QString> map = m_cache->getShows();
-    //qDebug() << m_cache->getShows();
+
+    foreach (QString id, map.keys()) {
+        qDebug() << id << ":" << map.value(id);
+        ui.infoTextEdit->append(id+" : "+map.value(id));
+    }
+}
+
+void MainWindow::getShowsList()
+{
+    QMap<QString, QString> map = m_cache->getShows();
 
     foreach (QString id, map.keys()) {
         qDebug() << id << ":" << map.value(id);
