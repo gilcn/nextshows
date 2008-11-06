@@ -76,6 +76,7 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent *event);
+    void paintEvent(QPaintEvent *event);
 
 private Q_SLOTS:
     void moveText();
@@ -90,6 +91,7 @@ private:
     QGridLayout          *m_gridLayout;
     QGraphicsProxyWidget *m_scrollWidget;
 
+    QColor                m_parentBgColor;
     int                   m_nextGridLayoutRow;
 };
 
