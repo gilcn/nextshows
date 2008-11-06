@@ -4,6 +4,8 @@
 
 // Own
 #include "ui_mainwindow.h"
+// QtCore
+#include <QtCore/QMap>
 // QtGui
 #include <QtGui/QDialog>
 
@@ -24,6 +26,7 @@ private slots:
 private:
     Ui::MainWindow ui;
     Cache *m_cache;
+    //QMap<int, QString> *map;
 };
 
 

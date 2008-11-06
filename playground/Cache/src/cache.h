@@ -22,6 +22,7 @@
 
 // QtCore
 #include <QtCore/QObject>
+#include <QtCore/QMap>
 // QtSql
 #include <QtSql/QSqlDatabase>
 
@@ -44,13 +45,16 @@ public:
     Cache(QObject *parent = 0);
     ~Cache();
 
-    void openDB();
+    QMap<QString, QString> getShows();
+    void saveShows(QString);
 
 signals:
     void stateChanged(const QString &text);
 
 private:
     QSqlDatabase m_db;
+    QMap<QString, QString> m_shows;
+    void openDB();
 };
 
 

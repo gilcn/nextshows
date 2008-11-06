@@ -2,6 +2,7 @@
 #include "mainwindow.h"
 // QtCore
 #include <QtCore/QDebug>
+#include <QtCore/QMap>
 // QtGui
 #include <QtGui/QPushButton>
 
@@ -29,5 +30,11 @@ MainWindow::~MainWindow()
 void MainWindow::initDb()
 {
     ui.btnCheckCache->setEnabled(false);
-    m_cache->openDB();
+    QMap<QString, QString> map = m_cache->getShows();
+    //qDebug() << m_cache->getShows();
+
+    foreach (QString id, map.keys()) {
+        qDebug() << id << ":" << map.value(id);
+        ui.infoTextEdit->append(id+" : "+map.value(id));
+    }
 }

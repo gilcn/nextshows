@@ -38,6 +38,18 @@ Cache::~Cache()
 {
 } // dtor()
 
+QMap<QString, QString> Cache::getShows()
+{
+    // set few examples
+    m_shows["2456"] = "show one";
+    m_shows["1235"] = "second show";
+    return m_shows;
+} // getShows()
+
+void Cache::saveShows(QString)
+{
+} // saveShows()
+
 void Cache::openDB()
 {
     // test if db file exist. if don't, create it !
@@ -45,7 +57,7 @@ void Cache::openDB()
     m_db.setDatabaseName("ns.db");
     if (m_db.open()) {
         qDebug() << "Db open !";
-        emit stateChanged("DB Open\n");
+        emit stateChanged("DB Open");
     }
     else {
         qDebug() << "Db open FAILED !";
