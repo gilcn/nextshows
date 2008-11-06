@@ -28,6 +28,13 @@
      </widget>
     </item>
     <item row="1" column="0" >
+     <widget class="QPushButton" name="btnListShows" >
+      <property name="text" >
+       <string>Get shows list</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" >
      <widget class="QTextEdit" name="infoTextEdit" />
     </item>
    </layout>
