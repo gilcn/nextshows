@@ -328,7 +328,10 @@ void FindShows::insertIntoTrackedShowList(const AbstractProvider::SearchResults_
     insertPos = (insertPos < 0) ? pos : insertPos;
 
     if (!trackedShowIds.contains(showInfos.showid)) {
+        qDebug() << QString("Adding \"%1 [%2]\" to the tracked shows list").arg(showInfos.name).arg(showInfos.showid).toLocal8Bit().constData();
         m_trackedShows.insert(insertPos, showInfos);
+    } else {
+        qDebug() << QString("Show \"%1 [%2]\" already tracked!").arg(showInfos.name).arg(showInfos.showid).toLocal8Bit().constData();
     }
 } // insertIntoTrackedShowList()
 
