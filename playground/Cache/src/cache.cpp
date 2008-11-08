@@ -1,4 +1,5 @@
 /*
+** Copyright (C) 2008 Emmanuel HAMELET <kh.starlifter@gmail.com>
 ** Copyright (C) 2008 Gilles CHAUVIN <gcnweb+nextshows@gmail.com>
 **
 ** This program is free software; you can redistribute it and/or modify
@@ -22,8 +23,10 @@
 #include "cache.h"
 // QtCore
 #include <QtCore/QDebug>
+#include <QtCore/QFile>
 // QtSql
 #include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlQuery>
 
 
 /*
@@ -50,18 +53,38 @@ void Cache::saveShows(QString)
 {
 } // saveShows()
 
-void Cache::openDB()
+void Cache::testCacheState()
 {
-    // test if db file exist. if don't, create it !
+    // First, test if db file exist
+    QFile file("ns.db");
+    if (!file.exists()) {
+        emit stateChanged("CacheFileNotFound");
+        openDb(true);
+    }
+    else {
+        emit stateChanged("CacheFileValid");
+        openDb(false);
+    }
+} // testCacheState()
+
+bool Cache::openDb(bool newfile = false)
+{
     QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE");
     m_db.setDatabaseName("ns.db");
     if (m_db.open()) {
-        qDebug() << "Db open !";
         emit stateChanged("DB Open");
     }
     else {
-        qDebug() << "Db open FAILED !";
+        emit stateChanged("DB Open error");
+        return(false);
     }
+    // If db file don't exist, create it!
+    if (newfile==true) {
+        QSqlQuery m_query;
+        m_query.exec("CREATE TABLE T_Shows (idT_Shows INTEGER PRIMARY KEY, ShowName VARCHAR(30), Link VARCHAR(256), Country VARCHAR(15), Started INTEGER, Ended INTEGER, EndedFlag BOOL)");
+        m_query.exec("CREATE TABLE T_Episode (Shows_id INTEGER, EpisodeName VARCHAR(50), EpisodeId INTEGER, EpisodeNumber INTEGER)");
+    }
+    return(true);
 } // openDB()
 
 // EOF - vim:ts=4:sw=4:et:

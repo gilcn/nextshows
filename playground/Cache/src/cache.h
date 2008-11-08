@@ -1,4 +1,5 @@
 /*
+** ** Copyright (C) 2008 Emmanuel HAMELET <kh.starlifter@gmail.com>
 ** Copyright (C) 2008 Gilles CHAUVIN <gcnweb+nextshows@gmail.com>
 **
 ** This program is free software; you can redistribute it and/or modify
@@ -25,6 +26,7 @@
 #include <QtCore/QMap>
 // QtSql
 #include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlQuery>
 
 
 class Cache : public QObject
@@ -48,13 +50,18 @@ public:
     QMap<QString, QString> getShows();
     void saveShows(QString);
 
+public slots:
+    void testCacheState();
+
 signals:
     void stateChanged(const QString &text);
 
 private:
     QSqlDatabase m_db;
+    QSqlQuery m_query;
     QMap<QString, QString> m_shows;
-    void openDB();
+
+    bool openDb(bool);
 };
 
 
