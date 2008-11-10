@@ -47,14 +47,19 @@ private Q_SLOTS:
     void on_treeSearchResults_itemSelectionChanged();
     void on_cbHideEndedShows_stateChanged(int);
     void on_tbtnAddShow_clicked();
+    void on_lstTrackedShows_itemSelectionChanged();
+    void on_tbtnRemoveShow_clicked();
     void newImageFrame(const QPixmap &);
     void searchResultsReady(const QList<AbstractProvider::SearchResults_t> &);
 
 private:
     void displaySearchResults();
-    void displayTrackedShows();
+    // pos = selected item
+    void displayTrackedShows(const int &pos = -1);
     void updateSearchResultsWidgets();
-    void insertIntoTrackedShowList(const AbstractProvider::SearchResults_t &);
+    // Insert user selected show into tracked shows list
+    // Returns the show position within the list
+    int insertIntoTrackedShowList(const AbstractProvider::SearchResults_t &);
 
     Ui::FindShows ui;
 
