@@ -276,7 +276,7 @@ void FindShows::displaySearchResults()
 
 void FindShows::displayTrackedShows(const int &pos)
 {
-    bool state = m_trackedShows.count();
+    bool state = (m_trackedShows.count() != 0);
     ui.lstTrackedShows->setEnabled(state);
     ui.lstTrackedShows->clear();
 
@@ -294,9 +294,7 @@ void FindShows::displayTrackedShows(const int &pos)
         }
 
         if (!show.endedFlag) {
-            if (!m_filterResults) {
-                font.setBold(true);
-            }
+            font.setBold(true);
         } else {
             font.setItalic(true);
             brush.setColor(Qt::darkGray);
