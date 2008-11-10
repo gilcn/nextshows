@@ -140,10 +140,25 @@ void FindShows::on_tbtnAddShow_clicked()
         return;
     }
 
-    insertIntoTrackedShowList(m_searchResults[index]);
-
-    displayTrackedShows();
+    int pos = insertIntoTrackedShowList(m_searchResults[index]);
+    if (pos >= 0) {
+        displayTrackedShows(pos);
+    }
 } // on_btnLookup_clicked()
+
+void FindShows::on_lstTrackedShows_itemSelectionChanged()
+{
+    bool state = (ui.lstTrackedShows->currentRow() >= 0);
+    ui.tbtnRemoveShow->setEnabled(state);
+} // on_lstTrackedShows_itemSelectionChanged()
+
+void FindShows::on_tbtnRemoveShow_clicked()
+{
+    m_trackedShows.removeAt(ui.lstTrackedShows->currentRow());
+    displayTrackedShows();
+
+    on_lstTrackedShows_itemSelectionChanged();
+} // on_tbtnRemoveShow_clicked()
 
 void FindShows::newImageFrame(const QPixmap &pixmap)
 {
@@ -175,7 +190,6 @@ void FindShows::displaySearchResults()
 
     foreach(AbstractProvider::SearchResults_t show, m_searchResults) {
         QTreeWidgetItem *parentItem = new QTreeWidgetItem();
-
         QFont font(parentItem->font(0));
         QBrush brush(parentItem->foreground(0));
 
@@ -242,7 +256,7 @@ void FindShows::displaySearchResults()
     updateSearchResultsWidgets();
 } // displaySearchResults()
 
-void FindShows::displayTrackedShows()
+void FindShows::displayTrackedShows(const int &pos)
 {
     bool state = m_trackedShows.count();
     if (!state) {
@@ -253,6 +267,8 @@ void FindShows::displayTrackedShows()
 
     foreach(AbstractProvider::SearchResults_t show, m_trackedShows) {
         QListWidgetItem *item = new QListWidgetItem();
+        QFont font(item->font());
+        QBrush brush(item->foreground());
 
         // Set the proper flag
         QString flagFile = QString(":/pixmaps/flags/%1.gif").arg(show.country.toLower());
@@ -262,10 +278,23 @@ void FindShows::displayTrackedShows()
             item->setIcon(QIcon(":/pixmaps/flags/unknown.gif"));
         }
 
+        if (!show.endedFlag) {
+            if (!m_filterResults) {
+                font.setBold(true);
+            }
+        } else {
+            font.setItalic(true);
+            brush.setColor(Qt::darkGray);
+        }
+
+        item->setFont(font);
+        item->setForeground(brush);
         item->setText(show.name);
 
         ui.lstTrackedShows->addItem(item);
     } // foreach()
+
+    ui.lstTrackedShows->setCurrentRow(pos);
 } // displayTrackedShows()
 
 void FindShows::updateSearchResultsWidgets()
@@ -304,7 +333,7 @@ void FindShows::updateSearchResultsWidgets()
     ui.treeSearchResults->resizeColumnToContents(0);
 } // updateSearchResultsWidgets()
 
-void FindShows::insertIntoTrackedShowList(const AbstractProvider::SearchResults_t &showInfos)
+int FindShows::insertIntoTrackedShowList(const AbstractProvider::SearchResults_t &showInfos)
 {
     QList<uint> trackedShowIds;
     QString previousShowName;
@@ -333,6 +362,8 @@ void FindShows::insertIntoTrackedShowList(const AbstractProvider::SearchResults_
     } else {
         qDebug() << QString("Show \"%1 [%2]\" already tracked!").arg(showInfos.name).arg(showInfos.showid).toLocal8Bit().constData();
     }
+
+    return insertPos; // Position of the inserted show
 } // insertIntoTrackedShowList()
 
 } // namespace Settings
