@@ -60,8 +60,11 @@ NSTreeWidget::~NSTreeWidget()
 void NSTreeWidget::contextMenuEvent(QContextMenuEvent *event)
 {
     QTreeWidgetItem *item = itemAt(event->pos());
-    if (item)
-    {
+    if (item) {
+        bool state = (item->flags() & Qt::ItemIsEnabled);
+        m_actionTrack->setEnabled(state);
+        m_actionOpenUrl->setEnabled(state);
+
         m_menu->exec(event->globalPos());
     }
 } // contextMenuEvent()
