@@ -239,7 +239,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QListWidget" name="lstTrackedShows" >
+      <widget class="NSListWidget" name="lstTrackedShows" >
        <property name="enabled" >
         <bool>false</bool>
        </property>
@@ -298,6 +298,11 @@
    <class>NSTreeWidget</class>
    <extends>QTreeWidget</extends>
    <header>widgets/nstreewidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>NSListWidget</class>
+   <extends>QListWidget</extends>
+   <header>widgets/nslistwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources>
