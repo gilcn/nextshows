@@ -19,7 +19,7 @@
 
 
 // Own
-#include "nstreewidget.h"
+#include "nslistwidget.h"
 // QtCode
 #include <QtCore/QDebug>
 // QtGui
@@ -30,27 +30,27 @@
 /*
 ** public:
 */
-NSTreeWidget::NSTreeWidget(QWidget *parent)
-    : QTreeWidget(parent)
+NSListWidget::NSListWidget(QWidget *parent)
+    : QListWidget(parent)
     , m_menu(new QMenu(this))
-    , m_actionTrack(new QAction(this))
+    , m_actionRemove(new QAction(this))
     , m_actionOpenUrl(new QAction(this))
 {
-    m_actionTrack->setObjectName("actionTrack");
-    m_actionTrack->setIcon(QIcon(":/pixmaps/icons/rightarrow.png"));
-    m_actionTrack->setText(tr("Track this show"));
+    m_actionRemove->setObjectName("actionRemove");
+    m_actionRemove->setIcon(QIcon(":/pixmaps/icons/trash.png"));
+    m_actionRemove->setText(tr("Remove this show"));
     m_actionOpenUrl->setObjectName("actionOpenUrl");
     m_actionOpenUrl->setIcon(QIcon(":/pixmaps/icons/browser.png"));
     m_actionOpenUrl->setText(tr("Open in web browser"));
 
-    m_menu->addAction(m_actionTrack);
+    m_menu->addAction(m_actionRemove);
     m_menu->addAction(m_actionOpenUrl);
 
-    connect(m_actionTrack, SIGNAL(triggered()), this, SIGNAL(addShowAction()));
+    connect(m_actionRemove, SIGNAL(triggered()), this, SIGNAL(removeShowAction()));
     connect(m_actionOpenUrl, SIGNAL(triggered()), this, SIGNAL(openUrlAction()));
 } // ctor()
 
-NSTreeWidget::~NSTreeWidget()
+NSListWidget::~NSListWidget()
 {
 } // dtor()
 
@@ -58,14 +58,10 @@ NSTreeWidget::~NSTreeWidget()
 /*
 ** protected:
 */
-void NSTreeWidget::contextMenuEvent(QContextMenuEvent *event)
+void NSListWidget::contextMenuEvent(QContextMenuEvent *event)
 {
-    QTreeWidgetItem *item = itemAt(event->pos());
+    QListWidgetItem *item = itemAt(event->pos());
     if (item) {
-        bool state = (item->flags() & Qt::ItemIsEnabled);
-        m_actionTrack->setEnabled(state);
-        m_actionOpenUrl->setEnabled(state);
-
         m_menu->exec(event->globalPos());
     }
 } // contextMenuEvent()

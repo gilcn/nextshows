@@ -55,6 +55,9 @@ private Q_SLOTS:
     void on_treeSearchResults_addShowAction();
     void on_treeSearchResults_openUrlAction();
 
+    void on_lstTrackedShows_removeShowAction();
+    void on_lstTrackedShows_openUrlAction();
+
 private:
     void displaySearchResults();
     // pos = selected item
@@ -65,6 +68,7 @@ private:
     int insertIntoTrackedShowList(const AbstractProvider::SearchResults_t &);
 
     void addShowToTrackedList();
+    void removeShowFromTrackedList();
 
     Ui::FindShows ui;
 

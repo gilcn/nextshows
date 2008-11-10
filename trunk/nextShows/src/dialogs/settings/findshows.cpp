@@ -147,10 +147,7 @@ void FindShows::on_lstTrackedShows_itemSelectionChanged()
 
 void FindShows::on_tbtnRemoveShow_clicked()
 {
-    m_trackedShows.removeAt(ui.lstTrackedShows->currentRow());
-    displayTrackedShows();
-
-    on_lstTrackedShows_itemSelectionChanged();
+    removeShowFromTrackedList();
 } // on_tbtnRemoveShow_clicked()
 
 void FindShows::newImageFrame(const QPixmap &pixmap)
@@ -187,6 +184,18 @@ void FindShows::on_treeSearchResults_openUrlAction()
 
     QDesktopServices::openUrl(m_searchResults[index].link);
 } // on_treeSearchResults_openUrlAction()
+
+void FindShows::on_lstTrackedShows_removeShowAction()
+{
+    removeShowFromTrackedList();
+} // on_lstTrackedShows_removeShowAction()
+
+void FindShows::on_lstTrackedShows_openUrlAction()
+{
+    int index = ui.lstTrackedShows->currentRow();
+    QDesktopServices::openUrl(m_trackedShows[index].link);
+}
+
 
 /*
 ** private:
@@ -399,6 +408,14 @@ void FindShows::addShowToTrackedList()
         displayTrackedShows(pos);
     }
 } // addShowToTrackedList()
+
+void FindShows::removeShowFromTrackedList()
+{
+    m_trackedShows.removeAt(ui.lstTrackedShows->currentRow());
+    displayTrackedShows();
+
+    on_lstTrackedShows_itemSelectionChanged();
+} // removeShowFromTrackedList()
 
 
 } // namespace Settings

@@ -1,6 +1,7 @@
 <RCC>
   <qresource prefix="/pixmaps/" >
     <file>icons/about.png</file>
+    <file>icons/browser.png</file>
     <file>icons/exit.png</file>
     <file>icons/rightarrow.png</file>
     <file>icons/settings.png</file>
