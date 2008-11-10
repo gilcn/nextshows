@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Form</string>
+   <string>Find Shows</string>
   </property>
   <layout class="QGridLayout" name="gridLayout" >
    <item row="0" column="0" colspan="3" >
@@ -88,7 +88,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QTreeWidget" name="treeSearchResults" >
+      <widget class="NSTreeWidget" name="treeSearchResults" >
        <property name="enabled" >
         <bool>false</bool>
        </property>
@@ -293,6 +293,11 @@
    <class>NSLineEdit</class>
    <extends>QLineEdit</extends>
    <header>widgets/nslineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>NSTreeWidget</class>
+   <extends>QTreeWidget</extends>
+   <header>widgets/nstreewidget.h</header>
   </customwidget>
  </customwidgets>
  <resources>

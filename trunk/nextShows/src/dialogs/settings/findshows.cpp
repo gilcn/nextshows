@@ -23,6 +23,8 @@
 // QtCore
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
+// QtGui
+#include <QtGui/QDesktopServices>
 
 
 namespace Settings
@@ -134,16 +136,7 @@ void FindShows::on_cbHideEndedShows_stateChanged(int state)
 
 void FindShows::on_tbtnAddShow_clicked()
 {
-    int index = ui.treeSearchResults->indexOfTopLevelItem(ui.treeSearchResults->currentItem());
-
-    if (index < 0) {
-        return;
-    }
-
-    int pos = insertIntoTrackedShowList(m_searchResults[index]);
-    if (pos >= 0) {
-        displayTrackedShows(pos);
-    }
+    addShowToTrackedList();
 } // on_btnLookup_clicked()
 
 void FindShows::on_lstTrackedShows_itemSelectionChanged()
@@ -178,6 +171,22 @@ void FindShows::searchResultsReady(const QList<AbstractProvider::SearchResults_t
     displaySearchResults(); // Refresh list
 } // searchResultsReady()
 
+void FindShows::on_treeSearchResults_addShowAction()
+{
+    addShowToTrackedList();
+} // on_treeSearchResults_addShowAction()
+
+void FindShows::on_treeSearchResults_openUrlAction()
+{
+    int index;
+    if (ui.treeSearchResults->currentItem()->parent()) {
+        index = ui.treeSearchResults->indexOfTopLevelItem(ui.treeSearchResults->currentItem()->parent());
+    } else {
+        index = ui.treeSearchResults->indexOfTopLevelItem(ui.treeSearchResults->currentItem());
+    }
+
+    QDesktopServices::openUrl(m_searchResults[index].link);
+} // on_treeSearchResults_openUrlAction()
 
 /*
 ** private:
@@ -259,9 +268,6 @@ void FindShows::displaySearchResults()
 void FindShows::displayTrackedShows(const int &pos)
 {
     bool state = m_trackedShows.count();
-    if (!state) {
-        return;
-    }
     ui.lstTrackedShows->setEnabled(state);
     ui.lstTrackedShows->clear();
 
@@ -290,6 +296,19 @@ void FindShows::displayTrackedShows(const int &pos)
         item->setFont(font);
         item->setForeground(brush);
         item->setText(show.name);
+
+        QString toolTip = QString(tr("Country: %1")).arg(show.country);
+        toolTip += QString(tr("\nSeasons: %1")).arg(show.seasons);
+        toolTip += QString(tr("\nStatus: %1")).arg(show.status);
+        toolTip += QString(tr("\nStarted: %1")).arg(show.started);
+        if (show.ended != 0) {
+            toolTip += QString(tr("\nEnded: %1")).arg(show.ended);
+        }
+        toolTip += QString(tr("\nClassification: %1")).arg(show.classification);
+        if (!show.genres.empty()) {
+            toolTip += QString(tr("\nGenres: %1")).arg(show.genres.join(", "));
+        }
+        item->setToolTip(toolTip);
 
         ui.lstTrackedShows->addItem(item);
     } // foreach()
@@ -365,6 +384,22 @@ int FindShows::insertIntoTrackedShowList(const AbstractProvider::SearchResults_t
 
     return insertPos; // Position of the inserted show
 } // insertIntoTrackedShowList()
+
+void FindShows::addShowToTrackedList()
+{
+    int index;
+    if (ui.treeSearchResults->currentItem()->parent()) {
+        index = ui.treeSearchResults->indexOfTopLevelItem(ui.treeSearchResults->currentItem()->parent());
+    } else {
+        index = ui.treeSearchResults->indexOfTopLevelItem(ui.treeSearchResults->currentItem());
+    }
+
+    int pos = insertIntoTrackedShowList(m_searchResults[index]);
+    if (pos >= 0) {
+        displayTrackedShows(pos);
+    }
+} // addShowToTrackedList()
+
 
 } // namespace Settings
 

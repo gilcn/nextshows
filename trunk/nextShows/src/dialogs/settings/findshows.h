@@ -52,6 +52,9 @@ private Q_SLOTS:
     void newImageFrame(const QPixmap &);
     void searchResultsReady(const QList<AbstractProvider::SearchResults_t> &);
 
+    void on_treeSearchResults_addShowAction();
+    void on_treeSearchResults_openUrlAction();
+
 private:
     void displaySearchResults();
     // pos = selected item
@@ -60,6 +63,8 @@ private:
     // Insert user selected show into tracked shows list
     // Returns the show position within the list
     int insertIntoTrackedShowList(const AbstractProvider::SearchResults_t &);
+
+    void addShowToTrackedList();
 
     Ui::FindShows ui;
 
