@@ -34,6 +34,9 @@
 TvRageProvider::TvRageProvider(QObject *parent)
     : AbstractProvider(parent)
 {
+    // Ended show keywords
+    m_endedShowStatusKeywords << "Canceled/Ended"
+                              << "Pilot Rejected";
 } // ctor()
 
 TvRageProvider::~TvRageProvider()
@@ -129,7 +132,7 @@ AbstractProvider::SearchResults_t TvRageProvider::parseSearchResultsTag_Show(con
                 showInfos.seasons = element.text().toUInt();
             } else if (tagName == "status") {
                 showInfos.status = element.text();
-                showInfos.endedFlag = (showInfos.status == "Canceled/Ended") ? true : false; 
+                showInfos.endedFlag = m_endedShowStatusKeywords.contains(showInfos.status);
             } else if (tagName == "classification") {
                 showInfos.classification = element.text();
             } else if (tagName == "genres") {

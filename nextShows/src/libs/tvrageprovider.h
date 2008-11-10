@@ -42,6 +42,9 @@ protected:
 
 private:
     AbstractProvider::SearchResults_t parseSearchResultsTag_Show(const QDomNode &);
+
+    // Contains the various texts used to identify an ended show
+    QList<QString> m_endedShowStatusKeywords;
 };
 
 
