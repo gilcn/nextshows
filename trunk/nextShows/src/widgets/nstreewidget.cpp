@@ -35,6 +35,8 @@ NSTreeWidget::NSTreeWidget(QWidget *parent)
     , m_menu(new QMenu(this))
     , m_actionTrack(new QAction(this))
     , m_actionOpenUrl(new QAction(this))
+    , m_actionExpandAll(new QAction(this))
+    , m_actionCollapseAll(new QAction(this))
 {
     m_actionTrack->setObjectName("actionTrack");
     m_actionTrack->setIcon(QIcon(":/pixmaps/icons/rightarrow.png"));
@@ -42,12 +44,21 @@ NSTreeWidget::NSTreeWidget(QWidget *parent)
     m_actionOpenUrl->setObjectName("actionOpenUrl");
     m_actionOpenUrl->setIcon(QIcon(":/pixmaps/icons/browser.png"));
     m_actionOpenUrl->setText(tr("Open in web browser"));
+    m_actionExpandAll->setObjectName("actionExpandAll");
+    m_actionExpandAll->setText(tr("Expand all"));
+    m_actionCollapseAll->setObjectName("actionCollapseAll");
+    m_actionCollapseAll->setText(tr("Collapse all"));
 
     m_menu->addAction(m_actionTrack);
     m_menu->addAction(m_actionOpenUrl);
+    m_menu->addSeparator();
+    m_menu->addAction(m_actionExpandAll);
+    m_menu->addAction(m_actionCollapseAll);
 
     connect(m_actionTrack, SIGNAL(triggered()), this, SIGNAL(addShowAction()));
     connect(m_actionOpenUrl, SIGNAL(triggered()), this, SIGNAL(openUrlAction()));
+    connect(m_actionExpandAll, SIGNAL(triggered()), this, SLOT(expandAll()));
+    connect(m_actionCollapseAll, SIGNAL(triggered()), this, SLOT(collapseAll()));
 } // ctor()
 
 NSTreeWidget::~NSTreeWidget()

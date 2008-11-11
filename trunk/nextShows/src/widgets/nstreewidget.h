@@ -44,6 +44,8 @@ private:
     QMenu   *m_menu;
     QAction *m_actionTrack;
     QAction *m_actionOpenUrl;
+    QAction *m_actionExpandAll;
+    QAction *m_actionCollapseAll;
 };
 
 #endif // __WIDGET_NSTREEWIDGET_H__
