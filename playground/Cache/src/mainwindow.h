@@ -41,13 +41,12 @@ public:
     ~MainWindow();
 
 private slots:
-    void initDb();
     void getShowList();
 
 private:
     Ui::MainWindow ui;
     Cache *m_cache;
-    //QMap<int, QString> *map;
+    QMap<QString, QString> *map;
 };
 
 
