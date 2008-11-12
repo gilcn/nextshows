@@ -24,6 +24,7 @@
 // QtCore
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
+#include <QtCore/QVariant>
 // QtSql
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
@@ -35,23 +36,37 @@
 Cache::Cache(QObject *parent)
     : QObject(parent)
 {
+
 } // ctor()
 
 Cache::~Cache()
 {
 } // dtor()
 
-QMap<QString, QString> Cache::getShows()
-{
-    // set few examples
-    m_shows["2456"] = "show one";
-    m_shows["1235"] = "second show";
-    return m_shows;
-} // getShows()
-
 void Cache::saveShows(QString)
 {
 } // saveShows()
+
+QMap<QString, QString> Cache::getShows(QString search)
+{
+    // set few examples
+    //m_shows["2456"] = "show one";
+    //m_shows["1235"] = "second show";
+    QSqlQuery query("SELECT idT_Shows, ShowName FROM T_Shows",m_db);
+    //m_query.exec("SELECT idT_Shows, ShowName FROM T_Shows");
+    while (query.next()) {
+        QString id_show = query.value(0).toString();
+        qDebug() << id_show;
+        QString show_name = query.value(1).toString();
+        m_shows[id_show] = show_name;
+    }
+    /*for (int i = 0; i < 4; ++i) {
+        QStandardItem *item = new QStandardItem(QString("item %0").arg(i));
+        m_modelShow->appendRow(item);
+        //parentItem = item;
+    }*/
+    return m_shows;
+} // listShows()
 
 void Cache::testCacheState()
 {
@@ -65,12 +80,14 @@ void Cache::testCacheState()
         emit stateChanged("CacheFileValid");
         openDb(false);
     }
+    
 } // testCacheState()
 
 bool Cache::openDb(bool newfile = false)
 {
     QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE");
     m_db.setDatabaseName("ns.db");
+
     if (m_db.open()) {
         emit stateChanged("DB Open");
     }
@@ -80,9 +97,9 @@ bool Cache::openDb(bool newfile = false)
     }
     // If db file don't exist, create it!
     if (newfile==true) {
-        QSqlQuery m_query;
-        m_query.exec("CREATE TABLE T_Shows (idT_Shows INTEGER PRIMARY KEY, ShowName VARCHAR(30), Link VARCHAR(256), Country VARCHAR(15), Started INTEGER, Ended INTEGER, EndedFlag BOOL)");
-        m_query.exec("CREATE TABLE T_Episode (Shows_id INTEGER, EpisodeName VARCHAR(50), EpisodeId INTEGER, EpisodeNumber INTEGER)");
+        //QSqlQuery m_query;
+        QSqlQuery query1("CREATE TABLE T_Shows (idT_Shows INTEGER PRIMARY KEY, ShowName VARCHAR(30), Link VARCHAR(256), Country VARCHAR(15), Started INTEGER, Ended INTEGER, EndedFlag BOOL)",m_db);
+        QSqlQuery query2("CREATE TABLE T_Episode (Shows_id INTEGER, EpisodeName VARCHAR(50), EpisodeId INTEGER, EpisodeNumber INTEGER)",m_db);
     }
     return(true);
 } // openDB()

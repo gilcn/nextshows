@@ -49,23 +49,10 @@ MainWindow::~MainWindow()
 {
 } // dtor()
 
-void MainWindow::initDb()
-{
-    /*ui.btnCheckCache->setEnabled(false);
-    QMap<QString, QString> map = m_cache->getShows();
-
-    foreach (QString id, map.keys()) {
-        qDebug() << id << ":" << map.value(id);
-        ui.infoTextEdit->append(id+" : "+map.value(id));
-    }*/
-}
-
 void MainWindow::getShowList()
 {
-    QMap<QString, QString> map = m_cache->getShows();
-
+    QMap<QString, QString> map = m_cache->getShows("");
     foreach (QString id, map.keys()) {
-        qDebug() << id << ":" << map.value(id);
         ui.infoTextEdit->append(id+" : "+map.value(id));
     }
 }

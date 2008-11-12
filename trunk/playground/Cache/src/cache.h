@@ -47,7 +47,7 @@ public:
     Cache(QObject *parent = 0);
     ~Cache();
 
-    QMap<QString, QString> getShows();
+    QMap<QString, QString> getShows(QString);
     void saveShows(QString);
 
 public slots:
