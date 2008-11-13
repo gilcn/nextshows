@@ -34,6 +34,7 @@ FORMS       += ui/mainwindow.ui                 \
                dialogs/settings/ui/misc.ui
 
 HEADERS     += version.h                     \
+               nextshows.h                   \
                mainwindow.h                  \
                systrayicon.h                 \
                widgets/nscreditscroller.h    \
@@ -47,7 +48,7 @@ HEADERS     += version.h                     \
                dialogs/settings/misc.h       \
                libs/abstractprovider.h       \
                libs/animatedimage.h          \
-               libs/getdata.h                \
+               libs/dataprovider.h           \
                libs/tvrageprovider.h
 
 SOURCES     += main.cpp                        \
@@ -64,7 +65,7 @@ SOURCES     += main.cpp                        \
                dialogs/settings/misc.cpp       \
                libs/abstractprovider.cpp       \
                libs/animatedimage.cpp          \
-               libs/getdata.cpp                \
+               libs/dataprovider.cpp           \
                libs/tvrageprovider.cpp
 
 TRANSLATIONS = nextshows_fr.ts

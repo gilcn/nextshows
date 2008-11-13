@@ -64,13 +64,13 @@ void AbstractProvider::requestFinished(QNetworkReply *reply)
 {
     switch(reply->property("RequestType").toInt()) {
     case AbstractProvider::SearchShow: {
-        QList<AbstractProvider::SearchResults_t> searchResults(parseSearchResults(reply->readAll()));
+        QList<NextShows::ShowInfos_t> searchResults(parseSearchResults(reply->readAll()));
 
         /*
         qDebug();
         qDebug("Search Results (%s):", qPrintable(reply->request().url().toString()));
         qDebug() << "-------------------------------------------------------------------------------";
-        foreach(AbstractProvider::SearchResults_t showEntry, searchResults) {
+        foreach(NextShows::ShowInfos_t showEntry, searchResults) {
             qDebug("%s [id: %u, started: %u, ended: %u]", qPrintable(showEntry.name),
                                   showEntry.showid, showEntry.started, showEntry.ended);
         }

@@ -37,11 +37,11 @@ public:
 
 protected:
     QUrl urlForRequest(const AbstractProvider::RequestType &, const QString &);
-    QList<AbstractProvider::SearchResults_t> parseSearchResults(const QByteArray &);
+    QList<NextShows::ShowInfos_t> parseSearchResults(const QByteArray &);
     QVariant parseEpisodeList(const QByteArray &);
 
 private:
-    AbstractProvider::SearchResults_t parseSearchResultsTag_Show(const QDomNode &);
+    NextShows::ShowInfos_t parseSearchResultsTag_Show(const QDomNode &);
 
     // Contains the various texts used to identify an ended show
     QList<QString> m_endedShowStatusKeywords;

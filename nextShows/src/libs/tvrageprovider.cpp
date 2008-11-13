@@ -69,9 +69,9 @@ QUrl TvRageProvider::urlForRequest(const AbstractProvider::RequestType &urlType,
 } // urlForRequest()
 
 
-QList<AbstractProvider::SearchResults_t> TvRageProvider::parseSearchResults(const QByteArray &data)
+QList<NextShows::ShowInfos_t> TvRageProvider::parseSearchResults(const QByteArray &data)
 {
-    QList<AbstractProvider::SearchResults_t> showList;
+    QList<NextShows::ShowInfos_t> showList;
 
     QDomDocument doc("TvRage Search Results");
     if (!doc.setContent(data))
@@ -88,7 +88,7 @@ QList<AbstractProvider::SearchResults_t> TvRageProvider::parseSearchResults(cons
     while (!resultsDN.isNull())
     {
         if (resultsDN.nodeName() == "show") {
-            AbstractProvider::SearchResults_t show(parseSearchResultsTag_Show(resultsDN));
+            NextShows::ShowInfos_t show(parseSearchResultsTag_Show(resultsDN));
             showList << show;
         }
         resultsDN = resultsDN.nextSibling();
@@ -106,9 +106,9 @@ QVariant TvRageProvider::parseEpisodeList(const QByteArray &/*data*/)
 /*
 ** private:
 */
-AbstractProvider::SearchResults_t TvRageProvider::parseSearchResultsTag_Show(const QDomNode &node)
+NextShows::ShowInfos_t TvRageProvider::parseSearchResultsTag_Show(const QDomNode &node)
 {
-    AbstractProvider::SearchResults_t showInfos;
+    NextShows::ShowInfos_t showInfos;
 
     QDomNode child = node.firstChild();
     while (!child.isNull())

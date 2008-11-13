@@ -21,6 +21,8 @@
 #define __ABSTRACTPROVIDER_H__
 
 
+// Own
+#include "nextshows.h"
 // QtCore
 #include <QtCore/QStringList>
 #include <QtCore/QUrl>
@@ -34,20 +36,6 @@ class AbstractProvider : public QObject
     Q_OBJECT
 
 public:
-    struct SearchResults_t {
-        uint        showid;         // Show unique ID [TvRage]
-        QString     name;           // Show name [TvRage]
-        QUrl        link;           // Show URL [TvRage]
-        QString     country;        // Show country [TvRage]
-        uint        started;        // Show started year [TvRage]
-        uint        ended;          // Show ended year [TvRage]
-        uint        seasons;        // Total number of seasons [TvRage]
-        QString     status;         // Show status [TvRage]
-        QString     classification; // Show classification [TvRage]
-        QStringList genres;         // Show genres [TvRage]
-        bool        endedFlag;      // Show Ended flag [Internal]
-    };
-
     AbstractProvider(QObject *parent = 0);
     ~AbstractProvider();
 
@@ -55,7 +43,7 @@ public:
     void getEpisodeList(const QString &);
 
 Q_SIGNALS:
-    void searchResultsReady(QList<AbstractProvider::SearchResults_t>);
+    void searchResultsReady(QList<NextShows::ShowInfos_t>);
     void episodeListReady(QVariant);
 
 protected:
@@ -65,7 +53,7 @@ protected:
     };
 
     virtual QUrl urlForRequest(const RequestType &, const QString &) = 0;
-    virtual QList<AbstractProvider::SearchResults_t> parseSearchResults(const QByteArray &) = 0;
+    virtual QList<NextShows::ShowInfos_t> parseSearchResults(const QByteArray &) = 0;
     virtual QVariant parseEpisodeList(const QByteArray &) = 0;
 
 private Q_SLOTS:

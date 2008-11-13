@@ -64,14 +64,14 @@ FindShows::FindShows(QWidget *parent)
     connect(m_animatedImage, SIGNAL(newFrame(const QPixmap &)),
             this, SLOT(newImageFrame(const QPixmap &)));
 
-    m_tvrage = new TvRageProvider(this);
-    connect(m_tvrage, SIGNAL(searchResultsReady(QList<AbstractProvider::SearchResults_t>)),
-            this, SLOT(searchResultsReady(const QList<AbstractProvider::SearchResults_t> &)));
+    m_data = new DataProvider(this);
+    connect(m_data, SIGNAL(searchResultsReady(QList<NextShows::ShowInfos_t>)),
+            this, SLOT(searchResultsReady(const QList<NextShows::ShowInfos_t> &)));
 } // ctor()
 
 FindShows::~FindShows()
 {
-    delete m_tvrage;
+    delete m_data;
     delete m_animatedImage;
 } // dtor()
 
@@ -89,7 +89,7 @@ void FindShows::on_btnLookup_clicked()
     ui.btnLookup->setEnabled(false);
 
     m_animatedImage->start();
-    m_tvrage->searchShow(ui.leSearch->text());
+    m_data->searchShow(ui.leSearch->text());
 } // on_btnLookup_clicked()
 
 void FindShows::on_leSearch_textChanged(const QString &text)
@@ -157,7 +157,7 @@ void FindShows::newImageFrame(const QPixmap &pixmap)
     ui.imgProgress->setPixmap(pixmap);
 } // newImageFrame()
 
-void FindShows::searchResultsReady(const QList<AbstractProvider::SearchResults_t> &showList)
+void FindShows::searchResultsReady(const QList<NextShows::ShowInfos_t> &showList)
 {
     m_searchResults = showList;
 
@@ -207,7 +207,7 @@ void FindShows::displaySearchResults()
 
     m_displayedShowCount = 0;
 
-    foreach(AbstractProvider::SearchResults_t show, m_searchResults) {
+    foreach(NextShows::ShowInfos_t show, m_searchResults) {
         QTreeWidgetItem *parentItem = new QTreeWidgetItem();
         QFont font(parentItem->font(0));
         QBrush brush(parentItem->foreground(0));
@@ -281,7 +281,7 @@ void FindShows::displayTrackedShows(const int &pos)
     ui.lstTrackedShows->setEnabled(state);
     ui.lstTrackedShows->clear();
 
-    foreach(AbstractProvider::SearchResults_t show, m_trackedShows) {
+    foreach(NextShows::ShowInfos_t show, m_trackedShows) {
         QListWidgetItem *item = new QListWidgetItem();
         QFont font(item->font());
         QBrush brush(item->foreground());
@@ -360,7 +360,7 @@ void FindShows::updateSearchResultsWidgets()
     ui.treeSearchResults->resizeColumnToContents(0);
 } // updateSearchResultsWidgets()
 
-int FindShows::insertIntoTrackedShowList(const AbstractProvider::SearchResults_t &showInfos)
+int FindShows::insertIntoTrackedShowList(const NextShows::ShowInfos_t &showInfos)
 {
     QList<uint> trackedShowIds;
     QString previousShowName;
@@ -368,7 +368,7 @@ int FindShows::insertIntoTrackedShowList(const AbstractProvider::SearchResults_t
     int insertPos = -1;
 
     // Check dups and insert show at the proper position (sorted by show name)
-    foreach(AbstractProvider::SearchResults_t show, m_trackedShows) {
+    foreach(NextShows::ShowInfos_t show, m_trackedShows) {
         trackedShowIds.append(show.showid);
 
         if (QString::localeAwareCompare(previousShowName, showInfos.name) < 0 &&
