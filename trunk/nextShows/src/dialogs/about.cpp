@@ -35,7 +35,7 @@ About::About(QWidget *parent)
     : QDialog(parent, Qt::Dialog)
 {
     // Default behavior / attributes
-    QDialog::setModal(true);
+//    QDialog::setModal(true);
     QWidget::setAttribute(Qt::WA_DeleteOnClose);
 
     ui.setupUi(this);
