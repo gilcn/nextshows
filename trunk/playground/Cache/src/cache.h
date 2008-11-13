@@ -47,8 +47,8 @@ public:
     Cache(QObject *parent = 0);
     ~Cache();
 
+    void saveShows(QMap<QString, QString>);
     QMap<QString, QString> getShows(QString);
-    void saveShows(QString);
 
 public slots:
     void testCacheState();

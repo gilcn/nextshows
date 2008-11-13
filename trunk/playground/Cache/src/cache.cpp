@@ -28,6 +28,7 @@
 // QtSql
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
+#include <QtSql/QSqlError>
 
 
 /*
@@ -43,8 +44,18 @@ Cache::~Cache()
 {
 } // dtor()
 
-void Cache::saveShows(QString)
+void Cache::saveShows(QMap<QString, QString> shows)
 {
+    foreach (QString id, shows.keys()) {
+        QSqlQuery query;
+        query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp) VALUES (:idt_shows, :showname, '', '', 0, 0, 0, 0)");
+        query.bindValue(":idt_shows", id);
+        query.bindValue(":showname", shows.value(id));
+        query.exec();
+        if (query.lastError().isValid())
+            qDebug() << query.lastError();
+        
+    }
 } // saveShows()
 
 QMap<QString, QString> Cache::getShows(QString search)
@@ -98,8 +109,8 @@ bool Cache::openDb(bool newfile = false)
     // If db file don't exist, create it!
     if (newfile==true) {
         //QSqlQuery m_query;
-        QSqlQuery query1("CREATE TABLE T_Shows (idT_Shows INTEGER PRIMARY KEY, ShowName VARCHAR(30), Link VARCHAR(256), Country VARCHAR(15), Started INTEGER, Ended INTEGER, EndedFlag BOOL)",m_db);
-        QSqlQuery query2("CREATE TABLE T_Episode (Shows_id INTEGER, EpisodeName VARCHAR(50), EpisodeId INTEGER, EpisodeNumber INTEGER)",m_db);
+        QSqlQuery query1("CREATE TABLE T_Shows (idT_Shows INTEGER PRIMARY KEY, ShowName VARCHAR(30), ShowUrl VARCHAR(256), Country VARCHAR(15), Started INTEGER, Ended INTEGER, EndedFlag BOOL, Timestamp INTEGER)",m_db);
+        QSqlQuery query2("CREATE TABLE T_Episodes (idT_Episodes INTEGER PRIMARY KEY, Shows_id INTEGER, EpisodeName VARCHAR(50), EpisodeNumber INTEGER, SeasonNumber INTEGER, Date DATE, IsSpecial BOOL)",m_db);
     }
     return(true);
 } // openDB()

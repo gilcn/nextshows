@@ -41,6 +41,7 @@ public:
     ~MainWindow();
 
 private slots:
+    void saveShow();
     void getShowList();
 
 private:

@@ -42,12 +42,21 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(m_cache, SIGNAL(stateChanged(const QString &)), ui.infoTextEdit, SLOT(append(const QString &)));
     
+    connect(ui.btnSaveShow,SIGNAL(clicked(bool)),this,SLOT(saveShow()));
     connect(ui.btnListShow,SIGNAL(clicked(bool)),this,SLOT(getShowList()));
 } // ctor()
 
 MainWindow::~MainWindow()
 {
 } // dtor()
+
+void MainWindow::saveShow()
+{
+    QMap<QString, QString> myShows;
+    myShows["2456"] = "show one";
+    myShows["1235"] = "second show";
+    m_cache->saveShows(myShows);
+}
 
 void MainWindow::getShowList()
 {
