@@ -23,6 +23,7 @@
 
 // Own
 #include "ui_findshows.h"
+#include "nextshows.h"
 #include "libs/animatedimage.h"
 #include "libs/dataprovider.h"
 // QtGui

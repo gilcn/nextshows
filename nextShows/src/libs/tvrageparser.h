@@ -17,47 +17,33 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-
-#ifndef __DATAPROVIDER_H__
-#define __DATAPROVIDER_H__
+#ifndef __TVRAGEPARSER_H__
+#define __TVRAGEPARSER_H__
 
 
 // Own
-#include "tvrageprovider.h"
 #include "nextshows.h"
+// QtCore
+#include <QtCore/QStringList>
+// Forward declarations
+class QDomNode;
 
 
-class DataProvider : public QObject
+class TvRageParser
 {
-    Q_OBJECT
-
 public:
-    // Cache
-    enum CacheState {
-        // File found and not expired
-        CacheValid    = 0x00,
-        // File not found
-        CacheNotFound = 0x01,
-        // File found but content expired
-        CacheExpired  = 0x02,
-        CacheDirty    = CacheNotFound | CacheExpired
-    };
+    TvRageParser() {}
 
-    DataProvider(QObject *parent = 0);
-    ~DataProvider();
-
-    void searchShow(const QString &showName);
-
-Q_SIGNALS:
-    // Search results are ready to be served
-    void searchResultsReady(QList<NextShows::ShowInfos_t>);
+    static QList<NextShows::ShowInfos_t> parseSearchResults(const QByteArray &data);
 
 private:
-    AbstractProvider *m_provider;
+    static NextShows::ShowInfos_t parseSearchResults_Show(const QDomNode &node);
+
+    static const QStringList m_endedShowStatusKeywords;
 };
 
 
-#endif // __DATAPROVIDER_H__
+#endif // __TVRAGEPARSER_H__
 
 
 // EOF - vim:ts=4:sw=4:et:
