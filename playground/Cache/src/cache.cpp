@@ -40,9 +40,9 @@ Cache::Cache(bool &openStatus, QObject *parent)
     // set status to true by default
     openStatus = true;
     // Open database
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE");
+    m_db = QSqlDatabase::addDatabase("QSQLITE");
     m_db.setDatabaseName("ns.db");
-    if (m_db.lastError().isValid()) {
+    if (!m_db.open()) {
         qDebug() << "Debug : Db open problem : " << m_db.lastError();
         openStatus = false;
     }
@@ -68,13 +68,13 @@ void Cache::saveShows(QMap<QString, QString> shows)
 
 QMap<QString, QString> Cache::getShows()
 {
+    qDebug() << Q_FUNC_INFO << &m_db;
     QSqlQuery query("SELECT idT_Shows, ShowName FROM T_Shows",m_db);
     //query.exec("SELECT idT_Shows, ShowName FROM T_Shows");
     if (query.lastError().isValid()) {
         qDebug() << query.lastError();
         //return false;
     }
-    qDebug() << "GLOPGLOP";
     while (query.next()) {
         QString id_show = query.value(0).toString();
         qDebug() << id_show;

@@ -1,5 +1,5 @@
 /*
-** ** Copyright (C) 2008 Emmanuel HAMELET <kh.starlifter@gmail.com>
+** Copyright (C) 2008 Emmanuel HAMELET <kh.starlifter@gmail.com>
 ** Copyright (C) 2008 Gilles CHAUVIN <gcnweb+nextshows@gmail.com>
 **
 ** This program is free software; you can redistribute it and/or modify
@@ -24,6 +24,8 @@
 // QtCore
 #include <QtCore/QObject>
 #include <QtCore/QMap>
+#include <QtCore/QUrl>
+#include <QtCore/QStringList>
 // QtSql
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
@@ -34,15 +36,19 @@ class Cache : public QObject
     Q_OBJECT
 
 public:
-    enum CacheState {
-        // File found and not expired
-        CacheFileValid    = 0x00,
-        // File not found
-        CacheFileNotFound = 0x01,
-        // File found but content expired
-        CacheFileExpired  = 0x02,
-        CacheFileInvalid  = CacheFileNotFound | CacheFileExpired
-    };
+    struct SearchResults_t {
+         uint showid; // Show unique ID [TvRage]
+         QString name; // Show name [TvRage]
+         QUrl link; // Show URL [TvRage]
+         QString country; // Show country [TvRage]
+         uint started; // Show started year [TvRage]
+         uint ended; // Show ended year [TvRage]
+         uint seasons; // Total number of seasons [TvRage]
+         QString status; // Show status [TvRage]
+         QString classification; // Show classification [TvRage]
+         QStringList genres; // Show genres [TvRage]
+         bool endedFlag; // Show Ended flag [Internal]
+     };
 
     Cache(bool &openStatus, QObject *parent = 0);
     ~Cache();

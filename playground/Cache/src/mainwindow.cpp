@@ -1,5 +1,5 @@
 /*
-** ** Copyright (C) 2008 Emmanuel HAMELET <kh.starlifter@gmail.com>
+** Copyright (C) 2008 Emmanuel HAMELET <kh.starlifter@gmail.com>
 ** Copyright (C) 2008 Gilles CHAUVIN <gcnweb+nextshows@gmail.com>
 **
 ** This program is free software; you can redistribute it and/or modify
@@ -35,8 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     bool status;
-    Cache *m_cache = new Cache(status, this);
-    qDebug() << status;
+    m_cache = new Cache(status, this);
     ui.setupUi(this);
 
     connect(m_cache, SIGNAL(stateChanged(const QString &)), ui.infoTextEdit, SLOT(append(const QString &)));
@@ -52,16 +51,14 @@ MainWindow::~MainWindow()
 void MainWindow::saveShow()
 {
     QMap<QString, QString> myShows;
-    myShows["2456"] = "show one";
-    myShows["1235"] = "second show";
-    
+    if (!ui.ldtShowId->text().isEmpty() && !ui.ldtShowName->text().isEmpty())
+        myShows[ui.ldtShowId->text()] = ui.ldtShowName->text();
     m_cache->saveShows(myShows);
 }
 
 void MainWindow::getShowList()
 {
     QMap<QString, QString> map = m_cache->getShows();
-    qDebug() << "GLOP";
     foreach (QString id, map.keys()) {
         ui.infoTextEdit->append(id+" : "+map.value(id));
     }
