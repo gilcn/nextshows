@@ -1,5 +1,5 @@
 /*
-** ** Copyright (C) 2008 Emmanuel HAMELET <kh.starlifter@gmail.com>
+** Copyright (C) 2008 Emmanuel HAMELET <kh.starlifter@gmail.com>
 ** Copyright (C) 2008 Gilles CHAUVIN <gcnweb+nextshows@gmail.com>
 **
 ** This program is free software; you can redistribute it and/or modify
