@@ -46,11 +46,10 @@ HEADERS     += version.h                     \
                dialogs/settings/categories.h \
                dialogs/settings/findshows.h  \
                dialogs/settings/misc.h       \
-               libs/abstractprovider.h       \
                libs/animatedimage.h          \
+               libs/datafetcher.h            \
                libs/dataprovider.h           \
-               libs/tvrageparser.h           \
-               libs/tvrageprovider.h
+               libs/tvrageparser.h
 
 SOURCES     += main.cpp                        \
                mainwindow.cpp                  \
@@ -64,11 +63,10 @@ SOURCES     += main.cpp                        \
                dialogs/settings/categories.cpp \
                dialogs/settings/findshows.cpp  \
                dialogs/settings/misc.cpp       \
-               libs/abstractprovider.cpp       \
                libs/animatedimage.cpp          \
+               libs/datafetcher.cpp            \
                libs/dataprovider.cpp           \
-               libs/tvrageparser.cpp           \
-               libs/tvrageprovider.cpp
+               libs/tvrageparser.cpp
 
 TRANSLATIONS = nextshows_fr.ts
 
