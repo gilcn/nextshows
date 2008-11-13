@@ -95,6 +95,7 @@ void FindShows::on_btnLookup_clicked()
 void FindShows::on_leSearch_textChanged(const QString &text)
 {
     ui.btnLookup->setEnabled(!text.isEmpty());
+    ui.btnLookup->setDefault(true);
 } // on_leSearch_textChanged()
 
 void FindShows::on_treeSearchResults_itemClicked(QTreeWidgetItem *item, int /*column*/)
