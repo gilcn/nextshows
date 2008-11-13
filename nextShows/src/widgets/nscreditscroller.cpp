@@ -44,13 +44,13 @@ ScrollWidget::ScrollWidget(QWidget *parent)
 */
 void ScrollWidget::enterEvent(QEvent * /*event*/)
 {
-    qDebug() << Q_FUNC_INFO;
+//    qDebug() << Q_FUNC_INFO;
     emit(widgetEntered());
 } // enterEvent()
 
 void ScrollWidget::leaveEvent(QEvent * /*event*/)
 {
-    qDebug() << Q_FUNC_INFO;
+//    qDebug() << Q_FUNC_INFO;
     emit(widgetLeaved());
 } // leaveEvent()
 
