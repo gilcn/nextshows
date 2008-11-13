@@ -34,10 +34,18 @@
 /*
 ** public:
 */
-Cache::Cache(QObject *parent)
+Cache::Cache(bool &openStatus, QObject *parent)
     : QObject(parent)
 {
-
+    // set status to true by default
+    openStatus = true;
+    // Open database
+    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE");
+    m_db.setDatabaseName("ns.db");
+    if (m_db.lastError().isValid()) {
+        qDebug() << "Debug : Db open problem : " << m_db.lastError();
+        openStatus = false;
+    }
 } // ctor()
 
 Cache::~Cache()
@@ -47,7 +55,7 @@ Cache::~Cache()
 void Cache::saveShows(QMap<QString, QString> shows)
 {
     foreach (QString id, shows.keys()) {
-        QSqlQuery query;
+        QSqlQuery query(m_db);
         query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp) VALUES (:idt_shows, :showname, '', '', 0, 0, 0, 0)");
         query.bindValue(":idt_shows", id);
         query.bindValue(":showname", shows.value(id));
@@ -58,61 +66,39 @@ void Cache::saveShows(QMap<QString, QString> shows)
     }
 } // saveShows()
 
-QMap<QString, QString> Cache::getShows(QString search)
+QMap<QString, QString> Cache::getShows()
 {
-    // set few examples
-    //m_shows["2456"] = "show one";
-    //m_shows["1235"] = "second show";
     QSqlQuery query("SELECT idT_Shows, ShowName FROM T_Shows",m_db);
-    //m_query.exec("SELECT idT_Shows, ShowName FROM T_Shows");
+    //query.exec("SELECT idT_Shows, ShowName FROM T_Shows");
+    if (query.lastError().isValid()) {
+        qDebug() << query.lastError();
+        //return false;
+    }
+    qDebug() << "GLOPGLOP";
     while (query.next()) {
         QString id_show = query.value(0).toString();
         qDebug() << id_show;
         QString show_name = query.value(1).toString();
         m_shows[id_show] = show_name;
     }
-    /*for (int i = 0; i < 4; ++i) {
-        QStandardItem *item = new QStandardItem(QString("item %0").arg(i));
-        m_modelShow->appendRow(item);
-        //parentItem = item;
-    }*/
     return m_shows;
 } // listShows()
 
-void Cache::testCacheState()
+bool Cache::initDb()
 {
-    // First, test if db file exist
-    QFile file("ns.db");
-    if (!file.exists()) {
-        emit stateChanged("CacheFileNotFound");
-        openDb(true);
+    // this method create a db structure if needed
+    QSqlQuery query(m_db);
+    query.exec("CREATE TABLE T_Shows (idT_Shows INTEGER PRIMARY KEY, ShowName VARCHAR(30), ShowUrl VARCHAR(256), Country VARCHAR(15), Started INTEGER, Ended INTEGER, EndedFlag BOOL, Timestamp INTEGER)");
+    if (query.lastError().isValid()) {
+        qDebug() << query.lastError();
+        return false;
     }
-    else {
-        emit stateChanged("CacheFileValid");
-        openDb(false);
+    query.exec("CREATE TABLE T_Episodes (idT_Episodes INTEGER PRIMARY KEY, Shows_id INTEGER, EpisodeName VARCHAR(50), EpisodeNumber INTEGER, SeasonNumber INTEGER, Date DATE, IsSpecial BOOL)");
+    if (query.lastError().isValid()) {
+        qDebug() << query.lastError();
+        return false;
     }
-    
-} // testCacheState()
-
-bool Cache::openDb(bool newfile = false)
-{
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE");
-    m_db.setDatabaseName("ns.db");
-
-    if (m_db.open()) {
-        emit stateChanged("DB Open");
-    }
-    else {
-        emit stateChanged("DB Open error");
-        return(false);
-    }
-    // If db file don't exist, create it!
-    if (newfile==true) {
-        //QSqlQuery m_query;
-        QSqlQuery query1("CREATE TABLE T_Shows (idT_Shows INTEGER PRIMARY KEY, ShowName VARCHAR(30), ShowUrl VARCHAR(256), Country VARCHAR(15), Started INTEGER, Ended INTEGER, EndedFlag BOOL, Timestamp INTEGER)",m_db);
-        QSqlQuery query2("CREATE TABLE T_Episodes (idT_Episodes INTEGER PRIMARY KEY, Shows_id INTEGER, EpisodeName VARCHAR(50), EpisodeNumber INTEGER, SeasonNumber INTEGER, Date DATE, IsSpecial BOOL)",m_db);
-    }
-    return(true);
-} // openDB()
+    return true;
+} // initDb()
 
 // EOF - vim:ts=4:sw=4:et:

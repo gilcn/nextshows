@@ -44,14 +44,11 @@ public:
         CacheFileInvalid  = CacheFileNotFound | CacheFileExpired
     };
 
-    Cache(QObject *parent = 0);
+    Cache(bool &openStatus, QObject *parent = 0);
     ~Cache();
 
     void saveShows(QMap<QString, QString>);
-    QMap<QString, QString> getShows(QString);
-
-public slots:
-    void testCacheState();
+    QMap<QString, QString> getShows();
 
 signals:
     void stateChanged(const QString &text);
@@ -61,7 +58,7 @@ private:
     QSqlQuery m_query;
     QMap<QString, QString> m_shows;
 
-    bool openDb(bool);
+    bool initDb();
 };
 
 
