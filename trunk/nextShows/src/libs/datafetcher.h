@@ -17,47 +17,54 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+/*
+** This class is responsible for gathering data from the intarweb !
+*/
 
-#ifndef __DATAPROVIDER_H__
-#define __DATAPROVIDER_H__
+
+#ifndef __DATAFETCHER_H__
+#define __DATAFETCHER_H__
 
 
 // Own
-#include "datafetcher.h"
 #include "nextshows.h"
+// QtCore
+#include <QtCore/QObject>
+// QtNetwork
+#include <QtNetwork/QNetworkAccessManager>
+// Forward declarations
+class QUrl;
 
 
-class DataProvider : public QObject
+class DataFetcher : public QObject
 {
     Q_OBJECT
 
 public:
-    // Cache
-    enum CacheState {
-        // File found and not expired
-        CacheValid    = 0x00,
-        // File not found
-        CacheNotFound = 0x01,
-        // File found but content expired
-        CacheExpired  = 0x02,
-        CacheDirty    = CacheNotFound | CacheExpired
-    };
-
-    DataProvider(QObject *parent = 0);
-    ~DataProvider();
+    DataFetcher(QObject *parent = 0);
+    ~DataFetcher();
 
     void searchShow(const QString &showName);
 
 Q_SIGNALS:
-    // Search results are ready to be served
     void searchResultsReady(QList<NextShows::ShowInfos_t>);
 
+private Q_SLOTS:
+    void requestFinished(QNetworkReply *);
+
 private:
-    DataFetcher *m_dataFetcher;
+    enum RequestType {
+        SearchShow,
+        EpisodeList
+    };
+
+    void doRequest(const QUrl &url, const RequestType &requestType);
+
+    QNetworkAccessManager *m_nam;
 };
 
 
-#endif // __DATAPROVIDER_H__
+#endif // __DATAFETCHER_H__
 
 
 // EOF - vim:ts=4:sw=4:et:

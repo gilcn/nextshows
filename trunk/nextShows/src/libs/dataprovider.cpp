@@ -27,19 +27,21 @@
 */
 DataProvider::DataProvider(QObject *parent)
     : QObject(parent)
-    , m_provider(new TvRageProvider(this))
+    , m_dataFetcher(new DataFetcher(this))
 {
     // Search results, simply reroute SIGNAL()
-    connect(m_provider, SIGNAL(searchResultsReady(QList<NextShows::ShowInfos_t>)), this, SIGNAL(searchResultsReady(QList<NextShows::ShowInfos_t>)));
+    connect(m_dataFetcher, SIGNAL(searchResultsReady(QList<NextShows::ShowInfos_t>)),
+            this, SIGNAL(searchResultsReady(QList<NextShows::ShowInfos_t>)));
 } // ctor()
 
 DataProvider::~DataProvider()
 {
+    delete m_dataFetcher;
 } // dtor()
 
 void DataProvider::searchShow(const QString &showName)
 {
-    m_provider->searchShow(showName);
+    m_dataFetcher->searchShow(showName);
 } // searchShow()
 
 
