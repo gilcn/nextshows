@@ -49,6 +49,7 @@ HEADERS     += version.h                     \
                libs/abstractprovider.h       \
                libs/animatedimage.h          \
                libs/dataprovider.h           \
+               libs/tvrageparser.h           \
                libs/tvrageprovider.h
 
 SOURCES     += main.cpp                        \
@@ -66,6 +67,7 @@ SOURCES     += main.cpp                        \
                libs/abstractprovider.cpp       \
                libs/animatedimage.cpp          \
                libs/dataprovider.cpp           \
+               libs/tvrageparser.cpp           \
                libs/tvrageprovider.cpp
 
 TRANSLATIONS = nextshows_fr.ts
