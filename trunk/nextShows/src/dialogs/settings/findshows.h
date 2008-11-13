@@ -24,7 +24,7 @@
 // Own
 #include "ui_findshows.h"
 #include "libs/animatedimage.h"
-#include "libs/tvrageprovider.h"
+#include "libs/dataprovider.h"
 // QtGui
 #include <QtGui/QWidget>
 
@@ -50,7 +50,7 @@ private Q_SLOTS:
     void on_lstTrackedShows_itemSelectionChanged();
     void on_tbtnRemoveShow_clicked();
     void newImageFrame(const QPixmap &);
-    void searchResultsReady(const QList<AbstractProvider::SearchResults_t> &);
+    void searchResultsReady(const QList<NextShows::ShowInfos_t> &);
 
     void on_treeSearchResults_addShowAction();
     void on_treeSearchResults_openUrlAction();
@@ -65,7 +65,7 @@ private:
     void updateSearchResultsWidgets();
     // Insert user selected show into tracked shows list
     // Returns the show position within the list
-    int insertIntoTrackedShowList(const AbstractProvider::SearchResults_t &);
+    int insertIntoTrackedShowList(const NextShows::ShowInfos_t &);
 
     void addShowToTrackedList();
     void removeShowFromTrackedList();
@@ -73,12 +73,12 @@ private:
     Ui::FindShows ui;
 
     AnimatedImage *m_animatedImage;
-    AbstractProvider *m_tvrage;
+    DataProvider *m_data;
 
     bool m_filterResults;
     int m_displayedShowCount;
-    QList<AbstractProvider::SearchResults_t> m_searchResults;
-    QList<AbstractProvider::SearchResults_t> m_trackedShows;
+    QList<NextShows::ShowInfos_t> m_searchResults;
+    QList<NextShows::ShowInfos_t> m_trackedShows;
 };
 
 } // namespace Settings

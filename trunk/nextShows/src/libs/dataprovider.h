@@ -18,33 +18,46 @@
 */
 
 
-#ifndef __GETDATA_H__
-#define __GETDATA_H__
+#ifndef __DATAPROVIDER_H__
+#define __DATAPROVIDER_H__
 
 
 // Own
 #include "tvrageprovider.h"
-// QtCore
-#include <QtCore/QVariant>
+#include "nextshows.h"
 
 
-class GetData : public QObject
+class DataProvider : public QObject
 {
     Q_OBJECT
 
 public:
-    GetData(QObject *parent = 0);
-    ~GetData();
+    // Cache
+    enum CacheState {
+        // File found and not expired
+        CacheValid    = 0x00,
+        // File not found
+        CacheNotFound = 0x01,
+        // File found but content expired
+        CacheExpired  = 0x02,
+        CacheDirty    = CacheNotFound | CacheExpired
+    };
+
+    DataProvider(QObject *parent = 0);
+    ~DataProvider();
 
     void searchShow(const QString &);
-    void getEpisodeList(const QString &);
+
+Q_SIGNALS:
+    // Search results are ready to be served
+    void searchResultsReady(QList<NextShows::ShowInfos_t>);
 
 private:
     AbstractProvider *m_provider;
 };
 
 
-#endif // __GETDATA_H__
+#endif // __DATAPROVIDER_H__
 
 
 // EOF - vim:ts=4:sw=4:et:

@@ -17,29 +17,30 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef __CACHE_H__
-#define __CACHE_H__
+
+// Own
+#include "dataprovider.h"
 
 
-class Cache
+/*
+** public:
+*/
+DataProvider::DataProvider(QObject *parent)
+    : QObject(parent)
+    , m_provider(new TvRageProvider(this))
 {
-public:
-    enum CacheState {
-        // File found and not expired
-        CacheFileValid    = 0x00,
-        // File not found
-        CacheFileNotFound = 0x01,
-        // File found but content expired
-        CacheFileExpired  = 0x02,
-        CacheFileInvalid  = CacheFileNotFound | CacheFileExpired
-    };
+    // Search results, simply reroute SIGNAL()
+    connect(m_provider, SIGNAL(searchResultsReady(QList<NextShows::ShowInfos_t>)), this, SIGNAL(searchResultsReady(QList<NextShows::ShowInfos_t>)));
+} // ctor()
 
-    Cache();
-    ~Cache();
-};
+DataProvider::~DataProvider()
+{
+} // dtor()
 
-
-#endif // __CACHE_H__
+void DataProvider::searchShow(const QString &showName)
+{
+    m_provider->searchShow(showName);
+} // searchShow()
 
 
 // EOF - vim:ts=4:sw=4:et:
