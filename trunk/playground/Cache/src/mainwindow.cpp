@@ -33,15 +33,14 @@
 */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , m_cache(new Cache(this))
 {
+    bool status;
+    Cache *m_cache = new Cache(status, this);
+    qDebug() << status;
     ui.setupUi(this);
-    
-    //connect(ui.btnCheckCache, SIGNAL(clicked(bool)), ui.textInfo, SLOT(clear()));
-    connect(ui.btnCheckCache, SIGNAL(clicked(bool)), m_cache, SLOT(testCacheState()));
 
     connect(m_cache, SIGNAL(stateChanged(const QString &)), ui.infoTextEdit, SLOT(append(const QString &)));
-    
+
     connect(ui.btnSaveShow,SIGNAL(clicked(bool)),this,SLOT(saveShow()));
     connect(ui.btnListShow,SIGNAL(clicked(bool)),this,SLOT(getShowList()));
 } // ctor()
@@ -55,12 +54,14 @@ void MainWindow::saveShow()
     QMap<QString, QString> myShows;
     myShows["2456"] = "show one";
     myShows["1235"] = "second show";
+    
     m_cache->saveShows(myShows);
 }
 
 void MainWindow::getShowList()
 {
-    QMap<QString, QString> map = m_cache->getShows("");
+    QMap<QString, QString> map = m_cache->getShows();
+    qDebug() << "GLOP";
     foreach (QString id, map.keys()) {
         ui.infoTextEdit->append(id+" : "+map.value(id));
     }
