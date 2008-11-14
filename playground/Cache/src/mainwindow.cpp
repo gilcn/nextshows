@@ -50,16 +50,23 @@ MainWindow::~MainWindow()
 
 void MainWindow::saveShow()
 {
-    QMap<QString, QString> myShows;
-    if (!ui.ldtShowId->text().isEmpty() && !ui.ldtShowName->text().isEmpty())
-        myShows[ui.ldtShowId->text()] = ui.ldtShowName->text();
-    m_cache->saveShows(myShows);
+    QList<NextShows::ShowInfos_t> myShows;
+    NextShows::ShowInfos_t shows;
+    if (!ui.ldtShowId->text().isEmpty() && !ui.ldtShowName->text().isEmpty()) {
+        shows.showid = ui.ldtShowId->text().toInt();
+        shows.name = ui.ldtShowName->text();
+        myShows << shows;
+        m_cache->saveUserShows(myShows);
+    }
 }
 
 void MainWindow::getShowList()
 {
-    QMap<QString, QString> map = m_cache->getShows();
-    foreach (QString id, map.keys()) {
-        ui.infoTextEdit->append(id+" : "+map.value(id));
+    QList<NextShows::ShowInfos_t> myShows = m_cache->readUserShows();
+    QList<NextShows::ShowInfos_t>::iterator i;
+    for (i = myShows.begin(); i != myShows.end(); ++i) {
+        NextShows::ShowInfos_t show = *i;
+        ui.infoTextEdit->append(QString::number(show.showid)+" "+show.name);
     }
+    ui.infoTextEdit->append("--------------");
 }

@@ -52,36 +52,32 @@ Cache::~Cache()
 {
 } // dtor()
 
-void Cache::saveShows(QMap<QString, QString> shows)
+void Cache::saveUserShows(QList<NextShows::ShowInfos_t> shows)
 {
-    foreach (QString id, shows.keys()) {
+    QList<NextShows::ShowInfos_t>::iterator i;
+    for (i = shows.begin(); i != shows.end(); ++i) {
+        NextShows::ShowInfos_t show = *i;
         QSqlQuery query(m_db);
         query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp) VALUES (:idt_shows, :showname, '', '', 0, 0, 0, 0)");
-        query.bindValue(":idt_shows", id);
-        query.bindValue(":showname", shows.value(id));
+        query.bindValue(":idt_shows", show.showid);
+        query.bindValue(":showname", show.name);
         query.exec();
-        if (query.lastError().isValid())
-            qDebug() << query.lastError();
-        
+
     }
 } // saveShows()
 
-QMap<QString, QString> Cache::getShows()
+QList<NextShows::ShowInfos_t> Cache::readUserShows()
 {
-    qDebug() << Q_FUNC_INFO << &m_db;
-    QSqlQuery query("SELECT idT_Shows, ShowName FROM T_Shows",m_db);
-    //query.exec("SELECT idT_Shows, ShowName FROM T_Shows");
-    if (query.lastError().isValid()) {
-        qDebug() << query.lastError();
-        //return false;
-    }
+    QList<NextShows::ShowInfos_t> myShows;
+    QSqlQuery query(m_db);
+    query.exec("SELECT idT_Shows, ShowName FROM T_Shows");
     while (query.next()) {
-        QString id_show = query.value(0).toString();
-        qDebug() << id_show;
-        QString show_name = query.value(1).toString();
-        m_shows[id_show] = show_name;
+        NextShows::ShowInfos_t show;
+        show.showid = query.value(0).toInt();
+        show.name = query.value(1).toString();
+        myShows << show;
     }
-    return m_shows;
+    return myShows;
 } // listShows()
 
 bool Cache::initDb()
