@@ -23,6 +23,8 @@
 #include "cache.h"
 // QtCore
 #include <QtCore/QDebug>
+// QtGui
+#include <QtGui/QKeyEvent>
 
 
 /*
@@ -69,3 +71,18 @@ void MainWindow::getShowList()
     }
     ui.infoTextEdit->append("--------------");
 }
+
+
+/*
+** protected:
+*/
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    switch(event->key()) {
+    case Qt::Key_Escape:
+        close();
+        break;
+    }
+
+    event->accept();
+} // keyPressEvent()
