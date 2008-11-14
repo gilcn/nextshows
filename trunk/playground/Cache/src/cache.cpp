@@ -39,6 +39,11 @@ Cache::Cache(bool &openStatus, QObject *parent)
 {
     // set status to true by default
     openStatus = true;
+    bool newfile = false;
+    QFile file("ns.db");
+    if (!file.exists()) {
+        newfile = true;
+    }
     // Open database
     m_db = QSqlDatabase::addDatabase("QSQLITE");
     m_db.setDatabaseName("ns.db");
@@ -46,6 +51,8 @@ Cache::Cache(bool &openStatus, QObject *parent)
         qDebug() << "Debug : Db open problem : " << m_db.lastError();
         openStatus = false;
     }
+    if (newfile == true)
+        initDb();
 } // ctor()
 
 Cache::~Cache()
@@ -61,6 +68,7 @@ void Cache::saveUserShows(QList<NextShows::ShowInfos_t> shows)
         query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp) VALUES (:idt_shows, :showname, '', '', 0, 0, 0, 0)");
         query.bindValue(":idt_shows", show.showid);
         query.bindValue(":showname", show.name);
+        
         query.exec();
 
     }
@@ -82,6 +90,7 @@ QList<NextShows::ShowInfos_t> Cache::readUserShows()
 
 bool Cache::initDb()
 {
+    qDebug() << Q_FUNC_INFO;
     // this method create a db structure if needed
     QSqlQuery query(m_db);
     query.exec("CREATE TABLE T_Shows (idT_Shows INTEGER PRIMARY KEY, ShowName VARCHAR(30), ShowUrl VARCHAR(256), Country VARCHAR(15), Started INTEGER, Ended INTEGER, EndedFlag BOOL, Timestamp INTEGER)");
