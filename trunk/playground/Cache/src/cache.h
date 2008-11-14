@@ -21,6 +21,7 @@
 #ifndef __CACHE_H__
 #define __CACHE_H__
 
+#include "nextshows.h"
 // QtCore
 #include <QtCore/QObject>
 #include <QtCore/QMap>
@@ -36,25 +37,11 @@ class Cache : public QObject
     Q_OBJECT
 
 public:
-    struct SearchResults_t {
-         uint showid; // Show unique ID [TvRage]
-         QString name; // Show name [TvRage]
-         QUrl link; // Show URL [TvRage]
-         QString country; // Show country [TvRage]
-         uint started; // Show started year [TvRage]
-         uint ended; // Show ended year [TvRage]
-         uint seasons; // Total number of seasons [TvRage]
-         QString status; // Show status [TvRage]
-         QString classification; // Show classification [TvRage]
-         QStringList genres; // Show genres [TvRage]
-         bool endedFlag; // Show Ended flag [Internal]
-     };
-
     Cache(bool &openStatus, QObject *parent = 0);
     ~Cache();
 
-    void saveShows(QMap<QString, QString>);
-    QMap<QString, QString> getShows();
+    void saveUserShows(QList<NextShows::ShowInfos_t>);
+    QList<NextShows::ShowInfos_t> readUserShows();
 
 signals:
     void stateChanged(const QString &text);
@@ -62,7 +49,6 @@ signals:
 private:
     QSqlDatabase m_db;
     QSqlQuery m_query;
-    QMap<QString, QString> m_shows;
 
     bool initDb();
 };
