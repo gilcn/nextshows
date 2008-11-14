@@ -23,59 +23,69 @@
 #include "cache.h"
 // QtCore
 #include <QtCore/QDebug>
-#include <QtCore/QFile>
 #include <QtCore/QVariant>
 // QtSql
-#include <QtSql/QSqlDatabase>
-#include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 
 
 /*
 ** public:
 */
-Cache::Cache(bool &openStatus, QObject *parent)
-    : QObject(parent)
+Cache::Cache()
 {
-    // set status to true by default
-    openStatus = true;
-    bool newfile = false;
-    QFile file("ns.db");
-    if (!file.exists()) {
-        newfile = true;
-    }
-    // Open database
+    qDebug() << Q_FUNC_INFO;
+
     m_db = QSqlDatabase::addDatabase("QSQLITE");
     m_db.setDatabaseName("ns.db");
-    if (!m_db.open()) {
-        qDebug() << "Debug : Db open problem : " << m_db.lastError();
-        openStatus = false;
-    }
-    if (newfile == true)
-        initDb();
 } // ctor()
 
 Cache::~Cache()
 {
+    qDebug() << Q_FUNC_INFO;
+
+    m_db.close();
 } // dtor()
 
-void Cache::saveUserShows(QList<NextShows::ShowInfos_t> shows)
+bool Cache::init()
 {
-    QList<NextShows::ShowInfos_t>::iterator i;
-    for (i = shows.begin(); i != shows.end(); ++i) {
-        NextShows::ShowInfos_t show = *i;
+    qDebug() << Q_FUNC_INFO;
+
+	if (!m_db.open()) {
+        qCritical() << "Error while opening DB:" << m_db.lastError();
+        return false;
+    }
+
+	if (m_db.tables().count() == 0) {
+		if (!createTables()) {
+            qCritical() << "Could not create tables!";
+			return false;
+        }
+    }
+
+	return true;
+} // init()
+
+
+void Cache::saveUserShows(const QList<NextShows::ShowInfos_t> &shows)
+{
+    qDebug() << Q_FUNC_INFO;
+
+    QList<NextShows::ShowInfos_t>::ConstIterator it;
+    for (it = shows.begin(); it != shows.end(); ++it) {
+        NextShows::ShowInfos_t show = *it;
         QSqlQuery query(m_db);
         query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp) VALUES (:idt_shows, :showname, '', '', 0, 0, 0, 0)");
         query.bindValue(":idt_shows", show.showid);
         query.bindValue(":showname", show.name);
         
         query.exec();
-
     }
 } // saveShows()
 
 QList<NextShows::ShowInfos_t> Cache::readUserShows()
 {
+    qDebug() << Q_FUNC_INFO;
+
     QList<NextShows::ShowInfos_t> myShows;
     QSqlQuery query(m_db);
     query.exec("SELECT idT_Shows, ShowName FROM T_Shows");
@@ -85,25 +95,37 @@ QList<NextShows::ShowInfos_t> Cache::readUserShows()
         show.name = query.value(1).toString();
         myShows << show;
     }
+
     return myShows;
 } // listShows()
 
-bool Cache::initDb()
+
+/*
+** private:
+*/
+bool Cache::createTables()
 {
     qDebug() << Q_FUNC_INFO;
-    // this method create a db structure if needed
+
+    bool status;
     QSqlQuery query(m_db);
-    query.exec("CREATE TABLE T_Shows (idT_Shows INTEGER PRIMARY KEY, ShowName VARCHAR(30), ShowUrl VARCHAR(256), Country VARCHAR(15), Started INTEGER, Ended INTEGER, EndedFlag BOOL, Timestamp INTEGER)");
-    if (query.lastError().isValid()) {
-        qDebug() << query.lastError();
+
+    // T_Shows table
+    status = query.exec("CREATE TABLE T_Shows (idT_Shows INTEGER PRIMARY KEY, ShowName VARCHAR(30), ShowUrl VARCHAR(256), Country VARCHAR(15), Started INTEGER, Ended INTEGER, EndedFlag BOOL, Timestamp INTEGER)");
+    if (!status) {
+        qCritical() << query.lastError();
         return false;
     }
-    query.exec("CREATE TABLE T_Episodes (idT_Episodes INTEGER PRIMARY KEY, Shows_id INTEGER, EpisodeName VARCHAR(50), EpisodeNumber INTEGER, SeasonNumber INTEGER, Date DATE, IsSpecial BOOL)");
-    if (query.lastError().isValid()) {
-        qDebug() << query.lastError();
+
+    // T_Episodes table
+    status = query.exec("CREATE TABLE T_Episodes (idT_Episodes INTEGER PRIMARY KEY, Shows_id INTEGER, EpisodeName VARCHAR(50), EpisodeNumber INTEGER, SeasonNumber INTEGER, Date DATE, IsSpecial BOOL)");
+    if (!status) {
+        qCritical() << query.lastError();
         return false;
     }
+
     return true;
-} // initDb()
+} // createTables()
+
 
 // EOF - vim:ts=4:sw=4:et:

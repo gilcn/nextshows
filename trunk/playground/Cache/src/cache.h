@@ -21,36 +21,34 @@
 #ifndef __CACHE_H__
 #define __CACHE_H__
 
+
+// Own
 #include "nextshows.h"
-// QtCore
-#include <QtCore/QObject>
-#include <QtCore/QMap>
-#include <QtCore/QUrl>
-#include <QtCore/QStringList>
 // QtSql
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
 
 
-class Cache : public QObject
+class Cache
 {
-    Q_OBJECT
-
 public:
-    Cache(bool &openStatus, QObject *parent = 0);
+    Cache();
     ~Cache();
 
-    void saveUserShows(QList<NextShows::ShowInfos_t>);
+    // Init the database
+    bool init();
+
+    void saveUserShows(const QList<NextShows::ShowInfos_t> &shows);
     QList<NextShows::ShowInfos_t> readUserShows();
 
-signals:
-    void stateChanged(const QString &text);
+//signals:
+//    void stateChanged(const QString &text);
 
 private:
     QSqlDatabase m_db;
     QSqlQuery m_query;
 
-    bool initDb();
+    bool createTables();
 };
 
 
