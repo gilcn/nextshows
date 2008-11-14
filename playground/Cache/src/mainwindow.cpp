@@ -25,6 +25,7 @@
 #include <QtCore/QDebug>
 // QtGui
 #include <QtGui/QKeyEvent>
+#include <QtGui/QMessageBox>
 
 
 /*
@@ -36,7 +37,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui.setupUi(this);
 
     m_cache = new Cache();
-    m_cache->init();
+    if(!m_cache->init()) {
+        QMessageBox::critical(this,
+                              "Database error",
+                              "The database could not be opened or created!\nAborting...",
+                              QMessageBox::Ok);
+        abort();
+    }
 
 //    connect(m_cache, SIGNAL(stateChanged(const QString &)), ui.infoTextEdit, SLOT(append(const QString &)));
 
