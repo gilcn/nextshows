@@ -20,13 +20,10 @@
 
 // Own
 #include "mainwindow.h"
+#include "cache.h"
 // QtCore
 #include <QtCore/QDebug>
-#include <QtCore/QMap>
-// QtGui
-#include <QtGui/QPushButton>
 
-#include "cache.h"
 
 /*
 ** public:
@@ -34,11 +31,12 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    bool status;
-    m_cache = new Cache(status, this);
     ui.setupUi(this);
 
-    connect(m_cache, SIGNAL(stateChanged(const QString &)), ui.infoTextEdit, SLOT(append(const QString &)));
+    m_cache = new Cache();
+    m_cache->init();
+
+//    connect(m_cache, SIGNAL(stateChanged(const QString &)), ui.infoTextEdit, SLOT(append(const QString &)));
 
     connect(ui.btnSaveShow,SIGNAL(clicked(bool)),this,SLOT(saveShow()));
     connect(ui.btnListShow,SIGNAL(clicked(bool)),this,SLOT(getShowList()));
@@ -46,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    delete m_cache;
 } // dtor()
 
 void MainWindow::saveShow()

@@ -24,11 +24,6 @@
 
 // Own
 #include "ui_mainwindow.h"
-// QtCore
-#include <QtCore/QMap>
-// QtGui
-#include <QtGui/QDialog>
-
 #include "cache.h"
 
 
