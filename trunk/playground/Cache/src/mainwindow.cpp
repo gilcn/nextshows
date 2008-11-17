@@ -32,7 +32,7 @@
 ** public:
 */
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+    : QDialog(parent)
 {
     ui.setupUi(this);
 
@@ -49,6 +49,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui.btnSaveShow,SIGNAL(clicked(bool)),this,SLOT(saveShow()));
     connect(ui.btnListShow,SIGNAL(clicked(bool)),this,SLOT(getShowList()));
+
+    connect(ui.buttonBox, SIGNAL(rejected()), this, SLOT(close()));
 } // ctor()
 
 MainWindow::~MainWindow()
@@ -78,18 +80,3 @@ void MainWindow::getShowList()
     }
     ui.infoTextEdit->append("--------------");
 }
-
-
-/*
-** protected:
-*/
-void MainWindow::keyPressEvent(QKeyEvent *event)
-{
-    switch(event->key()) {
-    case Qt::Key_Escape:
-        close();
-        break;
-    }
-
-    event->accept();
-} // keyPressEvent()
