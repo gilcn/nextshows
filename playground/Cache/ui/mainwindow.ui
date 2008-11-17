@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>644</width>
-    <height>714</height>
+    <width>626</width>
+    <height>617</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -32,7 +32,7 @@
       <attribute name="title" >
        <string>Database</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_3" >
+      <layout class="QGridLayout" name="gridLayout_2" >
        <item row="0" column="0" colspan="2" >
         <widget class="QPushButton" name="btnListShow" >
          <property name="text" >
@@ -76,7 +76,7 @@
         </widget>
        </item>
        <item row="3" column="0" colspan="2" >
-        <layout class="QGridLayout" name="gridLayout_2" >
+        <layout class="QFormLayout" name="formLayout_2" >
          <item row="0" column="0" >
           <widget class="QLabel" name="lblId" >
            <property name="text" >
@@ -84,144 +84,73 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="1" colspan="2" >
-          <spacer name="horizontalSpacer_3" >
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0" >
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="0" column="3" colspan="5" >
+         <item row="0" column="1" >
           <widget class="QLineEdit" name="ldtShowId" />
          </item>
-         <item rowspan="2" row="1" column="0" colspan="3" >
+         <item row="1" column="0" >
           <widget class="QLabel" name="lblName" >
            <property name="text" >
             <string>Name</string>
            </property>
           </widget>
          </item>
-         <item rowspan="2" row="1" column="4" colspan="4" >
+         <item row="1" column="1" >
           <widget class="QLineEdit" name="ldtShowName" />
          </item>
-         <item row="2" column="2" colspan="2" >
-          <spacer name="horizontalSpacer_4" >
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0" >
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="3" column="0" colspan="2" >
+         <item row="2" column="0" >
           <widget class="QLabel" name="lblUrl" >
            <property name="text" >
             <string>URL</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="2" colspan="2" >
-          <spacer name="horizontalSpacer_2" >
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0" >
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="3" column="4" colspan="4" >
+         <item row="2" column="1" >
           <widget class="QLineEdit" name="ldtUrl" />
          </item>
-         <item row="4" column="0" colspan="3" >
+         <item row="3" column="0" >
           <widget class="QLabel" name="lblCountry" >
            <property name="text" >
             <string>Country</string>
            </property>
           </widget>
          </item>
-         <item row="4" column="3" colspan="2" >
-          <spacer name="horizontalSpacer" >
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0" >
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="4" column="5" colspan="3" >
+         <item row="3" column="1" >
           <widget class="QLineEdit" name="ldtCountry" />
          </item>
-         <item row="5" column="0" colspan="4" >
+         <item row="4" column="0" >
           <widget class="QLabel" name="lblStarted" >
            <property name="text" >
             <string>Started</string>
            </property>
           </widget>
          </item>
-         <item row="5" column="4" colspan="2" >
-          <spacer name="horizontalSpacer_5" >
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0" >
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="5" column="6" colspan="2" >
+         <item row="4" column="1" >
           <widget class="QLineEdit" name="ldtStarted" />
          </item>
-         <item row="6" column="0" colspan="4" >
+         <item row="5" column="0" >
           <widget class="QLabel" name="lblEnded" >
            <property name="text" >
             <string>Ended</string>
            </property>
           </widget>
          </item>
-         <item row="6" column="4" colspan="3" >
-          <spacer name="horizontalSpacer_6" >
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0" >
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="6" column="7" >
+         <item row="5" column="1" >
           <widget class="QLineEdit" name="ldtEnded" />
          </item>
-         <item row="7" column="0" colspan="6" >
+         <item row="6" column="0" >
+          <widget class="QLabel" name="lblEndedFlag" >
+           <property name="text" >
+            <string>Ended Flag</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1" >
           <widget class="QCheckBox" name="cbxEndedFlag" >
            <property name="layoutDirection" >
             <enum>Qt::RightToLeft</enum>
            </property>
            <property name="text" >
-            <string>Ended Flag</string>
+            <string/>
            </property>
           </widget>
          </item>
@@ -246,16 +175,11 @@
          <property name="title" >
           <string>debug information</string>
          </property>
-         <widget class="QTextEdit" name="infoTextEdit" >
-          <property name="geometry" >
-           <rect>
-            <x>11</x>
-            <y>32</y>
-            <width>582</width>
-            <height>382</height>
-           </rect>
-          </property>
-         </widget>
+         <layout class="QGridLayout" name="gridLayout_3" >
+          <item row="0" column="0" >
+           <widget class="QTextEdit" name="infoTextEdit" />
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -264,35 +188,22 @@
       <attribute name="title" >
        <string>View</string>
       </attribute>
-      <widget class="QTableView" name="tblView" >
-       <property name="geometry" >
-        <rect>
-         <x>9</x>
-         <y>50</y>
-         <width>604</width>
-         <height>571</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="btnRequestDB" >
-       <property name="geometry" >
-        <rect>
-         <x>30</x>
-         <y>10</y>
-         <width>102</width>
-         <height>27</height>
-        </rect>
-       </property>
-       <property name="text" >
-        <string>Request DB</string>
-       </property>
-      </widget>
+      <layout class="QGridLayout" name="gridLayout_4" >
+       <item row="0" column="0" >
+        <widget class="QPushButton" name="btnRequestDB" >
+         <property name="text" >
+          <string>Request DB</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" >
+        <widget class="QTableView" name="tblView" />
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>
   </layout>
-  <zorder>buttonBox</zorder>
-  <zorder>tabWidget</zorder>
  </widget>
  <resources/>
  <connections/>
