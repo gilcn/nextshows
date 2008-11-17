@@ -23,6 +23,7 @@
 #include "cache.h"
 // QtCore
 #include <QtCore/QDebug>
+#include <QtCore/QUrl>
 // QtGui
 #include <QtGui/QKeyEvent>
 #include <QtGui/QMessageBox>
@@ -65,6 +66,11 @@ void MainWindow::saveShow()
     if (!ui.ldtShowId->text().isEmpty() && !ui.ldtShowName->text().isEmpty()) {
         shows.showid = ui.ldtShowId->text().toInt();
         shows.name = ui.ldtShowName->text();
+        shows.link = QUrl(ui.ldtUrl->text());
+        shows.country = ui.ldtCountry->text();
+        shows.started = ui.ldtStarted->text().toInt();
+        shows.ended = ui.ldtEnded->text().toInt();
+        shows.endedFlag = ui.cbxEndedFlag;
         myShows << shows;
         m_cache->saveUserShows(myShows);
     }
@@ -77,6 +83,16 @@ void MainWindow::getShowList()
     for (i = myShows.begin(); i != myShows.end(); ++i) {
         NextShows::ShowInfos_t show = *i;
         ui.infoTextEdit->append(QString::number(show.showid)+" "+show.name);
+        ui.infoTextEdit->append("  URL : "+show.link.toString());
+        ui.infoTextEdit->append("  COU : "+show.country);
+        ui.infoTextEdit->append("  STA : "+(QString::number(show.started)));
+        ui.infoTextEdit->append("  END : "+(QString::number(show.ended)));
+        QString endedFlag;
+        if (show.endedFlag == true)
+            endedFlag = "True";
+        else
+            endedFlag = "False";
+        ui.infoTextEdit->append("  FLA : "+endedFlag);
     }
     ui.infoTextEdit->append("--------------");
 }
