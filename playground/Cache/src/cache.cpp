@@ -22,6 +22,7 @@
 // Own
 #include "cache.h"
 // QtCore
+#include <QtCore/QDateTime>
 #include <QtCore/QDebug>
 #include <QtCore/QVariant>
 // QtSql
@@ -74,10 +75,16 @@ void Cache::saveUserShows(const QList<NextShows::ShowInfos_t> &shows)
     for (it = shows.begin(); it != shows.end(); ++it) {
         NextShows::ShowInfos_t show = *it;
         QSqlQuery query(m_db);
-        query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp) VALUES (:idt_shows, :showname, '', '', 0, 0, 0, 0)");
+        query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp)"
+                    "VALUES (:idt_shows, :showname, :showurl, :country, :started, :ended, :enderflag, :timestamp)");
         query.bindValue(":idt_shows", show.showid);
         query.bindValue(":showname", show.name);
-        
+        query.bindValue(":showurl", show.link.toString());
+        query.bindValue(":country", show.country);
+        query.bindValue(":started", show.started);
+        query.bindValue(":ended", show.ended);
+        query.bindValue(":endedflag", show.endedFlag);
+        query.bindValue(":timestamp", QDateTime::currentDateTime().toTime_t());
         query.exec();
     }
 } // saveShows()
@@ -88,11 +95,16 @@ QList<NextShows::ShowInfos_t> Cache::readUserShows()
 
     QList<NextShows::ShowInfos_t> myShows;
     QSqlQuery query(m_db);
-    query.exec("SELECT idT_Shows, ShowName FROM T_Shows");
+    query.exec("SELECT idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp FROM T_Shows");
     while (query.next()) {
         NextShows::ShowInfos_t show;
         show.showid = query.value(0).toInt();
         show.name = query.value(1).toString();
+        show.link = QUrl(query.value(2).toString());
+        show.country = query.value(3).toString();
+        show.started = query.value(4).toInt();
+        show.ended = query.value(5).toInt();
+        show.endedFlag = query.value(6).toBool();
         myShows << show;
     }
 
