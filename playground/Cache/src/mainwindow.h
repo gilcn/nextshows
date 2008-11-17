@@ -25,18 +25,17 @@
 // Own
 #include "ui_mainwindow.h"
 #include "cache.h"
+// QtGui
+#include <QtGui/QDialog>
 
 
-class MainWindow : public QMainWindow
+class MainWindow : public QDialog
 {
     Q_OBJECT
 
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
-protected:
-    void keyPressEvent(QKeyEvent *event);
 
 private slots:
     void saveShow();
