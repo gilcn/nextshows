@@ -20,8 +20,10 @@
 
 // Own
 #include "mainwindow.h"
-// Qt
+#include "version.h"
+// QtGui
 #include <QtGui/QApplication>
+#include <QtGui/QMessageBox>
 // Sys
 #include <stdio.h>
 #include <stdlib.h>
@@ -47,9 +49,16 @@ void msgHandler(QtMsgType type, const char *msg)
 
 int main(int argc, char **argv)
 {
+    QT_REQUIRE_VERSION(argc, argv, "4.4.0")
+
     qInstallMsgHandler(msgHandler);
 
     QApplication app(argc, argv);
+    app.setApplicationName("nextShows");
+    app.setApplicationVersion(NEXTSHOWS_VERSION);
+    app.setOrganizationName("nextShows");
+    app.setOrganizationDomain("nextshows.googlecode.com");
+
     MainWindow window;
     window.show();
     return app.exec();
