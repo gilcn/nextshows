@@ -1,6 +1,6 @@
 <ui version="4.0" >
- <class>Misc</class>
- <widget class="QWidget" name="Misc" >
+ <class>Options</class>
+ <widget class="QWidget" name="Options" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Form</string>
+   <string>Options</string>
   </property>
   <layout class="QGridLayout" name="gridLayout" >
    <item row="0" column="0" >

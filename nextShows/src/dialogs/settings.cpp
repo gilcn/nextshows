@@ -34,7 +34,7 @@ namespace Dialogs
 Settings::Settings(QWidget *parent)
     : QDialog(parent, Qt::Dialog)
     , m_wFindShows(new ::Settings::FindShows)
-    , m_wMisc(new ::Settings::Misc)
+    , m_wOptions(new ::Settings::Options)
 {
     // Default behavior / attributes
     QWidget::setAttribute(Qt::WA_DeleteOnClose);
@@ -43,8 +43,8 @@ Settings::Settings(QWidget *parent)
 
     ui.wPanel->addWidget(m_wFindShows);
     ui.wCategories->addCategory(m_wFindShows->windowTitle(), m_wFindShows->windowIcon());
-    ui.wPanel->addWidget(m_wMisc);
-    ui.wCategories->addCategory(m_wMisc->windowTitle(), m_wMisc->windowIcon());
+    ui.wPanel->addWidget(m_wOptions);
+    ui.wCategories->addCategory(m_wOptions->windowTitle(), m_wOptions->windowIcon());
 
     setCategoryTitle(ui.wPanel->currentWidget()->windowTitle());
 

@@ -24,7 +24,7 @@
 // Own
 #include "ui_settingsdialog.h"
 #include "dialogs/settings/findshows.h"
-#include "dialogs/settings/misc.h"
+#include "dialogs/settings/options.h"
 
 // QtGui
 #include <QtGui/QDialog>
@@ -48,7 +48,7 @@ private:
     void setCategoryTitle(const QString &);
 
     ::Settings::FindShows *m_wFindShows;
-    ::Settings::Misc      *m_wMisc;
+    ::Settings::Options   *m_wOptions;
 
     Ui::SettingsDialog ui;
 };

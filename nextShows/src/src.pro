@@ -31,7 +31,7 @@ FORMS       += ui/mainwindow.ui                 \
                dialogs/ui/aboutdialog.ui        \
                dialogs/ui/settingsdialog.ui     \
                dialogs/settings/ui/findshows.ui \
-               dialogs/settings/ui/misc.ui
+               dialogs/settings/ui/options.ui
 
 HEADERS     += version.h                     \
                nextshows.h                   \
@@ -45,7 +45,7 @@ HEADERS     += version.h                     \
                dialogs/settings.h            \
                dialogs/settings/categories.h \
                dialogs/settings/findshows.h  \
-               dialogs/settings/misc.h       \
+               dialogs/settings/options.h    \
                libs/animatedimage.h          \
                libs/datafetcher.h            \
                libs/dataprovider.h           \
@@ -62,7 +62,7 @@ SOURCES     += main.cpp                        \
                dialogs/settings.cpp            \
                dialogs/settings/categories.cpp \
                dialogs/settings/findshows.cpp  \
-               dialogs/settings/misc.cpp       \
+               dialogs/settings/options.cpp    \
                libs/animatedimage.cpp          \
                libs/datafetcher.cpp            \
                libs/dataprovider.cpp           \
