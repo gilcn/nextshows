@@ -166,7 +166,7 @@ bool DbInterface::createTables()
     return true;
 } // createTables()
 
-bool DbInterface::saveShow(const NextShows::ShowInfos_t &show,olllllll)
+bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
 {
     QSqlQuery query(m_db);
     query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp)"
