@@ -51,19 +51,19 @@ bool Cache::init()
 {
     qDebug() << Q_FUNC_INFO;
 
-	if (!m_db.open()) {
+    if (!m_db.open()) {
         qCritical() << "Error while opening DB:" << m_db.lastError();
         return false;
     }
 
-	if (m_db.tables().count() == 0) {
-		if (!createTables()) {
+    if (m_db.tables().count() == 0) {
+            if (!createTables()) {
             qCritical() << "Could not create tables!";
-			return false;
+            return false;
         }
     }
 
-	return true;
+    return true;
 } // init()
 
 
@@ -87,7 +87,7 @@ void Cache::saveUserShows(const QList<NextShows::ShowInfos_t> &shows)
         query.bindValue(":timestamp", QDateTime::currentDateTime().toTime_t());
         query.exec();
     }
-} // saveShows()
+} // saveUserShows()
 
 QList<NextShows::ShowInfos_t> Cache::readUserShows()
 {
@@ -98,18 +98,34 @@ QList<NextShows::ShowInfos_t> Cache::readUserShows()
     query.exec("SELECT idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp FROM T_Shows");
     while (query.next()) {
         NextShows::ShowInfos_t show;
-        show.showid = query.value(0).toInt();
+        show.showid = query.value(0).toUInt();
         show.name = query.value(1).toString();
         show.link = QUrl(query.value(2).toString());
         show.country = query.value(3).toString();
-        show.started = query.value(4).toInt();
-        show.ended = query.value(5).toInt();
+        show.started = query.value(4).toUInt();
+        show.ended = query.value(5).toUInt();
         show.endedFlag = query.value(6).toBool();
         myShows << show;
     }
 
     return myShows;
-} // listShows()
+} // readUserShows()
+
+QList<uint> Cache::expiredShow(const int &timestamp)
+{
+    qDebug() << Q_FUNC_INFO;
+    QList<uint> expiredshow;
+    // Calculate the max timestamp
+    int maxtimestamp = QDateTime::currentDateTime().toTime_t()-timestamp;
+    QSqlQuery query(m_db);
+    query.prepare("SELECT idT_Shows, Timestamp FROM T_Shows WHERE Timestamp < :maxtimestamp");
+    query.bindValue(":maxtimestamp", maxtimestamp);
+    query.exec();
+    while (query.next()) {
+        expiredshow <<query.value(0).toUInt();
+    }
+    return expiredshow;
+}
 
 
 /*
