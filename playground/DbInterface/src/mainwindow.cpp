@@ -20,7 +20,7 @@
 
 // Own
 #include "mainwindow.h"
-#include "cache.h"
+#include "dbinterface.h"
 // QtCore
 #include <QtCore/QDebug>
 #include <QtCore/QUrl>
@@ -37,8 +37,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui.setupUi(this);
 
-    m_cache = new Cache();
-    if(!m_cache->init()) {
+    m_dbinterface = new DbInterface();
+    if(!m_dbinterface->init()) {
         QMessageBox::critical(this,
                               "Database error",
                               "The database could not be opened or created!\nAborting...",
@@ -46,14 +46,14 @@ MainWindow::MainWindow(QWidget *parent)
         abort();
     }
 
-//    connect(m_cache, SIGNAL(stateChanged(const QString &)), ui.infoTextEdit, SLOT(append(const QString &)));
+//    connect(m_dbinterface, SIGNAL(stateChanged(const QString &)), ui.infoTextEdit, SLOT(append(const QString &)));
 
     connect(ui.buttonBox, SIGNAL(rejected()), this, SLOT(close()));
 } // ctor()
 
 MainWindow::~MainWindow()
 {
-    delete m_cache;
+    delete m_dbinterface;
 } // dtor()
 
 
@@ -73,7 +73,7 @@ void MainWindow::on_btnSaveShow_clicked(bool /*checked*/)
         shows.ended = ui.ldtEnded->text().toUInt();
         shows.endedFlag = (ui.cbxEndedFlag->checkState() == Qt::Checked) ? true : false;
         myShows << shows;
-        m_cache->saveUserShows(myShows);
+        m_dbinterface->saveUserShows(myShows);
     }
 } // on_btnSaveShow_clicked()
 
@@ -82,7 +82,7 @@ void MainWindow::on_btnListShow_clicked(bool /*checked*/)
     // Clear
     ui.infoTextEdit->clear();
 
-    QList<NextShows::ShowInfos_t> myShows = m_cache->readUserShows();
+    QList<NextShows::ShowInfos_t> myShows = m_dbinterface->readUserShows();
     QList<NextShows::ShowInfos_t>::iterator i;
     for (i = myShows.begin(); i != myShows.end(); ++i) {
         NextShows::ShowInfos_t show = *i;
@@ -101,7 +101,7 @@ void MainWindow::on_btnCheckExpiredShows_clicked(bool /*checked*/)
     // Clear
     ui.infoTextEdit->clear();
     
-    QList<uint> expiredshowslist = m_cache->expiredShow(2880); // request shows id oldest 2880min (48hour)
+    QList<uint> expiredshowslist = m_dbinterface->expiredShow(2880); // request shows id oldest 2880min (48hour)
     uint idshow;
     int i = 1;
     foreach (idshow, expiredshowslist) {

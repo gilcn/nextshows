@@ -20,7 +20,7 @@
 
 
 // Own
-#include "cache.h"
+#include "dbinterface.h"
 // QtCore
 #include <QtCore/QDateTime>
 #include <QtCore/QDebug>
@@ -32,7 +32,7 @@
 /*
 ** public:
 */
-Cache::Cache()
+DbInterface::DbInterface()
 {
     qDebug() << Q_FUNC_INFO;
 
@@ -40,14 +40,14 @@ Cache::Cache()
     m_db.setDatabaseName("ns.db");
 } // ctor()
 
-Cache::~Cache()
+DbInterface::~DbInterface()
 {
     qDebug() << Q_FUNC_INFO;
 
     m_db.close();
 } // dtor()
 
-bool Cache::init()
+bool DbInterface::init()
 {
     qDebug() << Q_FUNC_INFO;
 
@@ -67,29 +67,40 @@ bool Cache::init()
 } // init()
 
 
-void Cache::saveUserShows(const QList<NextShows::ShowInfos_t> &shows)
+void DbInterface::saveUserShows(const QList<NextShows::ShowInfos_t> &shows)
 {
     qDebug() << Q_FUNC_INFO;
+    // First, select all id in db
+    QList<uint> dbid;
+    QSqlQuery query(m_db);
+    query.exec("SELECT idT_Shows FROM T_Shows");
+    while (query.next()) {
+        dbid << query.value(0).toUInt();
+    }
 
+    QList<uint> usrid;
     QList<NextShows::ShowInfos_t>::ConstIterator it;
     for (it = shows.begin(); it != shows.end(); ++it) {
         NextShows::ShowInfos_t show = *it;
-        QSqlQuery query(m_db);
-        query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp)"
-                    "VALUES (:idt_shows, :showname, :showurl, :country, :started, :ended, :enderflag, :timestamp)");
-        query.bindValue(":idt_shows", show.showid);
-        query.bindValue(":showname", show.name);
-        query.bindValue(":showurl", show.link.toString());
-        query.bindValue(":country", show.country);
-        query.bindValue(":started", show.started);
-        query.bindValue(":ended", show.ended);
-        query.bindValue(":endedflag", show.endedFlag);
-        query.bindValue(":timestamp", QDateTime::currentDateTime().toTime_t());
-        query.exec();
+        usrid << show.showid;
+        if(dbid.contains(show.showid)){ // eventually need an update
+            qDebug() << "Update show : " << QString::number(show.showid);
+        }
+        else { // This show is a new show, Add IT !
+            saveShow(show);
+            qDebug() << "Add show : " << QString::number(show.showid);
+        }
+    }
+    uint idshow;
+    foreach (idshow, dbid) {
+        if (!usrid.contains(idshow)) { // This show is no longer tracked, Delete IT from DB
+            qDebug() << "Delete show from DB : " << QString::number(idshow);
+            deleteShow(idshow);
+        }
     }
 } // saveUserShows()
 
-QList<NextShows::ShowInfos_t> Cache::readUserShows()
+QList<NextShows::ShowInfos_t> DbInterface::readUserShows()
 {
     qDebug() << Q_FUNC_INFO;
 
@@ -111,7 +122,7 @@ QList<NextShows::ShowInfos_t> Cache::readUserShows()
     return myShows;
 } // readUserShows()
 
-QList<uint> Cache::expiredShow(const int &timestamp)
+QList<uint> DbInterface::expiredShow(const int &timestamp)
 {
     qDebug() << Q_FUNC_INFO;
     QList<uint> expiredshow;
@@ -131,7 +142,7 @@ QList<uint> Cache::expiredShow(const int &timestamp)
 /*
 ** private:
 */
-bool Cache::createTables()
+bool DbInterface::createTables()
 {
     qDebug() << Q_FUNC_INFO;
 
@@ -154,6 +165,42 @@ bool Cache::createTables()
 
     return true;
 } // createTables()
+
+bool DbInterface::saveShow(const NextShows::ShowInfos_t &show,olllllll)
+{
+    QSqlQuery query(m_db);
+    query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp)"
+                "VALUES (:idt_shows, :showname, :showurl, :country, :started, :ended, :enderflag, :timestamp)");
+    query.bindValue(":idt_shows", show.showid);
+    query.bindValue(":showname", show.name);
+    query.bindValue(":showurl", show.link.toString());
+    query.bindValue(":country", show.country);
+    query.bindValue(":started", show.started);
+    query.bindValue(":ended", show.ended);
+    query.bindValue(":endedflag", show.endedFlag);
+    query.bindValue(":timestamp", QDateTime::currentDateTime().toTime_t());
+    bool status;
+    status = query.exec();
+    if (!status) {
+        qCritical() << query.lastError();
+        return false;
+    }
+    return true;
+} // saveShow()
+
+bool DbInterface::deleteShow(uint id)
+{
+    QSqlQuery query(m_db);
+    query.prepare("DELETE FROM T_shows WHERE idT_Shows = :idshow");
+    query.bindValue(":idshow",id);
+    bool status;
+    status = query.exec();
+    if (!status) {
+        qCritical() << query.lastError();
+        return false;
+    }
+    return true;
+}
 
 
 // EOF - vim:ts=4:sw=4:et:

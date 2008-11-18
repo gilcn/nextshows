@@ -18,35 +18,44 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef __MAINWINDOW_H__
-#define __MAINWINDOW_H__
+#ifndef __DBINTERFACE_H__
+#define __DBINTERFACE_H__
 
 
 // Own
-#include "ui_mainwindow.h"
-#include "cache.h"
-// QtGui
-#include <QtGui/QDialog>
+#include "nextshows.h"
+// QtSql
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlQuery>
 
 
-class MainWindow : public QDialog
+class DbInterface
 {
-    Q_OBJECT
-
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    DbInterface();
+    ~DbInterface();
 
-private slots:
-    void on_btnSaveShow_clicked(bool checked);
-    void on_btnListShow_clicked(bool checked);
-    void on_btnCheckExpiredShows_clicked(bool checked);
+    // Init the database
+    bool init();
+
+    void saveUserShows(const QList<NextShows::ShowInfos_t> &shows);
+    QList<NextShows::ShowInfos_t> readUserShows();
+    QList<uint> expiredShow(const int &timestamp);
+
+//signals:
+//    void stateChanged(const QString &text);
 
 private:
-    Ui::MainWindow ui;
-    Cache *m_cache;
-    QMap<QString, QString> *map;
+    QSqlDatabase m_db;
+    QSqlQuery m_query;
+
+    bool createTables();
+    bool saveShow(const NextShows::ShowInfos_t &show);
+    bool deleteShow(uint id);
 };
 
 
-#endif // __MAINWINDOW_H__
+#endif // __DBINTERFACE_H__
+
+
+// EOF - vim:ts=4:sw=4:et:
