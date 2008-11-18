@@ -48,10 +48,14 @@ public:
 private:
     QSqlDatabase m_db;
     QSqlQuery m_query;
+    enum RecordType {
+            Insert,
+            Update
+        };
 
     bool createTables();
-    bool saveShow(const NextShows::ShowInfos_t &show);
-    bool deleteShow(uint id);
+    bool saveShow(const NextShows::ShowInfos_t &show, const RecordType &rtype);
+    bool deleteShow(const uint &id);
 };
 
 

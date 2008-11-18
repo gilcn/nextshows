@@ -84,10 +84,11 @@ void DbInterface::saveUserShows(const QList<NextShows::ShowInfos_t> &shows)
         NextShows::ShowInfos_t show = *it;
         usrid << show.showid;
         if(dbid.contains(show.showid)){ // eventually need an update
+            saveShow(show,DbInterface::Update);
             qDebug() << "Update show : " << QString::number(show.showid);
         }
         else { // This show is a new show, Add IT !
-            saveShow(show);
+            saveShow(show,DbInterface::Insert);
             qDebug() << "Add show : " << QString::number(show.showid);
         }
     }
@@ -166,11 +167,16 @@ bool DbInterface::createTables()
     return true;
 } // createTables()
 
-bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
+bool DbInterface::saveShow(const NextShows::ShowInfos_t &show, const DbInterface::RecordType &rtype)
 {
     QSqlQuery query(m_db);
-    query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp)"
-                "VALUES (:idt_shows, :showname, :showurl, :country, :started, :ended, :enderflag, :timestamp)");
+    if (rtype == DbInterface::Insert) {
+        query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp)"
+                "VALUES (:idt_shows, :showname, :showurl, :country, :started, :ended, :enderflag, 0)");
+    }
+    else {
+        query.prepare("UPDATE T_Shows SET ShowName=:showname, ShowUrl=:showurl, Country=:country, Started=:started, Ended=:ended, EndedFlag=:endedflag WHERE idT_Shows=:idt_shows");
+    }
     query.bindValue(":idt_shows", show.showid);
     query.bindValue(":showname", show.name);
     query.bindValue(":showurl", show.link.toString());
@@ -178,7 +184,7 @@ bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
     query.bindValue(":started", show.started);
     query.bindValue(":ended", show.ended);
     query.bindValue(":endedflag", show.endedFlag);
-    query.bindValue(":timestamp", QDateTime::currentDateTime().toTime_t());
+    
     bool status;
     status = query.exec();
     if (!status) {
@@ -188,7 +194,7 @@ bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
     return true;
 } // saveShow()
 
-bool DbInterface::deleteShow(uint id)
+bool DbInterface::deleteShow(const uint &id)
 {
     QSqlQuery query(m_db);
     query.prepare("DELETE FROM T_shows WHERE idT_Shows = :idshow");
