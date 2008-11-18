@@ -48,9 +48,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 //    connect(m_cache, SIGNAL(stateChanged(const QString &)), ui.infoTextEdit, SLOT(append(const QString &)));
 
-    connect(ui.btnSaveShow,SIGNAL(clicked(bool)),this,SLOT(saveShow()));
-    connect(ui.btnListShow,SIGNAL(clicked(bool)),this,SLOT(getShowList()));
-
     connect(ui.buttonBox, SIGNAL(rejected()), this, SLOT(close()));
 } // ctor()
 
@@ -59,7 +56,11 @@ MainWindow::~MainWindow()
     delete m_cache;
 } // dtor()
 
-void MainWindow::saveShow()
+
+/*
+** private slots:
+*/
+void MainWindow::on_btnSaveShow_clicked(bool /*checked*/)
 {
     QList<NextShows::ShowInfos_t> myShows;
     NextShows::ShowInfos_t shows;
@@ -70,14 +71,17 @@ void MainWindow::saveShow()
         shows.country = ui.ldtCountry->text();
         shows.started = ui.ldtStarted->text().toInt();
         shows.ended = ui.ldtEnded->text().toInt();
-        shows.endedFlag = ui.cbxEndedFlag;
+        shows.endedFlag = (ui.cbxEndedFlag->checkState() == Qt::Checked) ? true : false;
         myShows << shows;
         m_cache->saveUserShows(myShows);
     }
-}
+} // on_btnSaveShow_clicked()
 
-void MainWindow::getShowList()
+void MainWindow::on_btnListShow_clicked(bool /*checked*/)
 {
+    // Clear
+    ui.infoTextEdit->clear();
+
     QList<NextShows::ShowInfos_t> myShows = m_cache->readUserShows();
     QList<NextShows::ShowInfos_t>::iterator i;
     for (i = myShows.begin(); i != myShows.end(); ++i) {
@@ -87,12 +91,8 @@ void MainWindow::getShowList()
         ui.infoTextEdit->append("  COU : "+show.country);
         ui.infoTextEdit->append("  STA : "+(QString::number(show.started)));
         ui.infoTextEdit->append("  END : "+(QString::number(show.ended)));
-        QString endedFlag;
-        if (show.endedFlag == true)
-            endedFlag = "True";
-        else
-            endedFlag = "False";
+        QString endedFlag = (show.endedFlag) ? "True" : "False";
         ui.infoTextEdit->append("  FLA : "+endedFlag);
     }
     ui.infoTextEdit->append("--------------");
-}
+} // on_btnListShow_clicked()
