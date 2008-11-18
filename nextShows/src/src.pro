@@ -12,7 +12,7 @@ CONFIG      += warn_on debug_and_release
 
 #### QMAKE_CXXFLAGS += -pedantic
 
-QT          += network xml
+QT          += network xml sql
 
 bindir       = ../Build
 builddir     = ../Build
@@ -47,6 +47,7 @@ HEADERS     += version.h                     \
                dialogs/settings/findshows.h  \
                dialogs/settings/options.h    \
                libs/animatedimage.h          \
+               libs/dbinterface.h            \
                libs/datafetcher.h            \
                libs/dataprovider.h           \
                libs/tvrageparser.h
@@ -64,6 +65,7 @@ SOURCES     += main.cpp                        \
                dialogs/settings/findshows.cpp  \
                dialogs/settings/options.cpp    \
                libs/animatedimage.cpp          \
+               libs/dbinterface.cpp            \
                libs/datafetcher.cpp            \
                libs/dataprovider.cpp           \
                libs/tvrageparser.cpp
