@@ -41,6 +41,9 @@ public:
     FindShows(QWidget *parent = 0);
     ~FindShows();
 
+    QList<NextShows::ShowInfos_t> getTrackedShows() const;
+    void setTrackedShows(const QList<NextShows::ShowInfos_t> &shows);
+
 private Q_SLOTS:
     void on_btnLookup_clicked();
     void on_leSearch_textChanged(const QString &);

@@ -25,7 +25,7 @@
 #include "ui_settingsdialog.h"
 #include "dialogs/settings/findshows.h"
 #include "dialogs/settings/options.h"
-
+#include "libs/dbinterface.h"
 // QtGui
 #include <QtGui/QDialog>
 
@@ -43,14 +43,17 @@ public:
 
 private Q_SLOTS:
     void changePage(const int &);
+    void acceptDialog();
 
 private:
     void setCategoryTitle(const QString &);
 
+    Ui::SettingsDialog ui;
+
     ::Settings::FindShows *m_wFindShows;
     ::Settings::Options   *m_wOptions;
 
-    Ui::SettingsDialog ui;
+    DbInterface *m_db;
 };
 
 } // namespace Dialogs
