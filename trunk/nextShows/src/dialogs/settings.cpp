@@ -20,7 +20,7 @@
 
 // Own
 #include "dialogs/settings.h"
-
+#include "nextshows.h"
 // QtCore
 #include <QtCore/QDebug>
 
@@ -33,8 +33,8 @@ namespace Dialogs
 */
 Settings::Settings(QWidget *parent)
     : QDialog(parent, Qt::Dialog)
-    , m_wFindShows(new ::Settings::FindShows)
-    , m_wOptions(new ::Settings::Options)
+    , m_wFindShows(new ::Settings::FindShows(this))
+    , m_wOptions(new ::Settings::Options(this))
 {
     // Default behavior / attributes
     QWidget::setAttribute(Qt::WA_DeleteOnClose);
@@ -50,23 +50,21 @@ Settings::Settings(QWidget *parent)
 
     setMinimumSize(sizeHint());
 
-/*
-    for (int i=0; i<ui.wPanel->count(); ++i) {
-        QWidget *page = ui.wPanel->widget(i);
-        ui.wCategories->addCategory(page->windowTitle(), page->windowIcon());
-    }
-
-    ui.lblCategoryName->setText(ui.wPanel->currentWidget()->windowTitle());
-*/
-
     connect(ui.wCategories, SIGNAL(categoryChanged(const int &)), this, SLOT(changePage(const int &)));
 
 //    adjustSize();
+
+    m_db = new DbInterface();
+    m_db->init();
+    m_wFindShows->setTrackedShows(m_db->readUserShows());
+
+    connect(ui.buttonBox, SIGNAL(accepted()), this, SLOT(acceptDialog()));
 } // ctor()
 
 Settings::~Settings()
 {
     qDebug() << Q_FUNC_INFO;
+    delete m_db;
 } // dtor()
 
 
@@ -79,6 +77,11 @@ void Settings::changePage(const int &id)
     setCategoryTitle(ui.wPanel->currentWidget()->windowTitle());
 } // changePage()
 
+void Settings::acceptDialog()
+{
+    m_db->saveUserShows(m_wFindShows->getTrackedShows());
+    QDialog::accept();
+} // acceptDialog()
 
 /*
 ** private:

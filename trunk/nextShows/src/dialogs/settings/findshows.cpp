@@ -75,6 +75,16 @@ FindShows::~FindShows()
     delete m_animatedImage;
 } // dtor()
 
+QList<NextShows::ShowInfos_t> FindShows::getTrackedShows() const
+{
+    return m_trackedShows;
+} // getTrackedShows()
+
+void FindShows::setTrackedShows(const QList<NextShows::ShowInfos_t> &shows)
+{
+    m_trackedShows = shows;
+    displayTrackedShows();
+} // setTrackedShows()
 
 /*
 ** private Q_SLOTS:
