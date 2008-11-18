@@ -38,8 +38,8 @@ public:
     ~MainWindow();
 
 private slots:
-    void saveShow();
-    void getShowList();
+    void on_btnSaveShow_clicked(bool checked);
+    void on_btnListShow_clicked(bool checked);
 
 private:
     Ui::MainWindow ui;
