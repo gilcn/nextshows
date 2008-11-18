@@ -18,42 +18,35 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef __CACHE_H__
-#define __CACHE_H__
+#ifndef __MAINWINDOW_H__
+#define __MAINWINDOW_H__
 
 
 // Own
-#include "nextshows.h"
-// QtSql
-#include <QtSql/QSqlDatabase>
-#include <QtSql/QSqlQuery>
+#include "ui_mainwindow.h"
+#include "dbinterface.h"
+// QtGui
+#include <QtGui/QDialog>
 
 
-class Cache
+class MainWindow : public QDialog
 {
+    Q_OBJECT
+
 public:
-    Cache();
-    ~Cache();
+    MainWindow(QWidget *parent = 0);
+    ~MainWindow();
 
-    // Init the database
-    bool init();
-
-    void saveUserShows(const QList<NextShows::ShowInfos_t> &shows);
-    QList<NextShows::ShowInfos_t> readUserShows();
-    QList<uint> expiredShow(const int &timestamp);
-
-//signals:
-//    void stateChanged(const QString &text);
+private slots:
+    void on_btnSaveShow_clicked(bool checked);
+    void on_btnListShow_clicked(bool checked);
+    void on_btnCheckExpiredShows_clicked(bool checked);
 
 private:
-    QSqlDatabase m_db;
-    QSqlQuery m_query;
-
-    bool createTables();
+    Ui::MainWindow ui;
+    DbInterface *m_dbinterface;
+    QMap<QString, QString> *map;
 };
 
 
-#endif // __CACHE_H__
-
-
-// EOF - vim:ts=4:sw=4:et:
+#endif // __MAINWINDOW_H__
