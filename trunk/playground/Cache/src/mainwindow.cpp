@@ -65,12 +65,12 @@ void MainWindow::on_btnSaveShow_clicked(bool /*checked*/)
     QList<NextShows::ShowInfos_t> myShows;
     NextShows::ShowInfos_t shows;
     if (!ui.ldtShowId->text().isEmpty() && !ui.ldtShowName->text().isEmpty()) {
-        shows.showid = ui.ldtShowId->text().toInt();
+        shows.showid = ui.ldtShowId->text().toUInt();
         shows.name = ui.ldtShowName->text();
         shows.link = QUrl(ui.ldtUrl->text());
         shows.country = ui.ldtCountry->text();
-        shows.started = ui.ldtStarted->text().toInt();
-        shows.ended = ui.ldtEnded->text().toInt();
+        shows.started = ui.ldtStarted->text().toUInt();
+        shows.ended = ui.ldtEnded->text().toUInt();
         shows.endedFlag = (ui.cbxEndedFlag->checkState() == Qt::Checked) ? true : false;
         myShows << shows;
         m_cache->saveUserShows(myShows);
@@ -94,5 +94,18 @@ void MainWindow::on_btnListShow_clicked(bool /*checked*/)
         QString endedFlag = (show.endedFlag) ? "True" : "False";
         ui.infoTextEdit->append("  FLA : "+endedFlag);
     }
-    ui.infoTextEdit->append("--------------");
 } // on_btnListShow_clicked()
+
+void MainWindow::on_btnCheckExpiredShows_clicked(bool /*checked*/)
+{
+    // Clear
+    ui.infoTextEdit->clear();
+    
+    QList<uint> expiredshowslist = m_cache->expiredShow(2880); // request shows id oldest 2880min (48hour)
+    uint idshow;
+    int i = 1;
+    foreach (idshow, expiredshowslist) {
+        ui.infoTextEdit->append(QString::number(i)+". "+QString::number(idshow));
+        i++;
+    }
+} // on_btnCheckExpiredShows_clicked()

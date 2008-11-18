@@ -40,6 +40,7 @@ public:
 private slots:
     void on_btnSaveShow_clicked(bool checked);
     void on_btnListShow_clicked(bool checked);
+    void on_btnCheckExpiredShows_clicked(bool checked);
 
 private:
     Ui::MainWindow ui;

@@ -40,6 +40,7 @@ public:
 
     void saveUserShows(const QList<NextShows::ShowInfos_t> &shows);
     QList<NextShows::ShowInfos_t> readUserShows();
+    QList<uint> expiredShow(const int &timestamp);
 
 //signals:
 //    void stateChanged(const QString &text);
