@@ -23,13 +23,13 @@
 
 // Own
 #include "ui_options.h"
-
 // QtGui
 #include <QtGui/QWidget>
 
 
 namespace Settings
 {
+
 
 class Options : public QWidget
 {
