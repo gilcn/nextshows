@@ -82,8 +82,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(actionQuit, SIGNAL(triggered()), this, SLOT(close()));
 
     // SysTray
-    SysTrayIcon *m_sysTrayIcon = new SysTrayIcon(this);
-    Q_UNUSED(m_sysTrayIcon)
+    //SysTrayIcon *m_sysTrayIcon = new SysTrayIcon(this);
+    //Q_UNUSED(m_sysTrayIcon)
 
 } // ctor()
 

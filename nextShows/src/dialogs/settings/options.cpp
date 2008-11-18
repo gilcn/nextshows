@@ -20,10 +20,13 @@
 
 // Own
 #include "options.h"
+// QtCore
+#include <QtCore/QDebug>
 
 
 namespace Settings
 {
+
 
 /*
 ** public:
@@ -42,6 +45,7 @@ Options::Options(QWidget *parent)
 Options::~Options()
 {
 } // dtor()
+
 
 } // namespace Settings
 
