@@ -17,33 +17,36 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+#ifndef __SETTINGS_OPTIONS_H__
+#define __SETTINGS_OPTIONS_H__
+
 
 // Own
-#include "misc.h"
+#include "ui_options.h"
+
+// QtGui
+#include <QtGui/QWidget>
 
 
 namespace Settings
 {
 
-/*
-** public:
-*/
-Misc::Misc(QWidget *parent)
-    : QWidget(parent)
+class Options : public QWidget
 {
-    ui.setupUi(this);
+    Q_OBJECT
 
-    // Category title
-    setWindowTitle(tr("Misc"));
-    // Category icon
-    setWindowIcon(QIcon(":/pixmaps/prefs/television.png"));
-} // ctor()
+public:
+    Options(QWidget *parent = 0);
+    ~Options();
 
-Misc::~Misc()
-{
-} // dtor()
+private:
+    Ui::Options ui;
+};
+
 
 } // namespace Settings
+
+#endif // __SETTINGS_OPTIONS_H__
 
 
 // EOF - vim:ts=4:sw=4:et:
