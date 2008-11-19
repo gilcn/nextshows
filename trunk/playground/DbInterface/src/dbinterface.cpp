@@ -29,7 +29,9 @@
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlTableModel>
 
+
 #define DBCONNECTION "DbInterface"
+
 
 /*
 ** public:
@@ -37,16 +39,12 @@
 DbInterface::DbInterface()
 {
     qDebug() << Q_FUNC_INFO;
-
-    //m_db = QSqlDatabase::addDatabase("QSQLITE");
-    //m_db.setDatabaseName("ns.db");
 } // ctor()
 
 DbInterface::~DbInterface()
 {
     qDebug() << Q_FUNC_INFO;
 
-    //m_db.close();
     QSqlDatabase::database(DBCONNECTION).close();
     QSqlDatabase::removeDatabase(DBCONNECTION);
 } // dtor()
@@ -55,17 +53,28 @@ bool DbInterface::init()
 {
     qDebug() << Q_FUNC_INFO;
 
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", DBCONNECTION);
-    db.setDatabaseName("ns.db");
+    QSqlDatabase db;
+
+    // Prevent database from being connected several times
+    if (QSqlDatabase::connectionsNames().contains(DBCONNECTION)) {
+        qWarning() << DBCONNECTION << "already connected!";
+        db = QSqlDatabase::database(DBCONNECTION);
+    } else {
+        db = QSqlDatabase::addDatabase("QSQLITE", DBCONNECTION);
+        db.setDatabaseName("ns.db");
+    }
+
     if (!db.open()) {
         qCritical() << "Error while opening DB:" << db.lastError();
-    
-    return false;
+        QSqlDatabase::removeDatabase(DBCONNECTION);
+        return false;
     }
 
     if (db.tables().count() == 0) {
-            if (!createTables()) {
+        if (!createTables()) {
             qCritical() << "Could not create tables!";
+            db.close();
+            QSqlDatabase::removeDatabase(DBCONNECTION);
             return false;
         }
     }
@@ -152,7 +161,7 @@ QList<uint> DbInterface::expiredShow(const int &timestamp)
         expiredshow << query.value(0).toUInt();
     }
     return expiredshow;
-}
+} // expiredShow()
 
 QVariant DbInterface::readEpisodes()
 {
@@ -170,7 +179,8 @@ QVariant DbInterface::readEpisodes()
 
     return true;
 
-}
+} // readEpisode()
+
 
 /*
 ** private:
@@ -252,7 +262,7 @@ bool DbInterface::deleteShow(const uint &id)
         return false;
     }
     return true;
-}
+} // deleteShow()
 
 
 // EOF - vim:ts=4:sw=4:et:
