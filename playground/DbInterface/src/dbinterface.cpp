@@ -56,9 +56,12 @@ bool DbInterface::init()
     QSqlDatabase db;
 
     // Prevent database from being connected several times
-    if (QSqlDatabase::connectionsNames().contains(DBCONNECTION)) {
+    if (QSqlDatabase::connectionNames().contains(DBCONNECTION)) {
         qWarning() << DBCONNECTION << "already connected!";
         db = QSqlDatabase::database(DBCONNECTION);
+        if (db.isOpen()) {
+            return true;
+        }
     } else {
         db = QSqlDatabase::addDatabase("QSQLITE", DBCONNECTION);
         db.setDatabaseName("ns.db");
