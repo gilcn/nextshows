@@ -27,7 +27,9 @@
 #include <QtCore/QVariant>
 // QtSql
 #include <QtSql/QSqlError>
+#include <QtSql/QSqlTableModel>
 
+#define DBCONNECTION "DbInterface"
 
 /*
 ** public:
@@ -36,27 +38,32 @@ DbInterface::DbInterface()
 {
     qDebug() << Q_FUNC_INFO;
 
-    m_db = QSqlDatabase::addDatabase("QSQLITE");
-    m_db.setDatabaseName("ns.db");
+    //m_db = QSqlDatabase::addDatabase("QSQLITE");
+    //m_db.setDatabaseName("ns.db");
 } // ctor()
 
 DbInterface::~DbInterface()
 {
     qDebug() << Q_FUNC_INFO;
 
-    m_db.close();
+    //m_db.close();
+    QSqlDatabase::database(DBCONNECTION).close();
+    QSqlDatabase::removeDatabase(DBCONNECTION);
 } // dtor()
 
 bool DbInterface::init()
 {
     qDebug() << Q_FUNC_INFO;
 
-    if (!m_db.open()) {
-        qCritical() << "Error while opening DB:" << m_db.lastError();
-        return false;
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", DBCONNECTION);
+    db.setDatabaseName("ns.db");
+    if (!db.open()) {
+        qCritical() << "Error while opening DB:" << db.lastError();
+    
+    return false;
     }
 
-    if (m_db.tables().count() == 0) {
+    if (db.tables().count() == 0) {
             if (!createTables()) {
             qCritical() << "Could not create tables!";
             return false;
@@ -70,9 +77,12 @@ bool DbInterface::init()
 void DbInterface::saveUserShows(const QList<NextShows::ShowInfos_t> &shows)
 {
     qDebug() << Q_FUNC_INFO;
+    
+    QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
+    
     // First, select all id in db
     QList<uint> dbid;
-    QSqlQuery query(m_db);
+    QSqlQuery query(db);
     query.exec("SELECT idT_Shows FROM T_Shows");
     while (query.next()) {
         dbid << query.value(0).toUInt();
@@ -84,7 +94,7 @@ void DbInterface::saveUserShows(const QList<NextShows::ShowInfos_t> &shows)
         NextShows::ShowInfos_t show = *it;
         usrid << show.showid;
         if(dbid.contains(show.showid)){ // eventually need an update
-            saveShow(show,DbInterface::Update);
+            //saveShow(show,DbInterface::Update);
             qDebug() << "Update show : " << QString::number(show.showid);
         }
         else { // This show is a new show, Add IT !
@@ -104,10 +114,12 @@ void DbInterface::saveUserShows(const QList<NextShows::ShowInfos_t> &shows)
 QList<NextShows::ShowInfos_t> DbInterface::readUserShows()
 {
     qDebug() << Q_FUNC_INFO;
+    
+    QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
 
     QList<NextShows::ShowInfos_t> myShows;
-    QSqlQuery query(m_db);
-    query.exec("SELECT idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp FROM T_Shows");
+    QSqlQuery query(db);
+    query.exec("SELECT idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp FROM T_Shows ORDER BY ShowName");
     while (query.next()) {
         NextShows::ShowInfos_t show;
         show.showid = query.value(0).toUInt();
@@ -126,19 +138,39 @@ QList<NextShows::ShowInfos_t> DbInterface::readUserShows()
 QList<uint> DbInterface::expiredShow(const int &timestamp)
 {
     qDebug() << Q_FUNC_INFO;
+    
+    QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
+    
     QList<uint> expiredshow;
     // Calculate the max timestamp
     int maxtimestamp = QDateTime::currentDateTime().toTime_t()-timestamp;
-    QSqlQuery query(m_db);
+    QSqlQuery query(db);
     query.prepare("SELECT idT_Shows, Timestamp FROM T_Shows WHERE Timestamp < :maxtimestamp");
     query.bindValue(":maxtimestamp", maxtimestamp);
     query.exec();
     while (query.next()) {
-        expiredshow <<query.value(0).toUInt();
+        expiredshow << query.value(0).toUInt();
     }
     return expiredshow;
 }
 
+QVariant DbInterface::readEpisodes()
+{
+    qDebug() << Q_FUNC_INFO;
+    
+    QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
+    
+    QSqlTableModel *model = new QSqlTableModel();
+    model->setTable("T_Episodes");
+    /*model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    model->select();
+    model->removeColumn(0); // don't show the ID
+    model->setHeaderData(0, Qt::Horizontal, tr("Name"));
+    model->setHeaderData(1, Qt::Horizontal, tr("Salary"));*/
+
+    return true;
+
+}
 
 /*
 ** private:
@@ -147,8 +179,10 @@ bool DbInterface::createTables()
 {
     qDebug() << Q_FUNC_INFO;
 
+    QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
+    
     bool status;
-    QSqlQuery query(m_db);
+    QSqlQuery query(db);
 
     // T_Shows table
     status = query.exec("CREATE TABLE T_Shows (idT_Shows INTEGER PRIMARY KEY, ShowName VARCHAR(30), ShowUrl VARCHAR(256), Country VARCHAR(15), Started INTEGER, Ended INTEGER, EndedFlag BOOL, Timestamp INTEGER)");
@@ -163,13 +197,23 @@ bool DbInterface::createTables()
         qCritical() << query.lastError();
         return false;
     }
+    
+    // T_Version table
+    status = query.exec("CREATE TABLE T_Version (Version INTEGER)");
+    if (!status) {
+        qCritical() << query.lastError();
+        return false;
+    }
 
     return true;
 } // createTables()
 
 bool DbInterface::saveShow(const NextShows::ShowInfos_t &show, const DbInterface::RecordType &rtype)
 {
-    QSqlQuery query(m_db);
+    
+    QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
+    
+    QSqlQuery query(db);
     if (rtype == DbInterface::Insert) {
         query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp)"
                 "VALUES (:idt_shows, :showname, :showurl, :country, :started, :ended, :enderflag, 0)");
@@ -196,9 +240,11 @@ bool DbInterface::saveShow(const NextShows::ShowInfos_t &show, const DbInterface
 
 bool DbInterface::deleteShow(const uint &id)
 {
-    QSqlQuery query(m_db);
+    QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
+    
+    QSqlQuery query(db);
     query.prepare("DELETE FROM T_shows WHERE idT_Shows = :idshow");
-    query.bindValue(":idshow",id);
+    query.bindValue(":idshow", id);
     bool status;
     status = query.exec();
     if (!status) {
