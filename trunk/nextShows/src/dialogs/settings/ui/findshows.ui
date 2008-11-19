@@ -275,7 +275,7 @@
        <item>
         <widget class="QLabel" name="lblTrackedShows" >
          <property name="text" >
-          <string>Tracked shows: 0</string>
+          <string/>
          </property>
          <property name="alignment" >
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

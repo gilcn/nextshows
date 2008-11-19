@@ -229,7 +229,7 @@ void FindShows::displaySearchResults()
         } else {
             parentItem->setIcon(0, QIcon(":/pixmaps/flags/unknown.gif"));
         }
-        parentItem->setToolTip(0, QString(tr("Country: %1")).arg(show.country.toUpper()));
+        parentItem->setToolTip(0, tr("Country: %1").arg(show.country.toUpper()));
 
         if (!show.endedFlag) {
             if (!m_filterResults) {
@@ -315,16 +315,16 @@ void FindShows::displayTrackedShows(const int &pos)
         item->setForeground(brush);
         item->setText(show.name);
 
-        QString toolTip = QString(tr("Country: %1")).arg(show.country);
-        toolTip += QString(tr("\nSeasons: %1")).arg(show.seasons);
-        toolTip += QString(tr("\nStatus: %1")).arg(show.status);
-        toolTip += QString(tr("\nStarted: %1")).arg(show.started);
+        QString toolTip = tr("Country: %1").arg(show.country);
+        toolTip += tr("\nSeasons: %1").arg(show.seasons);
+        toolTip += tr("\nStatus: %1").arg(show.status);
+        toolTip += tr("\nStarted: %1").arg(show.started);
         if (show.ended != 0) {
-            toolTip += QString(tr("\nEnded: %1")).arg(show.ended);
+            toolTip += tr("\nEnded: %1").arg(show.ended);
         }
-        toolTip += QString(tr("\nClassification: %1")).arg(show.classification);
+        toolTip += tr("\nClassification: %1").arg(show.classification);
         if (!show.genres.empty()) {
-            toolTip += QString(tr("\nGenres: %1")).arg(show.genres.join(", "));
+            toolTip += tr("\nGenres: %1").arg(show.genres.join(", "));
         }
         item->setToolTip(toolTip);
 
@@ -332,6 +332,9 @@ void FindShows::displayTrackedShows(const int &pos)
     } // foreach()
 
     ui.lstTrackedShows->setCurrentRow(pos);
+
+    // Update tracked show count
+    ui.lblTrackedShows->setText(tr("Tracked shows: %1").arg(m_trackedShows.count()));
 } // displayTrackedShows()
 
 void FindShows::updateSearchResultsWidgets()
@@ -358,7 +361,7 @@ void FindShows::updateSearchResultsWidgets()
             ui.treeSearchResults->setEnabled(true);
             palette.setColor(QPalette::WindowText, Qt::black);
             font.setBold(false);
-            ui.lblDisplayed->setText(QString(tr("Displayed: %1/%2"))
+            ui.lblDisplayed->setText(tr("Displayed: %1/%2")
                                      .arg(m_displayedShowCount)
                                      .arg(m_searchResults.count()));
         }
