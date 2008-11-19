@@ -41,13 +41,14 @@ public:
     void saveUserShows(const QList<NextShows::ShowInfos_t> &shows);
     QList<NextShows::ShowInfos_t> readUserShows();
     QList<uint> expiredShow(const int &timestamp);
+    QVariant readEpisodes();
 
 //signals:
 //    void stateChanged(const QString &text);
 
 private:
-    QSqlDatabase m_db;
-    QSqlQuery m_query;
+    //QSqlDatabase m_db;
+    //QSqlQuery m_query;
     enum RecordType {
             Insert,
             Update
