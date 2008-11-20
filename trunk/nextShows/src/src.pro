@@ -33,8 +33,7 @@ FORMS       += ui/mainwindow.ui                 \
                dialogs/settings/ui/findshows.ui \
                dialogs/settings/ui/options.ui
 
-HEADERS     += version.h                     \
-               nextshows.h                   \
+HEADERS     += nextshows.h                   \
                mainwindow.h                  \
                systrayicon.h                 \
                widgets/nscreditscroller.h    \

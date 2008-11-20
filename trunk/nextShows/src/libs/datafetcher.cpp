@@ -20,7 +20,7 @@
 
 // Own
 #include "datafetcher.h"
-#include "version.h"
+#include "nextshows.h"
 #include "libs/tvrageparser.h"
 // QtCore
 #include <QtCore/QUrl>
