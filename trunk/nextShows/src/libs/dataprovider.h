@@ -50,7 +50,7 @@ public:
 
 Q_SIGNALS:
     // Search results are ready to be served
-    void searchResultsReady(QList<NextShows::ShowInfos_t>);
+    void searchResultsReady(NextShows::ShowInfosList);
 
 private:
     DataFetcher *m_dataFetcher;

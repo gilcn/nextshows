@@ -43,7 +43,7 @@ public:
     void getEpisodeList(const QString &);
 
 Q_SIGNALS:
-    void searchResultsReady(QList<NextShows::ShowInfos_t>);
+    void searchResultsReady(NextShows::ShowInfosList);
     void episodeListReady(QVariant);
 
 protected:
@@ -53,7 +53,7 @@ protected:
     };
 
     virtual QUrl urlForRequest(const RequestType &, const QString &) = 0;
-    virtual QList<NextShows::ShowInfos_t> parseSearchResults(const QByteArray &) = 0;
+    virtual NextShows::ShowInfosList parseSearchResults(const QByteArray &) = 0;
     virtual QVariant parseEpisodeList(const QByteArray &) = 0;
 
 private Q_SLOTS:

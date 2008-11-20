@@ -47,7 +47,7 @@ public:
     void searchShow(const QString &showName);
 
 Q_SIGNALS:
-    void searchResultsReady(QList<NextShows::ShowInfos_t>);
+    void searchResultsReady(NextShows::ShowInfosList);
 
 private Q_SLOTS:
     void requestFinished(QNetworkReply *);

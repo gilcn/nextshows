@@ -63,7 +63,7 @@ struct ShowInfos_t {
     QStringList genres;         // Show genres [TvRage]
     bool        endedFlag;      // Show Ended flag [Internal]
 };
-
+typedef QList<ShowInfos_t> ShowInfosList;
 
 struct EpisodeList_t {
     uint        season;         // Season
@@ -75,6 +75,7 @@ struct EpisodeList_t {
     QString     title;          // Episode title
     bool        isSpecial;      // Flag for special (off-season) episodes
 };
+typedef QList<EpisodeList_t> EpisodeListList;
 
 } // namespace NextShows
 
