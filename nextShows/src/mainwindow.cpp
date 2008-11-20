@@ -20,7 +20,7 @@
 
 // Own
 #include "mainwindow.h"
-#include "version.h"
+#include "nextshows.h"
 
 // QtCore
 #include <QtCore/QDebug>

@@ -20,7 +20,7 @@
 
 // Own
 #include "mainwindow.h"
-#include "version.h"
+#include "nextshows.h"
 // QtGui
 #include <QtGui/QApplication>
 #include <QtGui/QMessageBox>

@@ -20,7 +20,6 @@
 
 // Own
 #include "abstractprovider.h"
-#include "version.h"
 // QtCore
 #include <QtCore/QDebug>
 // QtNetwork
