@@ -105,12 +105,8 @@ void DbInterface::saveUserShows(const NextShows::ShowInfosList &shows)
     for (it = shows.begin(); it != shows.end(); ++it) {
         NextShows::ShowInfos_t show = *it;
         usrid << show.showid;
-        if(dbid.contains(show.showid)){ // eventually need an update
-            //saveShow(show,DbInterface::Update);
-            qDebug() << "Update show : " << QString::number(show.showid);
-        }
-        else { // This show is a new show, Add IT !
-            saveShow(show,DbInterface::Insert);
+        if(!dbid.contains(show.showid)) { // This show is a new show, Add IT !
+            saveShow(show);
             qDebug() << "Add show : " << QString::number(show.showid);
         }
     }
@@ -221,19 +217,15 @@ bool DbInterface::createTables()
     return true;
 } // createTables()
 
-bool DbInterface::saveShow(const NextShows::ShowInfos_t &show, const DbInterface::RecordType &rtype)
+bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
 {
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
     
     QSqlQuery query(db);
-    if (rtype == DbInterface::Insert) {
-        query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp)"
+    query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp)"
                 "VALUES (:idt_shows, :showname, :showurl, :country, :started, :ended, :enderflag, 0)");
-    }
-    else {
-        query.prepare("UPDATE T_Shows SET ShowName=:showname, ShowUrl=:showurl, Country=:country, Started=:started, Ended=:ended, EndedFlag=:endedflag WHERE idT_Shows=:idt_shows");
-    }
+
     query.bindValue(":idt_shows", show.showid);
     query.bindValue(":showname", show.name);
     query.bindValue(":showurl", show.link.toString());

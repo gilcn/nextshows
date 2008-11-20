@@ -44,13 +44,8 @@ public:
     QVariant readEpisodes();
 
 private:
-    enum RecordType {
-        Insert,
-        Update
-    };
-
     bool createTables();
-    bool saveShow(const NextShows::ShowInfos_t &show, const RecordType &rtype);
+    bool saveShow(const NextShows::ShowInfos_t &show);
     bool deleteShow(const uint &id);
 };
 

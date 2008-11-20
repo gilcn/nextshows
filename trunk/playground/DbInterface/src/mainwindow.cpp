@@ -46,8 +46,6 @@ MainWindow::MainWindow(QWidget *parent)
         abort();
     }
 
-//    connect(m_dbinterface, SIGNAL(stateChanged(const QString &)), ui.infoTextEdit, SLOT(append(const QString &)));
-
     connect(ui.buttonBox, SIGNAL(rejected()), this, SLOT(close()));
 } // ctor()
 
