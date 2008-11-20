@@ -40,16 +40,17 @@ NextShows::ShowInfosList TvRageParser::parseSearchResults(const QByteArray &data
 {
     NextShows::ShowInfosList showList;
 
-    QDomDocument doc("TvRage Search Results");
+    QDomDocument doc("TVRage Search Results");
     if (!doc.setContent(data)) {
-        qCritical("Error while parsing document!");
+        qCritical("Error while parsing search results!");
     }
 
     QDomElement results = doc.documentElement();
 
     // <Results>0</Results>
-    if (results.text() == "0")
+    if (results.text() == "0") {
         return showList;    // Empty show list
+    }
 
     // Iterate over results
     QDomNode resultsDN = results.firstChild();
@@ -65,9 +66,59 @@ NextShows::ShowInfosList TvRageParser::parseSearchResults(const QByteArray &data
     return showList;
 } // parseSearchResults()
 
-NextShows::ShowInfosList TvRageParser::parseShowInfo(const QByteArray &data)
+NextShows::ShowInfos_t TvRageParser::parseShowInfo(const QByteArray &data)
 {
-    return NextShows::ShowInfosList();
+    NextShows::ShowInfos_t showInfos;
+
+    QDomDocument doc("TVRage Show Info");
+    if (!doc.setContent(data)) {
+        qCritical("Error while parsing show info!");
+    }
+
+    QDomElement show = doc.documentElement();
+
+    // <Showinfo />
+    if (show.text().isEmpty()) {
+        return showInfos;
+    }
+
+    // Read show infos
+    QDomNode showDN = show.firstChild();
+    while (!showDN.isNull())
+    {
+        if (showDN.isElement()) {
+            QDomElement element = showDN.toElement();
+            QString tagName(element.tagName().toLower());
+            if (tagName == "showid") {
+                showInfos.showid = element.text().toUInt();
+            } else if (tagName == "showname") {
+                showInfos.name = element.text();
+            } else if (tagName == "showlink") {
+                showInfos.link = QUrl(element.text());
+            } else if (tagName == "started") {
+                showInfos.started = element.text().toUInt();
+// FIXME: Missing from feed. Need to get in touch with a TVRage admin
+//            } else if (tagName == "ended") {
+//                showInfos.ended = element.text().toUInt();
+// FIXME: Missing from feed. Need to get in touch with a TVRage admin
+//            } else if (tagName == "seasons") {
+//                showInfos.seasons = element.text().toUInt();
+            } else if (tagName == "origin_country") {
+                showInfos.country = element.text();
+            } else if (tagName == "status") {
+                showInfos.status = element.text();
+                showInfos.endedFlag = TvRageParser::m_endedShowStatusKeywords.contains(showInfos.status);
+            } else if (tagName == "classification") {
+                showInfos.classification = element.text();
+            } else if (tagName == "genres") {
+                showInfos.genres = TvRageParser::parseTag_Genres(element);
+            }
+        }
+
+        showDN = showDN.nextSibling();
+    }
+
+    return showInfos;
 } // parseShowInfo()
 
 NextShows::EpisodeListList TvRageParser::parseEpisodeList(const QByteArray &data)
@@ -94,7 +145,7 @@ NextShows::ShowInfos_t TvRageParser::parseSearchResults_Show(const QDomNode &nod
             } else if (tagName == "name") {
                 showInfos.name = element.text();
             } else if (tagName == "link") {
-                showInfos.link = element.text();
+                showInfos.link = QUrl(element.text());
             } else if (tagName == "country") {
                 showInfos.country = element.text();
             } else if (tagName == "started") {
@@ -109,14 +160,7 @@ NextShows::ShowInfos_t TvRageParser::parseSearchResults_Show(const QDomNode &nod
             } else if (tagName == "classification") {
                 showInfos.classification = element.text();
             } else if (tagName == "genres") {
-                if (element.hasChildNodes()) {
-                    QDomNode genreNode = element.firstChild();
-                    while (!genreNode.isNull()) {
-                        QDomElement genreElement = genreNode.toElement();
-                        showInfos.genres << genreElement.text();
-                        genreNode = genreNode.nextSibling();
-                    }
-                }
+                showInfos.genres = TvRageParser::parseTag_Genres(element);
             }
         }
         child = child.nextSibling();
@@ -125,5 +169,20 @@ NextShows::ShowInfos_t TvRageParser::parseSearchResults_Show(const QDomNode &nod
     return showInfos;
 } // parseSearchResults_Show()
 
+QStringList TvRageParser::parseTag_Genres(const QDomElement &element)
+{
+    QStringList genreList;
+
+    if (element.hasChildNodes()) {
+        QDomNode node = element.firstChild();
+        while (!node.isNull()) {
+            QDomElement genreElement = node.toElement();
+            genreList << genreElement.text();
+            node = node.nextSibling();
+        }
+    }
+
+    return genreList;
+} // parseTag_Genres()
 
 // EOF - vim:ts=4:sw=4:et:
