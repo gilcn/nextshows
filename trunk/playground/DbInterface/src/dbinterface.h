@@ -27,6 +27,7 @@
 // QtSql
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
+#include <QtSql/QSqlTableModel>
 
 
 class DbInterface
@@ -41,7 +42,7 @@ public:
     void saveUserShows(const NextShows::ShowInfosList &shows);
     NextShows::ShowInfosList readUserShows();
     QList<uint> expiredShow(const int &timestamp);
-    QVariant readEpisodes();
+    QSqlTableModel *readEpisodes() const;
 
 private:
     bool createTables();

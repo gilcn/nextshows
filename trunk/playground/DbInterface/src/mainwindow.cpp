@@ -107,3 +107,10 @@ void MainWindow::on_btnCheckExpiredShows_clicked(bool /*checked*/)
         i++;
     }
 } // on_btnCheckExpiredShows_clicked()
+
+void MainWindow::on_btnRequestDB_clicked(bool /*checked*/)
+{
+	QSqlTableModel *model = m_dbinterface->readEpisodes();
+	ui.tblView->setModel(model);
+    ui.tblView->show();
+}
