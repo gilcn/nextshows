@@ -37,7 +37,7 @@ public:
 
 protected:
     QUrl urlForRequest(const AbstractProvider::RequestType &, const QString &);
-    QList<NextShows::ShowInfos_t> parseSearchResults(const QByteArray &);
+    NextShows::ShowInfosList parseSearchResults(const QByteArray &);
     QVariant parseEpisodeList(const QByteArray &);
 
 private:

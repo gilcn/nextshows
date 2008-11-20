@@ -36,9 +36,9 @@ const QStringList TvRageParser::m_endedShowStatusKeywords(keywords.split(",", QS
 /*
 ** public:
 */
-QList<NextShows::ShowInfos_t> TvRageParser::parseSearchResults(const QByteArray &data)
+NextShows::ShowInfosList TvRageParser::parseSearchResults(const QByteArray &data)
 {
-    QList<NextShows::ShowInfos_t> showList;
+    NextShows::ShowInfosList showList;
 
     QDomDocument doc("TvRage Search Results");
     if (!doc.setContent(data)) {
@@ -64,6 +64,16 @@ QList<NextShows::ShowInfos_t> TvRageParser::parseSearchResults(const QByteArray 
 
     return showList;
 } // parseSearchResults()
+
+NextShows::ShowInfosList TvRageParser::parseShowInfo(const QByteArray &data)
+{
+    return NextShows::ShowInfosList();
+} // parseShowInfo()
+
+NextShows::EpisodeListList TvRageParser::parseEpisodeList(const QByteArray &data)
+{
+    return NextShows::EpisodeListList();
+} // parseEpisodeList()
 
 
 /*

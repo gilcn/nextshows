@@ -34,7 +34,12 @@ class TvRageParser
 public:
     TvRageParser() {}
 
-    static QList<NextShows::ShowInfos_t> parseSearchResults(const QByteArray &data);
+    // Parser for http://www.tvrage.com/feeds/search.php?show=SHOWNAME
+    static NextShows::ShowInfosList parseSearchResults(const QByteArray &data);
+    // Parser for http://www.tvrage.com/feeds/showinfo.php?sid=SHOWID
+    static NextShows::ShowInfosList parseShowInfo(const QByteArray &data);
+    // Parser for http://www.tvrage.com/feeds/episode_list.php?sid=SHOWID
+    static NextShows::EpisodeListList parseEpisodeList(const QByteArray &data);
 
 private:
     static NextShows::ShowInfos_t parseSearchResults_Show(const QDomNode &node);

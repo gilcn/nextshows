@@ -69,9 +69,9 @@ QUrl TvRageProvider::urlForRequest(const AbstractProvider::RequestType &urlType,
 } // urlForRequest()
 
 
-QList<NextShows::ShowInfos_t> TvRageProvider::parseSearchResults(const QByteArray &data)
+NextShows::ShowInfosList TvRageProvider::parseSearchResults(const QByteArray &data)
 {
-    QList<NextShows::ShowInfos_t> showList;
+    NextShows::ShowInfosList showList;
 
     QDomDocument doc("TvRage Search Results");
     if (!doc.setContent(data))

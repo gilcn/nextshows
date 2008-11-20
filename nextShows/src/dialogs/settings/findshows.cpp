@@ -65,8 +65,8 @@ FindShows::FindShows(QWidget *parent)
             this, SLOT(newImageFrame(const QPixmap &)));
 
     m_data = new DataProvider(this);
-    connect(m_data, SIGNAL(searchResultsReady(QList<NextShows::ShowInfos_t>)),
-            this, SLOT(searchResultsReady(const QList<NextShows::ShowInfos_t> &)));
+    connect(m_data, SIGNAL(searchResultsReady(NextShows::ShowInfosList)),
+            this, SLOT(searchResultsReady(const NextShows::ShowInfosList &)));
 } // ctor()
 
 FindShows::~FindShows()
@@ -75,12 +75,12 @@ FindShows::~FindShows()
     delete m_animatedImage;
 } // dtor()
 
-QList<NextShows::ShowInfos_t> FindShows::getTrackedShows() const
+NextShows::ShowInfosList FindShows::getTrackedShows() const
 {
     return m_trackedShows;
 } // getTrackedShows()
 
-void FindShows::setTrackedShows(const QList<NextShows::ShowInfos_t> &shows)
+void FindShows::setTrackedShows(const NextShows::ShowInfosList &shows)
 {
     m_trackedShows = shows;
     displayTrackedShows();
@@ -167,7 +167,7 @@ void FindShows::newImageFrame(const QPixmap &pixmap)
     ui.imgProgress->setPixmap(pixmap);
 } // newImageFrame()
 
-void FindShows::searchResultsReady(const QList<NextShows::ShowInfos_t> &showList)
+void FindShows::searchResultsReady(const NextShows::ShowInfosList &showList)
 {
     m_searchResults = showList;
 

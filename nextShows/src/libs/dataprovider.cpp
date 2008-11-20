@@ -30,8 +30,8 @@ DataProvider::DataProvider(QObject *parent)
     , m_dataFetcher(new DataFetcher(this))
 {
     // Search results, simply reroute SIGNAL()
-    connect(m_dataFetcher, SIGNAL(searchResultsReady(QList<NextShows::ShowInfos_t>)),
-            this, SIGNAL(searchResultsReady(QList<NextShows::ShowInfos_t>)));
+    connect(m_dataFetcher, SIGNAL(searchResultsReady(NextShows::ShowInfosList)),
+            this, SIGNAL(searchResultsReady(NextShows::ShowInfosList)));
 } // ctor()
 
 DataProvider::~DataProvider()

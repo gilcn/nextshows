@@ -61,7 +61,7 @@ void DataFetcher::requestFinished(QNetworkReply *reply)
 {
     switch(reply->property("RequestType").toInt()) {
     case DataFetcher::SearchShow: {
-        QList<NextShows::ShowInfos_t> searchResults = TvRageParser::parseSearchResults(reply->readAll());
+        NextShows::ShowInfosList searchResults = TvRageParser::parseSearchResults(reply->readAll());
 
         emit searchResultsReady(searchResults);
 

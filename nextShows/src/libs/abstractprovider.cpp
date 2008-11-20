@@ -63,7 +63,7 @@ void AbstractProvider::requestFinished(QNetworkReply *reply)
 {
     switch(reply->property("RequestType").toInt()) {
     case AbstractProvider::SearchShow: {
-        QList<NextShows::ShowInfos_t> searchResults(parseSearchResults(reply->readAll()));
+        NextShows::ShowInfosList searchResults(parseSearchResults(reply->readAll()));
 
         /*
         qDebug();

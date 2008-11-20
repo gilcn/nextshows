@@ -41,8 +41,8 @@ public:
     FindShows(QWidget *parent = 0);
     ~FindShows();
 
-    QList<NextShows::ShowInfos_t> getTrackedShows() const;
-    void setTrackedShows(const QList<NextShows::ShowInfos_t> &shows);
+    NextShows::ShowInfosList getTrackedShows() const;
+    void setTrackedShows(const NextShows::ShowInfosList &shows);
 
 private Q_SLOTS:
     void on_btnLookup_clicked();
@@ -54,7 +54,7 @@ private Q_SLOTS:
     void on_lstTrackedShows_itemSelectionChanged();
     void on_tbtnRemoveShow_clicked();
     void newImageFrame(const QPixmap &);
-    void searchResultsReady(const QList<NextShows::ShowInfos_t> &);
+    void searchResultsReady(const NextShows::ShowInfosList &);
 
     void on_treeSearchResults_addShowAction();
     void on_treeSearchResults_openUrlAction();
@@ -81,8 +81,8 @@ private:
 
     bool m_filterResults;
     int m_displayedShowCount;
-    QList<NextShows::ShowInfos_t> m_searchResults;
-    QList<NextShows::ShowInfos_t> m_trackedShows;
+    NextShows::ShowInfosList m_searchResults;
+    NextShows::ShowInfosList m_trackedShows;
 };
 
 } // namespace Settings
