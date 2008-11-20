@@ -62,6 +62,14 @@ struct ShowInfos_t {
     QString     classification; // Show classification [TvRage]
     QStringList genres;         // Show genres [TvRage]
     bool        endedFlag;      // Show Ended flag [Internal]
+
+    ShowInfos_t() {
+        showid = 0;
+        started = 0;
+        ended = 0;
+        seasons = 0;
+        endedFlag = true;
+    };
 };
 typedef QList<ShowInfos_t> ShowInfosList;
 
@@ -74,6 +82,13 @@ struct EpisodeList_t {
     QUrl        link;           // Episode URL
     QString     title;          // Episode title
     bool        isSpecial;      // Flag for special (off-season) episodes
+
+    EpisodeList_t() {
+        season = 0;
+        episodeCount = 0;
+        episodeNumber = 0;
+        isSpecial = false;
+    };
 };
 typedef QList<EpisodeList_t> EpisodeListList;
 
