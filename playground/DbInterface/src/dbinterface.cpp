@@ -162,21 +162,22 @@ QList<uint> DbInterface::expiredShow(const int &timestamp)
     return expiredshow;
 } // expiredShow()
 
-QVariant DbInterface::readEpisodes()
+QSqlTableModel* DbInterface::readEpisodes() const
 {
     qDebug() << Q_FUNC_INFO;
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
     
     QSqlTableModel *model = new QSqlTableModel();
-    model->setTable("T_Episodes");
-    /*model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    model->select();
+    model->setTable("T_Shows");
+    //model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    if (!model->select())
+    	qDebug() << "Error setTable !!";
     model->removeColumn(0); // don't show the ID
-    model->setHeaderData(0, Qt::Horizontal, tr("Name"));
-    model->setHeaderData(1, Qt::Horizontal, tr("Salary"));*/
-
-    return true;
+    /*model->setHeaderData(0, Qt::Horizontal, tr("Name"));
+    model->setHeaderData(1, Qt::Horizontal, tr("Salary"));
+    */
+    return model;
 
 } // readEpisode()
 
