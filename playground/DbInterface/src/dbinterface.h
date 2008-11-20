@@ -1,6 +1,6 @@
 /*
-** Copyright (C) 2008 Emmanuel HAMELET <kh.starlifter@gmail.com>
-** Copyright (C) 2008 Gilles CHAUVIN <gcnweb+nextshows@gmail.com>
+** Copyright (C) 2008 Emmanuel Hamelet <kh.starlifter@gmail.com>
+** Copyright (C) 2008 Gilles Chauvin <gcnweb+nextshows@gmail.com>
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -38,8 +38,8 @@ public:
     // Init the database
     bool init();
 
-    void saveUserShows(const QList<NextShows::ShowInfos_t> &shows);
-    QList<NextShows::ShowInfos_t> readUserShows();
+    void saveUserShows(const NextShows::ShowInfosList &shows);
+    NextShows::ShowInfosList readUserShows();
     QList<uint> expiredShow(const int &timestamp);
     QVariant readEpisodes();
 

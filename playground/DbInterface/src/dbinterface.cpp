@@ -1,6 +1,6 @@
 /*
-** Copyright (C) 2008 Emmanuel HAMELET <kh.starlifter@gmail.com>
-** Copyright (C) 2008 Gilles CHAUVIN <gcnweb+nextshows@gmail.com>
+** Copyright (C) 2008 Emmanuel Hamelet <kh.starlifter@gmail.com>
+** Copyright (C) 2008 Gilles Chauvin <gcnweb+nextshows@gmail.com>
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -86,7 +86,7 @@ bool DbInterface::init()
 } // init()
 
 
-void DbInterface::saveUserShows(const QList<NextShows::ShowInfos_t> &shows)
+void DbInterface::saveUserShows(const NextShows::ShowInfosList &shows)
 {
     qDebug() << Q_FUNC_INFO;
     
@@ -101,7 +101,7 @@ void DbInterface::saveUserShows(const QList<NextShows::ShowInfos_t> &shows)
     }
 
     QList<uint> usrid;
-    QList<NextShows::ShowInfos_t>::ConstIterator it;
+    NextShows::ShowInfosList::ConstIterator it;
     for (it = shows.begin(); it != shows.end(); ++it) {
         NextShows::ShowInfos_t show = *it;
         usrid << show.showid;
@@ -123,13 +123,13 @@ void DbInterface::saveUserShows(const QList<NextShows::ShowInfos_t> &shows)
     }
 } // saveUserShows()
 
-QList<NextShows::ShowInfos_t> DbInterface::readUserShows()
+NextShows::ShowInfosList DbInterface::readUserShows()
 {
     qDebug() << Q_FUNC_INFO;
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
 
-    QList<NextShows::ShowInfos_t> myShows;
+    NextShows::ShowInfosList myShows;
     QSqlQuery query(db);
     query.exec("SELECT idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp FROM T_Shows ORDER BY ShowName");
     while (query.next()) {
