@@ -17,18 +17,38 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+
 #ifndef __NEXTSHOWS_H__
 #define __NEXTSHOWS_H__
 
 
+/* VERSION INFOS ------------------------------------------------------------*/
+#define _TEXT(x) #x
+#define TEXT(x) _TEXT(x)
+
+// nextShows version
+#define NEXTSHOWS_RELEASE 2.99.0
+#ifdef NS_SVNVERSION
+    #define NEXTSHOWS_VERSION TEXT(NS_SVNVERSION) "-svn"
+#else
+    #define NEXTSHOWS_VERSION TEXT(NEXTSHOWS_RELEASE)
+#endif
+
+// Build date / time
+#define NEXTSHOWS_BUILDDATE __DATE__ " - " __TIME__
+
+// GCC version
+#define GCC_VERSION TEXT(__GNUC__.__GNUC_MINOR__.__GNUC_PATCHLEVEL__)
+/* /VERSION INFOS -----------------------------------------------------------*/
+
+
+#include <QtCore/QDate>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QUrl>
 
-
 namespace NextShows
 {
-
 
 struct ShowInfos_t {
     uint        showid;         // Show unique ID [TvRage]
@@ -43,7 +63,19 @@ struct ShowInfos_t {
     QStringList genres;         // Show genres [TvRage]
     bool        endedFlag;      // Show Ended flag [Internal]
 };
+typedef QList<ShowInfos_t> ShowInfosList;
 
+struct EpisodeList_t {
+    uint        season;         // Season
+    uint        episodeCount;   // Episode number since the show has started
+    uint        episodeNumber;  // Episode number within the season
+    QString     prodNumber;     // Production "number" (can contain letters)
+    QDate       airDate;        // Episode airdate
+    QUrl        link;           // Episode URL
+    QString     title;          // Episode title
+    bool        isSpecial;      // Flag for special (off-season) episodes
+};
+typedef QList<EpisodeList_t> EpisodeListList;
 
 } // namespace NextShows
 

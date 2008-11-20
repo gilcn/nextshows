@@ -62,7 +62,7 @@ MainWindow::~MainWindow()
 */
 void MainWindow::on_btnSaveShow_clicked(bool /*checked*/)
 {
-    QList<NextShows::ShowInfos_t> myShows;
+    NextShows::ShowInfosList myShows;
     NextShows::ShowInfos_t shows;
     if (!ui.ldtShowId->text().isEmpty() && !ui.ldtShowName->text().isEmpty()) {
         shows.showid = ui.ldtShowId->text().toUInt();
@@ -82,8 +82,8 @@ void MainWindow::on_btnListShow_clicked(bool /*checked*/)
     // Clear
     ui.infoTextEdit->clear();
 
-    QList<NextShows::ShowInfos_t> myShows = m_dbinterface->readUserShows();
-    QList<NextShows::ShowInfos_t>::iterator i;
+    NextShows::ShowInfosList myShows = m_dbinterface->readUserShows();
+    NextShows::ShowInfosList::iterator i;
     for (i = myShows.begin(); i != myShows.end(); ++i) {
         NextShows::ShowInfos_t show = *i;
         ui.infoTextEdit->append(QString::number(show.showid)+" "+show.name);
