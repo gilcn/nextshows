@@ -42,10 +42,11 @@ public:
     // Parser for http://www.tvrage.com/feeds/episode_list.php?sid=SHOWID
     static NextShows::EpisodeListList parseEpisodeList(const QByteArray &data);
 
+
 private:
     static NextShows::ShowInfos_t parseSearchResults_Show(const QDomNode &node);
-
     static QStringList parseTag_Genres(const QDomElement &element);
+    static QMap<QString, QString> parseTag_Akas(const QDomElement &element);
 
     static const QStringList m_endedShowStatusKeywords;
 };
