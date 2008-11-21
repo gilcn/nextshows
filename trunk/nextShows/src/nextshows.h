@@ -43,6 +43,7 @@
 
 
 #include <QtCore/QDate>
+#include <QtCore/QMap>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QUrl>
@@ -50,49 +51,75 @@
 namespace NextShows
 {
 
+typedef QMap<QString, QString> StringMap;
+
 struct ShowInfos_t {
-    uint        showid;         // Show unique ID [TvRage]
+    int         showid;         // Show unique ID [TvRage]
     QString     name;           // Show name [TvRage]
     QUrl        link;           // Show URL [TvRage]
     QString     country;        // Show country [TvRage]
-    uint        started;        // Show started year [TvRage]
-    uint        ended;          // Show ended year [TvRage]
-    uint        seasons;        // Total number of seasons [TvRage]
+    int         started;        // Show started year [TvRage]
+    int         ended;          // Show ended year [TvRage]
+    int         seasons;        // Total number of seasons [TvRage]
     QString     status;         // Show status [TvRage]
     QString     classification; // Show classification [TvRage]
     QStringList genres;         // Show genres [TvRage]
     bool        endedFlag;      // Show Ended flag [Internal]
+    int         runtime;        // Show runtime [Tvrage]
+    StringMap   network;        // Show network [TvRage]
+    QTime       airtime;        // Show airtime [TvRage]
+    QString     airday;         // Show airday [TvRage]
+    QString     timezone;       // Show timezone [TvRage]
+    StringMap   akas;           // Show also-known-as [TvRage]
 
+    // Default values
     ShowInfos_t() {
-        showid = 0;
-        started = 0;
-        ended = 0;
-        seasons = 0;
-        endedFlag = true;
+        showid = -1;
+        name = QString();
+        link = QUrl();
+        country = QString();
+        started = -1;
+        ended = -1;
+        seasons = -1;
+        status = QString();
+        classification = QString();
+        genres = QStringList();
+        endedFlag = false;
+        runtime = -1;
+        network = StringMap();
+        airtime = QTime();
+        airday = QString();
+        timezone = QString();
+        akas = StringMap();
     };
 };
 typedef QList<ShowInfos_t> ShowInfosList;
 
 struct EpisodeList_t {
-    uint        season;         // Season
-    uint        episodeCount;   // Episode number since the show has started
-    uint        episodeNumber;  // Episode number within the season
+    int         season;         // Season
+    int         episodeCount;   // Episode number since the show has started
+    int         episodeNumber;  // Episode number within the season
     QString     prodNumber;     // Production "number" (can contain letters)
     QDate       airDate;        // Episode airdate
     QUrl        link;           // Episode URL
     QString     title;          // Episode title
     bool        isSpecial;      // Flag for special (off-season) episodes
 
+    // Default values
     EpisodeList_t() {
-        season = 0;
-        episodeCount = 0;
-        episodeNumber = 0;
+        season = -1;
+        episodeCount = -1;
+        episodeNumber = -1;
+        prodNumber = QString();
+        airDate = QDate();
+        link = QUrl();
+        title = QString();
         isSpecial = false;
     };
 };
 typedef QList<EpisodeList_t> EpisodeListList;
 
-} // namespace NextShows
+}; // namespace NextShows
 
 
 #endif // __NEXTSHOWS_H__

@@ -64,7 +64,6 @@ void DataFetcher::requestFinished(QNetworkReply *reply)
         NextShows::ShowInfosList searchResults = TvRageParser::parseSearchResults(reply->readAll());
 
         emit searchResultsReady(searchResults);
-
         break;
     }
     case DataFetcher::EpisodeList: {

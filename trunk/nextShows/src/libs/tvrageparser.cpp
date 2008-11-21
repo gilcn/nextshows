@@ -88,21 +88,21 @@ NextShows::ShowInfos_t TvRageParser::parseShowInfo(const QByteArray &data)
     {
         if (showDN.isElement()) {
             QDomElement element = showDN.toElement();
-            QString tagName(element.tagName().toLower());
+            QString tagName(element.tagName());
             if (tagName == "showid") {
-                showInfos.showid = element.text().toUInt();
+                showInfos.showid = element.text().toInt();
             } else if (tagName == "showname") {
                 showInfos.name = element.text();
             } else if (tagName == "showlink") {
                 showInfos.link = QUrl(element.text());
             } else if (tagName == "started") {
-                showInfos.started = element.text().toUInt();
+                showInfos.started = element.text().toInt();
 // FIXME: Missing from feed. Need to get in touch with a TVRage admin
 //            } else if (tagName == "ended") {
-//                showInfos.ended = element.text().toUInt();
+//                showInfos.ended = element.text().toInt();
 // FIXME: Missing from feed. Need to get in touch with a TVRage admin
 //            } else if (tagName == "seasons") {
-//                showInfos.seasons = element.text().toUInt();
+//                showInfos.seasons = element.text().toInt();
             } else if (tagName == "origin_country") {
                 showInfos.country = element.text();
             } else if (tagName == "status") {
@@ -112,6 +112,22 @@ NextShows::ShowInfos_t TvRageParser::parseShowInfo(const QByteArray &data)
                 showInfos.classification = element.text();
             } else if (tagName == "genres") {
                 showInfos.genres = TvRageParser::parseTag_Genres(element);
+            } else if (tagName == "runtime") {
+                showInfos.runtime = element.text().toInt();
+            } else if (tagName == "network") {
+                // FIXME
+                QString key(element.attribute("country"));
+                if (!key.isNull()) {
+                    showInfos.network[key] = element.text();
+                }
+            } else if (tagName == "airtime") {
+                showInfos.airtime = QTime::fromString(element.text(), "hh:mm");
+            } else if (tagName == "airday") {
+                showInfos.airday = element.text();
+            } else if (tagName == "timezone") {
+                showInfos.timezone = element.text();
+            } else if (tagName == "akas") {
+                showInfos.akas = TvRageParser::parseTag_Akas(element);
             }
         }
 
@@ -139,9 +155,9 @@ NextShows::ShowInfos_t TvRageParser::parseSearchResults_Show(const QDomNode &nod
     {
         if (child.isElement()) {
             QDomElement element = child.toElement();
-            QString tagName(element.tagName().toLower());
+            QString tagName(element.tagName());
             if (tagName == "showid") {
-                showInfos.showid = element.text().toUInt();
+                showInfos.showid = element.text().toInt();
             } else if (tagName == "name") {
                 showInfos.name = element.text();
             } else if (tagName == "link") {
@@ -149,11 +165,11 @@ NextShows::ShowInfos_t TvRageParser::parseSearchResults_Show(const QDomNode &nod
             } else if (tagName == "country") {
                 showInfos.country = element.text();
             } else if (tagName == "started") {
-                showInfos.started = element.text().toUInt();
+                showInfos.started = element.text().toInt();
             } else if (tagName == "ended") {
-                showInfos.ended = element.text().toUInt();
+                showInfos.ended = element.text().toInt();
             } else if (tagName == "seasons") {
-                showInfos.seasons = element.text().toUInt();
+                showInfos.seasons = element.text().toInt();
             } else if (tagName == "status") {
                 showInfos.status = element.text();
                 showInfos.endedFlag = TvRageParser::m_endedShowStatusKeywords.contains(showInfos.status);
@@ -176,13 +192,40 @@ QStringList TvRageParser::parseTag_Genres(const QDomElement &element)
     if (element.hasChildNodes()) {
         QDomNode node = element.firstChild();
         while (!node.isNull()) {
-            QDomElement genreElement = node.toElement();
-            genreList << genreElement.text();
+            if (node.isElement()) {
+                QDomElement genreElement = node.toElement();
+                if (genreElement.tagName() == "genre") {
+                    genreList << genreElement.text();
+                }
+            }
             node = node.nextSibling();
         }
     }
 
     return genreList;
 } // parseTag_Genres()
+
+QMap<QString, QString> TvRageParser::parseTag_Akas(const QDomElement &element)
+{
+    QMap<QString, QString> akasMap;
+
+    if (element.hasChildNodes()) {
+        QDomNode node = element.firstChild();
+        while (!node.isNull()) {
+            if (node.isElement()) {
+                QDomElement akaElement = node.toElement();
+                if (akaElement.tagName() == "aka") {
+                    QString key(akaElement.attribute("country"));
+                    if (!key.isNull()) {
+                        akasMap[key] = akaElement.text();
+                    }
+                }
+            }
+            node = node.nextSibling();
+        }
+    }
+
+    return akasMap;
+} // parseTag_Akas()
 
 // EOF - vim:ts=4:sw=4:et:
