@@ -74,6 +74,8 @@ About::About(QWidget *parent)
     ui.gvCreditScroller->addCredit("US", "Sebrioth", "http://www.tvrage.com/", tr("XML feeds providing"));
 
     ui.gvCreditScroller->startScrolling();
+
+    resize(600, 500);
 } // ctor()
 
 About::~About()
