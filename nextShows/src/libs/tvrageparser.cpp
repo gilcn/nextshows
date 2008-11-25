@@ -139,7 +139,41 @@ NextShows::ShowInfos_t TvRageParser::parseShowInfo(const QByteArray &data)
 
 NextShows::EpisodeListList TvRageParser::parseEpisodeList(const QByteArray &data)
 {
-    return NextShows::EpisodeListList();
+    NextShows::EpisodeListList episodeList;
+
+    QDomDocument doc("TVRage Episode List");
+    if (!doc.setContent(data)) {
+        qCritical("Error while parsing show info!");
+    }
+
+    QDomElement root = doc.documentElement();
+    
+    // Read episode list
+    QDomNode rootDN = root.firstChild();
+    while (!rootDN.isNull())
+    {
+        if (rootDN.isElement()) {
+            QDomElement epListEL = rootDN.toElement();
+            if (epListEL.tagName() == "Episodelist") {
+                QDomNode epListDN = epListEL.firstChild();
+                while (!epListDN.isNull())
+                {
+                    if (epListDN.isElement()) {
+                        QDomElement seasonEL = epListDN.toElement();
+                        if (seasonEL.tagName() == "Season") {
+                            episodeList += TvRageParser::parseTag_Season(seasonEL);
+                        } else if (seasonEL.tagName() == "Special") {
+                            episodeList += TvRageParser::parseTag_Special(seasonEL);
+                        } // if
+                    } // if
+                    epListDN = epListDN.nextSibling();
+                } // while
+            } // if
+        } // if
+        rootDN = rootDN.nextSibling();
+    } // while
+
+    return episodeList;
 } // parseEpisodeList()
 
 
@@ -227,5 +261,91 @@ QMap<QString, QString> TvRageParser::parseTag_Akas(const QDomElement &element)
 
     return akasMap;
 } // parseTag_Akas()
+
+NextShows::EpisodeListList TvRageParser::parseTag_Season(const QDomElement &element)
+{
+    NextShows::EpisodeListList episodeList;
+    int seasonNumber = element.attribute("no").toInt();
+
+    QDomNode rootDN = element.firstChild();
+    while (!rootDN.isNull())
+    {
+        if (rootDN.isElement()) {
+            QDomElement episodeEL = rootDN.toElement();
+            if (episodeEL.tagName() == "episode") {
+                NextShows::EpisodeList_t episode;
+                episode.season = seasonNumber;
+                episode.isSpecial = false;
+
+                QDomNode episodeDN = episodeEL.firstChild();
+                while (!episodeDN.isNull())
+                {
+                    if (episodeDN.isElement()) {
+                        QDomElement childEL = episodeDN.toElement();
+                        if (childEL.tagName() == "epnum") {
+                            episode.episodeCount = childEL.text().toInt();
+                        } else if (childEL.tagName() == "seasonnum") {
+                            episode.episodeNumber = childEL.text().toInt();
+                        } else if (childEL.tagName() == "prodnum") {
+                            episode.prodNumber = childEL.text();
+                        } else if (childEL.tagName() == "airdate") {
+                            episode.airDate = QDate::fromString(childEL.text(), "yyyy-MM-dd");
+                        } else if (childEL.tagName() == "link") {
+                            episode.link = childEL.text();
+                        } else if (childEL.tagName() == "title") {
+                            episode.title = childEL.text();
+                        }
+                    }
+                    episodeDN = episodeDN.nextSibling();
+                }
+                episodeList.append(episode);
+            }
+        }
+        rootDN = rootDN.nextSibling();
+    }
+
+    return episodeList;
+} // parserTag_Season()
+
+
+NextShows::EpisodeListList TvRageParser::parseTag_Special(const QDomElement &element)
+{
+    NextShows::EpisodeListList episodeList;
+
+    QDomNode rootDN = element.firstChild();
+    while (!rootDN.isNull())
+    {
+        if (rootDN.isElement()) {
+            QDomElement episodeEL = rootDN.toElement();
+            if (episodeEL.tagName() == "episode") {
+                NextShows::EpisodeList_t episode;
+                episode.isSpecial = true;
+
+                QDomNode episodeDN = episodeEL.firstChild();
+                while (!episodeDN.isNull())
+                {
+                    if (episodeDN.isElement()) {
+                        QDomElement childEL = episodeDN.toElement();
+                        if (childEL.tagName() == "season") {
+                            episode.season = childEL.text().toInt();
+                        } else if (childEL.tagName() == "airdate") {
+                            episode.airDate = QDate::fromString(childEL.text(), "yyyy-MM-dd");
+                        } else if (childEL.tagName() == "link") {
+                            episode.link = childEL.text();
+                        } else if (childEL.tagName() == "title") {
+                            episode.title = childEL.text();
+                        }
+                    }
+                    episodeDN = episodeDN.nextSibling();
+                }
+                episodeList.append(episode);
+            }
+        }
+        rootDN = rootDN.nextSibling();
+    }
+
+    return episodeList;
+} // parserTag_Special()
+
 
 // EOF - vim:ts=4:sw=4:et:

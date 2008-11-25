@@ -47,6 +47,8 @@ private:
     static NextShows::ShowInfos_t parseSearchResults_Show(const QDomNode &node);
     static QStringList parseTag_Genres(const QDomElement &element);
     static QMap<QString, QString> parseTag_Akas(const QDomElement &element);
+    static NextShows::EpisodeListList parseTag_Season(const QDomElement &element);
+    static NextShows::EpisodeListList parseTag_Special(const QDomElement &element);
 
     static const QStringList m_endedShowStatusKeywords;
 };
