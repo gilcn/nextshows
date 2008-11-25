@@ -21,9 +21,9 @@
 // Own
 #include "dialogs/about.h"
 #include "nextshows.h"
-
 // QtCore
 #include <QtCore/QDebug>
+
 
 namespace Dialogs
 {
@@ -61,10 +61,10 @@ About::About(QWidget *parent)
 
     // Scrolling credits
     ui.gvCreditScroller->addCreditSection(tr("Credits"), 15);
-    ui.gvCreditScroller->addCredit("FR", "Gilles Chauvin", "gcnweb@gmail.com", tr("Author, main developper"));
+    ui.gvCreditScroller->addCredit("FR", "Gilles Chauvin", "gcnweb+nextshows@gmail.com", tr("Author, main developper"));
     ui.gvCreditScroller->addCredit("FR", "Emmanuel Hamelet", "kh.starlifter@gmail.com", tr("Contributor, SQLite ninja :)"));
     ui.gvCreditScroller->addCreditSection(tr("Releases prior to v3.0.0<br />(SuperKaramba widget)"));
-    ui.gvCreditScroller->addCredit("FR", "Gilles Chauvin", "gcnweb@gmail.com", tr("Author, main developper"));
+    ui.gvCreditScroller->addCredit("FR", "Gilles Chauvin", "gcnweb+nextshows@gmail.com", tr("Author, main developper"));
     ui.gvCreditScroller->addCredit("FR", "Emmanuel Hamelet", "kh.starlifter@gmail.com", tr("Ideas, testing, bug-hunting"));
     ui.gvCreditScroller->addCredit("ES", "Alexandre Vázquez", "", tr("Testing, bug-hunting"));
     ui.gvCreditScroller->addCredit("SE", "ge5239", "", tr("Ideas, testing, bug-hunting"));
