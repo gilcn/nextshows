@@ -41,6 +41,10 @@ Settings::Settings(QWidget *parent)
 
     ui.setupUi(this);
 
+    // Init DB
+    m_db = new DbInterface();
+    m_db->init();
+
     ui.wPanel->addWidget(m_wFindShows);
     ui.wCategories->addCategory(m_wFindShows->windowTitle(), m_wFindShows->windowIcon());
     ui.wPanel->addWidget(m_wOptions);
@@ -52,10 +56,7 @@ Settings::Settings(QWidget *parent)
 
     connect(ui.wCategories, SIGNAL(categoryChanged(const int &)), this, SLOT(changePage(const int &)));
 
-//    adjustSize();
-
-    m_db = new DbInterface();
-    m_db->init();
+    // Get tracked shows
     m_wFindShows->setTrackedShows(m_db->readUserShows());
 
     connect(ui.buttonBox, SIGNAL(accepted()), this, SLOT(acceptDialog()));
@@ -79,8 +80,10 @@ void Settings::changePage(const int &id)
 
 void Settings::acceptDialog()
 {
+    // Save shows
     m_db->saveUserShows(m_wFindShows->getTrackedShows());
     QDialog::accept();
+    emit settingsChanged();
 } // acceptDialog()
 
 /*

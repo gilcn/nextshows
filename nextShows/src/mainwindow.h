@@ -45,6 +45,8 @@ private Q_SLOTS:
     void showSettings();
     void showAbout();
 
+    void readConfig();
+
 private:
     QStandardItemModel          *m_dataModel;
 

@@ -41,6 +41,9 @@ public:
     Settings(QWidget *parent = 0);
     ~Settings();
 
+signals:
+    void settingsChanged();
+
 private Q_SLOTS:
     void changePage(const int &);
     void acceptDialog();

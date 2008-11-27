@@ -99,6 +99,7 @@ void MainWindow::showSettings()
 {
     if (!m_dialogSettings) {
         m_dialogSettings = new Dialogs::Settings(this);
+        connect(m_dialogSettings, SIGNAL(settingsChanged()), this, SLOT(readConfig()));
     }
 
     m_dialogSettings->show();
@@ -113,5 +114,10 @@ void MainWindow::showAbout()
     m_dialogAbout->show();
 } // showAbout()
 
+void MainWindow::readConfig()
+{
+    // Read config here
+    qDebug() << "RC";
+} // readConfig()
 
 // EOF - vim:ts=4:sw=4:et:
