@@ -99,7 +99,7 @@ void MainWindow::on_btnCheckExpiredShows_clicked(bool /*checked*/)
     // Clear
     ui.infoTextEdit->clear();
     
-    QList<uint> expiredshowslist = m_dbinterface->expiredShow(2880); // request shows id oldest 2880min (48hour)
+    QList<uint> expiredshowslist = m_dbinterface->expiredShowIds(2880); // request shows id oldest 2880min (48hour)
     uint idshow;
     int i = 1;
     foreach (idshow, expiredshowslist) {

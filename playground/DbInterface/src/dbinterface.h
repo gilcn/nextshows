@@ -41,7 +41,8 @@ public:
 
     void saveUserShows(const NextShows::ShowInfosList &shows);
     NextShows::ShowInfosList readUserShows();
-    QList<uint> expiredShow(const int &timestamp);
+    QList<uint> expiredShowIds(const int &delta);
+    
     QSqlTableModel *readEpisodes() const;
 
 private:
