@@ -25,6 +25,7 @@
 #include <QtCore/QFile>
 // QtGui
 #include <QtGui/QDesktopServices>
+#include <QtGui/QMessageBox>
 
 
 namespace Settings
@@ -401,6 +402,7 @@ int FindShows::insertIntoTrackedShowList(const NextShows::ShowInfos_t &showInfos
         m_trackedShows.insert(insertPos, showInfos);
     } else {
         qDebug() << QString("Show \"%1 [%2]\" already tracked!").arg(showInfos.name).arg(showInfos.showid).toLocal8Bit().constData();
+        QMessageBox::information(this, QCoreApplication::applicationName(), tr("This show is already tracked:\n%1", "%1 is the show name").arg(showInfos.name));
     }
 
     return insertPos; // Position of the inserted show
