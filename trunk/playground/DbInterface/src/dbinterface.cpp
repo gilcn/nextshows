@@ -143,7 +143,7 @@ NextShows::ShowInfosList DbInterface::readUserShows()
     return myShows;
 } // readUserShows()
 
-QList<uint> DbInterface::expiredShow(const int &timestamp)
+QList<uint> DbInterface::expiredShowIds(const int &delta)
 {
     qDebug() << Q_FUNC_INFO;
     
@@ -151,7 +151,7 @@ QList<uint> DbInterface::expiredShow(const int &timestamp)
     
     QList<uint> expiredshow;
     // Calculate the max timestamp
-    int maxtimestamp = QDateTime::currentDateTime().toTime_t()-timestamp;
+    int maxtimestamp = QDateTime::currentDateTime().toTime_t()-delta;
     QSqlQuery query(db);
     query.prepare("SELECT idT_Shows, Timestamp FROM T_Shows WHERE Timestamp < :maxtimestamp");
     query.bindValue(":maxtimestamp", maxtimestamp);
@@ -202,7 +202,7 @@ bool DbInterface::createTables()
     }
 
     // T_Episodes table
-    status = query.exec("CREATE TABLE T_Episodes (idT_Episodes INTEGER PRIMARY KEY, Shows_id INTEGER, EpisodeName VARCHAR(50), EpisodeNumber INTEGER, SeasonNumber INTEGER, Date DATE, IsSpecial BOOL)");
+    status = query.exec("CREATE TABLE T_Episodes (idT_Episodes INTEGER PRIMARY KEY, Shows_id INTEGER, EpisodeName VARCHAR(50), EpisodeCount INTEGER, EpisodeNumber INTEGER, ProdNumber VARCHAR(10), SeasonNumber INTEGER, EpisodeUrl VARCHAR(256), Date DATE, IsSpecial BOOL)");
     if (!status) {
         qCritical() << query.lastError();
         return false;
