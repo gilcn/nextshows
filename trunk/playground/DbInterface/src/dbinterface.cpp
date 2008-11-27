@@ -162,6 +162,11 @@ QList<int> DbInterface::expiredShowIds(const int &delta)
     return expiredshow;
 } // expiredShow()
 
+void saveEpisodes(const NextShows::EpisodeListList &episodes)
+{
+    
+} // saveEpisodes()
+
 QSqlTableModel* DbInterface::readEpisodes() const
 {
     qDebug() << Q_FUNC_INFO;
