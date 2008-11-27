@@ -93,14 +93,14 @@ void DbInterface::saveUserShows(const NextShows::ShowInfosList &shows)
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
     
     // First, select all id in db
-    QList<uint> dbid;
+    QList<int> dbid;
     QSqlQuery query(db);
     query.exec("SELECT idT_Shows FROM T_Shows");
     while (query.next()) {
-        dbid << query.value(0).toUInt();
+        dbid << query.value(0).toInt();
     }
 
-    QList<uint> usrid;
+    QList<int> usrid;
     NextShows::ShowInfosList::ConstIterator it;
     for (it = shows.begin(); it != shows.end(); ++it) {
         NextShows::ShowInfos_t show = *it;
@@ -110,7 +110,7 @@ void DbInterface::saveUserShows(const NextShows::ShowInfosList &shows)
             qDebug() << "Add show : " << QString::number(show.showid);
         }
     }
-    uint idshow;
+    int idshow;
     foreach (idshow, dbid) {
         if (!usrid.contains(idshow)) { // This show is no longer tracked, Delete IT from DB
             qDebug() << "Delete show from DB : " << QString::number(idshow);
@@ -130,12 +130,12 @@ NextShows::ShowInfosList DbInterface::readUserShows()
     query.exec("SELECT idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp FROM T_Shows ORDER BY ShowName");
     while (query.next()) {
         NextShows::ShowInfos_t show;
-        show.showid = query.value(0).toUInt();
+        show.showid = query.value(0).toInt();
         show.name = query.value(1).toString();
         show.link = QUrl(query.value(2).toString());
         show.country = query.value(3).toString();
-        show.started = query.value(4).toUInt();
-        show.ended = query.value(5).toUInt();
+        show.started = query.value(4).toInt();
+        show.ended = query.value(5).toInt();
         show.endedFlag = query.value(6).toBool();
         myShows << show;
     }
@@ -143,13 +143,13 @@ NextShows::ShowInfosList DbInterface::readUserShows()
     return myShows;
 } // readUserShows()
 
-QList<uint> DbInterface::expiredShowIds(const int &delta)
+QList<int> DbInterface::expiredShowIds(const int &delta)
 {
     qDebug() << Q_FUNC_INFO;
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
     
-    QList<uint> expiredshow;
+    QList<int> expiredshow;
     // Calculate the max timestamp
     int maxtimestamp = QDateTime::currentDateTime().toTime_t()-delta;
     QSqlQuery query(db);
@@ -157,7 +157,7 @@ QList<uint> DbInterface::expiredShowIds(const int &delta)
     query.bindValue(":maxtimestamp", maxtimestamp);
     query.exec();
     while (query.next()) {
-        expiredshow << query.value(0).toUInt();
+        expiredshow << query.value(0).toInt();
     }
     return expiredshow;
 } // expiredShow()
@@ -244,7 +244,7 @@ bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
     return true;
 } // saveShow()
 
-bool DbInterface::deleteShow(const uint &id)
+bool DbInterface::deleteShow(const int &id)
 {
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
     
