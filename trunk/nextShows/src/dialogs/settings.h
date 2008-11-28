@@ -50,6 +50,8 @@ private Q_SLOTS:
 
 private:
     void setCategoryTitle(const QString &);
+    void readSettings();
+    void saveSettings();
 
     Ui::SettingsDialog ui;
 

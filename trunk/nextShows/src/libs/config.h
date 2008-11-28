@@ -23,16 +23,22 @@
 
 
 // QtCore
-#include <QtCore/QObject>
+#include <QtCore/QVariant>
 
 
-class Config : public QObject
+class Config
 {
-    Q_OBJECT
-
 public:
-    Config(QObject *parent = 0);
-    ~Config();
+    enum Keys {
+        Browser,
+        CacheDuration
+    };
+
+    Config() {}
+    ~Config() {}
+
+    static QVariant getValue(Keys key);
+    static void setValue(Keys key, const QVariant &value);
 };
 
 

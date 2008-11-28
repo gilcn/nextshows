@@ -20,19 +20,54 @@
 
 // Own
 #include "config.h"
+// QtCore
+#include <QtCore/QSettings>
+
+
+// Default values
+#define BROWSER_KEY       "browser"
+#define BROWSER_VAL       "firefox -remote 'openURL($url$,new-tab)'"
+#define CACHEDURATION_KEY "cache_duration"
+#define CACHEDURATION_VAL 1
 
 
 /*
 ** public:
 */
-Config::Config(QObject *parent)
-    : QObject(parent)
+QVariant Config::getValue(Config::Keys key)
 {
-} // ctor()
+    QSettings settings;
+    QVariant value;
 
-Config::~Config()
+    switch (key) {
+    case Config::Browser:
+        value=settings.value(BROWSER_KEY, BROWSER_VAL);
+        break;
+    case Config::CacheDuration:
+        value=settings.value(CACHEDURATION_KEY, CACHEDURATION_VAL);
+        break;
+    default:
+        qWarning("%s\nThis should never happen !!!", Q_FUNC_INFO);
+    }
+
+    return value;
+} // getValue()
+
+void Config::setValue(Config::Keys key, const QVariant &value)
 {
-} // dtor()
+    QSettings settings;
+
+    switch (key) {
+    case Config::Browser:
+        settings.setValue(BROWSER_KEY, value);
+        break;
+    case Config::CacheDuration:
+        settings.setValue(CACHEDURATION_KEY, value);
+        break;
+    default:
+        qWarning("%s\nThis should never happen !!!", Q_FUNC_INFO);
+    }
+} // setValue()
 
 
 // EOF - vim:ts=4:sw=4:et:
