@@ -162,10 +162,16 @@ QList<int> DbInterface::expiredShowIds(const int &delta)
     return expiredshow;
 } // expiredShow()
 
-void saveEpisodes(const NextShows::EpisodeListList &episodes)
+void saveUserEpisodes(const NextShows::EpisodeListList &episodes)
 {
+    qDebug() << Q_FUNC_INFO;
     
-} // saveEpisodes()
+    QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
+    
+    // First, delete all from db
+    
+    
+} // saveUserEpisodes()
 
 QSqlTableModel* DbInterface::readEpisodes() const
 {
@@ -225,6 +231,7 @@ bool DbInterface::createTables()
 
 bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
 {
+    qDebug() << Q_FUNC_INFO;
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
     
@@ -249,8 +256,38 @@ bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
     return true;
 } // saveShow()
 
+bool saveEpisode(const NextShows::EpisodeList_t &episode, const int &idshow)
+{
+    qDebug() << Q_FUNC_INFO;
+    
+    QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
+    
+    QSqlQuery query(db);
+    
+    query.prepare("INSERT INTO T_episodes (Shows_id, EpisodeName, EpisodeCount, EpisodeNumber, ProdNumber, SeasonNumber, EpisodeUrl, Date, IsSpecial) VALUES (:show_id, :episodename, :episodecount, :episodenumber, :prodnumber, :seasonnumber, :episodeurl, :date, :isspecial)");
+    query.bindValue(":show_id",idshow);
+    query.bindValue(":episodename",episode.title);
+    query.bindValue(":episodecount",episode.episodeCount);
+    query.bindValue(":episodenumber",episode.episodeNumber);
+    query.bindValue(":prodnumber",episode.prodNumber);
+    query.bindValue(":seasonnumber",episode.season);
+    query.bindValue(":episodeurl",episode.link);
+    query.bindValue(":date",episode.airDate);
+    query.bindValue(":isspecial",episode.isSpecial);
+    
+    bool status;
+    status = query.exec();
+    if (!status) {
+        qCritical() << query.lastError();
+        return false;
+    }
+    return true;
+} // saveEpisode()
+
 bool DbInterface::deleteShow(const int &id)
 {
+    qDebug() << Q_FUNC_INFO;
+    
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
     
     QSqlQuery query(db);
@@ -265,5 +302,22 @@ bool DbInterface::deleteShow(const int &id)
     return true;
 } // deleteShow()
 
+bool deleteEpisode(const int &idshow)
+{
+    qDebug() << Q_FUNC_INFO;
+    
+    QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
+    
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM T_episodes WHERE Shows_id = :idshow");
+    query.bindValue(":idshow", idshow);
+    bool status;
+    status = query.exec();
+    if (!status) {
+        qCritical() << query.lastError();
+        return false;
+    }
+    return true;
+} // deleteEpisode
 
 // EOF - vim:ts=4:sw=4:et:
