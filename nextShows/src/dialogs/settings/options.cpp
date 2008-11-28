@@ -47,6 +47,28 @@ Options::~Options()
 } // dtor()
 
 
+/* Browser */
+QString Options::getBrowser() const
+{
+    return ui.leBrowser->text();
+} // getBrowser()
+
+void Options::setBrowser(const QString &browser)
+{
+    ui.leBrowser->setText(browser);
+} // setBrowser()
+
+/* Cache Duration */
+int Options::getCacheDuration() const
+{
+    return ui.spinCacheDuration->value();
+} // getCacheDuration()
+
+void Options::setCacheDuration(const int &duration)
+{
+    ui.spinCacheDuration->setValue(duration);
+} // setCacheDuration()
+
 } // namespace Settings
 
 

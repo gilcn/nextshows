@@ -19,10 +19,12 @@
 
 
 // Own
-#include "dialogs/settings.h"
 #include "nextshows.h"
+#include "libs/config.h"
+#include "dialogs/settings.h"
 // QtCore
 #include <QtCore/QDebug>
+#include <QtCore/QSettings>
 
 
 namespace Dialogs
@@ -56,8 +58,8 @@ Settings::Settings(QWidget *parent)
 
     connect(ui.wCategories, SIGNAL(categoryChanged(const int &)), this, SLOT(changePage(const int &)));
 
-    // Get tracked shows
-    m_wFindShows->setTrackedShows(m_db->readUserShows());
+    // Restore settings
+    readSettings();
 
     connect(ui.buttonBox, SIGNAL(accepted()), this, SLOT(acceptDialog()));
 } // ctor()
@@ -80,8 +82,9 @@ void Settings::changePage(const int &id)
 
 void Settings::acceptDialog()
 {
-    // Save shows
-    m_db->saveUserShows(m_wFindShows->getTrackedShows());
+    // Save settings
+    saveSettings();
+
     QDialog::accept();
     emit settingsChanged();
 } // acceptDialog()
@@ -94,6 +97,24 @@ void Settings::setCategoryTitle(const QString &title)
     ui.lblCategoryName->setText(title);
 } // setCategoryTitle()
 
+void Settings::readSettings()
+{
+    // Get tracked shows
+    m_wFindShows->setTrackedShows(m_db->readUserShows());
+
+    // Options
+    m_wOptions->setBrowser(Config::getValue(Config::Browser).toString());
+    m_wOptions->setCacheDuration(Config::getValue(Config::CacheDuration).toInt());
+} // readSettings()
+
+void Settings::saveSettings()
+{
+    // Save tracked shows
+    m_db->saveUserShows(m_wFindShows->getTrackedShows());
+
+    Config::setValue(Config::Browser, m_wOptions->getBrowser());
+    Config::setValue(Config::CacheDuration, m_wOptions->getCacheDuration());
+} // saveSettings()
 
 } // namespace Dialogs
 

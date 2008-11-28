@@ -39,6 +39,12 @@ public:
     Options(QWidget *parent = 0);
     ~Options();
 
+    QString getBrowser() const;
+    void setBrowser(const QString &browser);
+
+    int getCacheDuration() const;
+    void setCacheDuration(const int &duration);
+
 private:
     Ui::Options ui;
 };

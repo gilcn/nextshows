@@ -19,14 +19,14 @@
       <enum>QFormLayout::ExpandingFieldsGrow</enum>
      </property>
      <item row="0" column="0" >
-      <widget class="QLabel" name="lblCacheExpiration" >
+      <widget class="QLabel" name="lblCacheDuration" >
        <property name="text" >
-        <string>Cache expiration:</string>
+        <string>Cache duration:</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1" >
-      <widget class="QSpinBox" name="spinCacheExpiration" >
+      <widget class="QSpinBox" name="spinCacheDuration" >
        <property name="sizePolicy" >
         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
          <horstretch>0</horstretch>
@@ -48,21 +48,14 @@
       </widget>
      </item>
      <item row="1" column="0" >
-      <widget class="QLabel" name="label" >
+      <widget class="QLabel" name="lblBrowser" >
        <property name="text" >
         <string>Open links with:</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1" >
-      <widget class="QComboBox" name="comboBox" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
+      <widget class="QLineEdit" name="leBrowser" />
      </item>
     </layout>
    </item>
