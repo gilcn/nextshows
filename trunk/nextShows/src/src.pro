@@ -47,6 +47,7 @@ HEADERS     += nextshows.h                   \
                dialogs/settings/options.h    \
                libs/animatedimage.h          \
                libs/dbinterface.h            \
+               libs/config.h                 \
                libs/datafetcher.h            \
                libs/dataprovider.h           \
                libs/tvrageparser.h
@@ -65,6 +66,7 @@ SOURCES     += main.cpp                        \
                dialogs/settings/options.cpp    \
                libs/animatedimage.cpp          \
                libs/dbinterface.cpp            \
+               libs/config.cpp                 \
                libs/datafetcher.cpp            \
                libs/dataprovider.cpp           \
                libs/tvrageparser.cpp
