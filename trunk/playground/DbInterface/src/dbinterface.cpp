@@ -168,7 +168,10 @@ void saveUserEpisodes(const NextShows::EpisodeListList &episodes)
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
     
-    // First, delete all from db
+    NextShows::EpisodeList_t episode;
+    foreach (episode, episodes) {
+        qDebug() << episode.title;
+    }
     
     
 } // saveUserEpisodes()
