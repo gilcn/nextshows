@@ -23,8 +23,9 @@
 
 
 // Own
-#include "datafetcher.h"
 #include "nextshows.h"
+#include "libs/datafetcher.h"
+#include "libs/dbinterface.h"
 
 
 class DataProvider : public QObject
@@ -46,7 +47,10 @@ public:
     DataProvider(QObject *parent = 0);
     ~DataProvider();
 
+    // Methods mainly used from the settings
     void searchShow(const QString &showName);
+    NextShows::ShowInfosList getTrackedShows();
+    void setTrackedShows(const NextShows::ShowInfosList &showList);
 
 Q_SIGNALS:
     // Search results are ready to be served
@@ -54,6 +58,7 @@ Q_SIGNALS:
 
 private:
     DataFetcher *m_dataFetcher;
+    DbInterface *m_db;
 };
 
 

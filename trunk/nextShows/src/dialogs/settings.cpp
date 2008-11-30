@@ -37,15 +37,12 @@ Settings::Settings(QWidget *parent)
     : QDialog(parent, Qt::Dialog)
     , m_wFindShows(new ::Settings::FindShows(this))
     , m_wOptions(new ::Settings::Options(this))
+    , m_data(new DataProvider(this))
 {
     // Default behavior / attributes
     QWidget::setAttribute(Qt::WA_DeleteOnClose);
 
     ui.setupUi(this);
-
-    // Init DB
-    m_db = new DbInterface();
-    m_db->init();
 
     ui.wPanel->addWidget(m_wFindShows);
     ui.wCategories->addCategory(m_wFindShows->windowTitle(), m_wFindShows->windowIcon());
@@ -67,7 +64,9 @@ Settings::Settings(QWidget *parent)
 Settings::~Settings()
 {
     qDebug() << Q_FUNC_INFO;
-    delete m_db;
+    delete m_wFindShows;
+    delete m_wOptions;
+    delete m_data;
 } // dtor()
 
 
@@ -100,7 +99,7 @@ void Settings::setCategoryTitle(const QString &title)
 void Settings::readSettings()
 {
     // Get tracked shows
-    m_wFindShows->setTrackedShows(m_db->readUserShows());
+    m_wFindShows->setTrackedShows(m_data->getTrackedShows());
 
     // Options
     m_wOptions->setBrowser(Config::getValue(Config::Browser).toString());
@@ -110,7 +109,7 @@ void Settings::readSettings()
 void Settings::saveSettings()
 {
     // Save tracked shows
-    m_db->saveUserShows(m_wFindShows->getTrackedShows());
+    m_data->setTrackedShows(m_wFindShows->getTrackedShows());
 
     Config::setValue(Config::Browser, m_wOptions->getBrowser());
     Config::setValue(Config::CacheDuration, m_wOptions->getCacheDuration());
