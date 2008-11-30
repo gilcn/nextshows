@@ -25,7 +25,7 @@
 #include "ui_settingsdialog.h"
 #include "dialogs/settings/findshows.h"
 #include "dialogs/settings/options.h"
-#include "libs/dbinterface.h"
+#include "libs/dataprovider.h"
 // QtGui
 #include <QtGui/QDialog>
 
@@ -58,7 +58,7 @@ private:
     ::Settings::FindShows *m_wFindShows;
     ::Settings::Options   *m_wOptions;
 
-    DbInterface *m_db;
+    DataProvider *m_data;
 };
 
 } // namespace Dialogs
