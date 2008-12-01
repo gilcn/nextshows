@@ -24,7 +24,6 @@
 
 // Own
 #include "ui_mainwindow.h"
-#include "dbinterface.h"
 // QtGui
 #include <QtGui/QDialog>
 
@@ -45,7 +44,6 @@ private slots:
 
 private:
     Ui::MainWindow ui;
-    DbInterface *m_dbinterface;
     QMap<QString, QString> *map;
 };
 

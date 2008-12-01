@@ -37,8 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui.setupUi(this);
 
-    m_dbinterface = new DbInterface();
-    if(!m_dbinterface->init()) {
+    if(!DbInterface::Instance().isInitialized()) {
         QMessageBox::critical(this,
                               "Database error",
                               "The database could not be opened or created!\nAborting...",
@@ -51,7 +50,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    delete m_dbinterface;
 } // dtor()
 
 
@@ -71,7 +69,7 @@ void MainWindow::on_btnSaveShow_clicked(bool /*checked*/)
         shows.ended = ui.ldtEnded->text().toInt();
         shows.endedFlag = (ui.cbxEndedFlag->checkState() == Qt::Checked) ? true : false;
         myShows << shows;
-        m_dbinterface->saveUserShows(myShows);
+        DbInterface::Instance().saveUserShows(myShows);
     }
 } // on_btnSaveShow_clicked()
 
@@ -80,7 +78,7 @@ void MainWindow::on_btnListShow_clicked(bool /*checked*/)
     // Clear
     ui.infoTextEdit->clear();
 
-    NextShows::ShowInfosList myShows = m_dbinterface->readUserShows();
+    NextShows::ShowInfosList myShows = DbInterface::Instance().readUserShows();
     NextShows::ShowInfosList::iterator i;
     for (i = myShows.begin(); i != myShows.end(); ++i) {
         NextShows::ShowInfos_t show = *i;
@@ -99,7 +97,7 @@ void MainWindow::on_btnCheckExpiredShows_clicked(bool /*checked*/)
     // Clear
     ui.infoTextEdit->clear();
     
-    QList<int> expiredshowslist = m_dbinterface->expiredShowIds(2880); // request shows id oldest 2880min (48hour)
+    QList<int> expiredshowslist = DbInterface::Instance().expiredShowIds(2880); // request shows id oldest 2880min (48hour)
     int idshow;
     int i = 1;
     foreach (idshow, expiredshowslist) {
@@ -110,7 +108,7 @@ void MainWindow::on_btnCheckExpiredShows_clicked(bool /*checked*/)
 
 void MainWindow::on_btnRequestDB_clicked(bool /*checked*/)
 {
-	QSqlTableModel *model = m_dbinterface->readEpisodes();
+	QSqlTableModel *model = DbInterface::Instance().readEpisodes();
 	ui.tblView->setModel(model);
     ui.tblView->show();
 }
