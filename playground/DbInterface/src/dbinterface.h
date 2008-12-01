@@ -33,11 +33,8 @@
 class DbInterface
 {
 public:
-    DbInterface();
-    ~DbInterface();
-
-    // Init the database
-    bool init();
+    static DbInterface& Instance();
+    bool isInitialized();
 
     void saveUserShows(const NextShows::ShowInfosList &shows);
     NextShows::ShowInfosList readUserShows();
@@ -46,11 +43,21 @@ public:
     QSqlTableModel *readEpisodes() const;
 
 private:
+    DbInterface(); // ctor hidden
+    DbInterface(const DbInterface &); // copy ctor hidden
+    DbInterface& operator=(DbInterface const &); // assign op hidden
+    ~DbInterface();
+
+    // Database initialization
+    bool init();
+
     bool createTables();
     bool saveShow(const NextShows::ShowInfos_t &show);
     bool saveEpisode(const NextShows::EpisodeList_t &episode, const int &idshow);
     bool deleteShow(const int &id);
     bool deleteEpisode(const int &idshow);
+
+    bool m_databaseInitialized;
 };
 
 

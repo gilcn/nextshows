@@ -36,55 +36,16 @@
 /*
 ** public:
 */
-DbInterface::DbInterface()
+DbInterface& DbInterface::Instance()
 {
-    qDebug() << Q_FUNC_INFO;
-} // ctor()
+    static DbInterface DbInterfaceInstance;
+    return DbInterfaceInstance;
+} // Instance()
 
-DbInterface::~DbInterface()
+bool DbInterface::isInitialized()
 {
-    qDebug() << Q_FUNC_INFO;
-
-    QSqlDatabase::database(DBCONNECTION).close();
-    QSqlDatabase::removeDatabase(DBCONNECTION);
-} // dtor()
-
-bool DbInterface::init()
-{
-    qDebug() << Q_FUNC_INFO;
-
-    QSqlDatabase db;
-
-    // Prevent database from being connected several times
-    if (QSqlDatabase::connectionNames().contains(DBCONNECTION)) {
-        qWarning() << DBCONNECTION << "already connected!";
-        db = QSqlDatabase::database(DBCONNECTION);
-        if (db.isOpen()) {
-            return true;
-        }
-    } else {
-        db = QSqlDatabase::addDatabase("QSQLITE", DBCONNECTION);
-        db.setDatabaseName("ns.db");
-    }
-
-    if (!db.open()) {
-        qCritical() << "Error while opening DB:" << db.lastError();
-        QSqlDatabase::removeDatabase(DBCONNECTION);
-        return false;
-    }
-
-    if (db.tables().count() == 0) {
-        if (!createTables()) {
-            qCritical() << "Could not create tables!";
-            db.close();
-            QSqlDatabase::removeDatabase(DBCONNECTION);
-            return false;
-        }
-    }
-
-    return true;
-} // init()
-
+    return m_databaseInitialized;
+} // isInitialized()
 
 void DbInterface::saveUserShows(const NextShows::ShowInfosList &shows)
 {
@@ -199,6 +160,59 @@ QSqlTableModel* DbInterface::readEpisodes() const
 /*
 ** private:
 */
+DbInterface::DbInterface()
+{
+    qDebug() << Q_FUNC_INFO;
+    m_databaseInitialized = init();
+    if (!m_databaseInitialized) {
+        qCritical() << "Database was not initialized!";
+    }
+} // ctor()
+
+DbInterface::~DbInterface()
+{
+    qDebug() << Q_FUNC_INFO;
+
+    QSqlDatabase::database(DBCONNECTION).close();
+    QSqlDatabase::removeDatabase(DBCONNECTION);
+} // dtor()
+
+bool DbInterface::init()
+{
+    qDebug() << Q_FUNC_INFO;
+
+    QSqlDatabase db;
+
+    // Prevent database from being connected several times
+    if (QSqlDatabase::connectionNames().contains(DBCONNECTION)) {
+        qWarning() << DBCONNECTION << "already connected!";
+        db = QSqlDatabase::database(DBCONNECTION);
+        if (db.isOpen()) {
+            return true;
+        }
+    } else {
+        db = QSqlDatabase::addDatabase("QSQLITE", DBCONNECTION);
+        db.setDatabaseName("ns.db");
+    }
+
+    if (!db.open()) {
+        qCritical() << "Error while opening DB:" << db.lastError();
+        QSqlDatabase::removeDatabase(DBCONNECTION);
+        return false;
+    }
+
+    if (db.tables().count() == 0) {
+        if (!createTables()) {
+            qCritical() << "Could not create tables!";
+            db.close();
+            QSqlDatabase::removeDatabase(DBCONNECTION);
+            return false;
+        }
+    }
+
+    return true;
+} // init()
+
 bool DbInterface::createTables()
 {
     qDebug() << Q_FUNC_INFO;
