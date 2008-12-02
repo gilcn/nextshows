@@ -82,10 +82,12 @@ void DataFetcher::requestFinished(QNetworkReply *reply)
     }
     case DataFetcher::ShowInfos: {
         m_showInfosHash[showId] = TvRageParser::parseShowInfos(reply->readAll());
+        checkEpisodeListEmission(showId);
         break;
     }
     case DataFetcher::EpisodeList: {
         m_episodeListHash[showId] = TvRageParser::parseEpisodeList(reply->readAll());
+        checkEpisodeListEmission(showId);
         break;
     }
     default:
@@ -120,7 +122,6 @@ void DataFetcher::checkEpisodeListEmission(const int &showId)
 
     if (check) {
         emit episodeListReady(m_showInfosHash[showId], m_episodeListHash[showId]);
-
         m_showInfosHash.remove(showId);
         m_episodeListHash.remove(showId);
     }
