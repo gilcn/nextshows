@@ -25,7 +25,6 @@
 // Own
 #include "nextshows.h"
 #include "libs/datafetcher.h"
-#include "libs/dbinterface.h"
 
 
 class DataProvider : public QObject
@@ -58,7 +57,6 @@ Q_SIGNALS:
 
 private:
     DataFetcher *m_dataFetcher;
-    DbInterface *m_db;
 };
 
 

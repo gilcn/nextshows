@@ -27,31 +27,37 @@
 // QtSql
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
+#include <QtSql/QSqlTableModel>
 
 
 class DbInterface
 {
 public:
-    DbInterface();
-    ~DbInterface();
+    static DbInterface& Instance();
+    bool isInitialized();
 
-    // Init the database
-    bool init();
-
-    void saveUserShows(const QList<NextShows::ShowInfos_t> &shows);
-    QList<NextShows::ShowInfos_t> readUserShows();
-    QList<uint> expiredShow(const int &timestamp);
-    QVariant readEpisodes();
+    void saveUserShows(const NextShows::ShowInfosList &shows);
+    NextShows::ShowInfosList readUserShows();
+    QList<int> expiredShowIds(const int &delta);
+    void saveUserEpisodes(const NextShows::EpisodeListList &episodes);
+    QSqlTableModel *readEpisodes() const;
 
 private:
-    enum RecordType {
-        Insert,
-        Update
-    };
+    DbInterface(); // ctor hidden
+    DbInterface(const DbInterface &); // copy ctor hidden
+    DbInterface& operator=(DbInterface const &); // assign op hidden
+    ~DbInterface();
+
+    // Database initialization
+    bool init();
 
     bool createTables();
-    bool saveShow(const NextShows::ShowInfos_t &show, const RecordType &rtype);
-    bool deleteShow(const uint &id);
+    bool saveShow(const NextShows::ShowInfos_t &show);
+    bool saveEpisode(const NextShows::EpisodeList_t &episode, const int &idshow);
+    bool deleteShow(const int &id);
+    bool deleteEpisode(const int &idshow);
+
+    bool m_databaseInitialized;
 };
 
 
