@@ -66,7 +66,7 @@ NextShows::ShowInfosList TvRageParser::parseSearchResults(const QByteArray &data
     return showList;
 } // parseSearchResults()
 
-NextShows::ShowInfos_t TvRageParser::parseShowInfo(const QByteArray &data)
+NextShows::ShowInfos_t TvRageParser::parseShowInfos(const QByteArray &data)
 {
     NextShows::ShowInfos_t showInfos;
 
@@ -135,7 +135,7 @@ NextShows::ShowInfos_t TvRageParser::parseShowInfo(const QByteArray &data)
     }
 
     return showInfos;
-} // parseShowInfo()
+} // parseShowInfos()
 
 NextShows::EpisodeListList TvRageParser::parseEpisodeList(const QByteArray &data)
 {

@@ -29,6 +29,7 @@
 // Own
 #include "nextshows.h"
 // QtCore
+#include <QtCore/QHash>
 #include <QtCore/QObject>
 // QtNetwork
 #include <QtNetwork/QNetworkAccessManager>
@@ -45,9 +46,11 @@ public:
     ~DataFetcher();
 
     void searchShow(const QString &showName);
+    void getEpisodeList(const int &showId);
 
 Q_SIGNALS:
     void searchResultsReady(NextShows::ShowInfosList);
+    void episodeListReady(NextShows::ShowInfos_t, NextShows::EpisodeListList);
 
 private Q_SLOTS:
     void requestFinished(QNetworkReply *);
@@ -55,12 +58,19 @@ private Q_SLOTS:
 private:
     enum RequestType {
         SearchShow,
+        ShowInfos,
         EpisodeList
     };
 
-    void doRequest(const QUrl &url, const RequestType &requestType);
+    void doRequest(const QUrl &url, RequestType requestType, const int &showId = -1);
+
+    // Test if we got all the necessary data before emitting signal
+    void checkEpisodeListEmission(const int &showId);
 
     QNetworkAccessManager *m_nam;
+
+    QHash<int, NextShows::ShowInfos_t> m_showInfosHash;
+    QHash<int, NextShows::EpisodeListList> m_episodeListHash;
 };
 
 
