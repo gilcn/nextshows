@@ -19,7 +19,8 @@
 
 
 // Own
-#include "dataprovider.h"
+#include "libs/dataprovider.h"
+#include "libs/dbinterface.h"
 
 
 /*
@@ -29,10 +30,6 @@ DataProvider::DataProvider(QObject *parent)
     : QObject(parent)
     , m_dataFetcher(new DataFetcher(this))
 {
-    // Database
-    m_db = new DbInterface();
-    m_db->init();
-
     // Search results, simply reroute SIGNAL()
     connect(m_dataFetcher, SIGNAL(searchResultsReady(NextShows::ShowInfosList)),
             this, SIGNAL(searchResultsReady(NextShows::ShowInfosList)));
@@ -41,7 +38,6 @@ DataProvider::DataProvider(QObject *parent)
 DataProvider::~DataProvider()
 {
     delete m_dataFetcher;
-    delete m_db;
 } // dtor()
 
 void DataProvider::searchShow(const QString &showName)
@@ -51,12 +47,12 @@ void DataProvider::searchShow(const QString &showName)
 
 NextShows::ShowInfosList DataProvider::getTrackedShows()
 {
-    return m_db->readUserShows();
+    return DbInterface::Instance().readUserShows();
 } // getTrackedShows()
 
 void DataProvider::setTrackedShows(const NextShows::ShowInfosList &showList)
 {
-    m_db->saveUserShows(showList);
+    DbInterface::Instance().saveUserShows(showList);
 } // setTrackedShows
 
 // EOF - vim:ts=4:sw=4:et:
