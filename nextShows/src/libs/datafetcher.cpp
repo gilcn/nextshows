@@ -53,24 +53,43 @@ void DataFetcher::searchShow(const QString &showName)
     doRequest(url, DataFetcher::SearchShow);
 } // searchShow()
 
+void DataFetcher::getEpisodeList(const int &showId)
+{
+    QUrl urlEL("http://www.tvrage.com/feeds/episode_list.php");
+    urlEL.addQueryItem("sid", QString::number(showId));
+    doRequest(urlEL, DataFetcher::EpisodeList, showId);
+
+    QUrl urlSI("http://www.tvrage.com/feeds/showinfo.php");
+    urlSI.addQueryItem("sid", QString::number(showId));
+    doRequest(urlSI, DataFetcher::ShowInfos, showId);
+} // getEpisodeList()
+
 
 /*
 ** private Q_SLOTS:
 */
 void DataFetcher::requestFinished(QNetworkReply *reply)
 {
-    switch(reply->property("RequestType").toInt()) {
+    int requestType = reply->property("RequestType").toInt();
+    int showId = reply->property("ShowID").toInt();
+
+    switch(requestType) {
     case DataFetcher::SearchShow: {
         NextShows::ShowInfosList searchResults = TvRageParser::parseSearchResults(reply->readAll());
 
         emit searchResultsReady(searchResults);
         break;
     }
+    case DataFetcher::ShowInfos: {
+        m_showInfosHash[showId] = TvRageParser::parseShowInfos(reply->readAll());
+        break;
+    }
     case DataFetcher::EpisodeList: {
+        m_episodeListHash[showId] = TvRageParser::parseEpisodeList(reply->readAll());
         break;
     }
     default:
-        qFatal("This should never happen!\n%s", Q_FUNC_INFO);
+        qWarning("%s\nThis should never happen! [%d]", Q_FUNC_INFO, requestType);
     }
 
     reply->deleteLater();
@@ -80,7 +99,7 @@ void DataFetcher::requestFinished(QNetworkReply *reply)
 /*
 ** private:
 */
-void DataFetcher::doRequest(const QUrl &url, const DataFetcher::RequestType &requestType)
+void DataFetcher::doRequest(const QUrl &url, DataFetcher::RequestType requestType, const int &showId)
 {
     QNetworkRequest request;
     QString httpUA = QString("nextShows/%1 (http://nextshows.googlecode.com/)").arg(NEXTSHOWS_VERSION);
@@ -88,7 +107,23 @@ void DataFetcher::doRequest(const QUrl &url, const DataFetcher::RequestType &req
     request.setUrl(url);
 
     QNetworkReply *reply = m_nam->get(request);
-    // Mark the request type
+
+    // "Tag" the request
+    // TODO: There's probably a nicer way to do this ?
     reply->setProperty("RequestType", QVariant(requestType));
+    reply->setProperty("ShowID", QVariant(showId));
 } // doRequest()
+
+void DataFetcher::checkEpisodeListEmission(const int &showId)
+{
+    bool check = (m_showInfosHash.contains(showId) && m_episodeListHash.contains(showId));
+
+    if (check) {
+        emit episodeListReady(m_showInfosHash[showId], m_episodeListHash[showId]);
+
+        m_showInfosHash.remove(showId);
+        m_episodeListHash.remove(showId);
+    }
+} // checkEpisodeListEmission()
+
 // EOF - vim:ts=4:sw=4:et:

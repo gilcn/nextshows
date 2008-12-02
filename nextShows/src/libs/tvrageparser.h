@@ -38,7 +38,7 @@ public:
     // Parser for http://www.tvrage.com/feeds/search.php?show=SHOWNAME
     static NextShows::ShowInfosList parseSearchResults(const QByteArray &data);
     // Parser for http://www.tvrage.com/feeds/showinfo.php?sid=SHOWID
-    static NextShows::ShowInfos_t parseShowInfo(const QByteArray &data);
+    static NextShows::ShowInfos_t parseShowInfos(const QByteArray &data);
     // Parser for http://www.tvrage.com/feeds/episode_list.php?sid=SHOWID
     static NextShows::EpisodeListList parseEpisodeList(const QByteArray &data);
 
