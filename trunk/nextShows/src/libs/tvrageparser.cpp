@@ -49,9 +49,9 @@ NextShows::ShowInfosList TvRageParser::parseSearchResults(const QByteArray &data
         qCritical("Error %s [L:%d-C:%d]", qPrintable(t_errorMessage), t_errorLine, t_errorColumn);
 
         *success = false;
-        *errorMessage = (errorMessage) ? t_errorMessage : 0;
-        *errorLine    = (errorLine)    ? t_errorLine    : 0;
-        *errorColumn  = (errorColumn)  ? t_errorColumn  : 0;
+        if (errorMessage) *errorMessage = t_errorMessage;
+        if (errorLine)    *errorLine    = t_errorLine;
+        if (errorColumn)  *errorColumn  = t_errorColumn;
 
         return showList;
     } else {
@@ -92,9 +92,9 @@ NextShows::ShowInfos_t TvRageParser::parseShowInfos(const QByteArray &data, bool
         qCritical("Error %s [L:%d-C:%d]", qPrintable(t_errorMessage), t_errorLine, t_errorColumn);
 
         *success = false;
-        *errorMessage = (errorMessage) ? t_errorMessage : 0;
-        *errorLine    = (errorLine)    ? t_errorLine    : 0;
-        *errorColumn  = (errorColumn)  ? t_errorColumn  : 0;
+        if (errorMessage) *errorMessage = t_errorMessage;
+        if (errorLine)    *errorLine    = t_errorLine;
+        if (errorColumn)  *errorColumn  = t_errorColumn;
 
         return showInfos;
     } else {
@@ -176,9 +176,9 @@ NextShows::EpisodeListList TvRageParser::parseEpisodeList(const QByteArray &data
         qCritical("Error %s [L:%d-C:%d]", qPrintable(t_errorMessage), t_errorLine, t_errorColumn);
 
         *success = false;
-        *errorMessage = (errorMessage) ? t_errorMessage : 0;
-        *errorLine    = (errorLine)    ? t_errorLine    : 0;
-        *errorColumn  = (errorColumn)  ? t_errorColumn  : 0;
+        if (errorMessage) *errorMessage = t_errorMessage;
+        if (errorLine)    *errorLine    = t_errorLine;
+        if (errorColumn)  *errorColumn  = t_errorColumn;
 
         return episodeList;
     } else {
