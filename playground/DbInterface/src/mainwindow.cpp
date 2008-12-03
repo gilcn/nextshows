@@ -68,6 +68,15 @@ void MainWindow::on_btnSaveShow_clicked(bool /*checked*/)
         shows.started = ui.ldtStarted->text().toInt();
         shows.ended = ui.ldtEnded->text().toInt();
         shows.endedFlag = (ui.cbxEndedFlag->checkState() == Qt::Checked) ? true : false;
+        QMap<QString, QString> akasMap;
+        akasMap["US"] = "inUS";
+        akasMap["FR"] = "inFR";
+        akasMap["RO"] = "inRO";
+        akasMap["PL"] = "inPL";
+        shows.akas = akasMap;
+        QMap<QString, QString> networkMap;
+        networkMap["US"] = "network";
+        shows.network = networkMap;
         myShows << shows;
         DbInterface::Instance().saveUserShows(myShows);
     }
