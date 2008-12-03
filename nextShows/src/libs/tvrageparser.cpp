@@ -36,13 +36,26 @@ const QStringList TvRageParser::m_endedShowStatusKeywords(keywords.split(",", QS
 /*
 ** public:
 */
-NextShows::ShowInfosList TvRageParser::parseSearchResults(const QByteArray &data)
+NextShows::ShowInfosList TvRageParser::parseSearchResults(const QByteArray &data, bool *success, QString *errorMessage, int *errorLine, int *errorColumn)
 {
     NextShows::ShowInfosList showList;
 
     QDomDocument doc("TVRage Search Results");
-    if (!doc.setContent(data)) {
+    QString t_errorMessage;
+    int t_errorLine;
+    int t_errorColumn;
+    if (!doc.setContent(data, &t_errorMessage, &t_errorLine, &t_errorColumn)) {
         qCritical("Error while parsing search results!");
+        qCritical("Error %s [L:%d-C:%d]", qPrintable(t_errorMessage), t_errorLine, t_errorColumn);
+
+        *success = false;
+        *errorMessage = (errorMessage) ? t_errorMessage : 0;
+        *errorLine    = (errorLine)    ? t_errorLine    : 0;
+        *errorColumn  = (errorColumn)  ? t_errorColumn  : 0;
+
+        return showList;
+    } else {
+        *success = true;
     }
 
     QDomElement results = doc.documentElement();
@@ -66,13 +79,26 @@ NextShows::ShowInfosList TvRageParser::parseSearchResults(const QByteArray &data
     return showList;
 } // parseSearchResults()
 
-NextShows::ShowInfos_t TvRageParser::parseShowInfos(const QByteArray &data)
+NextShows::ShowInfos_t TvRageParser::parseShowInfos(const QByteArray &data, bool *success, QString *errorMessage, int *errorLine, int *errorColumn)
 {
     NextShows::ShowInfos_t showInfos;
 
-    QDomDocument doc("TVRage Show Info");
-    if (!doc.setContent(data)) {
-        qCritical("Error while parsing show info!");
+    QDomDocument doc("TVRage Show Infos");
+    QString t_errorMessage;
+    int t_errorLine;
+    int t_errorColumn;
+    if (!doc.setContent(data, &t_errorMessage, &t_errorLine, &t_errorColumn)) {
+        qCritical("Error while parsing show infos!");
+        qCritical("Error %s [L:%d-C:%d]", qPrintable(t_errorMessage), t_errorLine, t_errorColumn);
+
+        *success = false;
+        *errorMessage = (errorMessage) ? t_errorMessage : 0;
+        *errorLine    = (errorLine)    ? t_errorLine    : 0;
+        *errorColumn  = (errorColumn)  ? t_errorColumn  : 0;
+
+        return showInfos;
+    } else {
+        *success = true;
     }
 
     QDomElement show = doc.documentElement();
@@ -137,13 +163,26 @@ NextShows::ShowInfos_t TvRageParser::parseShowInfos(const QByteArray &data)
     return showInfos;
 } // parseShowInfos()
 
-NextShows::EpisodeListList TvRageParser::parseEpisodeList(const QByteArray &data)
+NextShows::EpisodeListList TvRageParser::parseEpisodeList(const QByteArray &data, bool *success, QString *errorMessage, int *errorLine, int *errorColumn)
 {
     NextShows::EpisodeListList episodeList;
 
     QDomDocument doc("TVRage Episode List");
-    if (!doc.setContent(data)) {
-        qCritical("Error while parsing show info!");
+    QString t_errorMessage;
+    int t_errorLine;
+    int t_errorColumn;
+    if (!doc.setContent(data, &t_errorMessage, &t_errorLine, &t_errorColumn)) {
+        qCritical("Error while parsing episode list!");
+        qCritical("Error %s [L:%d-C:%d]", qPrintable(t_errorMessage), t_errorLine, t_errorColumn);
+
+        *success = false;
+        *errorMessage = (errorMessage) ? t_errorMessage : 0;
+        *errorLine    = (errorLine)    ? t_errorLine    : 0;
+        *errorColumn  = (errorColumn)  ? t_errorColumn  : 0;
+
+        return episodeList;
+    } else {
+        *success = true;
     }
 
     QDomElement root = doc.documentElement();
