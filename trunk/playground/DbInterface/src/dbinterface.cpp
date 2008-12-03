@@ -223,25 +223,73 @@ bool DbInterface::createTables()
     QSqlQuery query(db);
 
     // T_Shows table
-    status = query.exec("CREATE TABLE T_Shows (idT_Shows INTEGER PRIMARY KEY, ShowName VARCHAR(30), ShowUrl VARCHAR(256), Country VARCHAR(15), Started INTEGER, Ended INTEGER, EndedFlag BOOL, Timestamp INTEGER)");
+    status = query.exec("CREATE TABLE T_Shows ("
+            "idT_Shows INTEGER PRIMARY KEY, "
+            "ShowName VARCHAR(30), "
+            "ShowUrl VARCHAR(256), "
+            "Country VARCHAR(15), "
+            "Started INTEGER, "
+            "Ended INTEGER, "
+            "SeasonsNbr INTEGER, "
+            "Status VARCHAR(30), "
+            "Classification VARCHAR(30), "
+            "Genres VARCHAR(256), "
+            "EndedFlag BOOL, "
+            "Runtime INTEGER, "
+            "Airtime TIME, "
+            "Airday VARCHAR(9), "
+            "Timezone VARCHAR(15), "
+            "Timestamp INTEGER)");
     if (!status) {
         qCritical() << query.lastError();
         return false;
     }
 
     // T_Episodes table
-    status = query.exec("CREATE TABLE T_Episodes (idT_Episodes INTEGER PRIMARY KEY, Shows_id INTEGER, EpisodeName VARCHAR(50), EpisodeCount INTEGER, EpisodeNumber INTEGER, ProdNumber VARCHAR(10), SeasonNumber INTEGER, EpisodeUrl VARCHAR(256), Date DATE, IsSpecial BOOL)");
+    status = query.exec("CREATE TABLE T_Episodes ("
+            "idT_Episodes INTEGER PRIMARY KEY, "
+            "Shows_id INTEGER, "
+            "EpisodeName VARCHAR(50), "
+            "EpisodeCount INTEGER, "
+            "EpisodeNumber INTEGER, "
+            "ProdNumber VARCHAR(10), "
+            "SeasonNumber INTEGER, "
+            "EpisodeUrl VARCHAR(256), "
+            "Date DATE, "
+            "IsSpecial BOOL)");
+    if (!status) {
+        qCritical() << query.lastError();
+        return false;
+    }
+    
+    // T_Akas table
+    status = query.exec("CREATE TABLE T_Akas ("
+            "T_Akas_Shows_id INTEGER, "
+            "Country VARCHAR(3), "
+            "Name VARCHAR(30))");
+    if (!status) {
+        qCritical() << query.lastError();
+        return false;
+    }
+    
+    // T_Networks
+    status = query.exec("CREATE TABLE T_Networks ("
+            "T_Networks_Shows_id INTEGER, "
+            "Country VARCHAR(3), "
+            "Name VARCHAR(30))");
     if (!status) {
         qCritical() << query.lastError();
         return false;
     }
     
     // T_Version table
-    status = query.exec("CREATE TABLE T_Version (Version INTEGER)");
+    status = query.exec("CREATE TABLE T_Version (Version VARCHAR(5))");
     if (!status) {
         qCritical() << query.lastError();
         return false;
     }
+    status = query.exec("INSERT INTO T_Version (Version) VALUES ('0.2')");
+
 
     return true;
 } // createTables()
