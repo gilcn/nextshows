@@ -88,7 +88,8 @@ NextShows::ShowInfosList DbInterface::readUserShows()
 
     NextShows::ShowInfosList myShows;
     QSqlQuery query(db);
-    query.exec("SELECT idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp FROM T_Shows ORDER BY ShowName");
+    query.exec("SELECT idT_Shows, ShowName, ShowUrl, Country, Started, Ended, SeasonsNbr, Status, Classification, Genres,  EndedFlag, Runtime, Airtime, Airday, Timezone, Timestamp "
+                "FROM T_Shows ORDER BY ShowName");
     while (query.next()) {
         NextShows::ShowInfos_t show;
         show.showid = query.value(0).toInt();
@@ -97,7 +98,36 @@ NextShows::ShowInfosList DbInterface::readUserShows()
         show.country = query.value(3).toString();
         show.started = query.value(4).toInt();
         show.ended = query.value(5).toInt();
-        show.endedFlag = query.value(6).toBool();
+        show.seasons = query.value(6).toInt();
+        show.status = query.value(7).toString();
+        show.classification = query.value(8).toString();
+        show.genres = query.value(9).toString().split(",");
+        show.endedFlag = query.value(10).toBool();
+        show.runtime = query.value(11).toInt();
+        show.airtime = QTime::fromString(query.value(12).toString(), "hh:mm");
+        show.airday = query.value(13).toString();
+        show.timezone = query.value(14).toString();
+        // retrieve T_Akas data for this show
+        QSqlQuery queryAkas(db);
+        QMap<QString, QString> akasMap;
+        queryAkas.prepare("SELECT T_Akas_Shows_id, Country, Name FROM T_Akas WHERE T_Akas_Shows_id = :showid");
+        queryAkas.bindValue(":showid",show.showid);
+        queryAkas.exec();
+        while (queryAkas.next()) {
+            akasMap[queryAkas.value(1).toString()] = queryAkas.value(2).toString();
+        }
+        show.akas = akasMap;
+        // retrieve T_Networks data for this show
+        QSqlQuery queryNetwork(db);
+        QMap<QString, QString> networkMap;
+        queryNetwork.prepare("SELECT T_Networks_Shows_id, Country, Name FROM T_Networks WHERE T_Networks_Shows_id = :showid");
+        queryNetwork.bindValue(":showid",show.showid);
+        queryNetwork.exec();
+        while (queryNetwork.next()) {
+            networkMap[queryNetwork.value(1).toString()] = queryNetwork.value(2).toString();
+        }
+        show.akas = networkMap;
+        
         myShows << show;
     }
 
@@ -299,7 +329,7 @@ bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
     qDebug() << Q_FUNC_INFO;
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
-    
+    bool status;
     QSqlQuery query(db);
     query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, SeasonsNbr, Status, Classification, Genres, EndedFlag, Runtime, Airtime, Airday, Timezone, Timestamp)"
                 "VALUES (:idt_shows, :showname, :showurl, :country, :started, :ended, :seasonsnbr, :status, :classification, :genres, :enderflag, :runtime, :airtime, :airday, :timezone, 0)");
@@ -319,13 +349,7 @@ bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
     query.bindValue(":airtime", show.airtime);
     query.bindValue(":airday", show.airday);
     query.bindValue(":timezone", show.timezone);
-    
-    bool status;
     status = query.exec();
-    if (!status) {
-        qCritical() << query.lastError();
-        return false;
-    }
     
     // retrieve the last ID insert
     int lastid = query.lastInsertId().toInt();
@@ -334,8 +358,32 @@ bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
     while (i.hasNext()) {
         i.next();
         qDebug() << i.key() << ": " << i.value();
+        query.prepare("INSERT INTO T_Akas (T_Akas_Shows_id, Country, Name) "
+                        "VALUES (:showid, :country, :name)");
+        query.bindValue(":showid", lastid);
+        query.bindValue(":country", i.key());
+        query.bindValue(":name", i.value());
+        status = query.exec();
+    }
+    // Insert T_Network
+    QMapIterator<QString, QString> y(show.network);
+    while (y.hasNext()) {
+        y.next();
+        qDebug() << y.key() << ": " << y.value();
+        query.prepare("INSERT INTO T_Networks (T_Networks_Shows_id, Country, Name) "
+                        "VALUES (:showid, :country, :name)");
+        query.bindValue(":showid", lastid);
+        query.bindValue(":country", y.key());
+        query.bindValue(":name", y.value());
+        status = query.exec();
     }
     
+    // If a SQL request doesn't work return FALSE
+    if (!status) {
+        qCritical() << query.lastError();
+        return false;
+    }
+    // If all SQL request as ok return TRUE
     return true;
 } // saveShow()
 
@@ -373,12 +421,20 @@ bool DbInterface::deleteShow(const int &id)
     qDebug() << Q_FUNC_INFO;
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
-    
-    QSqlQuery query(db);
-    query.prepare("DELETE FROM T_shows WHERE idT_Shows = :idshow");
-    query.bindValue(":idshow", id);
     bool status;
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM T_Shows WHERE idT_Shows = :idshow");
+    query.bindValue(":idshow", id);
     status = query.exec();
+
+    query.prepare("DELETE FROM T_Akas WHERE T_Akas_Shows_id = :idshow");
+    query.bindValue(":idshow", id);
+    status = query.exec();
+
+    query.prepare("DELETE FROM T_Networks WHERE T_Networks_Shows_id = :idshow");
+    query.bindValue(":idshow", id);
+    status = query.exec();
+    
     if (!status) {
         qCritical() << query.lastError();
         return false;
