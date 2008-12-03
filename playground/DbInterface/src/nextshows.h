@@ -22,6 +22,29 @@
 #define __NEXTSHOWS_H__
 
 
+/* VERSION INFOS ------------------------------------------------------------*/
+#define _TEXT(x) #x
+#define TEXT(x) _TEXT(x)
+
+// nextShows version
+#define NEXTSHOWS_RELEASE 2.99.0
+#ifdef NS_SVNVERSION
+    #define NEXTSHOWS_VERSION TEXT(NS_SVNVERSION) "-svn"
+#else
+    #define NEXTSHOWS_VERSION TEXT(NEXTSHOWS_RELEASE)
+#endif
+
+// nextShows database version
+#define DB_RELEASE 0.2
+
+// Build date / time
+#define NEXTSHOWS_BUILDDATE __DATE__ " - " __TIME__
+
+// GCC version
+#define GCC_VERSION TEXT(__GNUC__.__GNUC_MINOR__.__GNUC_PATCHLEVEL__)
+/* /VERSION INFOS -----------------------------------------------------------*/
+
+
 #include <QtCore/QDate>
 #include <QtCore/QMap>
 #include <QtCore/QString>

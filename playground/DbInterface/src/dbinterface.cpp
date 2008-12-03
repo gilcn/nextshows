@@ -153,16 +153,20 @@ QList<int> DbInterface::expiredShowIds(const int &delta)
     return expiredshow;
 } // expiredShow()
 
-void saveUserEpisodes(const NextShows::EpisodeListList &episodes)
+void DbInterface::saveUserEpisodes(const NextShows::ShowInfos_t &showInfo, const NextShows::EpisodeListList &episodes)
 {
     qDebug() << Q_FUNC_INFO;
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
     
-    NextShows::EpisodeList_t episode;
-    foreach (episode, episodes) {
-        qDebug() << episode.title;
+    // Delete all episodes for this show
+    deleteEpisode(showInfo.showid);
+    // Save episodes for this show
+    for (int i = 0; i < episodes.size(); ++i) {
+        saveEpisode(episodes.at(i),showInfo.showid);
     }
+    // Update information of this show
+    
     
     
 } // saveUserEpisodes()
@@ -238,6 +242,20 @@ bool DbInterface::init()
             QSqlDatabase::removeDatabase(DBCONNECTION);
             return false;
         }
+    }
+    // Verifie Database version
+    QSqlQuery query(db);
+    bool status;
+    status = query.exec("SELECT version FROM T_Version");
+    while (query.next()) {
+        if (DB_RELEASE != query.value(0).toDouble()){
+            qCritical() << "Database version mismatch ! actual : '" << query.value(0).toDouble() << "', needed : '" << DB_RELEASE <<"'";
+            return false;
+        }
+    }
+    if (!status) {
+        qCritical() << query.lastError();
+        return false;
     }
 
     return true;
@@ -387,7 +405,7 @@ bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
     return true;
 } // saveShow()
 
-bool saveEpisode(const NextShows::EpisodeList_t &episode, const int &idshow)
+bool DbInterface::saveEpisode(const NextShows::EpisodeList_t &episode, const int &idshow)
 {
     qDebug() << Q_FUNC_INFO;
     
@@ -442,7 +460,7 @@ bool DbInterface::deleteShow(const int &id)
     return true;
 } // deleteShow()
 
-bool deleteEpisode(const int &idshow)
+bool DbInterface::deleteEpisode(const int &idshow)
 {
     qDebug() << Q_FUNC_INFO;
     
@@ -459,5 +477,15 @@ bool deleteEpisode(const int &idshow)
     }
     return true;
 } // deleteEpisode
+
+bool DbInterface::updateShow(const NextShows::EpisodeList_t)
+{
+    qDebug() << Q_FUNC_INFO;
+    
+    QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
+    
+    QSqlQuery query(db);
+    query.prepare("UPDATE FROM T_Shows SET WHERE Shows_id = :idshow");
+}
 
 // EOF - vim:ts=4:sw=4:et:
