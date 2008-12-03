@@ -40,6 +40,7 @@ public:
     NextShows::ShowInfosList readUserShows();
     QList<int> expiredShowIds(const int &delta);
     void saveUserEpisodes(const NextShows::EpisodeListList &episodes);
+    //void episodeListReady(NextShows::ShowInfos_t, NextShows::EpisodeListList);
     QSqlTableModel *readEpisodes() const;
 
 private:
