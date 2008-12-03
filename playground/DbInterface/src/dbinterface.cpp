@@ -301,8 +301,8 @@ bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
     
     QSqlQuery query(db);
-    query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp)"
-                "VALUES (:idt_shows, :showname, :showurl, :country, :started, :ended, :enderflag, 0)");
+    query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, SeasonsNbr, Status, Classification, Genres, EndedFlag, Runtime, Airtime, Airday, Timezone, Timestamp)"
+                "VALUES (:idt_shows, :showname, :showurl, :country, :started, :ended, :seasonsnbr, :status, :classification, :genres, :enderflag, :runtime, :airtime, :airday, :timezone, 0)");
 
     query.bindValue(":idt_shows", show.showid);
     query.bindValue(":showname", show.name);
@@ -310,7 +310,15 @@ bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
     query.bindValue(":country", show.country);
     query.bindValue(":started", show.started);
     query.bindValue(":ended", show.ended);
+    query.bindValue(":seasonsnbr", show.seasons);
+    query.bindValue(":status", show.status);
+    query.bindValue(":classification", show.classification);
+    query.bindValue(":genres", show.genres.join(","));
     query.bindValue(":endedflag", show.endedFlag);
+    query.bindValue(":runtime", show.runtime);
+    query.bindValue(":airtime", show.airtime);
+    query.bindValue(":airday", show.airday);
+    query.bindValue(":timezone", show.timezone);
     
     bool status;
     status = query.exec();
@@ -318,6 +326,16 @@ bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
         qCritical() << query.lastError();
         return false;
     }
+    
+    // retrieve the last ID insert
+    int lastid = query.lastInsertId().toInt();
+    // Insert T_Akas
+    QMapIterator<QString, QString> i(show.akas);
+    while (i.hasNext()) {
+        i.next();
+        qDebug() << i.key() << ": " << i.value();
+    }
+    
     return true;
 } // saveShow()
 
@@ -329,7 +347,8 @@ bool saveEpisode(const NextShows::EpisodeList_t &episode, const int &idshow)
     
     QSqlQuery query(db);
     
-    query.prepare("INSERT INTO T_episodes (Shows_id, EpisodeName, EpisodeCount, EpisodeNumber, ProdNumber, SeasonNumber, EpisodeUrl, Date, IsSpecial) VALUES (:show_id, :episodename, :episodecount, :episodenumber, :prodnumber, :seasonnumber, :episodeurl, :date, :isspecial)");
+    query.prepare("INSERT INTO T_episodes (Shows_id, EpisodeName, EpisodeCount, EpisodeNumber, ProdNumber, SeasonNumber, EpisodeUrl, Date, IsSpecial) "
+                    "VALUES (:show_id, :episodename, :episodecount, :episodenumber, :prodnumber, :seasonnumber, :episodeurl, :date, :isspecial)");
     query.bindValue(":show_id",idshow);
     query.bindValue(":episodename",episode.title);
     query.bindValue(":episodecount",episode.episodeCount);
