@@ -36,12 +36,11 @@ public:
     TvRageParser() {}
 
     // Parser for http://www.tvrage.com/feeds/search.php?show=SHOWNAME
-    static NextShows::ShowInfosList parseSearchResults(const QByteArray &data);
+    static NextShows::ShowInfosList parseSearchResults(const QByteArray &data, bool *success = false, QString *errorMessage = 0, int *errorLine = 0, int *errorColumn = 0);
     // Parser for http://www.tvrage.com/feeds/showinfo.php?sid=SHOWID
-    static NextShows::ShowInfos_t parseShowInfos(const QByteArray &data);
+    static NextShows::ShowInfos_t parseShowInfos(const QByteArray &data, bool *success = false, QString *errorMessage = 0, int *errorLine = 0, int *errorColumn = 0);
     // Parser for http://www.tvrage.com/feeds/episode_list.php?sid=SHOWID
-    static NextShows::EpisodeListList parseEpisodeList(const QByteArray &data);
-
+    static NextShows::EpisodeListList parseEpisodeList(const QByteArray &data, bool *success = false, QString *errorMessage = 0, int *errorLine = 0, int *errorColumn = 0);
 
 private:
     static NextShows::ShowInfos_t parseSearchResults_Show(const QDomNode &node);
