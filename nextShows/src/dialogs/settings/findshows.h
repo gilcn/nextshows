@@ -55,7 +55,7 @@ private Q_SLOTS:
     void on_tbtnRemoveShow_clicked();
     void newImageFrame(const QPixmap &);
     void searchResultsReady(const NextShows::ShowInfosList &);
-
+    void searchResultsError(DataFetcher::GatheringError, const QString &, const int &);
     void on_treeSearchResults_addShowAction();
     void on_treeSearchResults_openUrlAction();
 

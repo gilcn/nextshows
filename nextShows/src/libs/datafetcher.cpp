@@ -23,9 +23,9 @@
 #include "nextshows.h"
 #include "libs/tvrageparser.h"
 // QtCore
+#include <QtCore/QDebug>
+#include <QtCore/QMetaEnum>
 #include <QtCore/QUrl>
-// QtNetwork
-#include <QtNetwork/QNetworkReply>
 
 
 /*
@@ -35,33 +35,36 @@ DataFetcher::DataFetcher(QObject *parent)
     : QObject(parent)
     , m_nam(new QNetworkAccessManager(this))
 {
+    qDebug() << Q_FUNC_INFO;
     connect(m_nam, SIGNAL(finished(QNetworkReply *)),
             this, SLOT(requestFinished(QNetworkReply *)));
 } // ctor()
 
 DataFetcher::~DataFetcher()
 {
+    qDebug() << Q_FUNC_INFO;
     delete m_nam;
 } // dtor()
 
 void DataFetcher::searchShow(const QString &showName)
 {
+    qDebug() << Q_FUNC_INFO;
     QUrl url("http://www.tvrage.com:80/feeds/search.php");
     url.addQueryItem("results", "-1"); // Request all available results
     url.addQueryItem("show", showName);
-
-    doRequest(url, DataFetcher::SearchShow);
+    doRequest(url, DataFetcher::SearchShowRequest, -1, showName);
 } // searchShow()
 
 void DataFetcher::getEpisodeList(const int &showId)
 {
+    qDebug() << Q_FUNC_INFO;
     QUrl urlEL("http://www.tvrage.com/feeds/episode_list.php");
     urlEL.addQueryItem("sid", QString::number(showId));
-    doRequest(urlEL, DataFetcher::EpisodeList, showId);
+    doRequest(urlEL, DataFetcher::EpisodeListRequest, showId, QString());
 
     QUrl urlSI("http://www.tvrage.com/feeds/showinfo.php");
     urlSI.addQueryItem("sid", QString::number(showId));
-    doRequest(urlSI, DataFetcher::ShowInfos, showId);
+    doRequest(urlSI, DataFetcher::ShowInfosRequest, showId, QString());
 } // getEpisodeList()
 
 
@@ -70,24 +73,58 @@ void DataFetcher::getEpisodeList(const int &showId)
 */
 void DataFetcher::requestFinished(QNetworkReply *reply)
 {
-    int requestType = reply->property("RequestType").toInt();
-    int showId = reply->property("ShowID").toInt();
+    qDebug() << Q_FUNC_INFO;
+    DataFetcher::RequestType requestType = DataFetcher::RequestType(reply->request().attribute(QNetworkRequest::Attribute(RequestTypeAttribute)).toInt());
+    int showId = reply->request().attribute(QNetworkRequest::Attribute(ShowIdAttribute)).toInt();
+    QString showName = reply->request().attribute(QNetworkRequest::Attribute(ShowNameAttribute)).toString();
 
     switch(requestType) {
-    case DataFetcher::SearchShow: {
-        NextShows::ShowInfosList searchResults = TvRageParser::parseSearchResults(reply->readAll());
-
-        emit searchResultsReady(searchResults);
+    case DataFetcher::SearchShowRequest: {
+        if (reply->error() == QNetworkReply::NoError) {
+            bool success;
+            QString errorMessage;
+            int errorLine;
+            int errorColumn;
+            NextShows::ShowInfosList searchResults = TvRageParser::parseSearchResults(reply->readAll(), &success, &errorMessage, &errorLine, &errorColumn);
+            if (!success) {
+                QString errorText = QString("Error while parsing XML document for show \"%1\"!").arg(showName);
+                qCritical() << errorText;
+                qCritical() << "URL requested:" << reply->request().url().toString();
+                qCritical() << "URL processed:" << reply->url().toString();
+                qCritical("%s [L:%d-C:%d]", qPrintable(errorMessage), errorLine, errorColumn);
+                emit dataRetrievalError(DataFetcher::ParsingError, errorText, -1);
+            } else {
+                emit searchResultsReady(searchResults);
+            }
+        } else {
+            QString errorText = QString("An error occured while searching for show \"%1\" [%2]!").arg(showName).arg(errorCodeToText(reply->error()));
+            qCritical() << errorText;
+            qCritical() << "URL requested:" << reply->request().url().toString();
+            qCritical() << "URL processed:" << reply->url().toString();
+            emit dataRetrievalError(DataFetcher::RetrievalError, errorText, -1);
+        }
         break;
     }
-    case DataFetcher::ShowInfos: {
-        m_showInfosHash[showId] = TvRageParser::parseShowInfos(reply->readAll());
-        checkEpisodeListEmission(showId);
+    case DataFetcher::ShowInfosRequest: {
+        m_showInfosNetworkError[showId] = reply->error();
+        if (reply->error() == QNetworkReply::NoError) {
+            // TODO: Add parsing errors checks
+            m_showInfosHash[showId] = TvRageParser::parseShowInfos(reply->readAll());
+        } else {
+            // TODO: Emit error SIGNAL 
+        }
+        emissionCheck(showId);
         break;
     }
-    case DataFetcher::EpisodeList: {
-        m_episodeListHash[showId] = TvRageParser::parseEpisodeList(reply->readAll());
-        checkEpisodeListEmission(showId);
+    case DataFetcher::EpisodeListRequest: {
+        m_episodeListNetworkError[showId] = reply->error();
+        if (reply->error() == QNetworkReply::NoError) {
+            // TODO: Add parsing errors checks
+            m_episodeListHash[showId] = TvRageParser::parseEpisodeList(reply->readAll());
+        } else {
+            // TODO: Emit error SIGNAL
+        }
+        emissionCheck(showId);
         break;
     }
     default:
@@ -101,30 +138,60 @@ void DataFetcher::requestFinished(QNetworkReply *reply)
 /*
 ** private:
 */
-void DataFetcher::doRequest(const QUrl &url, DataFetcher::RequestType requestType, const int &showId)
+void DataFetcher::doRequest(const QUrl &url, DataFetcher::RequestType requestType, const int &showId, const QString &showName="")
 {
+    qDebug() << Q_FUNC_INFO;
     QNetworkRequest request;
     QString httpUA = QString("nextShows/%1 (http://nextshows.googlecode.com/)").arg(NEXTSHOWS_VERSION);
     request.setRawHeader("User-Agent", qPrintable(httpUA));
     request.setUrl(url);
 
-    QNetworkReply *reply = m_nam->get(request);
+    // Set some attributes
+    // Request Type
+    request.setAttribute(QNetworkRequest::Attribute(RequestTypeAttribute), QVariant((int)requestType));
+    // Show ID
+    request.setAttribute(QNetworkRequest::Attribute(ShowIdAttribute), QVariant(showId));
+    // Show Name
+    request.setAttribute(QNetworkRequest::Attribute(ShowNameAttribute), QVariant(showName));
 
-    // "Tag" the request
-    // TODO: There's probably a nicer way to do this ?
-    reply->setProperty("RequestType", QVariant(requestType));
-    reply->setProperty("ShowID", QVariant(showId));
+    m_nam->get(request);
 } // doRequest()
 
-void DataFetcher::checkEpisodeListEmission(const int &showId)
+void DataFetcher::emissionCheck(const int &showId)
 {
+    qDebug() << Q_FUNC_INFO;
+    bool errorCheck = (m_showInfosNetworkError.contains(showId) && m_episodeListNetworkError.contains(showId));
+    if (errorCheck) {
+//        m_showInfosError.value(showId);
+//        m_episodeListError.value(showId);
+    }
+
     bool check = (m_showInfosHash.contains(showId) && m_episodeListHash.contains(showId));
 
     if (check) {
-        emit episodeListReady(m_showInfosHash[showId], m_episodeListHash[showId]);
+        emit episodeListReady(m_showInfosHash.value(showId), m_episodeListHash.value(showId));
         m_showInfosHash.remove(showId);
+        m_showInfosNetworkError.remove(showId);
         m_episodeListHash.remove(showId);
+        m_episodeListNetworkError.remove(showId);
     }
-} // checkEpisodeListEmission()
+} // emissionCheck()
+
+QString DataFetcher::errorCodeToText(QNetworkReply::NetworkError errorCode)
+{
+    qDebug() << Q_FUNC_INFO;
+    QString errorName;
+    QMetaObject meta = QNetworkReply::staticMetaObject;
+    for (int i=0; i < meta.enumeratorCount(); ++i) {
+        QMetaEnum m = meta.enumerator(i);
+        if (m.name() == QLatin1String("NetworkError")) {
+            errorName = QLatin1String(m.valueToKey(errorCode));
+            break;
+        }
+    }
+
+    return errorName;
+} // errorCodeToText()
+
 
 // EOF - vim:ts=4:sw=4:et:

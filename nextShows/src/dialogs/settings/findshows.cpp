@@ -68,6 +68,8 @@ FindShows::FindShows(QWidget *parent)
     m_data = new DataProvider(this);
     connect(m_data, SIGNAL(searchResultsReady(NextShows::ShowInfosList)),
             this, SLOT(searchResultsReady(const NextShows::ShowInfosList &)));
+    connect(m_data, SIGNAL(dataRetrievalError(DataFetcher::GatheringError, const QString &, const int &)),
+            this, SLOT(searchResultsError(DataFetcher::GatheringError, const QString &, const int &)));
 } // ctor()
 
 FindShows::~FindShows()
@@ -179,6 +181,23 @@ void FindShows::searchResultsReady(const NextShows::ShowInfosList &showList)
 
     displaySearchResults(); // Refresh list
 } // searchResultsReady()
+
+void FindShows::searchResultsError(DataFetcher::GatheringError error, const QString &errorMessage, const int &showId)
+{
+    Q_UNUSED(error)
+    Q_UNUSED(showId)
+
+    QMessageBox::critical(this, QCoreApplication::applicationName(), errorMessage);
+
+    m_searchResults = NextShows::ShowInfosList();
+
+    m_animatedImage->stop();
+
+    ui.leSearch->setEnabled(true);
+    ui.btnLookup->setEnabled(true);
+
+    displaySearchResults(); // Refresh list
+} // searchResultsError()
 
 void FindShows::on_treeSearchResults_addShowAction()
 {

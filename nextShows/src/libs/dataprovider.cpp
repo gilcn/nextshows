@@ -33,6 +33,9 @@ DataProvider::DataProvider(QObject *parent)
     // Search results, simply reroute SIGNAL()
     connect(m_dataFetcher, SIGNAL(searchResultsReady(NextShows::ShowInfosList)),
             this, SIGNAL(searchResultsReady(NextShows::ShowInfosList)));
+    // Search results error
+    connect(m_dataFetcher, SIGNAL(dataRetrievalError(DataFetcher::GatheringError, const QString &, const int &)),
+            this, SIGNAL(dataRetrievalError(DataFetcher::GatheringError, const QString &, const int &)));
 } // ctor()
 
 DataProvider::~DataProvider()
@@ -53,6 +56,7 @@ NextShows::ShowInfosList DataProvider::getTrackedShows()
 void DataProvider::setTrackedShows(const NextShows::ShowInfosList &showList)
 {
     DbInterface::Instance().saveUserShows(showList);
-} // setTrackedShows
+} // setTrackedShows()
+
 
 // EOF - vim:ts=4:sw=4:et:
