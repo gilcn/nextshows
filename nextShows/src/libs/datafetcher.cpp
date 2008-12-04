@@ -92,16 +92,16 @@ void DataFetcher::requestFinished(QNetworkReply *reply)
                 qCritical() << "URL requested:" << reply->request().url().toString();
                 qCritical() << "URL processed:" << reply->url().toString();
                 qCritical("%s [L:%d-C:%d]", qPrintable(errorMessage), errorLine, errorColumn);
-                emit dataRetrievalError(DataFetcher::ParsingError, errorText, -1);
+                emit searchResultsReady(NextShows::ShowInfosList(), false, errorText);
             } else {
-                emit searchResultsReady(searchResults);
+                emit searchResultsReady(searchResults, true, QString());
             }
         } else {
             QString errorText = QString("An error occured while searching for show \"%1\" [%2]!").arg(showName).arg(errorCodeToText(reply->error()));
             qCritical() << errorText;
             qCritical() << "URL requested:" << reply->request().url().toString();
             qCritical() << "URL processed:" << reply->url().toString();
-            emit dataRetrievalError(DataFetcher::RetrievalError, errorText, -1);
+            emit searchResultsReady(NextShows::ShowInfosList(), false, errorText);
         }
         break;
     }

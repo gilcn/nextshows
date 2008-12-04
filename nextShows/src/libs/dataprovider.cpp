@@ -31,11 +31,8 @@ DataProvider::DataProvider(QObject *parent)
     , m_dataFetcher(new DataFetcher(this))
 {
     // Search results, simply reroute SIGNAL()
-    connect(m_dataFetcher, SIGNAL(searchResultsReady(NextShows::ShowInfosList)),
-            this, SIGNAL(searchResultsReady(NextShows::ShowInfosList)));
-    // Search results error
-    connect(m_dataFetcher, SIGNAL(dataRetrievalError(DataFetcher::GatheringError, const QString &, const int &)),
-            this, SIGNAL(dataRetrievalError(DataFetcher::GatheringError, const QString &, const int &)));
+    connect(m_dataFetcher, SIGNAL(searchResultsReady(NextShows::ShowInfosList, bool, QString)),
+            this, SIGNAL(searchResultsReady(NextShows::ShowInfosList, bool, QString)));
 } // ctor()
 
 DataProvider::~DataProvider()
