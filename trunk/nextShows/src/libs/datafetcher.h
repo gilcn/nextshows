@@ -42,14 +42,8 @@ class QUrl;
 class DataFetcher : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(GatheringError)
 
 public:
-    enum GatheringError {
-        RetrievalError,
-        ParsingError
-    };
-
     DataFetcher(QObject *parent = 0);
     ~DataFetcher();
 
@@ -59,16 +53,13 @@ public:
 Q_SIGNALS:
     // SIG: searchResultsReady()
     // #1 : List of available shows
-    void searchResultsReady(NextShows::ShowInfosList);
+    // #2 : Was the request successful
+    // #3 : Error Message
+    void searchResultsReady(NextShows::ShowInfosList, bool, QString);
     // SIG: episodeListReady()
     // #1 : Show infos
     // #2 : List of all available episodes for show #1
     void episodeListReady(NextShows::ShowInfos_t, NextShows::EpisodeListList);
-    // SIG: dataRetrievalError()
-    // #1 : Error type (DataFetcher::GatheringError)
-    // #2 : Error String
-    // #3 : Show ID (-1 if not applicable)
-    void dataRetrievalError(GatheringError, const QString &, const int &);
 
 private Q_SLOTS:
     void requestFinished(QNetworkReply *);

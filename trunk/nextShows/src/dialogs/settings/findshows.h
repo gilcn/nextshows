@@ -54,8 +54,7 @@ private Q_SLOTS:
     void on_lstTrackedShows_itemSelectionChanged();
     void on_tbtnRemoveShow_clicked();
     void newImageFrame(const QPixmap &);
-    void searchResultsReady(const NextShows::ShowInfosList &);
-    void searchResultsError(DataFetcher::GatheringError, const QString &, const int &);
+    void searchResultsReady(NextShows::ShowInfosList, bool, QString);
     void on_treeSearchResults_addShowAction();
     void on_treeSearchResults_openUrlAction();
 

@@ -53,8 +53,7 @@ public:
 
 Q_SIGNALS:
     // Search results are ready to be served
-    void searchResultsReady(NextShows::ShowInfosList);
-    void dataRetrievalError(DataFetcher::GatheringError, const QString &, const int &);
+    void searchResultsReady(NextShows::ShowInfosList, bool, QString);
 
 private:
     DataFetcher *m_dataFetcher;

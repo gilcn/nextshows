@@ -66,10 +66,8 @@ FindShows::FindShows(QWidget *parent)
             this, SLOT(newImageFrame(const QPixmap &)));
 
     m_data = new DataProvider(this);
-    connect(m_data, SIGNAL(searchResultsReady(NextShows::ShowInfosList)),
-            this, SLOT(searchResultsReady(const NextShows::ShowInfosList &)));
-    connect(m_data, SIGNAL(dataRetrievalError(DataFetcher::GatheringError, const QString &, const int &)),
-            this, SLOT(searchResultsError(DataFetcher::GatheringError, const QString &, const int &)));
+    connect(m_data, SIGNAL(searchResultsReady(NextShows::ShowInfosList, bool, QString)),
+            this, SLOT(searchResultsReady(NextShows::ShowInfosList, bool, QString)));
 } // ctor()
 
 FindShows::~FindShows()
@@ -170,8 +168,13 @@ void FindShows::newImageFrame(const QPixmap &pixmap)
     ui.imgProgress->setPixmap(pixmap);
 } // newImageFrame()
 
-void FindShows::searchResultsReady(const NextShows::ShowInfosList &showList)
+void FindShows::searchResultsReady(NextShows::ShowInfosList showList, bool success, QString errorMessage)
 {
+    if (!success) {
+        QMessageBox::critical(this, QCoreApplication::applicationName(), errorMessage);
+    }
+
+
     m_searchResults = showList;
 
     m_animatedImage->stop();
@@ -181,23 +184,6 @@ void FindShows::searchResultsReady(const NextShows::ShowInfosList &showList)
 
     displaySearchResults(); // Refresh list
 } // searchResultsReady()
-
-void FindShows::searchResultsError(DataFetcher::GatheringError error, const QString &errorMessage, const int &showId)
-{
-    Q_UNUSED(error)
-    Q_UNUSED(showId)
-
-    QMessageBox::critical(this, QCoreApplication::applicationName(), errorMessage);
-
-    m_searchResults = NextShows::ShowInfosList();
-
-    m_animatedImage->stop();
-
-    ui.leSearch->setEnabled(true);
-    ui.btnLookup->setEnabled(true);
-
-    displaySearchResults(); // Refresh list
-} // searchResultsError()
 
 void FindShows::on_treeSearchResults_addShowAction()
 {
