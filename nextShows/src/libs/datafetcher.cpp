@@ -108,23 +108,47 @@ void DataFetcher::requestFinished(QNetworkReply *reply)
     case DataFetcher::ShowInfosRequest: {
         m_showInfosNetworkError[showId] = reply->error();
         if (reply->error() == QNetworkReply::NoError) {
-            // TODO: Add parsing errors checks
-            m_showInfosHash[showId] = TvRageParser::parseShowInfos(reply->readAll());
+            bool success;
+            QString errorMessage;
+            int errorLine;
+            int errorColumn;
+            m_showInfosHash[showId] = TvRageParser::parseShowInfos(reply->readAll(), &success, &errorMessage, &errorLine, &errorColumn);
+            if (!success) {
+                QString errorText = QString("Error while parsing XML document for ShowInfo ID#%1!").arg(showId);
+                qCritical() << errorText;
+                qCritical() << "URL requested:" << reply->request().url().toString();
+                qCritical() << "URL processed:" << reply->url().toString();
+                qCritical("%s [L:%d-C:%d]", qPrintable(errorMessage), errorLine, errorColumn);
+                // TODO: Emit error SIGNAL (parsing error)
+            } else {
+                // TODO: Emit success SIGNAL 
+            }
         } else {
-            // TODO: Emit error SIGNAL 
+            // TODO: Emit error SIGNAL (network error) 
         }
-        emissionCheck(showId);
         break;
     }
     case DataFetcher::EpisodeListRequest: {
         m_episodeListNetworkError[showId] = reply->error();
         if (reply->error() == QNetworkReply::NoError) {
-            // TODO: Add parsing errors checks
-            m_episodeListHash[showId] = TvRageParser::parseEpisodeList(reply->readAll());
+            bool success;
+            QString errorMessage;
+            int errorLine;
+            int errorColumn;
+            m_episodeListHash[showId] = TvRageParser::parseEpisodeList(reply->readAll(), &success, &errorMessage, &errorLine, &errorColumn);
+            if (!success) {
+                QString errorText = QString("Error while parsing XML document for EpisodeList ID#%1!").arg(showId);
+                qCritical() << errorText;
+                qCritical() << "URL requested:" << reply->request().url().toString();
+                qCritical() << "URL processed:" << reply->url().toString();
+                qCritical("%s [L:%d-C:%d]", qPrintable(errorMessage), errorLine, errorColumn);
+                // TODO: Emit error SIGNAL (parsing error)
+            } else {
+                // TODO: Emit success SIGNAL 
+            }
         } else {
-            // TODO: Emit error SIGNAL
+            // TODO: Emit error SIGNAL (network error) 
         }
-        emissionCheck(showId);
         break;
     }
     default:
