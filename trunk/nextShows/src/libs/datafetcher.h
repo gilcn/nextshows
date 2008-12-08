@@ -53,13 +53,13 @@ public:
 Q_SIGNALS:
     // SIG: searchResultsReady()
     // #1 : List of available shows
-    // #2 : Was the request successful
+    // #2 : Was the request successful ?
     // #3 : Error Message
     void searchResultsReady(NextShows::ShowInfosList, bool, QString);
     // SIG: episodeListReady()
     // #1 : Show infos
     // #2 : List of all available episodes for show #1
-    void episodeListReady(NextShows::ShowInfos_t, NextShows::EpisodeListList);
+    void episodeListReady(NextShows::ShowInfos_t, NextShows::EpisodeListList, bool, QString);
 
 private Q_SLOTS:
     void requestFinished(QNetworkReply *);
