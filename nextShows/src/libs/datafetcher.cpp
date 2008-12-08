@@ -193,7 +193,7 @@ void DataFetcher::emissionCheck(const int &showId)
     bool check = (m_showInfosHash.contains(showId) && m_episodeListHash.contains(showId));
 
     if (check) {
-        emit episodeListReady(m_showInfosHash.value(showId), m_episodeListHash.value(showId));
+        emit episodeListReady(m_showInfosHash.value(showId), m_episodeListHash.value(showId), true, QString());
         m_showInfosHash.remove(showId);
         m_showInfosNetworkError.remove(showId);
         m_episodeListHash.remove(showId);
