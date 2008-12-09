@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui.setupUi(this);
 
-    if(!DbInterface::Instance().isInitialized()) {
+    if(!DbInterface::instance().isInitialized()) {
         QMessageBox::critical(this,
                               "Database error",
                               "The database could not be opened or created!\nAborting...",
@@ -78,7 +78,7 @@ void MainWindow::on_btnSaveShow_clicked(bool /*checked*/)
         networkMap["US"] = "network";
         shows.network = networkMap;
         myShows << shows;
-        DbInterface::Instance().saveUserShows(myShows);
+        DbInterface::instance().saveUserShows(myShows);
     }
 } // on_btnSaveShow_clicked()
 
@@ -87,7 +87,7 @@ void MainWindow::on_btnListShow_clicked(bool /*checked*/)
     // Clear
     ui.infoTextEdit->clear();
 
-    NextShows::ShowInfosList myShows = DbInterface::Instance().readUserShows();
+    NextShows::ShowInfosList myShows = DbInterface::instance().readUserShows();
     NextShows::ShowInfosList::iterator i;
     for (i = myShows.begin(); i != myShows.end(); ++i) {
         NextShows::ShowInfos_t show = *i;
@@ -106,7 +106,7 @@ void MainWindow::on_btnCheckExpiredShows_clicked(bool /*checked*/)
     // Clear
     ui.infoTextEdit->clear();
     
-    QList<int> expiredshowslist = DbInterface::Instance().expiredShowIds(2880); // request shows id oldest 2880min (48hour)
+    QList<int> expiredshowslist = DbInterface::instance().expiredShowIds(2880); // request shows id oldest 2880min (48hour)
     int idshow;
     int i = 1;
     foreach (idshow, expiredshowslist) {
@@ -117,7 +117,7 @@ void MainWindow::on_btnCheckExpiredShows_clicked(bool /*checked*/)
 
 void MainWindow::on_btnRequestDB_clicked(bool /*checked*/)
 {
-    QSqlTableModel *model = DbInterface::Instance().readEpisodes();
+    QSqlTableModel *model = DbInterface::instance().readEpisodes();
     ui.tblView->setModel(model);
     ui.tblView->show();
 }
@@ -161,6 +161,6 @@ void MainWindow::on_btnUpdateShow_clicked(bool /*checked*/)
         episode.isSpecial = false;
         EpisodeListList << episode;
     }
-    DbInterface::Instance().saveUserEpisodes(show,EpisodeListList);
+    DbInterface::instance().saveUserEpisodes(show,EpisodeListList);
     
 } // on_btnUpdateShow_clicked

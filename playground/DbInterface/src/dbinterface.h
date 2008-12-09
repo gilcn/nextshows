@@ -33,7 +33,7 @@
 class DbInterface
 {
 public:
-    static DbInterface& Instance();
+    static DbInterface& instance();
     bool isInitialized();
 
     void saveUserShows(const NextShows::ShowInfosList &shows);
