@@ -208,6 +208,7 @@ void DataFetcher::doRequest(const QUrl &url, DataFetcher::RequestType requestTyp
 
 void DataFetcher::emissionCheck(const int &showId)
 {
+    qDebug() << Q_FUNC_INFO;
     // Ensure both requests (showinfo + episodelist) were made for this showId
     int count = 0;
     count = (m_showInfosHash.contains(showId)   || m_showInfosError.contains(showId))   ? count + 1 : count;
@@ -255,6 +256,7 @@ QString DataFetcher::errorCodeToText(QNetworkReply::NetworkError errorCode)
 
 void DataFetcher::clearShowData(const int &showId)
 {
+    qDebug() << Q_FUNC_INFO;
     m_showInfosHash.remove(showId);
     m_showInfosError.remove(showId);
     m_episodeListHash.remove(showId);
