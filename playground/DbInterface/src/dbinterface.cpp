@@ -515,7 +515,7 @@ bool DbInterface::updateShow(const NextShows::ShowInfos_t &showInfo)
 //    query.bindValue(":seasonsnbr", showInfo.seasons);
     query.bindValue(":status", showInfo.status);
     query.bindValue(":classification", showInfo.classification);
-    query.bindValue(":genres", showInfo.genres.join(","));
+    query.bindValue(":genres", showInfo.genres.join(", "));
     query.bindValue(":endedflag", showInfo.endedFlag);
     query.bindValue(":runtime", showInfo.runtime);
     query.bindValue(":airtime", showInfo.airtime);
