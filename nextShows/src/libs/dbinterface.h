@@ -33,13 +33,13 @@
 class DbInterface
 {
 public:
-    static DbInterface& Instance();
+    static DbInterface& instance();
     bool isInitialized();
 
     void saveUserShows(const NextShows::ShowInfosList &shows);
     NextShows::ShowInfosList readUserShows();
     QList<int> expiredShowIds(const int &delta);
-    void saveUserEpisodes(const NextShows::EpisodeListList &episodes);
+    void saveUserEpisodes(const NextShows::ShowInfos_t &showInfo, const NextShows::EpisodeListList &episodes);
     QSqlTableModel *readEpisodes() const;
 
 private:
@@ -56,6 +56,7 @@ private:
     bool saveEpisode(const NextShows::EpisodeList_t &episode, const int &idshow);
     bool deleteShow(const int &id);
     bool deleteEpisode(const int &idshow);
+    bool updateShow(const NextShows::ShowInfos_t &showInfo);
 
     bool m_databaseInitialized;
 };
