@@ -36,11 +36,11 @@
 /*
 ** public:
 */
-DbInterface& DbInterface::Instance()
+DbInterface& DbInterface::instance()
 {
     static DbInterface DbInterfaceInstance;
     return DbInterfaceInstance;
-} // Instance()
+} // instance()
 
 bool DbInterface::isInitialized()
 {
