@@ -44,9 +44,7 @@ class DataFetcher : public QObject
     Q_OBJECT
 
 public:
-    DataFetcher(QObject *parent = 0);
-    ~DataFetcher();
-
+    static DataFetcher * instance();
     void searchShow(const QString &showName);
     void getEpisodeList(const int &showId);
 
@@ -75,6 +73,11 @@ private:
         ShowIdAttribute = int(QNetworkRequest::User+1),
         ShowNameAttribute = int(QNetworkRequest::User+2)
     };
+
+    DataFetcher(QObject *parent = 0);
+    DataFetcher(const DataFetcher &);
+    DataFetcher * operator=(DataFetcher const &);
+    ~DataFetcher();
 
     void doRequest(const QUrl &url, RequestType requestType, const int &showId, const QString &showname);
 

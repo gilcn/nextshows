@@ -28,21 +28,19 @@
 */
 DataProvider::DataProvider(QObject *parent)
     : QObject(parent)
-    , m_dataFetcher(new DataFetcher(this))
 {
     // Search results, simply reroute SIGNAL()
-    connect(m_dataFetcher, SIGNAL(searchResultsReady(NextShows::ShowInfosList, bool, QString)),
+    connect(DataFetcher::instance(), SIGNAL(searchResultsReady(NextShows::ShowInfosList, bool, QString)),
             this, SIGNAL(searchResultsReady(NextShows::ShowInfosList, bool, QString)));
 } // ctor()
 
 DataProvider::~DataProvider()
 {
-    delete m_dataFetcher;
 } // dtor()
 
 void DataProvider::searchShow(const QString &showName)
 {
-    m_dataFetcher->searchShow(showName);
+    DataFetcher::instance()->searchShow(showName);
 } // searchShow()
 
 NextShows::ShowInfosList DataProvider::getTrackedShows()

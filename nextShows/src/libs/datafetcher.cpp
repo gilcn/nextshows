@@ -26,25 +26,23 @@
 #include <QtCore/QDebug>
 #include <QtCore/QMetaEnum>
 #include <QtCore/QUrl>
+// QtGui
+#include <QtGui/QApplication>
 
 
 /*
 ** public:
 */
-DataFetcher::DataFetcher(QObject *parent)
-    : QObject(parent)
-    , m_nam(new QNetworkAccessManager(this))
+DataFetcher * DataFetcher::instance()
 {
     qDebug() << Q_FUNC_INFO;
-    connect(m_nam, SIGNAL(finished(QNetworkReply *)),
-            this, SLOT(requestFinished(QNetworkReply *)));
-} // ctor()
+    static DataFetcher * dataFetcherInstance = 0;
+    if (!dataFetcherInstance) {
+        dataFetcherInstance = new DataFetcher(qApp);
+    }
 
-DataFetcher::~DataFetcher()
-{
-    qDebug() << Q_FUNC_INFO;
-    delete m_nam;
-} // dtor()
+    return dataFetcherInstance;
+} // instance()
 
 void DataFetcher::searchShow(const QString &showName)
 {
@@ -162,6 +160,21 @@ void DataFetcher::requestFinished(QNetworkReply *reply)
 /*
 ** private:
 */
+DataFetcher::DataFetcher(QObject *parent)
+    : QObject(parent)
+    , m_nam(new QNetworkAccessManager(this))
+{
+    qDebug() << Q_FUNC_INFO;
+    connect(m_nam, SIGNAL(finished(QNetworkReply *)),
+            this, SLOT(requestFinished(QNetworkReply *)));
+} // ctor()
+
+DataFetcher::~DataFetcher()
+{
+    qDebug() << Q_FUNC_INFO;
+    delete m_nam;
+} // dtor()
+
 void DataFetcher::doRequest(const QUrl &url, DataFetcher::RequestType requestType, const int &showId, const QString &showName="")
 {
     qDebug() << Q_FUNC_INFO;

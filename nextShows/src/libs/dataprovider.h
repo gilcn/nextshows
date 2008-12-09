@@ -56,7 +56,6 @@ Q_SIGNALS:
     void searchResultsReady(NextShows::ShowInfosList, bool, QString);
 
 private:
-    DataFetcher *m_dataFetcher;
 };
 
 
