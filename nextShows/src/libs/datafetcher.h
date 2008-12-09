@@ -57,6 +57,8 @@ Q_SIGNALS:
     // SIG: episodeListReady()
     // #1 : Show infos
     // #2 : List of all available episodes for show #1
+    // #3 : Was the request successful ?
+    // #4 : Error Message
     void episodeListReady(NextShows::ShowInfos_t, NextShows::EpisodeListList, bool, QString);
 
 private Q_SLOTS:
@@ -87,14 +89,15 @@ private:
     // Convert NetworkError code to QString
     QString errorCodeToText(QNetworkReply::NetworkError errorCode);
 
+    void clearShowData(const int &showId);
+
+
     QNetworkAccessManager *m_nam;
 
     QHash<int, NextShows::ShowInfos_t>      m_showInfosHash;
-    QHash<int, QNetworkReply::NetworkError> m_showInfosNetworkError;
-    QHash<int, QString>                     m_showInfosParsingError;
+    QHash<int, QString>                     m_showInfosError;
     QHash<int, NextShows::EpisodeListList>  m_episodeListHash;
-    QHash<int, QNetworkReply::NetworkError> m_episodeListNetworkError;
-    QHash<int, QString>                     m_episodeListParsingError;
+    QHash<int, QString>                     m_episodeListError;
 };
 
 
