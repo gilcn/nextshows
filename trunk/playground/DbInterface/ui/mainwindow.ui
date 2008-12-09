@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>626</width>
-    <height>617</height>
+    <width>819</width>
+    <height>828</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -30,56 +30,28 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0" >
-        <layout class="QHBoxLayout" name="horizontalLayout" >
-         <item>
-          <widget class="QLabel" name="lblRestrictToId" >
-           <property name="text" >
-            <string>Restrict to id</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit" />
-         </item>
-        </layout>
-       </item>
-       <item row="1" column="1" >
-        <layout class="QHBoxLayout" name="horizontalLayout_2" >
-         <item>
-          <widget class="QLabel" name="lblOrName" >
-           <property name="text" >
-            <string>or name</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_2" />
-         </item>
-        </layout>
-       </item>
-       <item row="2" column="0" colspan="2" >
+       <item row="1" column="0" colspan="2" >
         <widget class="Line" name="line" >
          <property name="orientation" >
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="2" >
+       <item row="2" column="0" colspan="2" >
         <widget class="QPushButton" name="btnCheckExpiredShows" >
          <property name="text" >
           <string>Check expired shows</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="0" colspan="2" >
+       <item row="3" column="0" colspan="2" >
         <widget class="Line" name="line_2" >
          <property name="orientation" >
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="5" column="0" colspan="2" >
+       <item row="4" column="0" colspan="2" >
         <layout class="QFormLayout" name="formLayout_2" >
          <item row="0" column="0" >
           <widget class="QLabel" name="lblId" >
@@ -160,21 +132,21 @@
          </item>
         </layout>
        </item>
-       <item row="6" column="0" colspan="2" >
+       <item row="5" column="0" colspan="2" >
         <widget class="QPushButton" name="btnSaveShow" >
          <property name="text" >
           <string>Save this Show</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="0" colspan="2" >
+       <item row="6" column="0" colspan="2" >
         <widget class="Line" name="line_3" >
          <property name="orientation" >
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="8" column="0" colspan="2" >
+       <item row="10" column="0" colspan="2" >
         <widget class="QGroupBox" name="groupBox_2" >
          <property name="title" >
           <string>debug information</string>
@@ -184,6 +156,23 @@
            <widget class="QTextEdit" name="infoTextEdit" />
           </item>
          </layout>
+        </widget>
+       </item>
+       <item row="9" column="0" colspan="2" >
+        <widget class="Line" name="line_4" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1" >
+        <widget class="QLineEdit" name="ldtUpdateShowId" />
+       </item>
+       <item row="7" column="0" >
+        <widget class="QPushButton" name="btnUpdateShow" >
+         <property name="text" >
+          <string>Update this show</string>
+         </property>
         </widget>
        </item>
       </layout>

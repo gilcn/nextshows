@@ -117,7 +117,50 @@ void MainWindow::on_btnCheckExpiredShows_clicked(bool /*checked*/)
 
 void MainWindow::on_btnRequestDB_clicked(bool /*checked*/)
 {
-	QSqlTableModel *model = DbInterface::Instance().readEpisodes();
-	ui.tblView->setModel(model);
+    QSqlTableModel *model = DbInterface::Instance().readEpisodes();
+    ui.tblView->setModel(model);
     ui.tblView->show();
 }
+
+void MainWindow::on_btnUpdateShow_clicked(bool /*checked*/)
+{    
+    // Show data
+    NextShows::ShowInfos_t show;
+    show.showid = ui.ldtUpdateShowId->text().toInt();
+    // fill with random data
+    show.name = QString::fromUtf8("la tete à toto");
+    show.link = QUrl("www.toto.com");
+    show.country= "XX";
+    show.started = 1111;
+    show.ended = 5555;
+    show.seasons = 666;
+    show.status = "Random status";
+    show.classification = "Random classification";
+    QStringList genreList;
+    genreList << "Adventure";
+    genreList << "Action";
+    show.genres = genreList;
+    show.endedFlag = true;
+    show.runtime = 60;
+    show.airtime = QTime(05,50);
+    show.airday = "Monday";
+    show.timezone = "GMT-5 -DST";
+    
+    // Episodes data
+    QList<NextShows::EpisodeList_t> EpisodeListList;
+    int i = 1;
+    for( i=1 ; i<4 ; i++) {
+        NextShows::EpisodeList_t episode;
+        episode.season = 1;
+        episode.episodeCount = 3;
+        episode.episodeNumber = i;
+        episode.prodNumber = "905";
+        episode.airDate = QDate(2004,9,29);
+        episode.link = QUrl("www.toto.com/episodes/"+(char) i);
+        episode.title = "titre "+(char) i;
+        episode.isSpecial = false;
+        EpisodeListList << episode;
+    }
+    DbInterface::Instance().saveUserEpisodes(show,EpisodeListList);
+    
+} // on_btnUpdateShow_clicked

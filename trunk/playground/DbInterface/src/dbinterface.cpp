@@ -166,7 +166,7 @@ void DbInterface::saveUserEpisodes(const NextShows::ShowInfos_t &showInfo, const
         saveEpisode(episodes.at(i),showInfo.showid);
     }
     // Update information of this show
-    
+    updateShow(showInfo);
     
     
 } // saveUserEpisodes()
@@ -478,14 +478,60 @@ bool DbInterface::deleteEpisode(const int &idshow)
     return true;
 } // deleteEpisode
 
-bool DbInterface::updateShow(const NextShows::EpisodeList_t)
+bool DbInterface::updateShow(const NextShows::ShowInfos_t &showInfo)
 {
+    //TODO merge this method with saveShow()
     qDebug() << Q_FUNC_INFO;
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
     
     QSqlQuery query(db);
-    query.prepare("UPDATE FROM T_Shows SET WHERE Shows_id = :idshow");
+    query.prepare("UPDATE T_Shows SET "
+                    "ShowName = :showname, "
+                    "ShowUrl = :showurl, "
+                    "Country = :country, "
+                    "Started = :started, "
+// FIXME: Missing from feed.
+//                    "Ended = :ended, "
+// FIXME: Missing from feed.
+//                    "SeasonsNbr = :seasonsnbr, "
+                    "Status = :status, "
+                    "Classification = :classification, "
+                    "Genres = :genres, "
+                    "EndedFlag = :endedflag, "
+                    "Runtime = :runtime, "
+                    "Airtime = :airtime, "
+                    "Airday = :airday, "
+                    "Timezone = :timezone, "
+                    "Timestamp = :timestamp "
+                    "WHERE idt_Shows = :show_id");
+    query.bindValue(":showname", showInfo.name);
+    query.bindValue(":showurl", showInfo.link.toString());
+    query.bindValue(":country", showInfo.country);
+    query.bindValue(":started", showInfo.started);
+// FIXME: Missing from feed.
+//    query.bindValue(":ended", showInfo.ended);
+// FIXME: Missing from feed.
+//    query.bindValue(":seasonsnbr", showInfo.seasons);
+    query.bindValue(":status", showInfo.status);
+    query.bindValue(":classification", showInfo.classification);
+    query.bindValue(":genres", showInfo.genres.join(","));
+    query.bindValue(":endedflag", showInfo.endedFlag);
+    query.bindValue(":runtime", showInfo.runtime);
+    query.bindValue(":airtime", showInfo.airtime);
+    query.bindValue(":airday", showInfo.airday);
+    query.bindValue(":timezone", showInfo.timezone);
+    query.bindValue(":timestamp", QDateTime::currentDateTime().toTime_t());
+    query.bindValue(":show_id", showInfo.showid);
+    qDebug() << showInfo.link;
+    bool status;
+    status = query.exec();
+    qDebug() << query.executedQuery();
+    if (!status) {
+        qCritical() << query.lastError();
+        return false;
+    }
+    return true;
 }
 
 // EOF - vim:ts=4:sw=4:et:

@@ -41,6 +41,7 @@ private slots:
     void on_btnListShow_clicked(bool checked);
     void on_btnCheckExpiredShows_clicked(bool checked);
     void on_btnRequestDB_clicked(bool checked);
+    void on_btnUpdateShow_clicked(bool checked);
 
 private:
     Ui::MainWindow ui;
