@@ -36,11 +36,11 @@
 /*
 ** public:
 */
-DbInterface& DbInterface::Instance()
+DbInterface& DbInterface::instance()
 {
     static DbInterface DbInterfaceInstance;
     return DbInterfaceInstance;
-} // Instance()
+} // instance()
 
 bool DbInterface::isInitialized()
 {
@@ -88,7 +88,8 @@ NextShows::ShowInfosList DbInterface::readUserShows()
 
     NextShows::ShowInfosList myShows;
     QSqlQuery query(db);
-    query.exec("SELECT idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp FROM T_Shows ORDER BY ShowName");
+    query.exec("SELECT idT_Shows, ShowName, ShowUrl, Country, Started, Ended, SeasonsNbr, Status, Classification, Genres,  EndedFlag, Runtime, Airtime, Airday, Timezone, Timestamp "
+                "FROM T_Shows ORDER BY ShowName");
     while (query.next()) {
         NextShows::ShowInfos_t show;
         show.showid = query.value(0).toInt();
@@ -97,7 +98,36 @@ NextShows::ShowInfosList DbInterface::readUserShows()
         show.country = query.value(3).toString();
         show.started = query.value(4).toInt();
         show.ended = query.value(5).toInt();
-        show.endedFlag = query.value(6).toBool();
+        show.seasons = query.value(6).toInt();
+        show.status = query.value(7).toString();
+        show.classification = query.value(8).toString();
+        show.genres = query.value(9).toString().split(",");
+        show.endedFlag = query.value(10).toBool();
+        show.runtime = query.value(11).toInt();
+        show.airtime = QTime::fromString(query.value(12).toString(), "hh:mm");
+        show.airday = query.value(13).toString();
+        show.timezone = query.value(14).toString();
+        // retrieve T_Akas data for this show
+        QSqlQuery queryAkas(db);
+        QMap<QString, QString> akasMap;
+        queryAkas.prepare("SELECT T_Akas_Shows_id, Country, Name FROM T_Akas WHERE T_Akas_Shows_id = :showid");
+        queryAkas.bindValue(":showid",show.showid);
+        queryAkas.exec();
+        while (queryAkas.next()) {
+            akasMap[queryAkas.value(1).toString()] = queryAkas.value(2).toString();
+        }
+        show.akas = akasMap;
+        // retrieve T_Networks data for this show
+        QSqlQuery queryNetwork(db);
+        QMap<QString, QString> networkMap;
+        queryNetwork.prepare("SELECT T_Networks_Shows_id, Country, Name FROM T_Networks WHERE T_Networks_Shows_id = :showid");
+        queryNetwork.bindValue(":showid",show.showid);
+        queryNetwork.exec();
+        while (queryNetwork.next()) {
+            networkMap[queryNetwork.value(1).toString()] = queryNetwork.value(2).toString();
+        }
+        show.akas = networkMap;
+        
         myShows << show;
     }
 
@@ -123,16 +153,20 @@ QList<int> DbInterface::expiredShowIds(const int &delta)
     return expiredshow;
 } // expiredShow()
 
-void saveUserEpisodes(const NextShows::EpisodeListList &episodes)
+void DbInterface::saveUserEpisodes(const NextShows::ShowInfos_t &showInfo, const NextShows::EpisodeListList &episodes)
 {
     qDebug() << Q_FUNC_INFO;
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
     
-    NextShows::EpisodeList_t episode;
-    foreach (episode, episodes) {
-        qDebug() << episode.title;
+    // Delete all episodes for this show
+    deleteEpisode(showInfo.showid);
+    // Save episodes for this show
+    for (int i = 0; i < episodes.size(); ++i) {
+        saveEpisode(episodes.at(i),showInfo.showid);
     }
+    // Update information of this show
+    updateShow(showInfo);
     
     
 } // saveUserEpisodes()
@@ -209,6 +243,20 @@ bool DbInterface::init()
             return false;
         }
     }
+    // Verifie Database version
+    QSqlQuery query(db);
+    bool status;
+    status = query.exec("SELECT version FROM T_Version");
+    while (query.next()) {
+        if (DB_RELEASE != query.value(0).toDouble()){
+            qCritical() << "Database version mismatch ! actual : '" << query.value(0).toDouble() << "', needed : '" << DB_RELEASE <<"'";
+            return false;
+        }
+    }
+    if (!status) {
+        qCritical() << query.lastError();
+        return false;
+    }
 
     return true;
 } // init()
@@ -223,25 +271,73 @@ bool DbInterface::createTables()
     QSqlQuery query(db);
 
     // T_Shows table
-    status = query.exec("CREATE TABLE T_Shows (idT_Shows INTEGER PRIMARY KEY, ShowName VARCHAR(30), ShowUrl VARCHAR(256), Country VARCHAR(15), Started INTEGER, Ended INTEGER, EndedFlag BOOL, Timestamp INTEGER)");
+    status = query.exec("CREATE TABLE T_Shows ("
+            "idT_Shows INTEGER PRIMARY KEY, "
+            "ShowName VARCHAR(30), "
+            "ShowUrl VARCHAR(256), "
+            "Country VARCHAR(15), "
+            "Started INTEGER, "
+            "Ended INTEGER, "
+            "SeasonsNbr INTEGER, "
+            "Status VARCHAR(30), "
+            "Classification VARCHAR(30), "
+            "Genres VARCHAR(256), "
+            "EndedFlag BOOL, "
+            "Runtime INTEGER, "
+            "Airtime TIME, "
+            "Airday VARCHAR(9), "
+            "Timezone VARCHAR(15), "
+            "Timestamp INTEGER)");
     if (!status) {
         qCritical() << query.lastError();
         return false;
     }
 
     // T_Episodes table
-    status = query.exec("CREATE TABLE T_Episodes (idT_Episodes INTEGER PRIMARY KEY, Shows_id INTEGER, EpisodeName VARCHAR(50), EpisodeCount INTEGER, EpisodeNumber INTEGER, ProdNumber VARCHAR(10), SeasonNumber INTEGER, EpisodeUrl VARCHAR(256), Date DATE, IsSpecial BOOL)");
+    status = query.exec("CREATE TABLE T_Episodes ("
+            "idT_Episodes INTEGER PRIMARY KEY, "
+            "Shows_id INTEGER, "
+            "EpisodeName VARCHAR(50), "
+            "EpisodeCount INTEGER, "
+            "EpisodeNumber INTEGER, "
+            "ProdNumber VARCHAR(10), "
+            "SeasonNumber INTEGER, "
+            "EpisodeUrl VARCHAR(256), "
+            "Date DATE, "
+            "IsSpecial BOOL)");
+    if (!status) {
+        qCritical() << query.lastError();
+        return false;
+    }
+    
+    // T_Akas table
+    status = query.exec("CREATE TABLE T_Akas ("
+            "T_Akas_Shows_id INTEGER, "
+            "Country VARCHAR(3), "
+            "Name VARCHAR(30))");
+    if (!status) {
+        qCritical() << query.lastError();
+        return false;
+    }
+    
+    // T_Networks
+    status = query.exec("CREATE TABLE T_Networks ("
+            "T_Networks_Shows_id INTEGER, "
+            "Country VARCHAR(3), "
+            "Name VARCHAR(30))");
     if (!status) {
         qCritical() << query.lastError();
         return false;
     }
     
     // T_Version table
-    status = query.exec("CREATE TABLE T_Version (Version INTEGER)");
+    status = query.exec("CREATE TABLE T_Version (Version VARCHAR(5))");
     if (!status) {
         qCritical() << query.lastError();
         return false;
     }
+    status = query.exec("INSERT INTO T_Version (Version) VALUES ('0.2')");
+
 
     return true;
 } // createTables()
@@ -251,10 +347,10 @@ bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
     qDebug() << Q_FUNC_INFO;
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
-    
+    bool status;
     QSqlQuery query(db);
-    query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, EndedFlag, Timestamp)"
-                "VALUES (:idt_shows, :showname, :showurl, :country, :started, :ended, :enderflag, 0)");
+    query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, SeasonsNbr, Status, Classification, Genres, EndedFlag, Runtime, Airtime, Airday, Timezone, Timestamp)"
+                "VALUES (:idt_shows, :showname, :showurl, :country, :started, :ended, :seasonsnbr, :status, :classification, :genres, :enderflag, :runtime, :airtime, :airday, :timezone, 0)");
 
     query.bindValue(":idt_shows", show.showid);
     query.bindValue(":showname", show.name);
@@ -262,18 +358,54 @@ bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
     query.bindValue(":country", show.country);
     query.bindValue(":started", show.started);
     query.bindValue(":ended", show.ended);
+    query.bindValue(":seasonsnbr", show.seasons);
+    query.bindValue(":status", show.status);
+    query.bindValue(":classification", show.classification);
+    query.bindValue(":genres", show.genres.join(","));
     query.bindValue(":endedflag", show.endedFlag);
-    
-    bool status;
+    query.bindValue(":runtime", show.runtime);
+    query.bindValue(":airtime", show.airtime);
+    query.bindValue(":airday", show.airday);
+    query.bindValue(":timezone", show.timezone);
     status = query.exec();
+    
+    // retrieve the last ID insert
+    int lastid = query.lastInsertId().toInt();
+    // Insert T_Akas
+    QMapIterator<QString, QString> i(show.akas);
+    while (i.hasNext()) {
+        i.next();
+        qDebug() << i.key() << ": " << i.value();
+        query.prepare("INSERT INTO T_Akas (T_Akas_Shows_id, Country, Name) "
+                        "VALUES (:showid, :country, :name)");
+        query.bindValue(":showid", lastid);
+        query.bindValue(":country", i.key());
+        query.bindValue(":name", i.value());
+        status = query.exec();
+    }
+    // Insert T_Network
+    QMapIterator<QString, QString> y(show.network);
+    while (y.hasNext()) {
+        y.next();
+        qDebug() << y.key() << ": " << y.value();
+        query.prepare("INSERT INTO T_Networks (T_Networks_Shows_id, Country, Name) "
+                        "VALUES (:showid, :country, :name)");
+        query.bindValue(":showid", lastid);
+        query.bindValue(":country", y.key());
+        query.bindValue(":name", y.value());
+        status = query.exec();
+    }
+    
+    // If a SQL request doesn't work return FALSE
     if (!status) {
         qCritical() << query.lastError();
         return false;
     }
+    // If all SQL request as ok return TRUE
     return true;
 } // saveShow()
 
-bool saveEpisode(const NextShows::EpisodeList_t &episode, const int &idshow)
+bool DbInterface::saveEpisode(const NextShows::EpisodeList_t &episode, const int &idshow)
 {
     qDebug() << Q_FUNC_INFO;
     
@@ -281,7 +413,8 @@ bool saveEpisode(const NextShows::EpisodeList_t &episode, const int &idshow)
     
     QSqlQuery query(db);
     
-    query.prepare("INSERT INTO T_episodes (Shows_id, EpisodeName, EpisodeCount, EpisodeNumber, ProdNumber, SeasonNumber, EpisodeUrl, Date, IsSpecial) VALUES (:show_id, :episodename, :episodecount, :episodenumber, :prodnumber, :seasonnumber, :episodeurl, :date, :isspecial)");
+    query.prepare("INSERT INTO T_episodes (Shows_id, EpisodeName, EpisodeCount, EpisodeNumber, ProdNumber, SeasonNumber, EpisodeUrl, Date, IsSpecial) "
+                    "VALUES (:show_id, :episodename, :episodecount, :episodenumber, :prodnumber, :seasonnumber, :episodeurl, :date, :isspecial)");
     query.bindValue(":show_id",idshow);
     query.bindValue(":episodename",episode.title);
     query.bindValue(":episodecount",episode.episodeCount);
@@ -306,12 +439,20 @@ bool DbInterface::deleteShow(const int &id)
     qDebug() << Q_FUNC_INFO;
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
-    
-    QSqlQuery query(db);
-    query.prepare("DELETE FROM T_shows WHERE idT_Shows = :idshow");
-    query.bindValue(":idshow", id);
     bool status;
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM T_Shows WHERE idT_Shows = :idshow");
+    query.bindValue(":idshow", id);
     status = query.exec();
+
+    query.prepare("DELETE FROM T_Akas WHERE T_Akas_Shows_id = :idshow");
+    query.bindValue(":idshow", id);
+    status = query.exec();
+
+    query.prepare("DELETE FROM T_Networks WHERE T_Networks_Shows_id = :idshow");
+    query.bindValue(":idshow", id);
+    status = query.exec();
+    
     if (!status) {
         qCritical() << query.lastError();
         return false;
@@ -319,7 +460,7 @@ bool DbInterface::deleteShow(const int &id)
     return true;
 } // deleteShow()
 
-bool deleteEpisode(const int &idshow)
+bool DbInterface::deleteEpisode(const int &idshow)
 {
     qDebug() << Q_FUNC_INFO;
     
@@ -336,5 +477,61 @@ bool deleteEpisode(const int &idshow)
     }
     return true;
 } // deleteEpisode
+
+bool DbInterface::updateShow(const NextShows::ShowInfos_t &showInfo)
+{
+    //TODO merge this method with saveShow()
+    qDebug() << Q_FUNC_INFO;
+    
+    QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
+    
+    QSqlQuery query(db);
+    query.prepare("UPDATE T_Shows SET "
+                    "ShowName = :showname, "
+                    "ShowUrl = :showurl, "
+                    "Country = :country, "
+                    "Started = :started, "
+// FIXME: Missing from feed.
+//                    "Ended = :ended, "
+// FIXME: Missing from feed.
+//                    "SeasonsNbr = :seasonsnbr, "
+                    "Status = :status, "
+                    "Classification = :classification, "
+                    "Genres = :genres, "
+                    "EndedFlag = :endedflag, "
+                    "Runtime = :runtime, "
+                    "Airtime = :airtime, "
+                    "Airday = :airday, "
+                    "Timezone = :timezone, "
+                    "Timestamp = :timestamp "
+                    "WHERE idt_Shows = :show_id");
+    query.bindValue(":showname", showInfo.name);
+    query.bindValue(":showurl", showInfo.link.toString());
+    query.bindValue(":country", showInfo.country);
+    query.bindValue(":started", showInfo.started);
+// FIXME: Missing from feed.
+//    query.bindValue(":ended", showInfo.ended);
+// FIXME: Missing from feed.
+//    query.bindValue(":seasonsnbr", showInfo.seasons);
+    query.bindValue(":status", showInfo.status);
+    query.bindValue(":classification", showInfo.classification);
+    query.bindValue(":genres", showInfo.genres.join(","));
+    query.bindValue(":endedflag", showInfo.endedFlag);
+    query.bindValue(":runtime", showInfo.runtime);
+    query.bindValue(":airtime", showInfo.airtime);
+    query.bindValue(":airday", showInfo.airday);
+    query.bindValue(":timezone", showInfo.timezone);
+    query.bindValue(":timestamp", QDateTime::currentDateTime().toTime_t());
+    query.bindValue(":show_id", showInfo.showid);
+    qDebug() << showInfo.link;
+    bool status;
+    status = query.exec();
+    qDebug() << query.executedQuery();
+    if (!status) {
+        qCritical() << query.lastError();
+        return false;
+    }
+    return true;
+}
 
 // EOF - vim:ts=4:sw=4:et:

@@ -45,12 +45,12 @@ void DataProvider::searchShow(const QString &showName)
 
 NextShows::ShowInfosList DataProvider::getTrackedShows()
 {
-    return DbInterface::Instance().readUserShows();
+    return DbInterface::instance().readUserShows();
 } // getTrackedShows()
 
 void DataProvider::setTrackedShows(const NextShows::ShowInfosList &showList)
 {
-    DbInterface::Instance().saveUserShows(showList);
+    DbInterface::instance().saveUserShows(showList);
 } // setTrackedShows()
 
 
