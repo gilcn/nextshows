@@ -247,11 +247,13 @@ bool DbInterface::init()
     QSqlQuery query(db);
     bool status;
     status = query.exec("SELECT version FROM T_Version");
-    while (query.next()) {
-        if (DB_RELEASE != query.value(0).toDouble()){
-            qCritical() << "Database version mismatch ! actual : '" << query.value(0).toDouble() << "', needed : '" << DB_RELEASE <<"'";
-            return false;
-        }
+    if (!query.first()){
+        qCritical() << "Database version in T_version table is missing ! ";
+        return false;
+    }
+    if (DB_RELEASE != query.value(0).toDouble()){
+        qCritical() << "Database version mismatch ! actual : '" << query.value(0).toDouble() << "', needed : '" << DB_RELEASE <<"'";
+        return false;
     }
     if (!status) {
         qCritical() << query.lastError();
