@@ -56,6 +56,10 @@ void DataFetcher::searchShow(const QString &showName)
 void DataFetcher::getEpisodeList(const int &showId)
 {
     qDebug() << Q_FUNC_INFO;
+
+    // Cleanup
+    clearShowData(showId);
+
     QUrl urlEL("http://www.tvrage.com/feeds/episode_list.php");
     urlEL.addQueryItem("sid", QString::number(showId));
     doRequest(urlEL, DataFetcher::EpisodeListRequest, showId, QString());
@@ -84,18 +88,18 @@ void DataFetcher::requestFinished(QNetworkReply *reply)
             int errorLine;
             int errorColumn;
             NextShows::ShowInfosList searchResults = TvRageParser::parseSearchResults(reply->readAll(), &success, &errorMessage, &errorLine, &errorColumn);
-            if (!success) {
-                QString errorText = QString("Error while parsing XML document for show \"%1\"!").arg(showName);
+            if (success) {
+                emit searchResultsReady(searchResults, true, QString());
+            } else {
+                QString errorText = QString("An error occured while parsing XML document for show \"%1\"!").arg(showName);
                 qCritical() << errorText;
                 qCritical() << "URL requested:" << reply->request().url().toString();
                 qCritical() << "URL processed:" << reply->url().toString();
                 qCritical("%s [L:%d-C:%d]", qPrintable(errorMessage), errorLine, errorColumn);
                 emit searchResultsReady(NextShows::ShowInfosList(), false, errorText);
-            } else {
-                emit searchResultsReady(searchResults, true, QString());
             }
         } else {
-            QString errorText = QString("An error occured while searching for show \"%1\" [%2]!").arg(showName).arg(errorCodeToText(reply->error()));
+            QString errorText = QString("A network error occured while searching for show \"%1\" [%2]!").arg(showName).arg(errorCodeToText(reply->error()));
             qCritical() << errorText;
             qCritical() << "URL requested:" << reply->request().url().toString();
             qCritical() << "URL processed:" << reply->url().toString();
@@ -104,53 +108,61 @@ void DataFetcher::requestFinished(QNetworkReply *reply)
         break;
     }
     case DataFetcher::ShowInfosRequest: {
-        m_showInfosNetworkError[showId] = reply->error();
         if (reply->error() == QNetworkReply::NoError) {
             bool success;
             QString errorMessage;
             int errorLine;
             int errorColumn;
-            m_showInfosHash[showId] = TvRageParser::parseShowInfos(reply->readAll(), &success, &errorMessage, &errorLine, &errorColumn);
-            if (!success) {
-                QString errorText = QString("Error while parsing XML document for ShowInfo ID#%1!").arg(showId);
+            NextShows::ShowInfos_t t_showInfos = TvRageParser::parseShowInfos(reply->readAll(), &success, &errorMessage, &errorLine, &errorColumn);
+            if (success) {
+                m_showInfosHash[showId] = t_showInfos;
+            } else {
+                QString errorText = QString("An error occured while parsing XML document for ShowInfo ID#%1!").arg(showId);
                 qCritical() << errorText;
                 qCritical() << "URL requested:" << reply->request().url().toString();
                 qCritical() << "URL processed:" << reply->url().toString();
                 qCritical("%s [L:%d-C:%d]", qPrintable(errorMessage), errorLine, errorColumn);
-                // TODO: Emit error SIGNAL (parsing error)
-            } else {
-                // TODO: Emit success SIGNAL 
+                m_showInfosError[showId] = errorText;
             }
         } else {
-            // TODO: Emit error SIGNAL (network error) 
+            QString errorText = QString("A network error occured while retrieving ShowInfo ID#%1!").arg(showId);
+            qCritical() << errorText;
+            qCritical() << "URL requested:" << reply->request().url().toString();
+            qCritical() << "URL processed:" << reply->url().toString();
+            m_showInfosError[showId] = errorText;
         }
+        emissionCheck(showId);
         break;
     }
     case DataFetcher::EpisodeListRequest: {
-        m_episodeListNetworkError[showId] = reply->error();
         if (reply->error() == QNetworkReply::NoError) {
             bool success;
             QString errorMessage;
             int errorLine;
             int errorColumn;
-            m_episodeListHash[showId] = TvRageParser::parseEpisodeList(reply->readAll(), &success, &errorMessage, &errorLine, &errorColumn);
-            if (!success) {
-                QString errorText = QString("Error while parsing XML document for EpisodeList ID#%1!").arg(showId);
+            NextShows::EpisodeListList t_episodeList = TvRageParser::parseEpisodeList(reply->readAll(), &success, &errorMessage, &errorLine, &errorColumn);
+            if (success) {
+                m_episodeListHash[showId] = t_episodeList;
+            } else {
+                QString errorText = QString("An error occured while parsing XML document for EpisodeList ID#%1!").arg(showId);
                 qCritical() << errorText;
                 qCritical() << "URL requested:" << reply->request().url().toString();
                 qCritical() << "URL processed:" << reply->url().toString();
                 qCritical("%s [L:%d-C:%d]", qPrintable(errorMessage), errorLine, errorColumn);
-                // TODO: Emit error SIGNAL (parsing error)
-            } else {
-                // TODO: Emit success SIGNAL 
+                m_episodeListError[showId] = errorText;
             }
         } else {
-            // TODO: Emit error SIGNAL (network error) 
+            QString errorText = QString("A network error occured while retrieving EpisodeList ID#%1!").arg(showId);
+            qCritical() << errorText;
+            qCritical() << "URL requested:" << reply->request().url().toString();
+            qCritical() << "URL processed:" << reply->url().toString();
+            m_showInfosError[showId] = errorText;
         }
+        emissionCheck(showId);
         break;
     }
     default:
-        qWarning("%s\nThis should never happen! [%d]", Q_FUNC_INFO, requestType);
+        qWarning("%s\nThis should never happen [%d]!!!", Q_FUNC_INFO, requestType);
     }
 
     reply->deleteLater();
@@ -196,22 +208,33 @@ void DataFetcher::doRequest(const QUrl &url, DataFetcher::RequestType requestTyp
 
 void DataFetcher::emissionCheck(const int &showId)
 {
-    qDebug() << Q_FUNC_INFO;
-    bool errorCheck = (m_showInfosNetworkError.contains(showId) && m_episodeListNetworkError.contains(showId));
-    if (errorCheck) {
-//        m_showInfosError.value(showId);
-//        m_episodeListError.value(showId);
+    // Ensure both requests (showinfo + episodelist) were made for this showId
+    int count = 0;
+    count = (m_showInfosHash.contains(showId)   || m_showInfosError.contains(showId))   ? count + 1 : count;
+    count = (m_episodeListHash.contains(showId) || m_episodeListError.contains(showId)) ? count + 1 : count;
+    if (count != 2) {
+        return;
     }
 
-    bool check = (m_showInfosHash.contains(showId) && m_episodeListHash.contains(showId));
-
-    if (check) {
+    // Are all the required data available ?
+    if (m_showInfosHash.contains(showId) && m_episodeListHash.contains(showId)) {
         emit episodeListReady(m_showInfosHash.value(showId), m_episodeListHash.value(showId), true, QString());
-        m_showInfosHash.remove(showId);
-        m_showInfosNetworkError.remove(showId);
-        m_episodeListHash.remove(showId);
-        m_episodeListNetworkError.remove(showId);
+    } else {
+        // If we reach here, we assume there were at least one error at some point
+        QString errorText;
+        if (m_showInfosError.contains(showId)) {
+            errorText = m_showInfosError.value(showId);
+        }
+        else if (m_episodeListError.contains(showId)) {
+            errorText = m_episodeListError.value(showId);
+        }
+        else {
+            qWarning("%s\nThis should never happen!!!", Q_FUNC_INFO);
+        }
+        emit episodeListReady(NextShows::ShowInfos_t(), NextShows::EpisodeListList(), false, errorText);
     }
+
+    clearShowData(showId); // Cleanup
 } // emissionCheck()
 
 QString DataFetcher::errorCodeToText(QNetworkReply::NetworkError errorCode)
@@ -230,5 +253,12 @@ QString DataFetcher::errorCodeToText(QNetworkReply::NetworkError errorCode)
     return errorName;
 } // errorCodeToText()
 
+void DataFetcher::clearShowData(const int &showId)
+{
+    m_showInfosHash.remove(showId);
+    m_showInfosError.remove(showId);
+    m_episodeListHash.remove(showId);
+    m_episodeListError.remove(showId);
+} // clearShowData()
 
 // EOF - vim:ts=4:sw=4:et:
