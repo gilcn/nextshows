@@ -64,7 +64,7 @@ void DataFetcher::getEpisodeList(const int &showId)
     urlEL.addQueryItem("sid", QString::number(showId));
     doRequest(urlEL, DataFetcher::EpisodeListRequest, showId, QString());
 
-    QUrl urlSI("http://www.tvrage.com/feeds/showinfo.php");
+    QUrl urlSI("http://www.tvragee.com/feeds/showinfo.php");
     urlSI.addQueryItem("sid", QString::number(showId));
     doRequest(urlSI, DataFetcher::ShowInfosRequest, showId, QString());
 } // getEpisodeList()
@@ -125,7 +125,7 @@ void DataFetcher::requestFinished(QNetworkReply *reply)
                 m_showInfosError[showId] = errorText;
             }
         } else {
-            QString errorText = QString("A network error occured while retrieving ShowInfo ID#%1!").arg(showId);
+            QString errorText = QString("A network error occured while retrieving ShowInfo ID#%1 [%2]!").arg(showId).arg(errorCodeToText(reply->error()));
             qCritical() << errorText;
             qCritical() << "URL requested:" << reply->request().url().toString();
             qCritical() << "URL processed:" << reply->url().toString();
@@ -152,7 +152,7 @@ void DataFetcher::requestFinished(QNetworkReply *reply)
                 m_episodeListError[showId] = errorText;
             }
         } else {
-            QString errorText = QString("A network error occured while retrieving EpisodeList ID#%1!").arg(showId);
+            QString errorText = QString("A network error occured while retrieving EpisodeList ID#%1 [%2]!").arg(showId).arg(errorCodeToText(reply->error()));
             qCritical() << errorText;
             qCritical() << "URL requested:" << reply->request().url().toString();
             qCritical() << "URL processed:" << reply->url().toString();
