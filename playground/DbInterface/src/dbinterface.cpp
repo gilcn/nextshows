@@ -101,7 +101,9 @@ NextShows::ShowInfosList DbInterface::readUserShows()
         show.seasons = query.value(6).toInt();
         show.status = query.value(7).toString();
         show.classification = query.value(8).toString();
-        show.genres = query.value(9).toString().split(",");
+        if (!query.value(9).toString().isEmpty()) {
+            show.genres = query.value(9).toString().split(",");
+        }
         show.endedFlag = query.value(10).toBool();
         show.runtime = query.value(11).toInt();
         show.airtime = QTime::fromString(query.value(12).toString(), "hh:mm");
@@ -517,7 +519,7 @@ bool DbInterface::updateShow(const NextShows::ShowInfos_t &showInfo)
 //    query.bindValue(":seasonsnbr", showInfo.seasons);
     query.bindValue(":status", showInfo.status);
     query.bindValue(":classification", showInfo.classification);
-    query.bindValue(":genres", showInfo.genres.join(", "));
+    query.bindValue(":genres", showInfo.genres.join(","));
     query.bindValue(":endedflag", showInfo.endedFlag);
     query.bindValue(":runtime", showInfo.runtime);
     query.bindValue(":airtime", showInfo.airtime);
