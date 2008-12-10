@@ -64,7 +64,7 @@ void DataFetcher::getEpisodeList(const int &showId)
     urlEL.addQueryItem("sid", QString::number(showId));
     doRequest(urlEL, DataFetcher::EpisodeListRequest, showId, QString());
 
-    QUrl urlSI("http://www.tvragee.com/feeds/showinfo.php");
+    QUrl urlSI("http://www.tvrage.com/feeds/showinfo.php");
     urlSI.addQueryItem("sid", QString::number(showId));
     doRequest(urlSI, DataFetcher::ShowInfosRequest, showId, QString());
 } // getEpisodeList()
