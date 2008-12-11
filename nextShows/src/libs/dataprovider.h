@@ -51,11 +51,19 @@ public:
     NextShows::ShowInfosList getTrackedShows();
     void setTrackedShows(const NextShows::ShowInfosList &showList);
 
+    // Use this to determine whether shows need updates or not
+    void updateOutdatedShows(const int &delta);
+
+
 Q_SIGNALS:
     // Search results are ready to be served
     void searchResultsReady(NextShows::ShowInfosList, bool, QString);
 
+private Q_SLOTS:
+    void episodeListReady(NextShows::ShowInfos_t, NextShows::EpisodeListList, bool, QString);
+
 private:
+    QList<int> m_pendingUpdates;
 };
 
 

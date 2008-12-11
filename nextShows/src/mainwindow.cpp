@@ -21,7 +21,7 @@
 // Own
 #include "mainwindow.h"
 #include "nextshows.h"
-
+#include "libs/config.h"
 // QtCore
 #include <QtCore/QDebug>
 #include <QtCore/QDate> // REMOVEME
@@ -35,9 +35,12 @@
 */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
+    , m_timer(new QBasicTimer)
+    , m_dataProvider(new DataProvider(this))
     , m_dialogSettings(0) // Guarded by QPointer
     , m_dialogAbout(0)    // Guarded by QPointer
 {
+    qDebug() << Q_FUNC_INFO;
     m_dataModel = new QStandardItemModel(this);
     m_dataModel->setColumnCount(5);
 
@@ -85,10 +88,17 @@ MainWindow::MainWindow(QWidget *parent)
     //SysTrayIcon *m_sysTrayIcon = new SysTrayIcon(this);
     //Q_UNUSED(m_sysTrayIcon)
 
+    // Timer
+    m_timer->start(500, this);
 } // ctor()
 
 MainWindow::~MainWindow()
 {
+    qDebug() << Q_FUNC_INFO;
+    delete m_dataModel;
+//    delete m_sysTrayIcon;
+    delete m_timer;
+    delete m_dataProvider;
 } // dtor()
 
 
@@ -97,6 +107,7 @@ MainWindow::~MainWindow()
 */
 void MainWindow::showSettings()
 {
+    qDebug() << Q_FUNC_INFO;
     if (!m_dialogSettings) {
         m_dialogSettings = new Dialogs::Settings(this);
         connect(m_dialogSettings, SIGNAL(settingsChanged()), this, SLOT(readConfig()));
@@ -108,6 +119,7 @@ void MainWindow::showSettings()
 
 void MainWindow::showAbout()
 {
+    qDebug() << Q_FUNC_INFO;
     if (!m_dialogAbout) {
         m_dialogAbout = new Dialogs::About(this);
     }
@@ -116,8 +128,33 @@ void MainWindow::showAbout()
 
 void MainWindow::readConfig()
 {
+    qDebug() << Q_FUNC_INFO;
     // Read config here
     qDebug() << "RC";
 } // readConfig()
+
+void MainWindow::timerEvent(QTimerEvent * /*event*/)
+{
+//    qDebug() << Q_FUNC_INFO;
+    QTime currentTime(QTime::currentTime());
+    QTime currentTimeHM(currentTime);
+    // Force secs & msecs to 0
+    currentTimeHM.setHMS(currentTime.hour(), currentTime.minute(), 0, 0);
+
+    if (!m_lastUpdateTime.isNull() &&
+        (currentTime.second() != 0 || m_lastUpdateTime == currentTimeHM)) {
+//        qDebug() << "RETURN";
+        return;
+    }
+
+    qDebug() << "QTime::currentTime():" << QTime::currentTime().toString("hh:mm:ss.zzz");
+    qDebug() << "currentTime         :" << currentTime.toString("hh:mm:ss.zzz");
+    qDebug() << "currentTimeHM       :" << currentTimeHM.toString("hh:mm:ss.zzz");
+
+    m_dataProvider->updateOutdatedShows(Config::getValue(Config::CacheDuration).toInt()*60*60*24);
+
+    m_lastUpdateTime = currentTimeHM;
+} // timerEvent()
+
 
 // EOF - vim:ts=4:sw=4:et:
