@@ -26,7 +26,7 @@
 #include "systrayicon.h"
 #include "dialogs/about.h"
 #include "dialogs/settings.h"
-
+#include "libs/dataprovider.h"
 // QtGui
 #include <QtGui/QDialog>
 #include <QtGui/QMainWindow>
@@ -44,13 +44,15 @@ public:
 private Q_SLOTS:
     void showSettings();
     void showAbout();
-
     void readConfig();
+    void timerEvent(QTimerEvent *event);
 
 private:
     QStandardItemModel          *m_dataModel;
-
     SysTrayIcon                 *m_sysTrayIcon;
+    QBasicTimer                 *m_timer;
+    DataProvider                *m_dataProvider;
+    QTime                        m_lastUpdateTime;
 
     QPointer<Dialogs::Settings>  m_dialogSettings;
     QPointer<Dialogs::About>     m_dialogAbout;

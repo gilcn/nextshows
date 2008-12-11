@@ -21,6 +21,8 @@
 // Own
 #include "libs/dataprovider.h"
 #include "libs/dbinterface.h"
+// QtCore
+#include <QtCore/QDebug>
 
 
 /*
@@ -29,29 +31,75 @@
 DataProvider::DataProvider(QObject *parent)
     : QObject(parent)
 {
+    qDebug() << Q_FUNC_INFO;
     // Search results, simply reroute SIGNAL()
     connect(DataFetcher::instance(), SIGNAL(searchResultsReady(NextShows::ShowInfosList, bool, QString)),
             this, SIGNAL(searchResultsReady(NextShows::ShowInfosList, bool, QString)));
+
+    // Show & Episode list update
+    connect(DataFetcher::instance(), SIGNAL(episodeListReady(NextShows::ShowInfos_t, NextShows::EpisodeListList, bool, QString)),
+            this, SLOT(episodeListReady(NextShows::ShowInfos_t, NextShows::EpisodeListList, bool, QString)));
 } // ctor()
 
 DataProvider::~DataProvider()
 {
+    qDebug() << Q_FUNC_INFO;
 } // dtor()
 
 void DataProvider::searchShow(const QString &showName)
 {
+    qDebug() << Q_FUNC_INFO;
     DataFetcher::instance()->searchShow(showName);
 } // searchShow()
 
 NextShows::ShowInfosList DataProvider::getTrackedShows()
 {
+    qDebug() << Q_FUNC_INFO;
     return DbInterface::instance().readUserShows();
 } // getTrackedShows()
 
 void DataProvider::setTrackedShows(const NextShows::ShowInfosList &showList)
 {
+    qDebug() << Q_FUNC_INFO;
     DbInterface::instance().saveUserShows(showList);
 } // setTrackedShows()
+
+void DataProvider::updateOutdatedShows(const int &delta)
+{
+    qDebug() << Q_FUNC_INFO;
+    qDebug() << DbInterface::instance().expiredShowIds(0);
+    qDebug() << delta;
+    qDebug() << DbInterface::instance().expiredShowIds(delta);
+
+    foreach(int id, DbInterface::instance().expiredShowIds(delta)) {
+        qDebug() << id;
+        if (!m_pendingUpdates.contains(id)) {
+            DataFetcher::instance()->getEpisodeList(id);
+            m_pendingUpdates.append(id);
+        }
+    }
+} // updateOutdatedShows()
+
+
+/*
+** private Q_SLOTS
+*/
+void DataProvider::episodeListReady(NextShows::ShowInfos_t showInfos, NextShows::EpisodeListList episodeList, bool success, QString errorMessage)
+{
+    qDebug() << Q_FUNC_INFO;
+    // FIXME: If showInfos couldn't be retrieved the following line will
+    //        behave unexpectedly !!!
+    m_pendingUpdates.removeAll(showInfos.showid);
+
+    if (!success) {
+        qWarning() << errorMessage;
+        return;
+    }
+
+    qDebug() << "Received data for:" << showInfos.name;
+    qDebug() << "Show ID          :" << showInfos.showid;
+    DbInterface::instance().saveUserEpisodes(showInfos, episodeList);
+} // episodeListReady()
 
 
 // EOF - vim:ts=4:sw=4:et:
