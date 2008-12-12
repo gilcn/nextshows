@@ -436,30 +436,51 @@ bool DbInterface::saveEpisode(const NextShows::EpisodeList_t &episode, const int
     return true;
 } // saveEpisode()
 
-bool DbInterface::deleteShow(const int &id)
+bool DbInterface::deleteShow(const int &showId)
 {
     qDebug() << Q_FUNC_INFO;
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
-    bool status;
     QSqlQuery query(db);
-    query.prepare("DELETE FROM T_Shows WHERE idT_Shows = :idshow");
-    query.bindValue(":idshow", id);
-    status = query.exec();
+    bool status = true;
 
-    query.prepare("DELETE FROM T_Akas WHERE T_Akas_Shows_id = :idshow");
-    query.bindValue(":idshow", id);
-    status = query.exec();
-
-    query.prepare("DELETE FROM T_Networks WHERE T_Networks_Shows_id = :idshow");
-    query.bindValue(":idshow", id);
-    status = query.exec();
-    
-    if (!status) {
+    // Remove Show
+    query.prepare("DELETE FROM T_Shows WHERE idT_Shows = :showid");
+    query.bindValue(":showid", showId);
+    qDebug() << query.lastQuery();
+    if (!query.exec()) {
         qCritical() << query.lastError();
-        return false;
+        status = false;
     }
-    return true;
+
+    // Remove AKAs
+    query.prepare("DELETE FROM T_Akas WHERE T_Akas_Shows_id = :showid");
+    query.bindValue(":showid", showId);
+    qDebug() << query.lastQuery();
+    if (!query.exec()) {
+        qCritical() << query.lastError();
+        status = false;
+    }
+
+    // Remove Networks
+    query.prepare("DELETE FROM T_Networks WHERE T_Networks_Shows_id = :showid");
+    query.bindValue(":showid", showId);
+    qDebug() << query.lastQuery();
+    if (!query.exec()) {
+        qCritical() << query.lastError();
+        status = false;
+    }
+
+    // Remove Episode List
+    query.prepare("DELETE FROM T_Episodes WHERE Shows_id = :showid");
+    query.bindValue(":showid", showId);
+    qDebug() << query.lastQuery();
+    if (!query.exec()) {
+        qCritical() << query.lastError();
+        status = false;
+    }
+    
+    return status;
 } // deleteShow()
 
 bool DbInterface::deleteEpisode(const int &idshow)
@@ -484,7 +505,7 @@ bool DbInterface::updateShow(const NextShows::ShowInfos_t &showInfo)
 {
     //TODO merge this method with saveShow()
     qDebug() << Q_FUNC_INFO;
-    
+
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
     
     QSqlQuery query(db);

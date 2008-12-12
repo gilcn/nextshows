@@ -54,7 +54,7 @@ private:
     bool createTables();
     bool saveShow(const NextShows::ShowInfos_t &show);
     bool saveEpisode(const NextShows::EpisodeList_t &episode, const int &idshow);
-    bool deleteShow(const int &id);
+    bool deleteShow(const int &showId);
     bool deleteEpisode(const int &idshow);
     bool updateShow(const NextShows::ShowInfos_t &showInfo);
 
