@@ -267,7 +267,7 @@ QStringList TvRageParser::parseTag_Genres(const QDomElement &element)
         while (!node.isNull()) {
             if (node.isElement()) {
                 QDomElement genreElement = node.toElement();
-                if (genreElement.tagName().contains(QRegExp("^genre\\d{2}$"))) {
+                if (genreElement.tagName().contains(QRegExp("^genre\\d*$"))) {
                     genreList << genreElement.text();
                 }
             }
