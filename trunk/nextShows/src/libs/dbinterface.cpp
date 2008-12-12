@@ -101,7 +101,9 @@ NextShows::ShowInfosList DbInterface::readUserShows()
         show.seasons = query.value(6).toInt();
         show.status = query.value(7).toString();
         show.classification = query.value(8).toString();
-        show.genres = query.value(9).toString().split(",");
+        if (!query.value(9).toString().isEmpty()) {
+            show.genres = query.value(9).toString().split(",");
+        }
         show.endedFlag = query.value(10).toBool();
         show.runtime = query.value(11).toInt();
         show.airtime = QTime::fromString(query.value(12).toString(), "hh:mm");
@@ -247,11 +249,13 @@ bool DbInterface::init()
     QSqlQuery query(db);
     bool status;
     status = query.exec("SELECT version FROM T_Version");
-    while (query.next()) {
-        if (DB_RELEASE != query.value(0).toDouble()){
-            qCritical() << "Database version mismatch ! actual : '" << query.value(0).toDouble() << "', needed : '" << DB_RELEASE <<"'";
-            return false;
-        }
+    if (!query.first()){
+        qCritical() << "Database version in T_version table is missing ! ";
+        return false;
+    }
+    if (DB_RELEASE != query.value(0).toDouble()){
+        qCritical() << "Database version mismatch ! actual : '" << query.value(0).toDouble() << "', needed : '" << DB_RELEASE <<"'";
+        return false;
     }
     if (!status) {
         qCritical() << query.lastError();
