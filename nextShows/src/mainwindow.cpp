@@ -22,6 +22,7 @@
 #include "mainwindow.h"
 #include "nextshows.h"
 #include "libs/config.h"
+#include "libs/dbinterface.h"
 // QtCore
 #include <QtCore/QDebug>
 #include <QtCore/QDate> // REMOVEME
@@ -50,7 +51,8 @@ MainWindow::MainWindow(QWidget *parent)
     labels << tr("Show name") << tr("Episode name")
            << tr("Season #") << tr("Episode #") << tr("Date");
     m_dataModel->setHorizontalHeaderLabels(labels);
-    showsTableView->setModel(m_dataModel);
+//    showsTableView->setModel(m_dataModel);
+    showsTableView->setModel(DbInterface::instance().readEpisodes());
     showsTableView->verticalHeader()->hide();
     showsTableView->horizontalHeader()->setResizeMode(QHeaderView::Interactive);
     showsTableView->horizontalHeader()->setStretchLastSection(true);

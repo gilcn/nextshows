@@ -177,12 +177,21 @@ QSqlTableModel* DbInterface::readEpisodes() const
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
     
-    QSqlTableModel *model = new QSqlTableModel();
-    model->setTable("T_Shows");
+    // TODO: We don't inherit QObject
+    // TODO: Need some more testing here!!!
+    QSqlTableModel *model = new QSqlTableModel(0, db);
+    model->setTable("T_Episodes");
     //model->setEditStrategy(QSqlTableModel::OnManualSubmit);
     if (!model->select())
     	qDebug() << "Error setTable !!";
-    model->removeColumn(0); // don't show the ID
+
+    model->removeColumn(9);
+    model->removeColumn(7);
+    model->removeColumn(5);
+    model->removeColumn(3);
+    model->removeColumn(1);
+    model->removeColumn(0);
+
     /*model->setHeaderData(0, Qt::Horizontal, tr("Name"));
     model->setHeaderData(1, Qt::Horizontal, tr("Salary"));
     */
