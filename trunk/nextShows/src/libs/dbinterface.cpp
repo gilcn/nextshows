@@ -169,8 +169,6 @@ void DbInterface::saveUserEpisodes(const NextShows::ShowInfos_t &showInfo, const
     }
     // Update information of this show
     updateShow(showInfo);
-    
-    
 } // saveUserEpisodes()
 
 QSqlTableModel* DbInterface::readEpisodes() const
@@ -245,7 +243,7 @@ bool DbInterface::init()
             return false;
         }
     }
-    // Verifie Database version
+    // Check database version
     QSqlQuery query(db);
     bool status;
     status = query.exec("SELECT version FROM T_Version");
@@ -425,7 +423,7 @@ bool DbInterface::saveEpisode(const NextShows::EpisodeList_t &episode, const int
     query.bindValue(":episodenumber",episode.episodeNumber);
     query.bindValue(":prodnumber",episode.prodNumber);
     query.bindValue(":seasonnumber",episode.season);
-    query.bindValue(":episodeurl",episode.link);
+    query.bindValue(":episodeurl",episode.link.toString());
     query.bindValue(":date",episode.airDate);
     query.bindValue(":isspecial",episode.isSpecial);
     
