@@ -55,7 +55,7 @@ private:
     bool saveShow(const NextShows::ShowInfos_t &show);
     bool saveEpisode(const NextShows::EpisodeList_t &episode, const int &idshow);
     bool deleteShow(const int &showId);
-    bool deleteEpisode(const int &idshow);
+    bool deleteEpisodes(const int &showId);
     bool updateShow(const NextShows::ShowInfos_t &showInfo);
 
     bool m_databaseInitialized;
