@@ -26,6 +26,7 @@
 #include <QtCore/QDebug>
 #include <QtCore/QVariant>
 // QtSql
+#include <QtSql/QSqlDriver>
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlTableModel>
 
@@ -38,12 +39,14 @@
 */
 DbInterface& DbInterface::instance()
 {
+    qDebug() << Q_FUNC_INFO;
     static DbInterface DbInterfaceInstance;
     return DbInterfaceInstance;
 } // instance()
 
 bool DbInterface::isInitialized()
 {
+    qDebug() << Q_FUNC_INFO;
     return m_databaseInitialized;
 } // isInitialized()
 
@@ -162,7 +165,7 @@ void DbInterface::saveUserEpisodes(const NextShows::ShowInfos_t &showInfo, const
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
     
     // Delete all episodes for this show
-    deleteEpisode(showInfo.showid);
+    deleteEpisodes(showInfo.showid);
     // Save episodes for this show
     for (int i = 0; i < episodes.size(); ++i) {
         saveEpisode(episodes.at(i),showInfo.showid);
@@ -268,6 +271,8 @@ bool DbInterface::init()
         qCritical() << query.lastError();
         return false;
     }
+
+    qDebug() << "hasFeature():" << db.driver()->hasFeature(QSqlDriver::Transactions);
 
     return true;
 } // init()
@@ -481,10 +486,7 @@ bool DbInterface::deleteShow(const int &showId)
     }
 
     // Remove Episode List
-    query.prepare("DELETE FROM T_Episodes WHERE Shows_id = :showid");
-    query.bindValue(":showid", showId);
-    qDebug() << query.lastQuery();
-    if (!query.exec()) {
+    if (!deleteEpisodes(showId)) {
         qCritical() << query.lastError();
         status = false;
     }
@@ -492,15 +494,15 @@ bool DbInterface::deleteShow(const int &showId)
     return status;
 } // deleteShow()
 
-bool DbInterface::deleteEpisode(const int &idshow)
+bool DbInterface::deleteEpisodes(const int &showId)
 {
     qDebug() << Q_FUNC_INFO;
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
     
     QSqlQuery query(db);
-    query.prepare("DELETE FROM T_episodes WHERE Shows_id = :idshow");
-    query.bindValue(":idshow", idshow);
+    query.prepare("DELETE FROM T_Episodes WHERE Shows_id = :showid");
+    query.bindValue(":showid", showId);
     bool status;
     status = query.exec();
     if (!status) {
@@ -508,7 +510,7 @@ bool DbInterface::deleteEpisode(const int &idshow)
         return false;
     }
     return true;
-} // deleteEpisode
+} // deleteEpisodes
 
 bool DbInterface::updateShow(const NextShows::ShowInfos_t &showInfo)
 {
