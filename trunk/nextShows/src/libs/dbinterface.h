@@ -36,7 +36,7 @@ public:
     static DbInterface& instance();
     bool isInitialized();
 
-    void saveUserShows(const NextShows::ShowInfosList &shows);
+    bool saveUserShows(const NextShows::ShowInfosList &shows);
     NextShows::ShowInfosList readUserShows();
     QList<int> expiredShowIds(const int &delta);
     void saveUserEpisodes(const NextShows::ShowInfos_t &showInfo, const NextShows::EpisodeListList &episodes);
