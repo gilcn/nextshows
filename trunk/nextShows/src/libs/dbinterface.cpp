@@ -28,7 +28,7 @@
 // QtSql
 #include <QtSql/QSqlDriver>
 #include <QtSql/QSqlError>
-#include <QtSql/QSqlTableModel>
+#include <QtSql/QSqlRelationalTableModel>
 
 
 #define DBCONNECTION "DbInterface"
@@ -234,22 +234,20 @@ QSqlTableModel* DbInterface::readEpisodes() const
     
     // TODO: We don't inherit QObject
     // TODO: Need some more testing here!!!
-    QSqlTableModel *model = new QSqlTableModel(0, db);
+    QSqlRelationalTableModel *model = new QSqlRelationalTableModel(0, db);
     model->setTable("T_Episodes");
-    //model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    if (!model->select())
-    	qDebug() << "Error setTable !!";
+    model->setRelation(model->fieldIndex("shows_id"),
+                       QSqlRelation("T_Shows", "idT_Shows", "ShowName"));
+    model->setSort(model->fieldIndex("Date"), Qt::AscendingOrder);
+    model->select();
 
-    model->removeColumn(9);
-    model->removeColumn(7);
-    model->removeColumn(5);
-    model->removeColumn(3);
-    model->removeColumn(1);
-    model->removeColumn(0);
+    QStringList hideFields;
+    hideFields << "idT_Episodes" << "ProdNumber" << "EpisodeCount"
+               << "EpisodeUrl"   << "isSpecial";
+    foreach (QString field, hideFields) {
+        model->removeColumn(model->fieldIndex(field));
+    }
 
-    /*model->setHeaderData(0, Qt::Horizontal, tr("Name"));
-    model->setHeaderData(1, Qt::Horizontal, tr("Salary"));
-    */
     return model;
 } // readEpisode()
 
