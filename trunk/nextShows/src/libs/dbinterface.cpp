@@ -56,12 +56,12 @@ void DbInterface::saveUserShows(const NextShows::ShowInfosList &shows)
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
     
-    // First, select all id in db
-    QList<int> dbid;
+    // Select all ids in the DB
+    QList<int> dbId;
     QSqlQuery query(db);
     query.exec("SELECT idT_Shows FROM T_Shows");
     while (query.next()) {
-        dbid << query.value(0).toInt();
+        dbId << query.value(0).toInt();
     }
 
     QList<int> usrid;
@@ -69,16 +69,16 @@ void DbInterface::saveUserShows(const NextShows::ShowInfosList &shows)
     for (it = shows.begin(); it != shows.end(); ++it) {
         NextShows::ShowInfos_t show = *it;
         usrid << show.showid;
-        if(!dbid.contains(show.showid)) { // This show is a new show, Add IT !
+        if(!dbId.contains(show.showid)) { // This show is a new show, add it !
             saveShow(show);
             qDebug() << "Add show : " << QString::number(show.showid);
         }
     }
-    int idshow;
-    foreach (idshow, dbid) {
-        if (!usrid.contains(idshow)) { // This show is no longer tracked, Delete IT from DB
-            qDebug() << "Delete show from DB : " << QString::number(idshow);
-            deleteShow(idshow);
+    int showId;
+    foreach (showId, dbId) {
+        if (!usrid.contains(showId)) { // This show is no longer tracked, delete it from the DB
+            qDebug() << "Delete show from DB : " << QString::number(showId);
+            deleteShow(showId);
         }
     }
 } // saveUserShows()
@@ -199,7 +199,6 @@ QSqlTableModel* DbInterface::readEpisodes() const
     model->setHeaderData(1, Qt::Horizontal, tr("Salary"));
     */
     return model;
-
 } // readEpisode()
 
 
@@ -421,7 +420,7 @@ bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
     return true;
 } // saveShow()
 
-bool DbInterface::saveEpisode(const NextShows::EpisodeList_t &episode, const int &idshow)
+bool DbInterface::saveEpisode(const NextShows::EpisodeList_t &episode, const int &showId)
 {
     qDebug() << Q_FUNC_INFO;
     
@@ -431,15 +430,15 @@ bool DbInterface::saveEpisode(const NextShows::EpisodeList_t &episode, const int
     
     query.prepare("INSERT INTO T_episodes (Shows_id, EpisodeName, EpisodeCount, EpisodeNumber, ProdNumber, SeasonNumber, EpisodeUrl, Date, IsSpecial) "
                     "VALUES (:show_id, :episodename, :episodecount, :episodenumber, :prodnumber, :seasonnumber, :episodeurl, :date, :isspecial)");
-    query.bindValue(":show_id",idshow);
-    query.bindValue(":episodename",episode.title);
-    query.bindValue(":episodecount",episode.episodeCount);
-    query.bindValue(":episodenumber",episode.episodeNumber);
-    query.bindValue(":prodnumber",episode.prodNumber);
-    query.bindValue(":seasonnumber",episode.season);
-    query.bindValue(":episodeurl",episode.link.toString());
-    query.bindValue(":date",episode.airDate);
-    query.bindValue(":isspecial",episode.isSpecial);
+    query.bindValue(":show_id", showId);
+    query.bindValue(":episodename", episode.title);
+    query.bindValue(":episodecount", episode.episodeCount);
+    query.bindValue(":episodenumber", episode.episodeNumber);
+    query.bindValue(":prodnumber", episode.prodNumber);
+    query.bindValue(":seasonnumber", episode.season);
+    query.bindValue(":episodeurl", episode.link.toString());
+    query.bindValue(":date", episode.airDate);
+    query.bindValue(":isspecial", episode.isSpecial);
     
     bool status;
     status = query.exec();
