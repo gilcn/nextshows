@@ -70,7 +70,8 @@ bool DbInterface::saveUserShows(const NextShows::ShowInfosList &shows)
     }
 
     // Start transaction
-    db.transaction();
+    qDebug() << "Begin DB transaction";
+    QSqlDatabase::database(DBCONNECTION).transaction();
     
     QList<int> usrId;
     foreach(NextShows::ShowInfos_t show, shows) {
@@ -97,10 +98,10 @@ bool DbInterface::saveUserShows(const NextShows::ShowInfosList &shows)
 
     bool crStatus = false;
     if (status) {
-        crStatus = db.commit();
+        crStatus = QSqlDatabase::database(DBCONNECTION).commit();
         qDebug() << "Commit:" << crStatus;
     } else {
-        crStatus = db.rollback();
+        crStatus = QSqlDatabase::database(DBCONNECTION).rollback();
         qDebug() << "Rollback:" << crStatus;
     }
 
@@ -182,20 +183,47 @@ QList<int> DbInterface::expiredShowIds(const int &delta)
     return expiredshow;
 } // expiredShow()
 
-void DbInterface::saveUserEpisodes(const NextShows::ShowInfos_t &showInfo, const NextShows::EpisodeListList &episodes)
+bool DbInterface::saveUserEpisodes(const NextShows::ShowInfos_t &showInfo, const NextShows::EpisodeListList &episodes)
 {
     qDebug() << Q_FUNC_INFO;
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
+
+    bool status = true;
+
+    // Start transaction
+    qDebug() << "Begin DB transaction";
+    QSqlDatabase::database(DBCONNECTION).transaction();
     
     // Delete all episodes for this show
-    deleteEpisodes(showInfo.showid);
+    if(!deleteEpisodes(showInfo.showid)) {
+        qCritical() << "Error while deleting episode list for show" << showInfo.name;
+        status = false;
+    }
     // Save episodes for this show
     for (int i = 0; i < episodes.size(); ++i) {
-        saveEpisode(episodes.at(i),showInfo.showid);
+        if(!saveEpisode(episodes.at(i), showInfo.showid)) {
+            qCritical() << "Error while saving episode for show" << showInfo.name;
+            status = false;
+            break; // Exit for loop
+        }
     }
     // Update information of this show
-    updateShow(showInfo);
+    if (!updateShow(showInfo)) {
+        qCritical("Error while updating show \"%s\" [%d]", qPrintable(showInfo.name), showInfo.showid);
+        status = false;
+    }
+
+    bool crStatus = false;
+    if (status) {
+        crStatus = QSqlDatabase::database(DBCONNECTION).commit();
+        qDebug() << "Commit:" << crStatus;
+    } else {
+        crStatus = QSqlDatabase::database(DBCONNECTION).rollback();
+        qDebug() << "Rollback:" << crStatus;
+    }
+
+    return (status && crStatus);
 } // saveUserEpisodes()
 
 QSqlTableModel* DbInterface::readEpisodes() const
@@ -308,7 +336,8 @@ bool DbInterface::createTables()
     bool status = true;
 
     // Start transaction
-    db.transaction();
+    qDebug() << "Begin DB transaction";
+    QSqlDatabase::database(DBCONNECTION).transaction();
 
     // T_Shows table
     query.prepare(
@@ -392,10 +421,10 @@ bool DbInterface::createTables()
 
     bool crStatus = false;
     if (status) {
-        crStatus = db.commit();
+        crStatus = QSqlDatabase::database(DBCONNECTION).commit();
         qDebug() << "Commit:" << crStatus;
     } else {
-        crStatus = db.rollback();
+        crStatus = QSqlDatabase::database(DBCONNECTION).rollback();
         qDebug() << "Rollback:" << crStatus;
     }
 
@@ -531,7 +560,6 @@ bool DbInterface::deleteShow(const int &showId)
 
     // Remove Episode List
     if (!deleteEpisodes(showId)) {
-        qCritical() << query.lastQuery() << "\n" << query.lastError();
         status = false;
     }
     
@@ -543,17 +571,17 @@ bool DbInterface::deleteEpisodes(const int &showId)
     qDebug() << Q_FUNC_INFO;
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
-    
     QSqlQuery query(db);
+    bool status = true;
+
     query.prepare("DELETE FROM T_Episodes WHERE Shows_id = :showid");
     query.bindValue(":showid", showId);
-    bool status;
-    status = query.exec();
-    if (!status) {
+    if (!query.exec()) {
         qCritical() << query.lastQuery() << "\n" << query.lastError();
-        return false;
+        status = false;
     }
-    return true;
+
+    return status;
 } // deleteEpisodes
 
 bool DbInterface::updateShow(const NextShows::ShowInfos_t &showInfo)
@@ -562,8 +590,10 @@ bool DbInterface::updateShow(const NextShows::ShowInfos_t &showInfo)
     qDebug() << Q_FUNC_INFO;
 
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
-    
     QSqlQuery query(db);
+
+    bool status = true;
+
     query.prepare("UPDATE T_Shows SET "
                     "ShowName = :showname, "
                     "ShowUrl = :showurl, "
@@ -601,15 +631,13 @@ bool DbInterface::updateShow(const NextShows::ShowInfos_t &showInfo)
     query.bindValue(":timezone", showInfo.timezone);
     query.bindValue(":timestamp", QDateTime::currentDateTime().toTime_t());
     query.bindValue(":show_id", showInfo.showid);
-    qDebug() << showInfo.link;
-    bool status;
-    status = query.exec();
-    qDebug() << query.executedQuery();
-    if (!status) {
+
+    if (!query.exec()) {
         qCritical() << query.lastQuery() << "\n" << query.lastError();
-        return false;
+        status = false;
     }
-    return true;
-}
+
+    return status;
+} // updateShow()
 
 // EOF - vim:ts=4:sw=4:et:
