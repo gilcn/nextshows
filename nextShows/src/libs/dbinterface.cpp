@@ -50,37 +50,61 @@ bool DbInterface::isInitialized()
     return m_databaseInitialized;
 } // isInitialized()
 
-void DbInterface::saveUserShows(const NextShows::ShowInfosList &shows)
+bool DbInterface::saveUserShows(const NextShows::ShowInfosList &shows)
 {
     qDebug() << Q_FUNC_INFO;
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
-    
-    // Select all ids in the DB
-    QList<int> dbId;
     QSqlQuery query(db);
-    query.exec("SELECT idT_Shows FROM T_Shows");
+    bool status = true;
+
+    // Get all the show IDs from the DB
+    QList<int> dbId;
+    query.prepare("SELECT idT_Shows FROM T_Shows");
+    if (!query.exec()) {
+        qCritical() << query.lastQuery() << "\n" << query.lastError();
+        return false; // Something went wrong...
+    }
     while (query.next()) {
         dbId << query.value(0).toInt();
     }
 
-    QList<int> usrid;
-    NextShows::ShowInfosList::ConstIterator it;
-    for (it = shows.begin(); it != shows.end(); ++it) {
-        NextShows::ShowInfos_t show = *it;
-        usrid << show.showid;
-        if(!dbId.contains(show.showid)) { // This show is a new show, add it !
-            saveShow(show);
-            qDebug() << "Add show : " << QString::number(show.showid);
+    // Start transaction
+    db.transaction();
+    
+    QList<int> usrId;
+    foreach(NextShows::ShowInfos_t show, shows) {
+        usrId << show.showid;
+        if(!dbId.contains(show.showid)) { // New show, add it!
+            qDebug() << "Add show:" << QString::number(show.showid);
+            if (!saveShow(show)) {
+                qCritical() << "Error when saving show:" << show.name;
+                status = false;
+                break; // Exit foreach
+            }
         }
     }
-    int showId;
-    foreach (showId, dbId) {
-        if (!usrid.contains(showId)) { // This show is no longer tracked, delete it from the DB
-            qDebug() << "Delete show from DB : " << QString::number(showId);
-            deleteShow(showId);
+    foreach (int showId, dbId) {
+        if (!usrId.contains(showId)) { // Show no longer tracked, delete it!
+            qDebug() << "Delete show:" << QString::number(showId);
+            if (!deleteShow(showId)) {
+                qCritical() << "Error when deleting show ID" << showId;
+                status = false;
+                break; // Exit foreach
+            }
         }
     }
+
+    bool crStatus = false;
+    if (status) {
+        crStatus = db.commit();
+        qDebug() << "Commit:" << crStatus;
+    } else {
+        crStatus = db.rollback();
+        qDebug() << "Rollback:" << crStatus;
+    }
+
+    return (status && crStatus);
 } // saveUserShows()
 
 NextShows::ShowInfosList DbInterface::readUserShows()
@@ -267,7 +291,7 @@ bool DbInterface::init()
         return false;
     }
     if (!status) {
-        qCritical() << query.lastError();
+        qCritical() << query.lastQuery() << "\n" << query.lastError();
         return false;
     }
 
@@ -283,6 +307,7 @@ bool DbInterface::createTables()
     QSqlQuery query(db);
     bool status = true;
 
+    // Start transaction
     db.transaction();
 
     // T_Shows table
@@ -306,7 +331,7 @@ bool DbInterface::createTables()
         "Timestamp INTEGER)"
     );
     if (!query.exec()) {
-        qCritical() << query.lastError();
+        qCritical() << query.lastQuery() << "\n" << query.lastError();
         status = false;
     }
 
@@ -325,7 +350,7 @@ bool DbInterface::createTables()
         "IsSpecial BOOL)"
     );
     if (!query.exec()) {
-        qCritical() << query.lastError();
+        qCritical() << query.lastQuery() << "\n" << query.lastError();
         status = false;
     }
     
@@ -337,7 +362,7 @@ bool DbInterface::createTables()
         "Name VARCHAR(30))"
     );
     if (!query.exec()) {
-        qCritical() << query.lastError();
+        qCritical() << query.lastQuery() << "\n" << query.lastError();
         status = false;
     }
     
@@ -349,19 +374,19 @@ bool DbInterface::createTables()
         "Name VARCHAR(30))"
     );
     if (!query.exec()) {
-        qCritical() << query.lastError();
+        qCritical() << query.lastQuery() << "\n" << query.lastError();
         status = false;
     }
     
     // T_Version table
     query.prepare("CREATE TABLE T_Version (Version VARCHAR(5));");
     if (!query.exec()) {
-        qCritical() << query.lastError();
+        qCritical() << query.lastQuery() << "\n" << query.lastError();
         status = false;
     }
     query.prepare("INSERT INTO T_Version (Version) VALUES ('0.2')");
     if (!query.exec()) {
-        qCritical() << query.lastError();
+        qCritical() << query.lastQuery() << "\n" << query.lastError();
         status = false;
     }
 
@@ -382,8 +407,8 @@ bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
     qDebug() << Q_FUNC_INFO;
     
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
-    bool status;
     QSqlQuery query(db);
+
     query.prepare("INSERT INTO T_Shows (idT_Shows, ShowName, ShowUrl, Country, Started, Ended, SeasonsNbr, Status, Classification, Genres, EndedFlag, Runtime, Airtime, Airday, Timezone, Timestamp)"
                 "VALUES (:idt_shows, :showname, :showurl, :country, :started, :ended, :seasonsnbr, :status, :classification, :genres, :enderflag, :runtime, :airtime, :airday, :timezone, 0)");
 
@@ -402,41 +427,41 @@ bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
     query.bindValue(":airtime", show.airtime);
     query.bindValue(":airday", show.airday);
     query.bindValue(":timezone", show.timezone);
-    status = query.exec();
+    if (!query.exec()) {
+        qCritical() << query.lastQuery() << "\n" << query.lastError();
+        return false; // No need to continue if something went wrong
+    }
     
     // retrieve the last ID insert
-    int lastid = query.lastInsertId().toInt();
+    int lastId = query.lastInsertId().toInt();
     // Insert T_Akas
-    QMapIterator<QString, QString> i(show.akas);
-    while (i.hasNext()) {
-        i.next();
-        qDebug() << i.key() << ": " << i.value();
+    foreach(QString aka, show.akas.keys()) {
+        qDebug() << aka << ": " << show.akas.value(aka);
         query.prepare("INSERT INTO T_Akas (T_Akas_Shows_id, Country, Name) "
                         "VALUES (:showid, :country, :name)");
-        query.bindValue(":showid", lastid);
-        query.bindValue(":country", i.key());
-        query.bindValue(":name", i.value());
-        status = query.exec();
+        query.bindValue(":showid", lastId);
+        query.bindValue(":country", aka);
+        query.bindValue(":name", show.akas.value(aka));
+        if (!query.exec()) {
+            qCritical() << query.lastQuery() << "\n" << query.lastError();
+            return false; // No need to continue if something went wrong
+        }
     }
     // Insert T_Network
-    QMapIterator<QString, QString> y(show.network);
-    while (y.hasNext()) {
-        y.next();
-        qDebug() << y.key() << ": " << y.value();
+    foreach(QString network, show.network.keys()) {
+        qDebug() << network << ": " << show.network.value(network);
         query.prepare("INSERT INTO T_Networks (T_Networks_Shows_id, Country, Name) "
                         "VALUES (:showid, :country, :name)");
-        query.bindValue(":showid", lastid);
-        query.bindValue(":country", y.key());
-        query.bindValue(":name", y.value());
-        status = query.exec();
+        query.bindValue(":showid", lastId);
+        query.bindValue(":country", network);
+        query.bindValue(":name", show.network.value(network));
+        if (!query.exec()) {
+            qCritical() << query.lastQuery() << "\n" << query.lastError();
+            return false; // No need to continue if something went wrong
+        }
     }
     
-    // If a SQL request doesn't work return FALSE
-    if (!status) {
-        qCritical() << query.lastError();
-        return false;
-    }
-    // If all SQL request as ok return TRUE
+    // If we reach this point then everything went fine
     return true;
 } // saveShow()
 
@@ -463,7 +488,7 @@ bool DbInterface::saveEpisode(const NextShows::EpisodeList_t &episode, const int
     bool status;
     status = query.exec();
     if (!status) {
-        qCritical() << query.lastError();
+        qCritical() << query.lastQuery() << "\n" << query.lastError();
         return false;
     }
     return true;
@@ -482,7 +507,7 @@ bool DbInterface::deleteShow(const int &showId)
     query.bindValue(":showid", showId);
     qDebug() << query.lastQuery();
     if (!query.exec()) {
-        qCritical() << query.lastError();
+        qCritical() << query.lastQuery() << "\n" << query.lastError();
         status = false;
     }
 
@@ -491,7 +516,7 @@ bool DbInterface::deleteShow(const int &showId)
     query.bindValue(":showid", showId);
     qDebug() << query.lastQuery();
     if (!query.exec()) {
-        qCritical() << query.lastError();
+        qCritical() << query.lastQuery() << "\n" << query.lastError();
         status = false;
     }
 
@@ -500,13 +525,13 @@ bool DbInterface::deleteShow(const int &showId)
     query.bindValue(":showid", showId);
     qDebug() << query.lastQuery();
     if (!query.exec()) {
-        qCritical() << query.lastError();
+        qCritical() << query.lastQuery() << "\n" << query.lastError();
         status = false;
     }
 
     // Remove Episode List
     if (!deleteEpisodes(showId)) {
-        qCritical() << query.lastError();
+        qCritical() << query.lastQuery() << "\n" << query.lastError();
         status = false;
     }
     
@@ -525,7 +550,7 @@ bool DbInterface::deleteEpisodes(const int &showId)
     bool status;
     status = query.exec();
     if (!status) {
-        qCritical() << query.lastError();
+        qCritical() << query.lastQuery() << "\n" << query.lastError();
         return false;
     }
     return true;
@@ -581,7 +606,7 @@ bool DbInterface::updateShow(const NextShows::ShowInfos_t &showInfo)
     status = query.exec();
     qDebug() << query.executedQuery();
     if (!status) {
-        qCritical() << query.lastError();
+        qCritical() << query.lastQuery() << "\n" << query.lastError();
         return false;
     }
     return true;
