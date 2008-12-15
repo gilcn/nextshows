@@ -39,7 +39,8 @@ public:
     bool saveUserShows(const NextShows::ShowInfosList &shows);
     NextShows::ShowInfosList readUserShows();
     QList<int> expiredShowIds(const int &delta);
-    bool saveUserEpisodes(const NextShows::ShowInfos_t &showInfo, const NextShows::EpisodeListList &episodes);
+    bool saveUserEpisodes(const NextShows::ShowInfos_t &showInfo,
+                          const NextShows::EpisodeListList &episodes);
     QSqlTableModel *readEpisodes() const;
 
 private:
@@ -53,7 +54,8 @@ private:
 
     bool createTables();
     bool saveShow(const NextShows::ShowInfos_t &show);
-    bool saveEpisode(const NextShows::EpisodeList_t &episode, const int &showId);
+    bool saveEpisode(const NextShows::EpisodeList_t &episode,
+                     const int &showId);
     bool deleteShow(const int &showId);
     bool deleteEpisodes(const int &showId);
     bool updateShow(const NextShows::ShowInfos_t &showInfo);
