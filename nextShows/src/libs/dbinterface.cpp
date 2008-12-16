@@ -44,7 +44,7 @@ DbInterface& DbInterface::instance()
     return DbInterfaceInstance;
 } // instance()
 
-bool DbInterface::isInitialized()
+bool DbInterface::isInitialized() const
 {
     qDebug() << Q_FUNC_INFO;
     return m_databaseInitialized;
@@ -225,31 +225,6 @@ bool DbInterface::saveUserEpisodes(const NextShows::ShowInfos_t &showInfo, const
 
     return (status && crStatus);
 } // saveUserEpisodes()
-
-QSqlTableModel* DbInterface::readEpisodes() const
-{
-    qDebug() << Q_FUNC_INFO;
-    
-    QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
-    
-    // TODO: We don't inherit QObject
-    // TODO: Need some more testing here!!!
-    QSqlRelationalTableModel *model = new QSqlRelationalTableModel(0, db);
-    model->setTable("T_Episodes");
-    model->setRelation(model->fieldIndex("shows_id"),
-                       QSqlRelation("T_Shows", "idT_Shows", "ShowName"));
-    model->setSort(model->fieldIndex("Date"), Qt::AscendingOrder);
-    model->select();
-
-    QStringList hideFields;
-    hideFields << "idT_Episodes" << "ProdNumber" << "EpisodeCount"
-               << "EpisodeUrl"   << "isSpecial";
-    foreach (QString field, hideFields) {
-        model->removeColumn(model->fieldIndex(field));
-    }
-
-    return model;
-} // readEpisode()
 
 
 /*

@@ -48,8 +48,8 @@ private Q_SLOTS:
     void timerEvent(QTimerEvent *event);
 
 private:
-    QStandardItemModel          *m_dataModel;
-    SysTrayIcon                 *m_sysTrayIcon;
+//    QStandardItemModel          *m_dataModel;
+//    SysTrayIcon                 *m_sysTrayIcon;
     QBasicTimer                 *m_timer;
     DataProvider                *m_dataProvider;
     QTime                        m_lastUpdateTime;
