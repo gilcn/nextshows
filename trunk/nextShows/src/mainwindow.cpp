@@ -22,13 +22,14 @@
 #include "mainwindow.h"
 #include "nextshows.h"
 #include "libs/config.h"
-#include "libs/dbinterface.h"
 // QtCore
 #include <QtCore/QDebug>
 #include <QtCore/QDate> // REMOVEME
 #include <QtCore/QTime> // REMOVEME
 // QtGui
 #include <QtGui/QHeaderView>
+// QtSql
+#include <QtSql/QSqlRelationalTableModel>
 
 
 /*
@@ -42,11 +43,14 @@ MainWindow::MainWindow(QWidget *parent)
     , m_dialogAbout(0)    // Guarded by QPointer
 {
     qDebug() << Q_FUNC_INFO;
+
+/*
     m_dataModel = new QStandardItemModel(this);
     m_dataModel->setColumnCount(5);
-
+*/
     setupUi(this);
 
+/*
     QStringList labels;
     labels << tr("Show name") << tr("Episode name")
            << tr("Season #") << tr("Episode #") << tr("Date");
@@ -71,9 +75,34 @@ MainWindow::MainWindow(QWidget *parent)
         QDate rndDate = QDate::currentDate().addDays(i);
         m_dataModel->setItem(i, 4, new QStandardItem(rndDate.toString("yyyy/MM/dd")));
     }
+*/
 
     setWindowTitle(QString("nextShows - v%1").arg(NEXTSHOWS_VERSION));
     statusBar()->showMessage(tr("nextShows started"), 1000*3);
+
+
+    // TEMPORARY CODE FOR TESTING ////////////////////////////////////////////
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", "NS_View");
+    db.setDatabaseName("ns.db");
+    db.open();
+    QSqlRelationalTableModel *model = new QSqlRelationalTableModel(this, db);
+    model->setTable("T_Episodes");
+    model->setRelation(model->fieldIndex("shows_id"),
+                       QSqlRelation("T_Shows", "idT_Shows", "ShowName"));
+    model->setSort(model->fieldIndex("Date"), Qt::AscendingOrder);
+    model->select();
+
+    QStringList hideFields;
+    hideFields << "idT_Episodes" << "ProdNumber" << "EpisodeCount"
+               << "EpisodeUrl"   << "isSpecial";
+    foreach (QString field, hideFields) {
+        model->removeColumn(model->fieldIndex(field));
+    }
+    showsTableView->setModel(model);
+//    qDebug() << "isSortingEnabled()" << showsTableView->isSortingEnabled();
+    showsTableView->setSortingEnabled(true);
+    //////////////////////////////////////////////////////////////////////////
+
 
     // Test alternate row colors
     QPalette pal(showsTableView->palette());
@@ -97,10 +126,13 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     qDebug() << Q_FUNC_INFO;
-    delete m_dataModel;
+//    delete m_dataModel;
 //    delete m_sysTrayIcon;
     delete m_timer;
     delete m_dataProvider;
+
+    QSqlDatabase::database("NS_View").close();
+    QSqlDatabase::removeDatabase("NS_View");
 } // dtor()
 
 

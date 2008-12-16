@@ -34,14 +34,14 @@ class DbInterface
 {
 public:
     static DbInterface& instance();
-    bool isInitialized();
+    bool isInitialized() const;
 
     bool saveUserShows(const NextShows::ShowInfosList &shows);
     NextShows::ShowInfosList readUserShows();
     QList<int> expiredShowIds(const int &delta);
     bool saveUserEpisodes(const NextShows::ShowInfos_t &showInfo,
                           const NextShows::EpisodeListList &episodes);
-    QSqlTableModel *readEpisodes() const;
+
 
 private:
     DbInterface(); // ctor hidden
