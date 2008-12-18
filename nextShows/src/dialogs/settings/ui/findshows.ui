@@ -5,15 +5,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>525</width>
-    <height>453</height>
+    <width>435</width>
+    <height>373</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Find Shows</string>
   </property>
   <layout class="QGridLayout" name="gridLayout" >
-   <item row="0" column="0" colspan="3" >
+   <item row="0" column="0" >
     <layout class="QHBoxLayout" name="horizontalLayout_1" >
      <item>
       <widget class="QLabel" name="lblSearch" >
@@ -56,7 +56,7 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="0" colspan="3" >
+   <item row="1" column="0" >
     <widget class="Line" name="line" >
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
@@ -64,227 +64,197 @@
     </widget>
    </item>
    <item row="2" column="0" >
-    <layout class="QVBoxLayout" name="verticalLayout_3" >
-     <property name="spacing" >
-      <number>6</number>
+    <widget class="QSplitter" name="splitter" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
      </property>
-     <property name="margin" >
-      <number>0</number>
+     <property name="childrenCollapsible" >
+      <bool>false</bool>
      </property>
-     <item>
-      <widget class="QLabel" name="lblSearchResultsTitle" >
-       <property name="font" >
-        <font>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text" >
-        <string>Search results:</string>
-       </property>
-       <property name="alignment" >
-        <set>Qt::AlignHCenter|Qt::AlignTop</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="NSTreeWidget" name="treeSearchResults" >
-       <property name="enabled" >
-        <bool>false</bool>
-       </property>
-       <property name="headerHidden" >
-        <bool>true</bool>
-       </property>
-       <property name="columnCount" >
-        <number>1</number>
-       </property>
-       <column>
-        <property name="text" >
-         <string/>
-        </property>
-       </column>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2" >
-       <property name="spacing" >
-        <number>6</number>
-       </property>
-       <property name="margin" >
-        <number>0</number>
-       </property>
+     <widget class="QWidget" name="layoutWidget" >
+      <layout class="QVBoxLayout" name="verticalLayout" >
        <item>
-        <widget class="QCheckBox" name="cbHideEndedShows" >
-         <property name="enabled" >
-          <bool>false</bool>
-         </property>
-         <property name="toolTip" >
-          <string>Check this to filter out ended shows</string>
+        <widget class="QLabel" name="lblSearchResultsTitle" >
+         <property name="font" >
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
          </property>
          <property name="text" >
-          <string>&amp;Hide ended</string>
+          <string>Search results:</string>
          </property>
-         <property name="checked" >
-          <bool>false</bool>
+         <property name="alignment" >
+          <set>Qt::AlignHCenter|Qt::AlignTop</set>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="lblDisplayed" >
+        <widget class="NSTreeWidget" name="treeSearchResults" >
          <property name="enabled" >
+          <bool>false</bool>
+         </property>
+         <property name="headerHidden" >
           <bool>true</bool>
          </property>
-         <property name="text" >
-          <string/>
+         <property name="columnCount" >
+          <number>1</number>
          </property>
-         <property name="alignment" >
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
+         <column>
+          <property name="text" >
+           <string/>
+          </property>
+         </column>
         </widget>
        </item>
-      </layout>
-     </item>
-    </layout>
-   </item>
-   <item row="2" column="1" >
-    <layout class="QVBoxLayout" name="verticalLayout_1" >
-     <item>
-      <spacer name="verticalSpacer_1" >
-       <property name="orientation" >
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0" >
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QToolButton" name="tbtnAddShow" >
-       <property name="enabled" >
-        <bool>false</bool>
-       </property>
-       <property name="icon" >
-        <iconset resource="../../../pixmaps/nextshows.qrc" >
-         <normaloff>:/pixmaps/icons/rightarrow.png</normaloff>:/pixmaps/icons/rightarrow.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_2" >
-       <property name="orientation" >
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Fixed</enum>
-       </property>
-       <property name="sizeHint" stdset="0" >
-        <size>
-         <width>20</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QToolButton" name="tbtnRemoveShow" >
-       <property name="enabled" >
-        <bool>false</bool>
-       </property>
-       <property name="icon" >
-        <iconset resource="../../../pixmaps/nextshows.qrc" >
-         <normaloff>:/pixmaps/icons/trash.png</normaloff>:/pixmaps/icons/trash.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_3" >
-       <property name="orientation" >
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0" >
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item row="2" column="2" >
-    <layout class="QVBoxLayout" name="verticalLayout_2" >
-     <property name="spacing" >
-      <number>6</number>
-     </property>
-     <property name="margin" >
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="lblTrackedShowsTitle" >
-       <property name="font" >
-        <font>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text" >
-        <string>Tracked shows:</string>
-       </property>
-       <property name="alignment" >
-        <set>Qt::AlignHCenter|Qt::AlignTop</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="NSListWidget" name="lstTrackedShows" >
-       <property name="enabled" >
-        <bool>false</bool>
-       </property>
-       <property name="editTriggers" >
-        <set>QAbstractItemView::NoEditTriggers</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3" >
-       <property name="spacing" >
-        <number>6</number>
-       </property>
-       <property name="margin" >
-        <number>0</number>
-       </property>
        <item>
-        <spacer name="verticalSpacer_4" >
+        <layout class="QHBoxLayout" name="horizontalLayout" >
+         <item>
+          <widget class="QCheckBox" name="cbHideEndedShows" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
+           <property name="toolTip" >
+            <string>Check this to filter out ended shows</string>
+           </property>
+           <property name="text" >
+            <string>&amp;Hide ended</string>
+           </property>
+           <property name="checked" >
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnAddShow" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
+           <property name="sizePolicy" >
+            <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text" >
+            <string>Add Show</string>
+           </property>
+           <property name="icon" >
+            <iconset resource="../../../pixmaps/nextshows.qrc" >
+             <normaloff>:/pixmaps/icons/rightarrow.png</normaloff>:/pixmaps/icons/rightarrow.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="Line" name="line_2" >
          <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType" >
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0" >
-          <size>
-           <width>20</width>
-           <height>22</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QLabel" name="lblTrackedShows" >
-         <property name="text" >
-          <string/>
-         </property>
-         <property name="alignment" >
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2" >
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="lblDisplayed" >
+           <property name="enabled" >
+            <bool>true</bool>
+           </property>
+           <property name="text" >
+            <string>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:10pt; font-weight:400; font-style:normal;">
+&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&amp;nbsp;&lt;/p>&lt;/body>&lt;/html></string>
+           </property>
+           <property name="alignment" >
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
       </layout>
-     </item>
-    </layout>
+     </widget>
+     <widget class="QWidget" name="" >
+      <layout class="QVBoxLayout" name="verticalLayout_2" >
+       <item>
+        <widget class="QLabel" name="lblTrackedShowsTitle" >
+         <property name="font" >
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text" >
+          <string>Tracked shows:</string>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignHCenter|Qt::AlignTop</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="NSListWidget" name="lstTrackedShows" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
+         <property name="editTriggers" >
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnRemoveShow" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
+         <property name="text" >
+          <string>Delete Show</string>
+         </property>
+         <property name="icon" >
+          <iconset resource="../../../pixmaps/nextshows.qrc" >
+           <normaloff>:/pixmaps/icons/trash.png</normaloff>:/pixmaps/icons/trash.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_3" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3" >
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="lblTrackedShows" >
+           <property name="text" >
+            <string/>
+           </property>
+           <property name="alignment" >
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
    </item>
   </layout>
  </widget>

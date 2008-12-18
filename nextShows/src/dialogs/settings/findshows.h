@@ -50,9 +50,9 @@ private Q_SLOTS:
     void on_treeSearchResults_itemClicked(QTreeWidgetItem *, int);
     void on_treeSearchResults_itemSelectionChanged();
     void on_cbHideEndedShows_stateChanged(int);
-    void on_tbtnAddShow_clicked();
+    void on_btnAddShow_clicked();
     void on_lstTrackedShows_itemSelectionChanged();
-    void on_tbtnRemoveShow_clicked();
+    void on_btnRemoveShow_clicked();
     void newImageFrame(const QPixmap &);
     void searchResultsReady(NextShows::ShowInfosList, bool, QString);
     void on_treeSearchResults_addShowAction();
