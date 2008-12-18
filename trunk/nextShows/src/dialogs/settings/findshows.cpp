@@ -48,12 +48,15 @@ FindShows::FindShows(QWidget *parent)
     setWindowIcon(QIcon(":/pixmaps/prefs/television.png"));
 
     // Adjust Layout
+    // Commented since we use QSplitter
+    /*
     QLayout *widgetLayout = layout();
     QGridLayout *gridLayout = qobject_cast<QGridLayout *>(widgetLayout);
     if (gridLayout) {
         gridLayout->setColumnStretch(0, 20); // "Search Results" column
         gridLayout->setColumnStretch(2, 14); // "Tracked shows" column
     }
+    */
 
     ui.leSearch->setClickMessage(tr("Enter a show name"));
     // FIXME: Postponed until Qt4.5 is out
@@ -120,7 +123,7 @@ void FindShows::on_treeSearchResults_itemClicked(QTreeWidgetItem *item, int /*co
 void FindShows::on_treeSearchResults_itemSelectionChanged()
 {
     bool state = !(ui.treeSearchResults->indexOfTopLevelItem(ui.treeSearchResults->currentItem()) < 0);
-    ui.tbtnAddShow->setEnabled(state);
+    ui.btnAddShow->setEnabled(state);
 } // on_treeSearchResults_itemSelectionChanged()
 
 void FindShows::on_cbHideEndedShows_stateChanged(int state)
@@ -146,7 +149,7 @@ void FindShows::on_cbHideEndedShows_stateChanged(int state)
     updateSearchResultsWidgets();
 } // on_cbHideEndedShows_stateChanged()
 
-void FindShows::on_tbtnAddShow_clicked()
+void FindShows::on_btnAddShow_clicked()
 {
     addShowToTrackedList();
 } // on_btnLookup_clicked()
@@ -154,13 +157,13 @@ void FindShows::on_tbtnAddShow_clicked()
 void FindShows::on_lstTrackedShows_itemSelectionChanged()
 {
     bool state = (ui.lstTrackedShows->currentRow() >= 0);
-    ui.tbtnRemoveShow->setEnabled(state);
+    ui.btnRemoveShow->setEnabled(state);
 } // on_lstTrackedShows_itemSelectionChanged()
 
-void FindShows::on_tbtnRemoveShow_clicked()
+void FindShows::on_btnRemoveShow_clicked()
 {
     removeShowFromTrackedList();
-} // on_tbtnRemoveShow_clicked()
+} // on_btnRemoveShow_clicked()
 
 void FindShows::newImageFrame(const QPixmap &pixmap)
 {
@@ -351,7 +354,7 @@ void FindShows::updateSearchResultsWidgets()
     if (m_searchResults.count() == 0) {
         ui.treeSearchResults->setEnabled(false);
         ui.cbHideEndedShows->setEnabled(false);
-        ui.tbtnAddShow->setEnabled(false);
+        ui.btnAddShow->setEnabled(false);
         palette.setColor(QPalette::WindowText, Qt::red);
         font.setBold(true);
         ui.lblDisplayed->setText(tr("Search returned nothing!"));
@@ -359,7 +362,7 @@ void FindShows::updateSearchResultsWidgets()
         ui.cbHideEndedShows->setEnabled(true);
         if (m_displayedShowCount == 0) {
             ui.treeSearchResults->setEnabled(false);
-            ui.tbtnAddShow->setEnabled(false);
+            ui.btnAddShow->setEnabled(false);
             palette.setColor(QPalette::WindowText, Qt::red);
             font.setBold(true);
             ui.lblDisplayed->setText(tr("All results are filtered!"));
