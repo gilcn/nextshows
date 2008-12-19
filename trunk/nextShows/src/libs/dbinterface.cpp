@@ -386,7 +386,8 @@ bool DbInterface::createTables()
         qCritical() << query.lastQuery() << "\n" << query.lastError();
         status = false;
     }
-    query.prepare("INSERT INTO T_Version (Version) VALUES ('0.2.1')");
+    query.prepare("INSERT INTO T_Version (Version) VALUES (:db_release)");
+    query.bindValue(":db_release",DB_RELEASE);
     if (!query.exec()) {
         qCritical() << query.lastQuery() << "\n" << query.lastError();
         status = false;
