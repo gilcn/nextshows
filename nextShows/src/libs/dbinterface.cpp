@@ -287,7 +287,7 @@ bool DbInterface::init()
         qCritical() << "Database version in T_version table is missing ! ";
         return false;
     }
-    if (DB_RELEASE != query.value(0).toDouble()){
+    if (DB_RELEASE != query.value(0)){
         qCritical() << "Database version mismatch ! actual : '" << query.value(0).toDouble() << "', needed : '" << DB_RELEASE <<"'";
         return false;
     }
@@ -386,7 +386,7 @@ bool DbInterface::createTables()
         qCritical() << query.lastQuery() << "\n" << query.lastError();
         status = false;
     }
-    query.prepare("INSERT INTO T_Version (Version) VALUES ('0.2')");
+    query.prepare("INSERT INTO T_Version (Version) VALUES ('0.2.1')");
     if (!query.exec()) {
         qCritical() << query.lastQuery() << "\n" << query.lastError();
         status = false;
