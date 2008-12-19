@@ -58,6 +58,8 @@ private:
                      const int &showId);
     bool deleteShow(const int &showId);
     bool deleteEpisodes(const int &showId);
+    bool deleteAka(const int &showId);
+    bool deleteNetwork(const int &showId);
     bool updateShow(const NextShows::ShowInfos_t &showInfo);
 
     bool m_databaseInitialized;

@@ -81,6 +81,8 @@ NextShows::ShowInfosList TvRageParser::parseSearchResults(const QByteArray &data
 
 NextShows::ShowInfos_t TvRageParser::parseShowInfos(const QByteArray &data, bool *success, QString *errorMessage, int *errorLine, int *errorColumn)
 {
+    qDebug() << Q_FUNC_INFO;
+    
     NextShows::ShowInfos_t showInfos;
 
     QDomDocument doc("TVRage Show Infos");
@@ -290,6 +292,7 @@ QMap<QString, QString> TvRageParser::parseTag_Akas(const QDomElement &element)
                 if (akaElement.tagName() == "aka") {
                     QString key(akaElement.attribute("country"));
                     if (!key.isNull()) {
+                    	qDebug() << "akasMap[key] -> " << akasMap[key] << "  ::  " << "akaElement.text() -> " << akaElement.text();
                         akasMap[key] = akaElement.text();
                     }
                 }
