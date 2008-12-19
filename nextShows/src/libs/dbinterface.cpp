@@ -436,33 +436,8 @@ bool DbInterface::saveShow(const NextShows::ShowInfos_t &show)
     }
     
     // retrieve the last ID insert
-    int lastId = query.lastInsertId().toInt();
-    // Insert T_Akas
-    foreach(QString aka, show.akas.keys()) {
-        qDebug() << aka << ": " << show.akas.value(aka);
-        query.prepare("INSERT INTO T_Akas (T_Akas_Shows_id, Country, Name) "
-                        "VALUES (:showid, :country, :name)");
-        query.bindValue(":showid", lastId);
-        query.bindValue(":country", aka);
-        query.bindValue(":name", show.akas.value(aka));
-        if (!query.exec()) {
-            qCritical() << query.lastQuery() << "\n" << query.lastError();
-            return false; // No need to continue if something went wrong
-        }
-    }
-    // Insert T_Network
-    foreach(QString network, show.network.keys()) {
-        qDebug() << network << ": " << show.network.value(network);
-        query.prepare("INSERT INTO T_Networks (T_Networks_Shows_id, Country, Name) "
-                        "VALUES (:showid, :country, :name)");
-        query.bindValue(":showid", lastId);
-        query.bindValue(":country", network);
-        query.bindValue(":name", show.network.value(network));
-        if (!query.exec()) {
-            qCritical() << query.lastQuery() << "\n" << query.lastError();
-            return false; // No need to continue if something went wrong
-        }
-    }
+    //int lastId = query.lastInsertId().toInt();
+
     
     // If we reach this point then everything went fine
     return true;
@@ -515,20 +490,14 @@ bool DbInterface::deleteShow(const int &showId)
     }
 
     // Remove AKAs
-    query.prepare("DELETE FROM T_Akas WHERE T_Akas_Shows_id = :showid");
-    query.bindValue(":showid", showId);
-    qDebug() << query.lastQuery();
-    if (!query.exec()) {
-        qCritical() << query.lastQuery() << "\n" << query.lastError();
+    if (!deleteAka(showId)) {
+        qCritical() << "Remove AKA crash !";
         status = false;
     }
 
     // Remove Networks
-    query.prepare("DELETE FROM T_Networks WHERE T_Networks_Shows_id = :showid");
-    query.bindValue(":showid", showId);
-    qDebug() << query.lastQuery();
-    if (!query.exec()) {
-        qCritical() << query.lastQuery() << "\n" << query.lastError();
+    if (!deleteNetwork(showId)) {
+        qCritical() << "Remove Network crash !";
         status = false;
     }
 
@@ -558,9 +527,45 @@ bool DbInterface::deleteEpisodes(const int &showId)
     return status;
 } // deleteEpisodes
 
+bool DbInterface::deleteAka(const int &showId)
+{
+    qDebug() << Q_FUNC_INFO;
+    
+    QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
+    QSqlQuery query(db);
+    
+    query.prepare("DELETE FROM T_Akas WHERE T_Akas_Shows_id = :showid");
+    query.bindValue(":showid", showId);
+    qDebug() << query.lastQuery();
+    if (!query.exec()) {
+        qCritical() << query.lastQuery() << "\n" << query.lastError();
+        return false;
+    }
+    
+    return true;
+} // deleteAka
+
+bool DbInterface::deleteNetwork(const int &showId)
+{
+    qDebug() << Q_FUNC_INFO;
+    
+    QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
+    QSqlQuery query(db);
+    
+    query.prepare("DELETE FROM T_Networks WHERE T_Networks_Shows_id = :showid");
+    query.bindValue(":showid", showId);
+    qDebug() << query.lastQuery();
+    if (!query.exec()) {
+        qCritical() << query.lastQuery() << "\n" << query.lastError();
+        return false;
+    }
+    
+    return true;
+} // deleteNetwork
+
 bool DbInterface::updateShow(const NextShows::ShowInfos_t &showInfo)
 {
-    //TODO merge this method with saveShow()
+    //TODO merge this method with saveShow() ??
     qDebug() << Q_FUNC_INFO;
 
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
@@ -609,6 +614,42 @@ bool DbInterface::updateShow(const NextShows::ShowInfos_t &showInfo)
     if (!query.exec()) {
         qCritical() << query.lastQuery() << "\n" << query.lastError();
         status = false;
+    }
+    // Remove AKA
+    if (!deleteAka(showInfo.showid)) {
+        qCritical() << "Remove AKA crash !";
+        status = false;
+    }
+    // Insert T_Akas
+    foreach(QString aka, showInfo.akas.keys()) {
+        qDebug() << aka << ": " << showInfo.akas.value(aka);
+        query.prepare("INSERT INTO T_Akas (T_Akas_Shows_id, Country, Name) "
+                        "VALUES (:showid, :country, :name)");
+        query.bindValue(":showid", showInfo.showid);
+        query.bindValue(":country", aka);
+        query.bindValue(":name", showInfo.akas.value(aka));
+        if (!query.exec()) {
+            qCritical() << query.lastQuery() << "\n" << query.lastError();
+            return false; // No need to continue if something went wrong
+        }
+    }
+    // Remove T_Network
+    if (!deleteNetwork(showInfo.showid)) {
+        qCritical() << "Remove Network crash !";
+        status = false;
+    }
+    // Insert T_Network
+    foreach(QString network, showInfo.network.keys()) {
+        qDebug() << network << ": " << showInfo.network.value(network);
+        query.prepare("INSERT INTO T_Networks (T_Networks_Shows_id, Country, Name) "
+                        "VALUES (:showid, :country, :name)");
+        query.bindValue(":showid", showInfo.showid);
+        query.bindValue(":country", network);
+        query.bindValue(":name", showInfo.network.value(network));
+        if (!query.exec()) {
+            qCritical() << query.lastQuery() << "\n" << query.lastError();
+            return false; // No need to continue if something went wrong
+        }
     }
 
     return status;
