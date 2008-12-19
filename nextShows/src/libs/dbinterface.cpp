@@ -316,20 +316,20 @@ bool DbInterface::createTables()
     query.prepare(
         "CREATE TABLE T_Shows ("
         "idT_Shows INTEGER PRIMARY KEY, "
-        "ShowName VARCHAR(30), "
-        "ShowUrl VARCHAR(256), "
-        "Country VARCHAR(15), "
+        "ShowName TEXT, "
+        "ShowUrl TEXT, "
+        "Country TEXT, "
         "Started INTEGER, "
         "Ended INTEGER, "
         "SeasonsNbr INTEGER, "
-        "Status VARCHAR(30), "
-        "Classification VARCHAR(30), "
-        "Genres VARCHAR(256), "
+        "Status TEXT, "
+        "Classification TEXT, "
+        "Genres TEXT, "
         "EndedFlag BOOL, "
         "Runtime INTEGER, "
         "Airtime TIME, "
-        "Airday VARCHAR(9), "
-        "Timezone VARCHAR(15), "
+        "Airday TEXT, "
+        "Timezone TEXT, "
         "Timestamp INTEGER)"
     );
     if (!query.exec()) {
@@ -342,12 +342,12 @@ bool DbInterface::createTables()
         "CREATE TABLE T_Episodes ("
         "idT_Episodes INTEGER PRIMARY KEY, "
         "Shows_id INTEGER, "
-        "EpisodeName VARCHAR(50), "
+        "EpisodeName TEXT, "
         "EpisodeCount INTEGER, "
         "EpisodeNumber INTEGER, "
-        "ProdNumber VARCHAR(10), "
+        "ProdNumber TEXT, "
         "SeasonNumber INTEGER, "
-        "EpisodeUrl VARCHAR(256), "
+        "EpisodeUrl TEXT, "
         "Date DATE, "
         "IsSpecial BOOL)"
     );
@@ -360,8 +360,8 @@ bool DbInterface::createTables()
     query.prepare(
         "CREATE TABLE T_Akas ("
         "T_Akas_Shows_id INTEGER, "
-        "Country VARCHAR(3), "
-        "Name VARCHAR(30))"
+        "Country TEXT, "
+        "Name TEXT)"
     );
     if (!query.exec()) {
         qCritical() << query.lastQuery() << "\n" << query.lastError();
@@ -372,8 +372,8 @@ bool DbInterface::createTables()
     query.prepare(
         "CREATE TABLE T_Networks ("
         "T_Networks_Shows_id INTEGER, "
-        "Country VARCHAR(3), "
-        "Name VARCHAR(30))"
+        "Country TEXT, "
+        "Name TEXT)"
     );
     if (!query.exec()) {
         qCritical() << query.lastQuery() << "\n" << query.lastError();
@@ -381,7 +381,7 @@ bool DbInterface::createTables()
     }
     
     // T_Version table
-    query.prepare("CREATE TABLE T_Version (Version VARCHAR(5));");
+    query.prepare("CREATE TABLE T_Version (Version TEXT);");
     if (!query.exec()) {
         qCritical() << query.lastQuery() << "\n" << query.lastError();
         status = false;

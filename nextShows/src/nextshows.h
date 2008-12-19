@@ -35,7 +35,7 @@
 #endif
 
 // nextShows database version
-#define DB_RELEASE 0.2
+#define DB_RELEASE 0.2.1
 
 // Build date / time
 #define NEXTSHOWS_BUILDDATE __DATE__ " - " __TIME__
