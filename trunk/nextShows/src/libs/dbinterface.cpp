@@ -348,7 +348,7 @@ bool DbInterface::createTables()
         "ProdNumber TEXT, "
         "SeasonNumber INTEGER, "
         "EpisodeUrl TEXT, "
-        "Date DATE, "
+        "Date DATE DEFAULT '0000-00-00' NOT NULL, "
         "IsSpecial BOOL)"
     );
     if (!query.exec()) {
@@ -450,9 +450,29 @@ bool DbInterface::saveEpisode(const NextShows::EpisodeList_t &episode, const int
     QSqlDatabase db = QSqlDatabase::database(DBCONNECTION);
     
     QSqlQuery query(db);
-    
-    query.prepare("INSERT INTO T_episodes (Shows_id, EpisodeName, EpisodeCount, EpisodeNumber, ProdNumber, SeasonNumber, EpisodeUrl, Date, IsSpecial) "
-                    "VALUES (:show_id, :episodename, :episodecount, :episodenumber, :prodnumber, :seasonnumber, :episodeurl, :date, :isspecial)");
+   
+    QString queryString;
+    queryString =  "INSERT INTO T_episodes ("
+                   "Shows_id, "
+                   "EpisodeName, "
+                   "EpisodeCount, "
+                   "EpisodeNumber, "
+                   "ProdNumber, "
+                   "SeasonNumber, "
+                   "EpisodeUrl, ";
+    queryString += (!episode.airDate.isNull()) ? "Date, " : "";
+    queryString += "IsSpecial) "
+                   "VALUES ("
+                   ":show_id, "
+                   ":episodename, "
+                   ":episodecount, "
+                   ":episodenumber, "
+                   ":prodnumber, "
+                   ":seasonnumber, "
+                   ":episodeurl, ";
+    queryString += (!episode.airDate.isNull()) ? ":date, " : "";
+    queryString += ":isspecial)";
+    query.prepare(queryString);
     query.bindValue(":show_id", showId);
     query.bindValue(":episodename", episode.title);
     query.bindValue(":episodecount", episode.episodeCount);
@@ -460,7 +480,9 @@ bool DbInterface::saveEpisode(const NextShows::EpisodeList_t &episode, const int
     query.bindValue(":prodnumber", episode.prodNumber);
     query.bindValue(":seasonnumber", episode.season);
     query.bindValue(":episodeurl", episode.link.toString());
-    query.bindValue(":date", episode.airDate);
+    if (!episode.airDate.isNull()) {
+        query.bindValue(":date", episode.airDate.toString("yyyy-MM-dd"));
+    }
     query.bindValue(":isspecial", episode.isSpecial);
     
     bool status;
