@@ -27,6 +27,7 @@
 #include "dialogs/settings/options.h"
 #include "libs/dataprovider.h"
 // QtGui
+#include <QtGui/QCloseEvent>
 #include <QtGui/QDialog>
 
 
@@ -41,7 +42,7 @@ public:
     Settings(QWidget *parent = 0);
     ~Settings();
 
-signals:
+Q_SIGNALS:
     void settingsChanged();
 
 private Q_SLOTS:

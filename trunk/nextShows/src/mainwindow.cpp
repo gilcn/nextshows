@@ -145,8 +145,9 @@ void MainWindow::showSettings()
     if (!m_dialogSettings) {
         m_dialogSettings = new Dialogs::Settings(this);
         connect(m_dialogSettings, SIGNAL(settingsChanged()), this, SLOT(readConfig()));
+        connect(m_dialogSettings, SIGNAL(finished(int)), this, SLOT(settingsDialogClosed()));
     }
-
+    actionSettings->setChecked(true);
     m_dialogSettings->show();
 //    m_dialogSettings->adjustSize();
 } // showSettings()
@@ -156,8 +157,11 @@ void MainWindow::showAbout()
     qDebug() << Q_FUNC_INFO;
     if (!m_dialogAbout) {
         m_dialogAbout = new Dialogs::About(this);
+        connect(m_dialogAbout, SIGNAL(closed()), this, SLOT(aboutDialogClosed()));
+        m_dialogAbout->show();
+    } else {
+        m_dialogAbout->close();
     }
-    m_dialogAbout->show();
 } // showAbout()
 
 void MainWindow::readConfig()
@@ -189,6 +193,18 @@ void MainWindow::timerEvent(QTimerEvent * /*event*/)
 
     m_lastUpdateTime = currentTimeHM;
 } // timerEvent()
+
+void MainWindow::aboutDialogClosed()
+{
+    qDebug() << Q_FUNC_INFO;
+    actionAbout->setChecked(false);
+} // aboutDialogClosed()
+
+void MainWindow::settingsDialogClosed()
+{
+    qDebug() << Q_FUNC_INFO;
+    actionSettings->setChecked(false);
+} // settingsDialogClosed()
 
 
 // EOF - vim:ts=4:sw=4:et:

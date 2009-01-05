@@ -40,6 +40,12 @@ public:
     About(QWidget *parent = 0);
     ~About();
 
+Q_SIGNALS:
+    void closed();
+
+protected:
+    void closeEvent(QCloseEvent *event);
+
 private:
     Ui::AboutDialog ui;
 };

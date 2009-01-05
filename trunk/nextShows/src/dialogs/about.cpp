@@ -34,6 +34,7 @@ namespace Dialogs
 About::About(QWidget *parent)
     : QDialog(parent, Qt::Dialog)
 {
+    qDebug() << Q_FUNC_INFO;
     // Default behavior / attributes
 //    QDialog::setModal(true);
     QWidget::setAttribute(Qt::WA_DeleteOnClose);
@@ -82,6 +83,18 @@ About::~About()
 {
     qDebug() << Q_FUNC_INFO;
 } // dtor()
+
+
+/*
+** protected:
+*/
+void About::closeEvent(QCloseEvent *event)
+{
+    qDebug() << Q_FUNC_INFO;
+    emit closed();
+    event->accept();
+} // closeEvent();
+
 
 } // namespace Dialogs
 
