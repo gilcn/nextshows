@@ -39,6 +39,8 @@ Settings::Settings(QWidget *parent)
     , m_wOptions(new ::Settings::Options(this))
     , m_data(new DataProvider(this))
 {
+    qDebug() << Q_FUNC_INFO;
+
     // Default behavior / attributes
     QWidget::setAttribute(Qt::WA_DeleteOnClose);
 
@@ -59,6 +61,7 @@ Settings::Settings(QWidget *parent)
     readSettings();
 
     connect(ui.buttonBox, SIGNAL(accepted()), this, SLOT(acceptDialog()));
+    connect(ui.buttonBox, SIGNAL(rejected()), this, SLOT(close()));
 } // ctor()
 
 Settings::~Settings()
@@ -75,12 +78,14 @@ Settings::~Settings()
 */
 void Settings::changePage(const int &id)
 {
+    qDebug() << Q_FUNC_INFO;
     ui.wPanel->setCurrentIndex(id);
     setCategoryTitle(ui.wPanel->currentWidget()->windowTitle());
 } // changePage()
 
 void Settings::acceptDialog()
 {
+    qDebug() << Q_FUNC_INFO;
     // Save settings
     saveSettings();
 
@@ -88,16 +93,19 @@ void Settings::acceptDialog()
     emit settingsChanged();
 } // acceptDialog()
 
+
 /*
 ** private:
 */
 void Settings::setCategoryTitle(const QString &title)
 {
+    qDebug() << Q_FUNC_INFO;
     ui.lblCategoryName->setText(title);
 } // setCategoryTitle()
 
 void Settings::readSettings()
 {
+    qDebug() << Q_FUNC_INFO;
     // Get tracked shows
     m_wFindShows->setTrackedShows(m_data->getTrackedShows());
 
@@ -108,6 +116,7 @@ void Settings::readSettings()
 
 void Settings::saveSettings()
 {
+    qDebug() << Q_FUNC_INFO;
     // Save tracked shows
     m_data->setTrackedShows(m_wFindShows->getTrackedShows());
 

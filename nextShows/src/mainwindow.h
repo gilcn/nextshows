@@ -46,6 +46,8 @@ private Q_SLOTS:
     void showAbout();
     void readConfig();
     void timerEvent(QTimerEvent *event);
+    void aboutDialogClosed();
+    void settingsDialogClosed();
 
 private:
 //    QStandardItemModel          *m_dataModel;
