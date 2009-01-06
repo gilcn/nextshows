@@ -142,7 +142,8 @@ void FindShows::on_cbHideEndedShows_stateChanged(int state)
             m_displayedShowCount++;
         }
         font = childItem->font(0);
-        font.setBold(!m_filterResults && !m_searchResults[i].endedFlag);
+        //font.setBold(!m_filterResults && !m_searchResults[i].endedFlag);
+        font.setBold(!m_searchResults[i].endedFlag);
         childItem->setFont(0, font);
     }
 
@@ -241,9 +242,9 @@ void FindShows::displaySearchResults()
         parentItem->setToolTip(0, tr("Country: %1").arg(show.country.toUpper()));
 
         if (!show.endedFlag) {
-            if (!m_filterResults) {
+//            if (!m_filterResults) {
                 font.setBold(true);
-            }
+//            }
         } else {
             font.setItalic(true);
             brush.setColor(Qt::darkGray);

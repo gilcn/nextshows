@@ -101,6 +101,7 @@ MainWindow::MainWindow(QWidget *parent)
     showsTableView->setModel(model);
 //    qDebug() << "isSortingEnabled()" << showsTableView->isSortingEnabled();
     showsTableView->setSortingEnabled(true);
+    showsTableView->resizeColumnsToContents();
     //////////////////////////////////////////////////////////////////////////
 
 
