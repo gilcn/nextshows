@@ -45,8 +45,10 @@ NSTreeWidget::NSTreeWidget(QWidget *parent)
     m_actionOpenUrl->setIcon(QIcon(":/pixmaps/icons/browser.png"));
     m_actionOpenUrl->setText(tr("Open in web browser"));
     m_actionExpandAll->setObjectName("actionExpandAll");
+    m_actionExpandAll->setIcon(QIcon(":/pixmaps/icons/expand.png"));
     m_actionExpandAll->setText(tr("Expand all"));
     m_actionCollapseAll->setObjectName("actionCollapseAll");
+    m_actionCollapseAll->setIcon(QIcon(":/pixmaps/icons/collapse.png"));
     m_actionCollapseAll->setText(tr("Collapse all"));
 
     m_menu->addAction(m_actionTrack);
