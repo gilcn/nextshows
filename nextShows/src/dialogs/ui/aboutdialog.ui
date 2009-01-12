@@ -59,7 +59,7 @@
        <item>
         <widget class="QLabel" name="lblCopyright" >
          <property name="text" >
-          <string>(C) 2006-2008 Gilles Chauvin
+          <string>(C) 2006-2009 Gilles Chauvin
 Released under the GNU GPL v2.</string>
          </property>
          <property name="textFormat" >
