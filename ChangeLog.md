@@ -1,0 +1,63 @@
+## V2.1 ##
+**v2.1.3**
+  * Fix [BUG #3](https://code.google.com/p/nextshows/issues/detail?id=3)
+  * Fix a display problem when running nextShows under KDE4
+
+**v2.1.2**
+  * Fix detection of PyQt
+  * When an episode airdate is unknown we append it at the end of the list (if possible) and display "Unknown" in the date field.
+
+**v2.1.1**
+  * New logo
+  * Removed GUI's splash screen fading effect (faster, works better with multiple displays, etc...)
+  * Changed the "Left Arrow" icon with a trash icon (GUI)
+  * Added drag and drop support. With that, one can now:
+    * Drag a search result and drop it to "My Shows"
+    * Drag a show from "My Shows" and drop it to the trash tool button
+    * Drag a custom color and drop it to the trash tool button
+  * Code cleanup
+
+**v2.1.0:**
+  * Requirement are now:
+    * Python v2.5 or later
+    * PyQt / Qt v4.3.1 or later
+    * KDE v3.5.0 or later (**NOTE:** I haven't tested yet with KDE4 but it should hopefully work)
+  * Dropped BeautifulSoup in favor of the [Python 2.5 ElementTree XML API](http://docs.python.org/lib/module-xml.etree.ElementTree.html) as we now use the XML feeds provided by [TVRage](http://www.tvrage.com/) _(many thanks to Sebrioth for his kind help)_
+  * Full TVRage parser rewrite (obviously, this has to do with the previous line :)
+  * The "Filter" feature is now back in the GUI \o/ (it was removed in 2.0.2)
+  * Added a theme switcher/selector to the GUI
+    * Added a new theme -> "ClapperBoard" _(Thanks Manu ;)_
+  * Added a Date Format option in the GUI
+  * Few minor fixes and enhancements
+
+
+---
+
+## V2.0 ##
+**v2.0.4:**
+  * Fix the forgetfulness I committed in the previous (2.0.3) release.
+
+**v2.0.3:**
+  * This release should fix the crash reported in the comments that affected Debian/Ubuntu (and probably other distros).
+
+**v2.0.2:**
+  * Due to changes on tvrage.com, the "Filter" feature and years in the search results were removed :(.
+  * Parser fixed to reflect those changes.
+
+**v2.0.1:**
+  * Parser update/fix.
+
+**v2.0.0:**
+Code (almost) fully rewritten. Main changes are:
+  * Dropped www.tv.com and now using www.tvrage.com to fetch necessary shows/episodes informations.
+  * A configuration GUI (no need to edit the configuration file by hand anymore!!!).
+  * User can now customize his colors while displaying episodes (this part of the configuration dialog needs some love to be more usable but it is working).
+  * Added preliminary work for supporting other themes/skins but disabled in this release since there's only 1 theme available (contributors welcome :).
+  * Other minor things I can't remember.
+
+
+---
+
+## V1.0 ##
+**v1.0.0:**
+  * First public release !

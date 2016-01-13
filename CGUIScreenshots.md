@@ -1,0 +1,11 @@
+## Configuration GUI (v2.0.0) ##
+![http://nextshows.googlecode.com/svn/wiki/screenshots/cgui_v2.0.0_001.png](http://nextshows.googlecode.com/svn/wiki/screenshots/cgui_v2.0.0_001.png)
+
+![http://nextshows.googlecode.com/svn/wiki/screenshots/cgui_v2.0.0_002.png](http://nextshows.googlecode.com/svn/wiki/screenshots/cgui_v2.0.0_002.png)
+
+![http://nextshows.googlecode.com/svn/wiki/screenshots/cgui_v2.0.0_003.png](http://nextshows.googlecode.com/svn/wiki/screenshots/cgui_v2.0.0_003.png)
+
+![http://nextshows.googlecode.com/svn/wiki/screenshots/cgui_v2.0.0_004.png](http://nextshows.googlecode.com/svn/wiki/screenshots/cgui_v2.0.0_004.png)
+
+![http://nextshows.googlecode.com/svn/wiki/screenshots/cgui_v2.0.0_005.png](http://nextshows.googlecode.com/svn/wiki/screenshots/cgui_v2.0.0_005.png)
+
